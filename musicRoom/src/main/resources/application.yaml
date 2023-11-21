@@ -1,0 +1,8 @@
+server:
+  port: 8888  #启动端口
+  datasource:
+    url: jdbc:mysql://120.26.0.232:3306/music_room
+    username: microArch
+    password: microArch2023
+    hikari:
+      max-lifetime: 60000 # 一分钟
