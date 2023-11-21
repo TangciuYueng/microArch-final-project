@@ -11,6 +11,10 @@
     <description>Heart Wave Music</description>
     <modules>
         <module>musicRoom</module>
+        <module>musicListen</module>
+        <module>musicListen</module>
+        <module>diaryWriting</module>
+        <module>Emotions</module>
     </modules>
 
     <properties>
