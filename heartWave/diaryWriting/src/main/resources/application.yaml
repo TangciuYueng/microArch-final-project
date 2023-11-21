@@ -1,0 +1,19 @@
+server:
+  port: 8881  #启动端口
+spring:
+  application:
+    name: music-room-service   #服务名
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: 120.26.0.232:8848   #nacos注册中心地址
+# 连接数据库
+  datasource:
+    url: jdbc:mysql://120.26.0.232:3306/diary_writing
+    username: diary_writing
+    password: microArch2023
+    hikari:
+      max-lifetime: 60000 # 一分钟
+mabatis:
+  configuration:
+    map-underscore-to-camel-case: true
