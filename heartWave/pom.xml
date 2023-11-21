@@ -13,6 +13,7 @@
         <module>musicRoom</module>
         <module>musicListen</module>
         <module>musicListen</module>
+        <module>Emotions</module>
     </modules>
 
     <properties>
