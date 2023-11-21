@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.tongji.musicRoom.mapper.ChatRecordMapper">
+
+<!--    <update id="updateMusicRoom" parameterType="cn.edu.tongji.musicRoom.model.MusicRoom">-->
+<!--        UPDATE music_room-->
+<!--        <set>-->
+<!--            <if test="title != null">title = #{title},</if>-->
+<!--            <if test="theme != null">theme = #{theme},</if>-->
+<!--            <if test="description != null">description = #{description},</if>-->
+<!--            <if test="status != null">status = #{status},</if>-->
+<!--        </set>-->
+<!--        WHERE id = #{id}-->
+<!--    </update>-->
+<!--    <delete id="deleteMusicRoom" parameterType="int">-->
+<!--        DELETE FROM music_room-->
+<!--        WHERE id = #{id}-->
+<!--    </delete>-->
+<!--    <select id="selectMusicRoomById" parameterType="int" resultType="cn.edu.tongji.musicRoom.model.MusicRoom">-->
+<!--        SELECT id, title, theme, description, status-->
+<!--        FROM music_room-->
+<!--        WHERE id = #{id}-->
+<!--    </select>-->
+    <select id="getAllChatRecord" resultType="int">
+        SELECT COUNT(*)
+        FROM chat_record
+    </select>
+    <select id="getChatRecordByPage" resultType="cn.edu.tongji.musicRoom.model.ChatRecord">
+        SELECT *
+        FROM chat_record
+        WHERE music_room_id = #{musicRoomId} AND is_deleted = 0
+        LIMIT #{startIndex}, #{pageSize}
+    </select>
+    <update id="deleteChatRecord">
+        UPDATE chat_record
+        SET is_deleted = #{isDeleted}
+        WHERE id = #{chatRecordId}
+    </update>
+    <insert id="insertChatRecord"  useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO chat_record (content, type, user_id, music_room_id)
+        VALUES (#{content}, #{type}, #{userId}, #{musicRoomId})
+    </insert>
+</mapper>
