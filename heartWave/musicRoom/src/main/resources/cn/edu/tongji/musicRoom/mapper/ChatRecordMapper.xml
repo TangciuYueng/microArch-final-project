@@ -38,7 +38,7 @@
         SET is_deleted = #{isDeleted}
         WHERE id = #{chatRecordId}
     </update>
-    <insert id="insertChatRecord"  useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertChatRecord" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO chat_record (content, type, user_id, music_room_id)
         VALUES (#{content}, #{type}, #{userId}, #{musicRoomId})
     </insert>
