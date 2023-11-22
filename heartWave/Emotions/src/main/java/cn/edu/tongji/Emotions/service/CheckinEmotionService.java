@@ -19,19 +19,19 @@ public class CheckinEmotionService {
         this.checkinEmotionRepository = checkinEmotionRepository;
     }
 
-    public List<CheckinEmotion> getAllCheckinEmotions() {
+    public List<CheckinEmotion> findAll() {
         return checkinEmotionRepository.findAll();
     }
 
-    public Optional<CheckinEmotion> getCheckinEmotionById(String id) {
+    public Optional<CheckinEmotion> findById(String id) {
         return checkinEmotionRepository.findById(id);
     }
 
-    public CheckinEmotion saveCheckinEmotion(CheckinEmotion checkinEmotion) {
+    public CheckinEmotion save(CheckinEmotion checkinEmotion) {
         return checkinEmotionRepository.save(checkinEmotion);
     }
 
-    public void deleteCheckinEmotion(String id) {
+    public void deleteById(String id) {
         checkinEmotionRepository.deleteById(id);
     }
 

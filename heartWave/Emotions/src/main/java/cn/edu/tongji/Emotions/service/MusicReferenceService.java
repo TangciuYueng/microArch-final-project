@@ -18,19 +18,19 @@ public class MusicReferenceService {
         this.musicReferenceRepository = musicReferenceRepository;
     }
 
-    public List<MusicReference> getAllMusicReferences() {
+    public List<MusicReference> findAll() {
         return musicReferenceRepository.findAll();
     }
 
-    public Optional<MusicReference> getMusicReferenceById(String id) {
+    public Optional<MusicReference> findById(String id) {
         return musicReferenceRepository.findById(id);
     }
 
-    public MusicReference saveMusicReference(MusicReference musicReference) {
+    public MusicReference save(MusicReference musicReference) {
         return musicReferenceRepository.save(musicReference);
     }
 
-    public void deleteMusicReference(String id) {
+    public void deleteById(String id) {
         musicReferenceRepository.deleteById(id);
     }
 
