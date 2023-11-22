@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.tongji.musicRoom.mapper.MusicRoomMemberMapper">
+    <insert id="insertMusicRoomMember">
+        INSERT INTO music_room_member (user_id, music_room_id)
+        VALUES (#{userId}, #{musicRoomId})
+    </insert>
+
+    <select id="getMusicRoomMemberByMusicRoomId" resultType="cn.edu.tongji.musicRoom.model.MusicRoomMember">
+        SELECT * FROM music_room_member WHERE music_room_id = #{musicRoomId}
+    </select>
+    <update id="setStatusOut">
+        UPDATE music_room_member
+        SET status = 'out'
+        WHERE user_id = #{userId} AND music_room_id = #{musicRoomId}
+    </update>
+    <update id="setStatusIn">
+        UPDATE music_room_member
+        SET status = 'in'
+        WHERE user_id = #{userId} AND music_room_id = #{musicRoomId}
+    </update>
+    <update id="setSingable">
+        UPDATE music_room_member
+        SET singable = 1
+        WHERE user_id = #{userId} AND music_room_id = #{musicRoomId}
+    </update>
+    <update id="setNoSingable">
+        UPDATE music_room_member
+        SET singable = 0
+        WHERE user_id = #{userId} AND music_room_id = #{musicRoomId}
+    </update>
+    <update id="setChatable">
+        UPDATE music_room_member
+        SET chatable = 1
+        WHERE user_id = #{userId} AND music_room_id = #{musicRoomId}
+    </update>
+    <update id="setNoChatable">
+        UPDATE music_room_member
+        SET chatable = 0
+        WHERE user_id = #{userId} AND music_room_id = #{musicRoomId}
+    </update>
+</mapper>
