@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.tongji.musicRoom.mapper.MusicRoomMapper">
+    <insert id="insertMusicRoom" parameterType="cn.edu.tongji.musicRoom.model.MusicRoom">
+        INSERT INTO music_room (title, theme, description, status)
+        VALUES (#{title}, #{theme}, #{description}, #{status})
+    </insert>
+    <update id="updateMusicRoom" parameterType="cn.edu.tongji.musicRoom.model.MusicRoom">
+        UPDATE music_room
+        <set>
+            <if test="title != null">title = #{title},</if>
+            <if test="theme != null">theme = #{theme},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteMusicRoom" parameterType="int">
+        DELETE FROM music_room
+        WHERE id = #{id}
+    </delete>
+    <select id="selectMusicRoomById" parameterType="int" resultType="cn.edu.tongji.musicRoom.model.MusicRoom">
+        SELECT id, title, theme, description, status
+        FROM music_room
+        WHERE id = #{id}
+    </select>
+    <select id="getAllMusicRoom" resultType="int">
+        SELECT COUNT(*)
+        FROM music_room
+    </select>
+    <select id="getMusicRoomByPage" resultType="cn.edu.tongji.musicRoom.model.MusicRoom">
+        SELECT *
+        FROM music_room
+        LIMIT #{startIndex}, #{pageSize}
+    </select>
+</mapper>

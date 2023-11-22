@@ -13,7 +13,9 @@
         <module>musicRoom</module>
         <module>musicListen</module>
         <module>musicListen</module>
+        <module>diaryWriting</module>
         <module>Emotions</module>
+        <module>login</module>
     </modules>
 
     <properties>
