@@ -26,3 +26,4 @@ public class MusicRoomService {
         return new MusicRoomInfo(musicRooms, totalPage);
     }
 }
+// 调用刚刚mapper里的方法去实现里面的业务逻辑

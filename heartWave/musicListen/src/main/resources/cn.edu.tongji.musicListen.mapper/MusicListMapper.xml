@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.tongji.musicList.mapper.MusicListMapper">
+    <insert id="insertMusicList" parameterType="cn.edu.tongji.musicListen.model.MusicList">
+        INSERT INTO music_list (type, user_id, music_id, create_date, list_order, description, play_count, is_deleted)
+        VALUES (#{type}, #{user_id}, #{music_id}, #{create_date}, #{list_order}, #{description}, #{play_count}, #{is_deleted})
+    </insert>
+    <update id="updateMusicList" parameterType="cn.edu.tongji.musicListen.model.MusicList">
+        UPDATE music_list
+        <set>
+            <if test="type != null">type = #{type},</if>
+            <if test="user_id != null">user_id = #{user_id},</if>
+            <if test="music_id != null">music_id = #{music_id},</if>
+            <if test="create_date != null">create_date = #{create_date},</if>
+            <if test="list_order != null">list_order = #{list_order},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="play_count != null">play_count = #{play_count},</if>
+            <if test="is_deleted != null">is_deleted = #{is_deleted},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteMusicList" parameterType="int">
+        DELETE FROM music_list
+        WHERE id = #{id}
+    </delete>
+    <select id="selectMusicListById" parameterType="int" resultType="cn.edu.tongji.musicListen.model.MusicList">
+        SELECT id, user_id, music_id, create_date, list_order, description, play_count, is_deleted
+        FROM music_list
+        WHERE id = #{id}
+    </select>
+    <select id="getAllMusicListCount" resultType="int">
+        SELECT COUNT(*)
+        FROM music_list
+    </select>
+    <select id="getMusicListByPage" resultType="cn.edu.tongji.musicListen.model.MusicList">
+        SELECT *
+        FROM music_list
+        LIMIT #{startIndex}, #{pageSize}
+    </select>
+</mapper>

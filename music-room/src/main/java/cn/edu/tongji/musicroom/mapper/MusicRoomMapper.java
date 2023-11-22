@@ -15,3 +15,4 @@ public interface MusicRoomMapper {
     int getAllMusicRoom();
     List<MusicRoom> getMusicRoomByPage(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize);
 }
+// 新建时候要选择interface 方法就是对应数据库的增删改查

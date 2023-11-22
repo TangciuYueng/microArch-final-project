@@ -23,3 +23,5 @@ public class MusicRoomController {
     }
 
 }
+// 对外提供接口
+// 调用service的方法
