@@ -1,0 +1,6 @@
+server:
+  port: 8111  #启动端口
+spring:
+  data:
+    mongodb:
+      uri:  mongodb://emotions:microArch2023@120.26.0.232:27017/emotions
