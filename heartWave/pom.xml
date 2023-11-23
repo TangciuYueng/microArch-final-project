@@ -16,6 +16,7 @@
         <module>diaryWriting</module>
         <module>Emotions</module>
         <module>login</module>
+        <module>gateway</module>
     </modules>
 
     <properties>
