@@ -17,6 +17,9 @@ import java.util.List;
 public class ChatRecordService {
     private final ChatRecordMapper chatRecordMapper;
     private final static int PAGE_SIZE = 30;
+
+   //通过调用ChatRecordMapper的方法获取指定音乐房间ID下的聊天记录列表，
+   // 并通过ChatRecordInfo对象封装返回结果，包括分页后的聊天记录列表，总页数和当前页码。
     public ChatRecordInfo getAllChatRecord(int page, Integer musicRoomId) {
         int startIndex = (page - 1) * PAGE_SIZE;
         List<ChatRecord> chatRecords = chatRecordMapper.getChatRecordByPage(startIndex, PAGE_SIZE, musicRoomId);
