@@ -86,6 +86,20 @@
                 <scope>import</scope>
             </dependency>
 
+            <!-- Nacos注册微服务 -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+                <version>2022.0.0.0-RC2</version>
+            </dependency>
+
+            <!-- Nacos配置拉取 -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+                <version>2022.0.0.0-RC2</version>
+            </dependency>
+
             <!-- Spring Authorization Server -->
 <!--            <dependency>-->
 <!--                <groupId>org.springframework.boot</groupId>-->

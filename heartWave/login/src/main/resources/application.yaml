@@ -3,10 +3,26 @@ server:
 spring:
   application:
     name: login-service   #服务名
-  #  cloud:
-  #    nacos:
-  #      discovery:
-  #        server-addr: 120.26.0.232:8848   #nacos注册中心地址
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 120.26.0.232:8848  # nacos地址
+        namespace: 2023                 # 命名空间ID
+        group: dev                      # 群组名称（自己设定，将服务进行逻辑分组）
+        username: nacos                 # 用户名
+        password: microArch2023         # 密码
+  #      config:
+  #        server-addr: 120.26.0.232:8848  # nacos地址
+  #        namespace: 2023                 # 命名空间ID
+  #        group: DEFAULT_GROUP            # 群组名称（自己设定，将服务进行逻辑分组）
+  #        username: nacos                 # 用户名
+  #        password: microArch2023         # 密码
+  #        name: micro                     # 文件名（缺省则是微服务的名字）
+  #        file-extension: yaml            # 文件后缀
+  #        context-path: /nacos
+  #  config:
+  #    import:
+  #      - optional:nacos:${spring.application.name}.${spring.cloud.nacos.config.file-extension}
   datasource:
     url: jdbc:mysql://120.26.0.232:3306/social
     username: social
