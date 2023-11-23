@@ -2,14 +2,18 @@ server:
   port: 8888  #启动端口
 spring:
   application:
-    name: music-room-service   #服务名
-#  cloud:
-#    nacos:
-#      discovery:
-#        server-addr: 120.26.0.232:8848   #nacos注册中心地址
+    name: music-listen-service   #服务名
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 120.26.0.232:8848  # nacos地址
+        namespace: 2023                 # 命名空间ID
+        group: dev                      # 群组名称（自己设定，将服务进行逻辑分组）
+        username: nacos                 # 用户名
+        password: microArch2023         # 密码
   datasource:
     url: jdbc:mysql://120.26.0.232:3306/music_listen
-    username: microArch
+    username: music_listen
     password: microArch2023
     hikari:
       max-lifetime: 60000 # 一分钟

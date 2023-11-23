@@ -2,14 +2,16 @@ server:
   port: 8881  #启动端口
 spring:
   application:
-    name: music-room-service   #服务名
-#  cloud:
-#    nacos:
-#      discovery:
-#        server-addr: 120.26.0.232:8848   #nacos注册中心地址
+    name: diary-writing-service   #服务名
   cloud:
     nacos:
-      server-addr: 120.26.0.232:8848
+      discovery:
+        server-addr: 120.26.0.232:8848  # nacos地址
+        namespace: 2023                 # 命名空间ID
+        group: dev                      # 群组名称（自己设定，将服务进行逻辑分组）
+        username: nacos                 # 用户名
+        password: microArch2023         # 密码
+
 # 连接数据库
   datasource:
     url: jdbc:mysql://120.26.0.232:3306/diary_writing
