@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+//一些实体类
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

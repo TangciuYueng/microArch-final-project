@@ -13,12 +13,14 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+//用来实现聊天的业务逻辑
 public class ChatRecordService {
     private final ChatRecordMapper chatRecordMapper;
     private final static int PAGE_SIZE = 30;
     public ChatRecordInfo getAllChatRecord(int page, Integer musicRoomId) {
         int startIndex = (page - 1) * PAGE_SIZE;
         List<ChatRecord> chatRecords = chatRecordMapper.getChatRecordByPage(startIndex, PAGE_SIZE, musicRoomId);
+        //获取所有聊天记录
         int totalMusicRoom = chatRecordMapper.getAllChatRecord();
         int totalPage = (int) Math.ceil((double) totalMusicRoom / PAGE_SIZE);
 

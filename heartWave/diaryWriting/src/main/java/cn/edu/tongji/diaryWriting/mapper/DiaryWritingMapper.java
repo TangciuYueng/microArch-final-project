@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
+//新建时候要选择interface 方法就是对应数据库的增删改查
 @Mapper
 public interface DiaryWritingMapper<Diary> {
     //插入日记
