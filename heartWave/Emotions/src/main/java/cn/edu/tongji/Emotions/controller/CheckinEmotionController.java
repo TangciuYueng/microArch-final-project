@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @RestController
@@ -32,7 +34,7 @@ public class CheckinEmotionController {
 //    }
     @GetMapping
     public ResponseEntity<List<CheckinEmotion>> getAllCheckinEmotions() {
-        System.out.println(loginServiceClient.test());
+        //System.out.println(loginServiceClient.test());
         return ResponseEntity.ok(checkinEmotionService.findAll());
     }
 
@@ -42,7 +44,23 @@ public class CheckinEmotionController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+    // 根据日期获取情绪打卡记录的接口
+    @GetMapping("/byDate/{date}")
+    public ResponseEntity<List<CheckinEmotion>> getCheckinEmotionByDay(@PathVariable String date) {
+        LocalDate parsedDate;
+        try {
+            parsedDate = LocalDate.parse(date);
+        } catch (DateTimeParseException e) {
+            return ResponseEntity.badRequest().build(); // 日期格式错误时返回错误请求响应
+        }
 
+        List<CheckinEmotion> emotions = checkinEmotionService.findByCheckinDate(parsedDate);
+        if (emotions.isEmpty()) {
+            return ResponseEntity.notFound().build(); // 如果当天没有记录，则返回未找到的响应
+        }
+
+        return ResponseEntity.ok(emotions); // 返回找到的记录
+    }
     @PostMapping
     public ResponseEntity<CheckinEmotion> createCheckinEmotion(@RequestBody CheckinEmotion checkinEmotion) {
         return ResponseEntity.ok(checkinEmotionService.save(checkinEmotion));

@@ -5,7 +5,8 @@ import cn.edu.tongji.Emotions.model.CheckinEmotion;
 import cn.edu.tongji.Emotions.repository.CheckinEmotionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,13 @@ public class CheckinEmotionService {
     public CheckinEmotionService(CheckinEmotionRepository checkinEmotionRepository) {
         this.checkinEmotionRepository = checkinEmotionRepository;
     }
+
+    public List<CheckinEmotion> findByCheckinDate(LocalDate date) {
+        LocalDateTime startOfDay = date.atStartOfDay();
+        LocalDateTime endOfDay = date.plusDays(1).atStartOfDay();
+        return checkinEmotionRepository.findByCheckinTimeBetween(startOfDay, endOfDay);
+    }
+
 
     public List<CheckinEmotion> findAll() {
         return checkinEmotionRepository.findAll();
