@@ -39,4 +39,8 @@ public class MusicRoomMemberService {
     public void setNoChatable(int userId, int musicRoomId) {
         musicRoomMemberMapper.setNoChatable(userId, musicRoomId);
     }
+
+    public void deleteMusicRoomMember(int userId, int musicRoomId) {
+        musicRoomMemberMapper.deleteMusicRoomMember(userId, musicRoomId);
+    }
 }

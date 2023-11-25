@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.tongji.musicRoom.mapper.MusicRoomMapper">
     <insert id="insertMusicRoom" parameterType="cn.edu.tongji.musicRoom.model.MusicRoom">
-        INSERT INTO music_room (title, theme, description, status)
-        VALUES (#{title}, #{theme}, #{description}, #{status})
+        INSERT INTO music_room (title, theme, description, status, creator_id)
+        VALUES (#{title}, #{theme}, #{description}, #{status}, #{creatorId})
     </insert>
     <update id="updateMusicRoom" parameterType="cn.edu.tongji.musicRoom.model.MusicRoom">
         UPDATE music_room

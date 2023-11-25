@@ -41,4 +41,8 @@
         SET chatable = 0
         WHERE user_id = #{userId} AND music_room_id = #{musicRoomId}
     </update>
+    <delete id="deleteMusicRoomMember">
+        DELETE FROM music_room_member
+        WHERE user_id = #{userId} AND music_room_id = #{musicRoomId}
+    </delete>
 </mapper>
