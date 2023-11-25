@@ -5,16 +5,16 @@
 <mapper namespace="cn.edu.tongji.musicRoom.mapper.PublicityMapper">
     <insert id="insertPublicityPublic">
         INSERT INTO publicity (music_room_id, type)
-        VALUES (#{musicRoomId}, 'publicity')
+        VALUES (#{musicRoomId}, 'public')
     </insert>
     <select id="getPublicityByMusicRoomId" resultType="cn.edu.tongji.musicRoom.model.Publicity">
         SELECT * FROM publicity WHERE music_room_id = #{musicRoomId}
     </select>
-    <select id="insertPublicityPrivate" parameterType="map">
-        INSERT INTO publicity (type, music_room_id, user_id)
+    <insert id="insertPublicityLimited" parameterType="hashmap">
+        INSERT INTO publicity (user_id, music_room_id, type)
         VALUES
-        <foreach collection="userIds" item="userId" separator="," open="(" close=")">
-            #{type}, #{musicRoomId}, #{userId}
+        <foreach collection="userIdAndMusicRoomId" index="key" item="value" separator=",">
+            (#{key}, #{value}, 'limited')
         </foreach>
-    </select>
+    </insert>
 </mapper>

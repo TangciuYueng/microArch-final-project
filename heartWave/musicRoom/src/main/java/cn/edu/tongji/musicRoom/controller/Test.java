@@ -22,10 +22,6 @@ public class Test {
     }
 
     private final MusicRoomService musicRoomService;
-    @PostMapping("/api/musicroom/insert")
-    public int insertMusicRoom(@RequestBody MusicRoom musicRoom) {
-        return musicRoomService.insertMusicRoom(musicRoom);
-    }
 
     @GetMapping("/api/musicroom/all/{page}")
     public MusicRoomInfo getAllMusicRoom(@PathVariable("page") Integer page) {

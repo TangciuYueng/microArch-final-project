@@ -1,0 +1,17 @@
+package cn.edu.tongji.musicRoom.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class PublicityDTO {
+    private String type;
+    private List<Integer> userIds;
+}

@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.tongji.musicRoom.mapper.AdminGroupMapper">
-    <insert id="insertAdminGroup" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertAdminGroup">
         INSERT INTO admin_group (music_room_id, user_id)
         VALUES (#{musicRoomId}, #{userId})
     </insert>
