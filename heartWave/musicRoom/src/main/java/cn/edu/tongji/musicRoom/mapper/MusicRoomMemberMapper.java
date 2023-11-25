@@ -9,12 +9,16 @@ import java.util.List;
 @Mapper
 public interface MusicRoomMemberMapper {
     void insertMusicRoomMember(@Param("userId") int userId, @Param("musicRoomId") int musicRoomId);
+
+    void insertMusicRoomMemberByInstance(MusicRoomMember musicRoomMember);
+
     List<MusicRoomMember> getMusicRoomMemberByMusicRoomId(@Param("musicRoomId") int musicRoomId);
-    void setStatusOut(@Param("userId") int userId, @Param("musicRoomId") int musicRoomId);
-    void setStatusIn(@Param("userId") int userId, @Param("musicRoomId") int musicRoomId);
-    void setSingable(@Param("userId") int userId, @Param("musicRoomId") int musicRoomId);
-    void setNoSingable(@Param("userId") int userId, @Param("musicRoomId") int musicRoomId);
-    void setChatable(@Param("userId") int userId, @Param("musicRoomId") int musicRoomId);
-    void setNoChatable(@Param("userId") int userId, @Param("musicRoomId") int musicRoomId);
-    void deleteMusicRoomMember(@Param("userId") int userId, @Param("musicRoomId") int musicRoomId);
+
+    int getMusicRoomIdById(@Param("memberId") int memberId);
+
+    void setSingable(@Param("memberId") int memberId, @Param("singable") int singable);
+
+    void setChatable(@Param("memberId") int memberId, @Param("chatable") int chatable);
+
+    boolean getMemberChatable(@Param("userId") int userId, @Param("musicRoomId") int musicRoomId);
 }

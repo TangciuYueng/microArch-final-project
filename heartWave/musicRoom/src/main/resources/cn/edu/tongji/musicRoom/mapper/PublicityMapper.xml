@@ -17,4 +17,10 @@
             (#{key}, #{value}, 'limited')
         </foreach>
     </insert>
+    <select id="getPublicityTypeByMusicRoomId" resultType="string">
+        SELECT type
+        FROM publicity
+        WHERE music_room_id = #{musicRoomId}
+        LIMIT 1
+    </select>
 </mapper>

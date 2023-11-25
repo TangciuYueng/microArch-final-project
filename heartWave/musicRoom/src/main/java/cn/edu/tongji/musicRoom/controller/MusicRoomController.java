@@ -6,6 +6,7 @@ import cn.edu.tongji.musicRoom.dto.MusicRoomInfo;
 import cn.edu.tongji.musicRoom.model.MusicRoom;
 import cn.edu.tongji.musicRoom.service.MusicRoomService;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,17 @@ public class MusicRoomController {
         try {
             MusicRoomDetailed musicRoomDetailed = musicRoomService.getMusicRoomDetailed(musicRoomId);
             return new ResponseEntity<>(musicRoomDetailed, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/all/{page}")
+    public ResponseEntity<?> getAllMusicRoom(@PathVariable("page") int page) {
+        try {
+            MusicRoomInfo musicRoomInfo = musicRoomService.getAllMusicRoom(page);
+            return new ResponseEntity<>(musicRoomInfo, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();

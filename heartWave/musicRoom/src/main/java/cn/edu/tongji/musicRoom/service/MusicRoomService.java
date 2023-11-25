@@ -77,15 +77,15 @@ public class MusicRoomService {
         MusicRoom musicRoom = musicRoomMapper.getMusicRoomById(musicRoomId);
         List<MusicRoomMember> musicRoomMembers = musicRoomMemberMapper.getMusicRoomMemberByMusicRoomId(musicRoomId);
         List<AdminGroup> adminGroups = adminGroupMapper.getAdminGroupByMusicRoomId(musicRoomId);
-        List<Publicity> publicities = publicityMapper.getPublicityByMusicRoomId(musicRoomId);
+        List<Publicity> publicises = publicityMapper.getPublicityByMusicRoomId(musicRoomId);
         List<Integer> userIds = new ArrayList<>();
 
-        for (Publicity publicity: publicities) {
+        for (Publicity publicity: publicises) {
             userIds.add(publicity.getUserId());
         }
 
         PublicityDTO publicityDTO = PublicityDTO.builder()
-                .type(publicities.get(0).getType())
+                .type(publicises.get(0).getType())
                 .userIds(userIds)
                 .build();
 

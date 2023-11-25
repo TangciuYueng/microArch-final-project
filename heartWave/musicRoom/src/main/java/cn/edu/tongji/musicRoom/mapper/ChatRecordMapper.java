@@ -15,9 +15,10 @@ public interface ChatRecordMapper {
     //获取所有聊天记录
     int getAllChatRecord();
 
-    //删除聊天记录
-    void deleteChatRecord(@Param("chatRecordId") int chatRecordId, @Param("isDeleted") int isDeleted);
+    void deleteChatRecord(@Param("chatRecordId") int chatRecordId);
 
     //新增聊天记录
-    void insertChatRecord(AddChatRecordRequest addChatRecordRequest);
+    void insertChatRecord(ChatRecord chatRecord);
+
+    int getMusicRoomIdById(@Param("chatRecordId") int chatRecordId);
 }

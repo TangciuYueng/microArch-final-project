@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddChatRecordRequest {
-    private String content;
-    private String type;
-    private int userId;
-    private int musicRoomId;
+public class MemberChatableRequest {
+    private int operatorId;
+    private boolean chatable;
 }

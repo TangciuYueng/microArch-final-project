@@ -35,11 +35,16 @@
     </select>
     <update id="deleteChatRecord">
         UPDATE chat_record
-        SET is_deleted = #{isDeleted}
+        SET is_deleted = 1
         WHERE id = #{chatRecordId}
     </update>
     <insert id="insertChatRecord" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO chat_record (content, type, user_id, music_room_id)
         VALUES (#{content}, #{type}, #{userId}, #{musicRoomId})
     </insert>
+    <select id="getMusicRoomIdById" resultType="int">
+        SELECT music_room_id
+        FROM chat_record
+        WHERE id = #{chatRecordId}
+    </select>
 </mapper>
