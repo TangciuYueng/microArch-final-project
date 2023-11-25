@@ -26,6 +26,13 @@ public class CheckinEmotionService {
         return checkinEmotionRepository.findByCheckinTimeBetween(startOfDay, endOfDay);
     }
 
+    public List<CheckinEmotion> findByCheckinDates(LocalDate startDate,LocalDate endDate) {
+        LocalDateTime startOfDay = startDate.atStartOfDay();
+        LocalDateTime endOfDay = endDate.atStartOfDay();
+        return checkinEmotionRepository.findByCheckinTimeBetween(startOfDay, endOfDay);
+    }
+
+
 
     public List<CheckinEmotion> findAll() {
         return checkinEmotionRepository.findAll();

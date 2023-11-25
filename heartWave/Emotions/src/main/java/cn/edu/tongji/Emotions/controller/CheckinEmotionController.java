@@ -61,6 +61,28 @@ public class CheckinEmotionController {
 
         return ResponseEntity.ok(emotions); // 返回找到的记录
     }
+
+    @GetMapping("/byDates/{date}")
+    public ResponseEntity<List<CheckinEmotion>> getCheckinEmotionByDays(@PathVariable String date) {
+        LocalDate parsedDate;
+        try {
+            parsedDate = LocalDate.parse(date);
+        } catch (DateTimeParseException e) {
+            return ResponseEntity.badRequest().build(); // 日期格式错误时返回错误请求响应
+        }
+
+        // 计算一周前的日期
+        LocalDate startDate = parsedDate.minusWeeks(1);
+
+        // 查询从startDate到parsedDate（包含）这段时间的打卡记录
+        List<CheckinEmotion> emotions = checkinEmotionService.findByCheckinDates(startDate, parsedDate);
+        if (emotions.isEmpty()) {
+            return ResponseEntity.notFound().build(); // 如果这段时间内没有记录，则返回未找到的响应
+        }
+
+        return ResponseEntity.ok(emotions); // 返回找到的记录
+    }
+
     @PostMapping
     public ResponseEntity<CheckinEmotion> createCheckinEmotion(@RequestBody CheckinEmotion checkinEmotion) {
         return ResponseEntity.ok(checkinEmotionService.save(checkinEmotion));
