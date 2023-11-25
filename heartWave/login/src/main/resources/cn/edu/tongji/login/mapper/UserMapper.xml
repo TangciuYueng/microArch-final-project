@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace是命名空间，属性设置为Mapper接口的全限定名 -->
+<mapper namespace="cn.edu.tongji.login.mapper.UserMapper">
+    <select id="selectAll" resultType="user">
+        SELECT * FROM user;
+    </select>
+
+    <select id="selectById" resultType="user">
+        SELECT * FROM user WHERE id = #{id};
+    </select>
+
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user(name, password, email, age, region, avatar, phone, gender)
+        VALUES (#{name}, #{password}, #{email}, #{age}, #{region}, #{avatar}, #{phone}, #{gender})
+    </insert>
+
+    <update id="updateUser">
+        UPDATE user
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="email != null and email != ''">
+                email= #{email},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="region != null and region != ''">
+                region = #{region},
+            </if>
+            <if test="avatar != null and avatar != ''">
+                avatar = #{avatar},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="gender != null and gender != ''">
+                gender = #{gender},
+            </if>
+        </set>
+        WHERE id = #{id};
+    </update>
+</mapper>
