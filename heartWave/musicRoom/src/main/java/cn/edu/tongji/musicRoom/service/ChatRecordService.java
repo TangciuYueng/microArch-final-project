@@ -27,7 +27,7 @@ public class ChatRecordService {
         int startIndex = (page - 1) * PAGE_SIZE;
         List<ChatRecord> chatRecords = chatRecordMapper.getChatRecordByPage(startIndex, PAGE_SIZE, musicRoomId);
         // 获取所有聊天记录
-        int totalMusicRoom = chatRecordMapper.getAllChatRecord();
+        int totalMusicRoom = chatRecordMapper.getAllChatRecord(musicRoomId);
         int totalPage = (int) Math.ceil((double) totalMusicRoom / PAGE_SIZE);
 
         return new ChatRecordInfo(chatRecords, totalPage, page);

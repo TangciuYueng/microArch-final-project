@@ -26,6 +26,7 @@
     <select id="getAllChatRecord" resultType="int">
         SELECT COUNT(*)
         FROM chat_record
+        WHERE music_room_id = #{musicRoomId}
     </select>
     <select id="getChatRecordByPage" resultType="cn.edu.tongji.musicRoom.model.ChatRecord">
         SELECT *

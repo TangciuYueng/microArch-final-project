@@ -8,6 +8,11 @@
         VALUES (#{musicRoomId}, #{userId})
     </insert>
 
+    <insert id="insertAdminGroupByInstance" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO admin_group (music_room_id, user_id)
+        VALUES (#{musicRoomId}, #{userId})
+    </insert>
+
     <delete id="deleteAdminGroup">
         DELETE FROM admin_group WHERE id = #{id}
     </delete>

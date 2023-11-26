@@ -48,4 +48,15 @@ public class MusicRoomMemberController {
             return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @PutMapping("/{memberId}/status/{in}")
+    public ResponseEntity<?> updateMusicRoomMemberStatus(@PathVariable("memberId") int memberId, @PathVariable("in") boolean in) {
+        try {
+            musicRoomMemberService.updateMemberStatus(memberId, in);
+            return ResponseEntity.ok("successful update status");
+        } catch (Exception e) {
+            e.printStackTrace();
+            String errMsg = "update member status failed";
+            return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

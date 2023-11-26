@@ -21,4 +21,8 @@ public interface MusicRoomMemberMapper {
     void setChatable(@Param("memberId") int memberId, @Param("chatable") int chatable);
 
     boolean getMemberChatable(@Param("userId") int userId, @Param("musicRoomId") int musicRoomId);
+
+    void setStatus(@Param("memberId") int memberId, @Param("status") String status);
+
+    int getCountMember(@Param("musicRoomId") int musicRoomId);
 }

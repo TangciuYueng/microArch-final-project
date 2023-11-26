@@ -1,9 +1,7 @@
 package cn.edu.tongji.musicRoom.service;
 
 
-import cn.edu.tongji.musicRoom.dto.MemberChatableRequest;
-import cn.edu.tongji.musicRoom.dto.MemberRequest;
-import cn.edu.tongji.musicRoom.dto.MemberSingableRequest;
+import cn.edu.tongji.musicRoom.dto.*;
 import cn.edu.tongji.musicRoom.mapper.AdminGroupMapper;
 import cn.edu.tongji.musicRoom.mapper.MusicRoomMemberMapper;
 import cn.edu.tongji.musicRoom.mapper.PublicityMapper;
@@ -21,6 +19,7 @@ public class MusicRoomMemberService {
     private final MusicRoomMemberMapper musicRoomMemberMapper;
     private final PublicityMapper publicityMapper;
     private final AdminGroupMapper adminGroupMapper;
+    private final static int PAGE_SIZE = 30;
     public MusicRoomMember addMusicRoomMember(MemberRequest request) {
         int userId = request.getUserId();
         int musicRoomId = request.getMusicRoomId();
@@ -79,5 +78,9 @@ public class MusicRoomMemberService {
         }
         // 合法修改
         musicRoomMemberMapper.setChatable(memberId, request.isChatable()? 1: 0);
+    }
+
+    public void updateMemberStatus(int memberId, boolean in) {
+        musicRoomMemberMapper.setStatus(memberId, in? "in": "out");
     }
 }

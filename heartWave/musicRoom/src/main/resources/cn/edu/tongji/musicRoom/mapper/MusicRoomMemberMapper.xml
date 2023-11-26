@@ -39,4 +39,17 @@
         WHERE user_id = #{userId} AND music_room_id = #{musicRoomId}
         LIMIT 1
     </select>
+    <update id="setStatus">
+        UPDATE music_room_member
+        SET status = #{status}
+        WHERE id = #{memberId}
+    </update>
+    <select id="getCountMember" resultType="int">
+        SELECT COUNT(*)
+        FROM music_room_member
+        WHERE music_room_id = #{musicRoomId}
+    </select>
+    <select id="getMemberByPage" resultType="cn.edu.tongji.musicRoom.model.MusicRoomMember">
+
+    </select>
 </mapper>
