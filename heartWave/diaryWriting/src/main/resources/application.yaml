@@ -19,6 +19,6 @@ spring:
     password: microArch2023
     hikari:
       max-lifetime: 60000 # 一分钟
-mabatis:
+mybatis:
   configuration:
     map-underscore-to-camel-case: true

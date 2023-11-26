@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateSingableRequest {
-    private int userId;
-    private int musicRoomId;
-    private boolean singable;
+public class MemberChatableRequest {
+    private int operatorId;
+    private boolean chatable;
 }

@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddChatRecordRequest {
-    private int id;
     private String content;
     private String type;
     private int userId;

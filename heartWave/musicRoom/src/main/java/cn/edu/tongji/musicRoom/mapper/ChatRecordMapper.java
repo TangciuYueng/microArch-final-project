@@ -13,11 +13,12 @@ public interface ChatRecordMapper {
     List<ChatRecord> getChatRecordByPage(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize,@Param("musicRoomId") int musicRoomId);
 
     //获取所有聊天记录
-    int getAllChatRecord();
+    int getAllChatRecord(@Param("musicRoomId") int musicRoomId);
 
-    //删除聊天记录
-    void deleteChatRecord(@Param("chatRecordId") int chatRecordId, @Param("isDeleted") int isDeleted);
+    void deleteChatRecord(@Param("chatRecordId") int chatRecordId);
 
     //新增聊天记录
-    void insertChatRecord(AddChatRecordRequest addChatRecordRequest);
+    void insertChatRecord(ChatRecord chatRecord);
+
+    int getMusicRoomIdById(@Param("chatRecordId") int chatRecordId);
 }

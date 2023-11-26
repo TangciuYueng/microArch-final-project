@@ -2,50 +2,52 @@ package cn.edu.tongji.musicRoom.controller;
 
 import cn.edu.tongji.musicRoom.dto.AddChatRecordRequest;
 import cn.edu.tongji.musicRoom.dto.ChatRecordInfo;
+import cn.edu.tongji.musicRoom.model.ChatRecord;
 import cn.edu.tongji.musicRoom.service.ChatRecordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-//对外提供的接口
 @RestController
-@RequestMapping("/api/chatrecord")
+@RequestMapping("/api/chat_record")
 @RequiredArgsConstructor
 public class ChatRecordController {
     private final ChatRecordService chatRecordService;
 
-    //getAllChatRecord方法处理/api/chatrecord/all的GET请求，
-    // 接收两个参数：页码page和音乐聊天室IDmusicRoomId，返回一个ChatRecordInfo对象，
-    // 该对象包含了指定页码的音乐聊天室的全部聊天记录。
-    @GetMapping("/all")
-    public ChatRecordInfo getAllChatRecord(@RequestParam("page") int page, @RequestParam("musicRoomId") int musicRoomId) {
-        return chatRecordService.getAllChatRecord(page, musicRoomId);
-    }
-
-    //deleteChatRecord方法处理/api/chatrecord/delete/{chatRecordId}的PUT请求，
-    // 接收一个路径参数chatRecordId表示要删除的聊天记录ID，
-    // 将该ID对应的聊天记录进行删除操作，并返回一个包含操作结果的ResponseEntity对象。
-    @PutMapping("/delete/{chatRecordId}")
-    public ResponseEntity<String> deleteChatRecord(@PathVariable("chatRecordId") int chatRecordId) {
+    @PostMapping
+    public ResponseEntity<?> addChatRecord(@RequestBody AddChatRecordRequest request) {
         try {
-            chatRecordService.deleteChatRecord(chatRecordId, true);
-            return ResponseEntity.ok("Update successfully");
+            ChatRecord chatRecord = chatRecordService.addChatRecord(request);
+            return new ResponseEntity<>(chatRecord, HttpStatus.OK);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update");
+            e.printStackTrace();
+            String errMsg = "chat record added failed";
+            return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    //addChatRecord方法处理/api/chatrecord/add的POST请求，
-    // 接收一个JSON格式的请求体addChatRecordRequest，
-    // 该请求体包含了待添加的聊天记录信息，将该信息添加到数据库中，并返回一个包含新聊天记录ID的ResponseEntity对象。
-    @PostMapping("/add")
-    public ResponseEntity<Integer> addChatRecord(@RequestBody AddChatRecordRequest addChatRecordRequest) {
+    @PutMapping("/{chatRecordId}/{operatorId}")
+    public ResponseEntity<?> deleteChatRecord(@PathVariable("chatRecordId") int chatRecordId, @PathVariable("operatorId") int operatorId) {
         try {
-            int newId = chatRecordService.addChatRecord(addChatRecordRequest);
-            return ResponseEntity.ok(newId);
+            chatRecordService.deleteChatRecord(chatRecordId, operatorId);
+            return ResponseEntity.ok("deleted successfully");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(-1);
+            e.printStackTrace();
+            String errMsg = "chat record deleted failed";
+            return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/{musicRoomId}/{page}")
+    public ResponseEntity<?> getChatRecord(@PathVariable int musicRoomId, @PathVariable("page") int page) {
+        try {
+            ChatRecordInfo chatRecordInfo = chatRecordService.getAllChatRecord(page, musicRoomId);
+            return new ResponseEntity<>(chatRecordInfo, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            String errMsg = "chat record get by page failed";
+            return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -1,14 +1,17 @@
 package cn.edu.tongji.musicRoom.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateChatableRequest {
-    private int userId;
-    private int musicRoomId;
-    private boolean chatable;
+@Builder
+public class PublicityDTO {
+    private String type;
+    private List<Integer> userIds;
 }

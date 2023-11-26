@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateStatusRequest {
+public class MemberRequest {
     private int userId;
     private int musicRoomId;
-    private boolean in;
 }

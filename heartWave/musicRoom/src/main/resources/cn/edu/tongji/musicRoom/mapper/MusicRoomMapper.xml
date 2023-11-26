@@ -3,9 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.tongji.musicRoom.mapper.MusicRoomMapper">
-    <insert id="insertMusicRoom" parameterType="cn.edu.tongji.musicRoom.model.MusicRoom">
-        INSERT INTO music_room (title, theme, description, status)
-        VALUES (#{title}, #{theme}, #{description}, #{status})
+    <insert id="insertMusicRoom" parameterType="cn.edu.tongji.musicRoom.model.MusicRoom" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO music_room (title, theme, description, status, creator_id)
+        VALUES (#{title}, #{theme}, #{description}, #{status}, #{creatorId})
     </insert>
     <update id="updateMusicRoom" parameterType="cn.edu.tongji.musicRoom.model.MusicRoom">
         UPDATE music_room
@@ -21,8 +21,8 @@
         DELETE FROM music_room
         WHERE id = #{id}
     </delete>
-    <select id="selectMusicRoomById" parameterType="int" resultType="cn.edu.tongji.musicRoom.model.MusicRoom">
-        SELECT id, title, theme, description, status
+    <select id="getMusicRoomById" parameterType="int" resultType="cn.edu.tongji.musicRoom.model.MusicRoom">
+        SELECT id, title, theme, description, status, creator_id, create_time
         FROM music_room
         WHERE id = #{id}
     </select>
