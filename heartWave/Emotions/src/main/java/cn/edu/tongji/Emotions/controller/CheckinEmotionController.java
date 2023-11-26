@@ -44,6 +44,13 @@ public class CheckinEmotionController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    @GetMapping("/byUser/{id}")
+    public ResponseEntity<CheckinEmotion> getCheckinEmotionByUserId(@PathVariable String UserId) {
+        return checkinEmotionService.findByUserId(UserId)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
     // 根据日期获取情绪打卡记录的接口
     @GetMapping("/byDate/{date}")
     public ResponseEntity<List<CheckinEmotion>> getCheckinEmotionByDay(@PathVariable String date) {

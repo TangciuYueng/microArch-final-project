@@ -32,7 +32,9 @@ public class CheckinEmotionService {
         return checkinEmotionRepository.findByCheckinTimeBetween(startOfDay, endOfDay);
     }
 
-
+    public Optional<CheckinEmotion> findByUserId(String UserId) {
+        return checkinEmotionRepository.findByUserId(UserId);
+    }
 
     public List<CheckinEmotion> findAll() {
         return checkinEmotionRepository.findAll();
