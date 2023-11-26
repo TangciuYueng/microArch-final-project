@@ -12,6 +12,7 @@ public class MusicListService {
     private final MusicListMapper musicListMapper;
 
     public int insertMusicList(MusicList musicList) {
+        System.out.println(musicList);
         return musicListMapper.insertMusicList(musicList);
     }
 

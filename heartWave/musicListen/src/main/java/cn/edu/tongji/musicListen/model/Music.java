@@ -19,7 +19,7 @@ public class Music {
     private String genre;
     private String artist;
     private String album; // 专辑
-    private LocalDate release_date;
+    private LocalDate releaseDate;
     private String src;
     private int duration;
     private String language;
@@ -27,6 +27,6 @@ public class Music {
     private int downloads;
     private String lyrics; // 歌词
     private String label;
-    private int play_count;
-    private String music_mood;
+    private int playCount;
+    private String musicMood;
 }

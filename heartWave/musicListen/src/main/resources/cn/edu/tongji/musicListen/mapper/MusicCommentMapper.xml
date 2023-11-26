@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.edu.tongji.playlist.mapper.MusicCommentMapper">
+<mapper namespace="cn.edu.tongji.musicListen.mapper.MusicCommentMapper">
     <insert id="insertMusicComment" parameterType="cn.edu.tongji.musicListen.model.MusicComment">
         INSERT INTO music_comment (sender_id, music_id, context, send_time, likes)
         VALUES (#{sender_id}, #{music_id}, #{context}, #{send_time}, #{likes})

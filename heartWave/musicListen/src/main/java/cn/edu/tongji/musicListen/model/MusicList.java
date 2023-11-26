@@ -1,15 +1,22 @@
 package cn.edu.tongji.musicListen.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class MusicList {
     private int id;
     private String type;
-    private int user_id;
-    private int music_id;
-    private LocalDate create_date;
-    private int list_order;
+    private int userId;
+    private int musicId;
+    private LocalDate createDate;
+    private int listOrder;
     private String description;
-    private int play_count;
-    private boolean is_deleted;
+    private int playCount;
+    private boolean isDeleted;
 }
