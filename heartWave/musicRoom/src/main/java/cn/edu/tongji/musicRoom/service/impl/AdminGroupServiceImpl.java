@@ -13,6 +13,7 @@ import java.util.List;
 public class AdminGroupServiceImpl implements AdminGroupService {
     @Resource
     private AdminGroupMapper adminGroupMapper;
+    @Override
     public AdminGroup addAdminGroup(AdminRequest request) {
         int operatorId = request.getOperatorId();
         int musicRoomId = request.getMusicRoomId();
