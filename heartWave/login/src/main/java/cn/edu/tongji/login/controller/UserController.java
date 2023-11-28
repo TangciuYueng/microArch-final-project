@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Random;
 
 @RestController
-@RequestMapping("/api/login")
+@RequestMapping("/api/user")
 public class UserController {
     @Resource
     private UserService userService;
@@ -56,7 +56,7 @@ public class UserController {
         return toString();
     }
 
-    @GetMapping("/another-service")
+    @GetMapping("/another_service")
     public ResponseEntity<String> anotherService() {
         //获取所有微服务实例列表
         List<ServiceInstance> instances = discoveryClient.getInstances("music-room-service");
@@ -77,12 +77,12 @@ public class UserController {
         );
     }
 
-    @RequestMapping("/config-test")
+    @RequestMapping("/config_test")
     public String configTest() {
         return toString();
     }
 
-    @GetMapping("/user")
+    @GetMapping
     public ResponseEntity<?> getAllUsers() {
         try {
             List<User> users = userService.getAllUsers();
@@ -93,7 +93,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable int id) {
         try {
             UserInfo userInfo = userService.getUserInfoById(id);
@@ -104,7 +104,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/user/add")
+    @PostMapping
     public ResponseEntity<?> addUser(@RequestBody AddUserRequest addUserRequest) {
         try {
             User user = userService.addUser(addUserRequest);
@@ -115,7 +115,7 @@ public class UserController {
         }
     }
 
-    @PutMapping("/user/update")
+    @PutMapping
     public ResponseEntity<?> updateUser(@RequestBody UpdateUserRequest updateUserRequest) {
         try {
             userService.updateUser(updateUserRequest);

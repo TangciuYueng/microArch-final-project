@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Mapper
@@ -16,17 +17,17 @@ public interface ChatRecordMapper {
     int getCountByDate(
             @Param("senderId") int senderId,
             @Param("receiverId") int receiverId,
-            @Param("date") String date
+            @Param("date") LocalDate date
     );
     List<ChatRecord> getByPage(
             @Param("senderId") int senderId,
             @Param("receiverId") int receiverId,
-            @Param("date") String date,
-            @Param("page") int offset
+            @Param("date") LocalDate date,
+            @Param("offset") int offset
     );
     List<ChatRecord> getByTime(
             @Param("senderId") int senderId,
             @Param("receiverId") int receiverId,
-            @Param("page") int offset
+            @Param("offset") int offset
     );
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/chat-record")
+@RequestMapping("/api/chat_record")
 public class ChatRecordController {
     @Resource
     private ChatRecordService chatRecordService;
@@ -41,7 +41,7 @@ public class ChatRecordController {
         }
     }
 
-    @GetMapping("/get/page-count/date")
+    @GetMapping("/get/page_count/date")
     public ResponseEntity<?> getChatRecordPageCountByDate(@RequestBody GetChatRecordPageCountByDateRequest getChatRecordPageCountByDateRequest) {
         try {
             int chatRecordPageCount = chatRecordService.getChatRecordPageCountByDate(getChatRecordPageCountByDateRequest);
