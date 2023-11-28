@@ -23,9 +23,9 @@ public class DiaryWritingService {
 
     //新建日记的时候执行的函数
     public int createDiary(AddDiaryWritingRequest diaryRequest) {
-
+        System.out.println(diaryRequest);
         diaryWritingMapper.insertDiary(diaryRequest);
-        return diaryRequest.getId();
+        return diaryRequest.getUserId();
     }
 
     //删除日记的时候执行的函数

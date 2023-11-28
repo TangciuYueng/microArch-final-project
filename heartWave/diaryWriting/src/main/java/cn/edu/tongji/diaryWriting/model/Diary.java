@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.security.Timestamp;
 
 //一些实体类
 @Data
@@ -13,7 +13,7 @@ import java.util.Date;
 public class Diary {
     private int id;
     private int userId;
-    private Date createDate;
+    private String createDate;
     private String title;
     private String content;
     private String coverImg;

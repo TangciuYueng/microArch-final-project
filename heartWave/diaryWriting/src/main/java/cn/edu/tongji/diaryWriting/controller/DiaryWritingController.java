@@ -7,7 +7,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import static com.fasterxml.jackson.databind.type.LogicalType.DateTime;
 
 //对外提供接口
 @RestController
@@ -31,9 +36,16 @@ public class DiaryWritingController {
     }
 
     // 为指定用户创建新的日记
-    @PostMapping("/add/{userId}")
+    @PostMapping("/add")
     public ResponseEntity<Integer> createDiary(@RequestBody AddDiaryWritingRequest diaryRequest) {
+        Date currentDate = new Date();
 
+        // 创建一个格式化日期的对象
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        // 将日期对象格式化成字符串
+        String dateString = df.format(currentDate);
+        diaryRequest.setCreateDate(dateString);
+        System.out.println(diaryRequest.getCreateDate());
         int newDiaryId = diaryWritingService.createDiary(diaryRequest);
         return ResponseEntity.ok(newDiaryId);
     }
