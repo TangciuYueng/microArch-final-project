@@ -1,8 +1,8 @@
 package cn.edu.tongji.diaryWriting.service;
 
-import cn.edu.tongji.diaryWriting.dto.addDiaryWritingRequest;
+import cn.edu.tongji.diaryWriting.dto.AddDiaryWritingRequest;
 import cn.edu.tongji.diaryWriting.mapper.DiaryWritingMapper;
-import cn.edu.tongji.diaryWriting.model.diary;
+import cn.edu.tongji.diaryWriting.model.Diary;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,14 +15,15 @@ public class DiaryWritingService {
     private final DiaryWritingMapper diaryWritingMapper;
 
     //根据UserId返回该用户的所有日记
-    public List<diary> getAllDiariesByUserId(int userId) {
+    public List<Diary> getAllDiariesByUserId(int userId) {
         System.out.println(userId);
         System.out.println(diaryWritingMapper.getDiariesByUserId(userId));
         return diaryWritingMapper.getDiariesByUserId(userId);
     }
 
     //新建日记的时候执行的函数
-    public int createDiary(addDiaryWritingRequest diaryRequest) {
+    public int createDiary(AddDiaryWritingRequest diaryRequest) {
+
         diaryWritingMapper.insertDiary(diaryRequest);
         return diaryRequest.getId();
     }
@@ -33,7 +34,7 @@ public class DiaryWritingService {
     }
 
     //查询指定用户的指定日记
-    public diary getDiary(int id,int userId){
+    public Diary getDiary(int id, int userId){
         return diaryWritingMapper.getDiaryById(id,userId);
     }
 

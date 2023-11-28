@@ -1,7 +1,7 @@
 package cn.edu.tongji.diaryWriting.controller;
 
-import cn.edu.tongji.diaryWriting.dto.addDiaryWritingRequest;
-import cn.edu.tongji.diaryWriting.model.diary;
+import cn.edu.tongji.diaryWriting.dto.AddDiaryWritingRequest;
+import cn.edu.tongji.diaryWriting.model.Diary;
 import cn.edu.tongji.diaryWriting.service.DiaryWritingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,15 +24,16 @@ public class DiaryWritingController {
 
     // 获取指定用户的所有日记列表
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<diary>> getAllDiariesByUserId(@PathVariable("userId") int userId) {
+    public ResponseEntity<List<Diary>> getAllDiariesByUserId(@PathVariable("userId") int userId) {
         System.out.println(userId);
-        List<diary> diaries = diaryWritingService.getAllDiariesByUserId(userId);
+        List<Diary> diaries = diaryWritingService.getAllDiariesByUserId(userId);
         return ResponseEntity.ok(diaries);
     }
 
     // 为指定用户创建新的日记
     @PostMapping("/add/{userId}")
-    public ResponseEntity<Integer> createDiary(@RequestBody addDiaryWritingRequest diaryRequest) {
+    public ResponseEntity<Integer> createDiary(@RequestBody AddDiaryWritingRequest diaryRequest) {
+
         int newDiaryId = diaryWritingService.createDiary(diaryRequest);
         return ResponseEntity.ok(newDiaryId);
     }
