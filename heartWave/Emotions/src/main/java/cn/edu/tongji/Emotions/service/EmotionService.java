@@ -1,40 +1,25 @@
 package cn.edu.tongji.Emotions.service;
 
 import cn.edu.tongji.Emotions.model.Emotion;
-import cn.edu.tongji.Emotions.repository.EmotionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+
 import java.util.Optional;
 
 @Service
-public class EmotionService {
+public interface EmotionService {
 
-    private final EmotionRepository emotionRepository;
 
-    @Autowired
-    public EmotionService(EmotionRepository emotionRepository) {
-        this.emotionRepository = emotionRepository;
-    }
+    Page<Emotion> findAll(Pageable pageable);
 
-    public Page<Emotion> findAll(Pageable pageable) {
-        return emotionRepository.findAll(pageable);
-    }
+    Optional<Emotion> findById(String id);
 
-    public Optional<Emotion> findById(String id) {
-        return emotionRepository.findById(id);
-    }
+    Emotion save(Emotion emotion) ;
 
-    public Emotion save(Emotion emotion) {
-        return emotionRepository.save(emotion);
-    }
-
-    public void deleteById(String id) {
-        emotionRepository.deleteById(id);
-    }
+    void deleteById(String id);
 
     // Additional business logic methods can be added here
 }

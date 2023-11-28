@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.tongji.musicRoom.mapper.MusicRoomMemberMapper">
-    <insert id="insertMusicRoomMemberByInstance" parameterType="cn.edu.tongji.musicRoom.model.MusicRoomMember" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertMusicRoomMemberByInstance" parameterType="musicRoomMember" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO music_room_member (user_id, music_room_id)
         VALUES (#{userId}, #{musicRoomId})
     </insert>
@@ -13,7 +13,7 @@
         VALUES (#{userId}, #{musicRoomId})
     </insert>
 
-    <select id="getMusicRoomMemberByMusicRoomId" resultType="cn.edu.tongji.musicRoom.model.MusicRoomMember">
+    <select id="getMusicRoomMemberByMusicRoomId" resultType="musicRoomMember">
         SELECT * FROM music_room_member WHERE music_room_id = #{musicRoomId}
     </select>
 
@@ -49,7 +49,7 @@
         FROM music_room_member
         WHERE music_room_id = #{musicRoomId}
     </select>
-    <select id="getMemberByPage" resultType="cn.edu.tongji.musicRoom.model.MusicRoomMember">
+    <select id="getMemberByPage" resultType="musicRoomMember">
 
     </select>
 </mapper>

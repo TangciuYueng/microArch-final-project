@@ -2,6 +2,7 @@ package cn.edu.tongji.Emotions.controller;
 
 import cn.edu.tongji.Emotions.model.MusicReference;
 import cn.edu.tongji.Emotions.service.MusicReferenceService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,7 @@ import java.util.List;
 @RequestMapping("/api/musicReferences")
 public class MusicReferenceController {
 
+    @Resource
     private final MusicReferenceService musicReferenceService;
 
     @Autowired

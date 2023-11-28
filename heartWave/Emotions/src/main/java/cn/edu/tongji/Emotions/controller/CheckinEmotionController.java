@@ -3,6 +3,7 @@ package cn.edu.tongji.Emotions.controller;
 import cn.edu.tongji.Emotions.interfaces.LoginServiceClient;
 import cn.edu.tongji.Emotions.model.CheckinEmotion;
 import cn.edu.tongji.Emotions.service.CheckinEmotionService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +25,7 @@ public class CheckinEmotionController {
     @Autowired
     private LoginServiceClient loginServiceClient;
 
+    @Resource
     private final CheckinEmotionService checkinEmotionService;
 
     @Autowired
@@ -35,7 +37,7 @@ public class CheckinEmotionController {
 //        return restTemplate.getForObject("http://login-service/controller/test/", String.class);
 //    }
     @GetMapping
-    public ResponseEntity<Page<CheckinEmotion>> getAllCheckinEmotions(@PathVariable Pageable pageable) {
+    public ResponseEntity<Page<CheckinEmotion>> getAllCheckinEmotions(Pageable pageable) {
         //System.out.println(loginServiceClient.test());
         return ResponseEntity.ok(checkinEmotionService.findAll(pageable));
     }
