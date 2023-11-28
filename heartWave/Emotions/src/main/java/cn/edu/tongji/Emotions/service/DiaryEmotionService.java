@@ -3,6 +3,8 @@ package cn.edu.tongji.Emotions.service;
 import cn.edu.tongji.Emotions.model.DiaryEmotion;
 import cn.edu.tongji.Emotions.repository.DiaryEmotionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +20,8 @@ public class DiaryEmotionService {
         this.diaryEmotionRepository = diaryEmotionRepository;
     }
 
-    public List<DiaryEmotion> findAll() {
-        return diaryEmotionRepository.findAll();
+    public Page<DiaryEmotion> findAll(Pageable pageable) {
+        return diaryEmotionRepository.findAll(pageable);
     }
 
     public Optional<DiaryEmotion> findById(String id) {

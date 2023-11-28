@@ -4,6 +4,8 @@ package cn.edu.tongji.Emotions.service;
 import cn.edu.tongji.Emotions.model.CheckinEmotion;
 import cn.edu.tongji.Emotions.repository.CheckinEmotionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,22 +25,23 @@ public class CheckinEmotionService {
     public List<CheckinEmotion> findByCheckinDate(LocalDate date) {
         LocalDateTime startOfDay = date.atStartOfDay();
         LocalDateTime endOfDay = date.plusDays(1).atStartOfDay();
-        return checkinEmotionRepository.findByCheckinTimeBetween(startOfDay, endOfDay);
+        return checkinEmotionRepository.findByCheckinTime(startOfDay);
     }
 
-    public List<CheckinEmotion> findByCheckinDates(LocalDate startDate,LocalDate endDate) {
+    public Page<CheckinEmotion> findByCheckinDates(LocalDate startDate, LocalDate endDate, Pageable pageable) {
         LocalDateTime startOfDay = startDate.atStartOfDay();
-        LocalDateTime endOfDay = endDate.atStartOfDay();
-        return checkinEmotionRepository.findByCheckinTimeBetween(startOfDay, endOfDay);
+        LocalDateTime endOfDay = endDate.plusDays(1).atStartOfDay();
+        return checkinEmotionRepository.findByCheckinTimeBetween(startOfDay, endOfDay, pageable);
     }
 
     public Optional<CheckinEmotion> findByUserId(String UserId) {
         return checkinEmotionRepository.findByUserId(UserId);
     }
 
-    public List<CheckinEmotion> findAll() {
-        return checkinEmotionRepository.findAll();
+    public Page<CheckinEmotion> findAll(Pageable pageable) {
+        return checkinEmotionRepository.findAll(pageable);
     }
+
 
     public Optional<CheckinEmotion> findById(String id) {
         return checkinEmotionRepository.findById(id);

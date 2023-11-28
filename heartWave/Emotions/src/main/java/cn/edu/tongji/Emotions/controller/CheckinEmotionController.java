@@ -4,6 +4,8 @@ import cn.edu.tongji.Emotions.interfaces.LoginServiceClient;
 import cn.edu.tongji.Emotions.model.CheckinEmotion;
 import cn.edu.tongji.Emotions.service.CheckinEmotionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -33,9 +35,9 @@ public class CheckinEmotionController {
 //        return restTemplate.getForObject("http://login-service/controller/test/", String.class);
 //    }
     @GetMapping
-    public ResponseEntity<List<CheckinEmotion>> getAllCheckinEmotions() {
+    public ResponseEntity<Page<CheckinEmotion>> getAllCheckinEmotions(@PathVariable Pageable pageable) {
         //System.out.println(loginServiceClient.test());
-        return ResponseEntity.ok(checkinEmotionService.findAll());
+        return ResponseEntity.ok(checkinEmotionService.findAll(pageable));
     }
 
     @GetMapping("/{id}")
@@ -70,24 +72,20 @@ public class CheckinEmotionController {
     }
 
     @GetMapping("/byDates/{date}")
-    public ResponseEntity<List<CheckinEmotion>> getCheckinEmotionByDays(@PathVariable String date) {
+    public ResponseEntity<Page<CheckinEmotion>> getCheckinEmotionByDays(@PathVariable String date, Pageable pageable) {
         LocalDate parsedDate;
         try {
             parsedDate = LocalDate.parse(date);
         } catch (DateTimeParseException e) {
-            return ResponseEntity.badRequest().build(); // 日期格式错误时返回错误请求响应
+            return ResponseEntity.badRequest().build();
         }
 
-        // 计算一周前的日期
         LocalDate startDate = parsedDate.minusWeeks(1);
-
-        // 查询从startDate到parsedDate（包含）这段时间的打卡记录
-        List<CheckinEmotion> emotions = checkinEmotionService.findByCheckinDates(startDate, parsedDate);
+        Page<CheckinEmotion> emotions = checkinEmotionService.findByCheckinDates(startDate, parsedDate, pageable);
         if (emotions.isEmpty()) {
-            return ResponseEntity.notFound().build(); // 如果这段时间内没有记录，则返回未找到的响应
+            return ResponseEntity.notFound().build();
         }
-
-        return ResponseEntity.ok(emotions); // 返回找到的记录
+        return ResponseEntity.ok(emotions);
     }
 
     @PostMapping

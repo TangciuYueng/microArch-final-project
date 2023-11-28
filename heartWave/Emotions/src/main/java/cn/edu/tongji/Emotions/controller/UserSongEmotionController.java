@@ -4,6 +4,8 @@ package cn.edu.tongji.Emotions.controller;
 import cn.edu.tongji.Emotions.model.UserSongEmotion;
 import cn.edu.tongji.Emotions.service.UserSongEmotionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +23,8 @@ public class UserSongEmotionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserSongEmotion>> getAllUserSongEmotions() {
-        return ResponseEntity.ok(userSongEmotionService.findAll());
+    public ResponseEntity<Page<UserSongEmotion>> getAllUserSongEmotions(Pageable pageable) {
+        return ResponseEntity.ok(userSongEmotionService.findAll(pageable));
     }
 
     @GetMapping("/{id}")
