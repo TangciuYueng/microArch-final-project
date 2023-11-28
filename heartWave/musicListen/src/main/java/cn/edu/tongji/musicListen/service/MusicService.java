@@ -13,11 +13,16 @@ import java.util.List;
 @Service
 public interface MusicService {
 
+    //添加一首歌
     int insertMusic(Music music);
+    //获取所有歌
     List<Music> getAllMusic();
+    //更新一首歌的信息
     void updateMusic(Music music);
-
+    // 通过音乐id删除一首歌
     void deleteMusic(int id);
+
+//    Music getMusicById(int id);
     // 播放音乐
     void playMusic(int id);
 }

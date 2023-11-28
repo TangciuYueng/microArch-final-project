@@ -3,11 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.tongji.musicListen.mapper.MusicCommentMapper">
-    <insert id="insertMusicComment" parameterType="cn.edu.tongji.musicListen.model.MusicComment">
+    <insert id="insertMusicComment" parameterType="musicComment">
         INSERT INTO music_comment (sender_id, music_id, context, send_time, likes)
         VALUES (#{sender_id}, #{music_id}, #{context}, #{send_time}, #{likes})
     </insert>
-    <update id="updateMusicComment" parameterType="cn.edu.tongji.musicListen.model.MusicComment">
+    <update id="updateMusicComment" parameterType="musicComment">
         UPDATE music_comment
         <set>
             <if test="sender_id != null">sender_id = #{sender_id},</if>
@@ -22,7 +22,7 @@
         DELETE FROM music_comment
         WHERE id = #{id}
     </delete>
-    <select id="selectMusicCommentById" parameterType="int" resultType="cn.edu.tongji.musicListen.model.MusicComment">
+    <select id="selectMusicCommentById" parameterType="int" resultType="musicComment">
         SELECT id, sender_id, music_id, context, send_time, likes
         FROM music_comment
         WHERE id = #{id}
@@ -31,7 +31,7 @@
         SELECT COUNT(*)
         FROM music_comment
     </select>
-    <select id="getMusicCommentByPage" resultType="cn.edu.tongji.musicListen.model.MusicComment">
+    <select id="getMusicCommentByPage" resultType="musicComment">
         SELECT *
         FROM music_comment
         LIMIT #{startIndex}, #{pageSize}
