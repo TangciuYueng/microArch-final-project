@@ -20,5 +20,5 @@ public class addDiaryWritingRequest {
     private String content;       //日记的内容
     private String cover_img;     //日记的封面图片
     private String background_music;  //日记的背景音乐
-    private int permission;         //日记的权限
+    private String permission;         //日记的权限
 }
