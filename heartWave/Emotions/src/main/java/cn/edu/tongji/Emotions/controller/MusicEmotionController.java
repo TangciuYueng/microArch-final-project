@@ -3,6 +3,8 @@ package cn.edu.tongji.Emotions.controller;
 import cn.edu.tongji.Emotions.model.MusicEmotion;
 import cn.edu.tongji.Emotions.service.MusicEmotionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +22,8 @@ public class MusicEmotionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<MusicEmotion>> getAllMusicEmotions() {
-        return ResponseEntity.ok(musicEmotionService.findAll());
+    public ResponseEntity<Page<MusicEmotion>> getAllMusicEmotions(Pageable pageable) {
+        return ResponseEntity.ok(musicEmotionService.findAll(pageable));
     }
 
     @GetMapping("/{id}")
