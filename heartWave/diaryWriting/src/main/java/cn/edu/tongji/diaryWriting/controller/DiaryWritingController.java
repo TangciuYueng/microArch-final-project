@@ -50,8 +50,7 @@ public class DiaryWritingController {
         return ResponseEntity.ok(newDiaryId);
     }
 
-    //删除指定日记
-// 删除数据的方法
+    //删除指定日记（完成）
     @DeleteMapping("/delete/{id}")
     public int deleteDiaryByID(@PathVariable int id) {
         // 根据id删除数据的逻辑处理
