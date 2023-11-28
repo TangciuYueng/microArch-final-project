@@ -28,7 +28,7 @@
         FROM chat_record
         WHERE music_room_id = #{musicRoomId}
     </select>
-    <select id="getChatRecordByPage" resultType="cn.edu.tongji.musicRoom.model.ChatRecord">
+    <select id="getChatRecordByPage" resultType="chatRecord">
         SELECT *
         FROM chat_record
         WHERE music_room_id = #{musicRoomId} AND is_deleted = 0

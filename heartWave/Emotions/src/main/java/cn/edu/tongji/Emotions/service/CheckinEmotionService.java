@@ -13,46 +13,23 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CheckinEmotionService {
-
-    private final CheckinEmotionRepository checkinEmotionRepository;
-
-    @Autowired
-    public CheckinEmotionService(CheckinEmotionRepository checkinEmotionRepository) {
-        this.checkinEmotionRepository = checkinEmotionRepository;
-    }
-
-    public List<CheckinEmotion> findByCheckinDate(LocalDate date) {
-        LocalDateTime startOfDay = date.atStartOfDay();
-        LocalDateTime endOfDay = date.plusDays(1).atStartOfDay();
-        return checkinEmotionRepository.findByCheckinTime(startOfDay);
-    }
-
-    public Page<CheckinEmotion> findByCheckinDates(LocalDate startDate, LocalDate endDate, Pageable pageable) {
-        LocalDateTime startOfDay = startDate.atStartOfDay();
-        LocalDateTime endOfDay = endDate.plusDays(1).atStartOfDay();
-        return checkinEmotionRepository.findByCheckinTimeBetween(startOfDay, endOfDay, pageable);
-    }
-
-    public Optional<CheckinEmotion> findByUserId(String UserId) {
-        return checkinEmotionRepository.findByUserId(UserId);
-    }
-
-    public Page<CheckinEmotion> findAll(Pageable pageable) {
-        return checkinEmotionRepository.findAll(pageable);
-    }
+public interface CheckinEmotionService {
 
 
-    public Optional<CheckinEmotion> findById(String id) {
-        return checkinEmotionRepository.findById(id);
-    }
+    public List<CheckinEmotion> findByCheckinDate(LocalDate date) ;
 
-    public CheckinEmotion save(CheckinEmotion checkinEmotion) {
-        return checkinEmotionRepository.save(checkinEmotion);
-    }
+    public Page<CheckinEmotion> findByCheckinDates(LocalDate startDate, LocalDate endDate, Pageable pageable);
 
-    public void deleteById(String id) {
-        checkinEmotionRepository.deleteById(id);
-    }
+
+    public Optional<CheckinEmotion> findByUserId(String UserId) ;
+
+    public Page<CheckinEmotion> findAll(Pageable pageable);
+
+
+    public Optional<CheckinEmotion> findById(String id);
+
+    public CheckinEmotion save(CheckinEmotion checkinEmotion);
+
+    public void deleteById(String id);
 
 }

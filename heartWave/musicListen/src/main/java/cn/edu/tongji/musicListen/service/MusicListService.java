@@ -7,14 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
-public class MusicListService {
-    private final MusicListMapper musicListMapper;
 
-    public int insertMusicList(MusicList musicList) {
-        System.out.println(musicList);
-        return musicListMapper.insertMusicList(musicList);
-    }
+public interface MusicListService {
+
+    int insertMusicList(MusicList musicList);
 
 
 }

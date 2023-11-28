@@ -36,4 +36,7 @@
         FROM music_comment
         LIMIT #{startIndex}, #{pageSize}
     </select>
+<!--    <select id="getThisMusicCommentCount" resultType="java.lang.Integer">-->
+<!--        -->
+<!--    </select>-->
 </mapper>

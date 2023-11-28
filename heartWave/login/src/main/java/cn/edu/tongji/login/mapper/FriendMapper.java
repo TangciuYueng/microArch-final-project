@@ -1,10 +1,8 @@
 package cn.edu.tongji.login.mapper;
 
-import cn.edu.tongji.login.dto.AddFriendRequest;
-import cn.edu.tongji.login.dto.DeleteFriendRequest;
-import cn.edu.tongji.login.dto.FriendInfo;
-import cn.edu.tongji.login.dto.UpdateFriendIntimacyRequest;
+import cn.edu.tongji.login.model.Friend;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,8 +10,10 @@ import java.util.List;
 @Mapper
 @Repository
 public interface FriendMapper {
-    List<FriendInfo> getFriendByUserId(int userId);
-    int addFriend(AddFriendRequest addFriendRequest);
-    int updateFriendIntimacy(UpdateFriendIntimacyRequest updateFriendIntimacyRequest);
-    int deleteFriend(DeleteFriendRequest deleteFriendRequest);
+    Friend getById(@Param("id") int id);
+    Friend getByUserFriendId(@Param("userId") int userId, @Param("friendId") int friendId);
+    List<Friend> getByUserId(@Param("userId") int userId);
+    int add(Friend friend);
+    int update(Friend friend);
+    int deleteByUserFriendId(Friend friend);
 }

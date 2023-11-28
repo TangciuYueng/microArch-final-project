@@ -3,6 +3,7 @@ package cn.edu.tongji.musicRoom.controller;
 import cn.edu.tongji.musicRoom.dto.AdminRequest;
 import cn.edu.tongji.musicRoom.model.AdminGroup;
 import cn.edu.tongji.musicRoom.service.AdminGroupService;
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/admin_group")
 public class AdminGroupController {
-    private final AdminGroupService adminGroupService;
+    @Resource
+    private AdminGroupService adminGroupService;
 
     @PostMapping
     public ResponseEntity<?> addAdminGroup(@RequestBody AdminRequest request) {

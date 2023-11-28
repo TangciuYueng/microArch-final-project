@@ -2,6 +2,7 @@ package cn.edu.tongji.musicListen.controller;
 
 import cn.edu.tongji.musicListen.model.MusicList;
 import cn.edu.tongji.musicListen.service.MusicListService;
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,10 +12,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/musiclisten/musiclist")
-@RequiredArgsConstructor
 public class MusicListController {
-    private final List<MusicList> allMusicList = new ArrayList<>();
-    private final MusicListService musicListService;
+//    @Resource
+//    private List<MusicList> allMusicList = new ArrayList<>();
+    @Resource
+    private MusicListService musicListService;
     @PostMapping
     public int insertMusicList(@RequestBody MusicList musicList) {
         try {
@@ -28,11 +30,8 @@ public class MusicListController {
             return -1; // 或者根据实际情况返回适当的错误代码
         }
     }
-    @GetMapping
-    public List<MusicList> getAllMusicLists() {
-        return allMusicList;
-    }
-
-
-
+//    @GetMapping
+//    public List<MusicList> getAllMusicLists() {
+//        return allMusicList;
+//    }
 }

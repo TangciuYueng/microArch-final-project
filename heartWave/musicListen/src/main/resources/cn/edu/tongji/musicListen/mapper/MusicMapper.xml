@@ -49,4 +49,8 @@
         FROM music
         LIMIT #{startIndex}, #{pageSize}
     </select>
+    <select id="getAllMusic" resultType="cn.edu.tongji.musicListen.model.Music">
+        SELECT *
+        FROM music
+    </select>
 </mapper>

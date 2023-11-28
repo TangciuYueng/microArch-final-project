@@ -7,7 +7,7 @@
         INSERT INTO publicity (music_room_id, type)
         VALUES (#{musicRoomId}, 'public')
     </insert>
-    <select id="getPublicityByMusicRoomId" resultType="cn.edu.tongji.musicRoom.model.Publicity">
+    <select id="getPublicityByMusicRoomId" resultType="publicity">
         SELECT * FROM publicity WHERE music_room_id = #{musicRoomId}
     </select>
     <insert id="insertPublicityLimited" parameterType="hashmap">

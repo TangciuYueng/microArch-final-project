@@ -11,29 +11,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class MusicReferenceService {
+public interface MusicReferenceService {
 
-    private final MusicReferenceRepository musicReferenceRepository;
+    public Page<MusicReference> findAll(Pageable pageable) ;
 
-    @Autowired
-    public MusicReferenceService(MusicReferenceRepository musicReferenceRepository) {
-        this.musicReferenceRepository = musicReferenceRepository;
-    }
-
-    public Page<MusicReference> findAll(Pageable pageable) {
-        return musicReferenceRepository.findAll(pageable);
-    }
-
-    public Optional<MusicReference> findById(String id) {
-        return musicReferenceRepository.findById(id);
-    }
-
-    public MusicReference save(MusicReference musicReference) {
-        return musicReferenceRepository.save(musicReference);
-    }
-
-    public void deleteById(String id) {
-        musicReferenceRepository.deleteById(id);
-    }
+    public Optional<MusicReference> findById(String id);
+    public MusicReference save(MusicReference musicReference);
+    public void deleteById(String id);
 
 }
