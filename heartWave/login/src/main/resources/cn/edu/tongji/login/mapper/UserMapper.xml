@@ -3,20 +3,20 @@
 
 <!-- namespace是命名空间，属性设置为Mapper接口的全限定名 -->
 <mapper namespace="cn.edu.tongji.login.mapper.UserMapper">
-    <select id="selectAll" resultType="user">
+    <select id="getAll" resultType="user">
         SELECT * FROM user;
     </select>
 
-    <select id="selectById" resultType="user">
+    <select id="getById" resultType="user">
         SELECT * FROM user WHERE id = #{id};
     </select>
 
-    <insert id="addUser" useGeneratedKeys="true" keyProperty="id">
+    <insert id="add" parameterType="user" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO user(name, password, email, age, region, avatar, phone, gender)
         VALUES (#{name}, #{password}, #{email}, #{age}, #{region}, #{avatar}, #{phone}, #{gender})
     </insert>
 
-    <update id="updateUser">
+    <update id="update" parameterType="user">
         UPDATE user
         <set>
             <if test="name != null and name != ''">

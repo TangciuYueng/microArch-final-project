@@ -18,5 +18,6 @@ spring:
     hikari:
       max-lifetime: 60000 # 一分钟
 mybatis:
+  type-aliases-package: cn.edu.tongji.musicRoom.model
   configuration:
     map-underscore-to-camel-case: true

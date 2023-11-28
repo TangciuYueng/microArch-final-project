@@ -18,6 +18,6 @@ public class diary {
     private String content;
     private String cover_img;
     private String background_music;
-    private int permission;
+    private String permission;
 }
 

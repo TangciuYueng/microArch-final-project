@@ -16,6 +16,7 @@ import java.util.List;
 public class DiaryWritingController {
     private final DiaryWritingService diaryWritingService;
 
+    //测试接口是否可以使用，事实证明通过http://localhost:8881/api/diary/test就可以获取到Heart wave!
     @RequestMapping("/test")
     public String test() {
         return "Heart wave!";
@@ -24,6 +25,7 @@ public class DiaryWritingController {
     // 获取指定用户的所有日记列表
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<diary>> getAllDiariesByUserId(@PathVariable("userId") int userId) {
+        System.out.println(userId);
         List<diary> diaries = diaryWritingService.getAllDiariesByUserId(userId);
         return ResponseEntity.ok(diaries);
     }

@@ -17,7 +17,7 @@
         DELETE FROM admin_group WHERE id = #{id}
     </delete>
 
-    <select id="getAdminGroupByMusicRoomId" resultType="cn.edu.tongji.musicRoom.model.AdminGroup">
+    <select id="getAdminGroupByMusicRoomId" resultType="adminGroup">
         SELECT * FROM admin_group WHERE music_room_id = #{musicRoomId}
     </select>
 </mapper>

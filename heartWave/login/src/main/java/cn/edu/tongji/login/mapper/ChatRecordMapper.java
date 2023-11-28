@@ -1,11 +1,8 @@
 package cn.edu.tongji.login.mapper;
 
-import cn.edu.tongji.login.dto.AddChatRecordRequest;
-import cn.edu.tongji.login.dto.GetChatRecordPageByTimeRequest;
-import cn.edu.tongji.login.dto.GetChatRecordPageCountByDateRequest;
-import cn.edu.tongji.login.dto.GetChatRecordPageByDateRequest;
 import cn.edu.tongji.login.model.ChatRecord;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,9 +10,23 @@ import java.util.List;
 @Mapper
 @Repository
 public interface ChatRecordMapper {
-    int addChatRecord(AddChatRecordRequest addChatRecordRequest);
-    int deleteChatRecord(int id);
-    int getChatRecordPageCountByDate(GetChatRecordPageCountByDateRequest getChatRecordPageCountByDateRequest);
-    List<ChatRecord> getChatRecordByPage(GetChatRecordPageByDateRequest getChatRecordPageByDateRequest);
-    List<ChatRecord> getChatRecordByTime(GetChatRecordPageByTimeRequest getChatRecordPageByTimeRequest);
+    ChatRecord getById(@Param("id") int id);
+    int add(ChatRecord chatRecord);
+    int update(ChatRecord chatRecord);
+    int getCountByDate(
+            @Param("senderId") int senderId,
+            @Param("receiverId") int receiverId,
+            @Param("date") String date
+    );
+    List<ChatRecord> getByPage(
+            @Param("senderId") int senderId,
+            @Param("receiverId") int receiverId,
+            @Param("date") String date,
+            @Param("page") int offset
+    );
+    List<ChatRecord> getByTime(
+            @Param("senderId") int senderId,
+            @Param("receiverId") int receiverId,
+            @Param("page") int offset
+    );
 }
