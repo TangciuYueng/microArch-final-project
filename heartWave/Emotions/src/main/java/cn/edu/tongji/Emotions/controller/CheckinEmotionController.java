@@ -16,7 +16,7 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/checkinEmotions")
+@RequestMapping("/api/emotion/checkinEmotions")
 public class CheckinEmotionController {
 
 //    @Autowired

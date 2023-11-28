@@ -16,6 +16,8 @@ public class DiaryWritingService {
 
     //根据UserId返回该用户的所有日记
     public List<diary> getAllDiariesByUserId(int userId) {
+        System.out.println(userId);
+        System.out.println(diaryWritingMapper.getDiariesByUserId(userId));
         return diaryWritingMapper.getDiariesByUserId(userId);
     }
 
