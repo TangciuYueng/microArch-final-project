@@ -36,10 +36,10 @@ spring:
 
 # 配置mybatis信息
 mybatis:
-  mapper-locations: classpath:mapper/*Mapper.xml   # mapper映射文件路径
+  # mapper-locations: classpath:mapper/*Mapper.xml   # mapper映射文件路径
   # 包扫描路径，一般设置成model包的位置
   # 这样在mapper.xml里面写resultType和parameterType的时候只写model类名就行
   # 大小写均无要求，字母正确即可。比如说model类叫User，USER、uSEr都行
-  type-aliases-package: cn.edu.tongji.login.model, cn.edu.tongji.login.dto
+  type-aliases-package: cn.edu.tongji.login.model
   configuration:
     map-underscore-to-camel-case: true  # 将下划线字段名转换为驼峰命名

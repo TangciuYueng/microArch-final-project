@@ -7,7 +7,7 @@
         INSERT INTO music_room (title, theme, description, status, creator_id)
         VALUES (#{title}, #{theme}, #{description}, #{status}, #{creatorId})
     </insert>
-    <update id="updateMusicRoom" parameterType="cn.edu.tongji.musicRoom.model.MusicRoom">
+    <update id="updateMusicRoom" parameterType="musicRoom">
         UPDATE music_room
         <set>
             <if test="title != null">title = #{title},</if>
@@ -21,7 +21,7 @@
         DELETE FROM music_room
         WHERE id = #{id}
     </delete>
-    <select id="getMusicRoomById" parameterType="int" resultType="cn.edu.tongji.musicRoom.model.MusicRoom">
+    <select id="getMusicRoomById" parameterType="int" resultType="musicRoom">
         SELECT id, title, theme, description, status, creator_id, create_time
         FROM music_room
         WHERE id = #{id}
@@ -30,7 +30,7 @@
         SELECT COUNT(*)
         FROM music_room
     </select>
-    <select id="getMusicRoomByPage" resultType="cn.edu.tongji.musicRoom.model.MusicRoom">
+    <select id="getMusicRoomByPage" resultType="musicRoom">
         SELECT *
         FROM music_room
         LIMIT #{startIndex}, #{pageSize}

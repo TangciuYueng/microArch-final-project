@@ -2,14 +2,16 @@ package cn.edu.tongji.login.controller;
 
 import cn.edu.tongji.login.dto.AddUserRequest;
 import cn.edu.tongji.login.dto.UpdateUserRequest;
+import cn.edu.tongji.login.dto.UserInfo;
 import cn.edu.tongji.login.model.User;
-import cn.edu.tongji.login.service.LoginService;
-import lombok.RequiredArgsConstructor;
+import cn.edu.tongji.login.service.UserService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -19,11 +21,13 @@ import java.util.Random;
 
 @RestController
 @RequestMapping("/api/login")
-@RequiredArgsConstructor
-public class LoginController {
-    private final LoginService loginService;
-    private final RestTemplate restTemplate;  //需要配置RestTemplate的Bean
-    private final DiscoveryClient discoveryClient;
+public class UserController {
+    @Resource
+    private UserService userService;
+    @Resource
+    private RestTemplate restTemplate;  //需要配置RestTemplate的Bean
+    @Resource
+    private DiscoveryClient discoveryClient;
 
     @Value("${student.name}")
     private String name;
@@ -77,25 +81,48 @@ public class LoginController {
     public String configTest() {
         return toString();
     }
-    
+
     @GetMapping("/user")
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = loginService.getAllUsers();
-        return ResponseEntity.ok(users);
+    public ResponseEntity<?> getAllUsers() {
+        try {
+            List<User> users = userService.getAllUsers();
+            return new ResponseEntity<>(users, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("get all users failed", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable int id) {
-        return ResponseEntity.ok(loginService.getUserById(id));
+    public ResponseEntity<?> getUserById(@PathVariable int id) {
+        try {
+            UserInfo userInfo = userService.getUserInfoById(id);
+            return new ResponseEntity<>(userInfo, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("get user by id failed", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/user/add")
-    public int addUser(@RequestBody AddUserRequest addUserRequest) {
-        return loginService.addUser(addUserRequest);
+    public ResponseEntity<?> addUser(@RequestBody AddUserRequest addUserRequest) {
+        try {
+            User user = userService.addUser(addUserRequest);
+            return new ResponseEntity<>(user, HttpStatus.CREATED);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("add user failed", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping("/user/update")
-    public int updateUser(@RequestBody UpdateUserRequest updateUserRequest) {
-        return loginService.updateUser(updateUserRequest);
+    public ResponseEntity<?> updateUser(@RequestBody UpdateUserRequest updateUserRequest) {
+        try {
+            userService.updateUser(updateUserRequest);
+            return ResponseEntity.ok("successfully update user");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("update user failed", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

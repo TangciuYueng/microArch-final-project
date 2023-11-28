@@ -1,16 +1,15 @@
-package cn.edu.tongji.login.model;
+package cn.edu.tongji.login.dto;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@Builder
-public class User {
-    private Integer id;
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserInfo {
     private String name;
-    private String password;
     private String email;
-    private String createTime;
     private Integer age;
     private String region;
     private String avatar;
