@@ -4,6 +4,7 @@ import cn.edu.tongji.musicRoom.dto.AddChatRecordRequest;
 import cn.edu.tongji.musicRoom.dto.ChatRecordInfo;
 import cn.edu.tongji.musicRoom.model.ChatRecord;
 import cn.edu.tongji.musicRoom.service.ChatRecordService;
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/chat_record")
-@RequiredArgsConstructor
 public class ChatRecordController {
-    private final ChatRecordService chatRecordService;
+    @Resource
+    private ChatRecordService chatRecordService;
 
     @PostMapping
     public ResponseEntity<?> addChatRecord(@RequestBody AddChatRecordRequest request) {

@@ -5,6 +5,7 @@ import cn.edu.tongji.musicRoom.dto.MusicRoomDetailed;
 import cn.edu.tongji.musicRoom.dto.MusicRoomInfo;
 import cn.edu.tongji.musicRoom.model.MusicRoom;
 import cn.edu.tongji.musicRoom.service.MusicRoomService;
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.http.HttpStatus;
@@ -12,10 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/music_room")
 public class MusicRoomController {
-    private final MusicRoomService musicRoomService;
+    @Resource
+    private MusicRoomService musicRoomService;
 
     @PostMapping
     public ResponseEntity<?> createMusicRoom(@RequestBody MusicRoomDTO musicRoomDTO) {
