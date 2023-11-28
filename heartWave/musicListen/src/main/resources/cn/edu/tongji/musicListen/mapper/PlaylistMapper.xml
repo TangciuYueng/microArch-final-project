@@ -3,11 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.tongji.musicListen.mapper.PlaylistMapper">
-    <insert id="insertPlaylist" parameterType="cn.edu.tongji.musicListen.model.Playlist">
+    <insert id="insertPlaylist" parameterType="playlist">
         INSERT INTO Playlist (user_id, music_id)
         VALUES (#{user_id}, #{music_id})
     </insert>
-    <update id="updatePlaylist" parameterType="cn.edu.tongji.musicListen.model.Playlist">
+    <update id="updatePlaylist" parameterType="playlist">
         UPDATE Playlist
         <set>
             <if test="user_id != null">user_id = #{user_id},</if>
@@ -19,7 +19,7 @@
         DELETE FROM Playlist
         WHERE id = #{id}
     </delete>
-    <select id="selectPlaylistById" parameterType="int" resultType="cn.edu.tongji.musicListen.model.Playlist">
+    <select id="selectPlaylistById" parameterType="int" resultType="playlist">
         SELECT id, user_id, music_id
         FROM Playlist
         WHERE id = #{id}
@@ -28,12 +28,12 @@
         SELECT COUNT(*)
         FROM Playlist
     </select>
-    <select id="getPlaylistByPage" resultType="cn.edu.tongji.musicListen.model.Playlist">
+    <select id="getPlaylistByPage" resultType="playlist">
         SELECT *
         FROM Playlist
         LIMIT #{startIndex}, #{pageSize}
     </select>
-    <select id="getAllPlaylist" resultType="cn.edu.tongji.musicListen.model.Playlist">
+    <select id="getAllPlaylist" resultType="playlist">
         SELECT *
         FROM Playlist
     </select>

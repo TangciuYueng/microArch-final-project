@@ -10,14 +10,14 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class diary {
+public class Diary {
     private int id;
-    private int user_id;
-    private Date create_date;
+    private int userId;
+    private Date createDate;
     private String title;
     private String content;
-    private String cover_img;
-    private String background_music;
-    private int permission;
+    private String coverImg;
+    private String backgroundMusic;
+    private String permission;
 }
 

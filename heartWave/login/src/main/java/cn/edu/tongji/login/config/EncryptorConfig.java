@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
+//@Configuration
 //@ConfigurationProperties(prefix = "encryptor", ignoreUnknownFields = false)
 //@PropertySource("classpath:config/secret.properties")
-//@Configuration
 //@Data
 //@Component
 public class EncryptorConfig {
