@@ -3,11 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.tongji.musicListen.mapper.MusicMapper">
-    <insert id="insertMusic" parameterType="cn.edu.tongji.musicListen.model.Music">
+    <insert id="insertMusic" parameterType="music">
         INSERT INTO music (title, type, writer, composer, producer, genre, artist, album, release_date, src, duration, language, likes, downloads, lyrics, label, play_count, music_mood)
         VALUES (#{title}, #{type}, #{writer}, #{composer}, #{producer}, #{genre}, #{artist}, #{album}, #{release_date}, #{src}, #{duration}, #{language}, #{likes}, #{downloads}, #{lyrics}, #{label}, #{play_count}, #{music_mood})
     </insert>
-    <update id="updateMusic" parameterType="cn.edu.tongji.musicListen.model.Music">
+    <update id="updateMusic" parameterType="music">
         UPDATE music
         <set>
             <if test="title != null">title = #{title},</if>
@@ -35,7 +35,7 @@
         DELETE FROM music
         WHERE id = #{id}
     </delete>
-    <select id="selectMusicById" parameterType="int" resultType="cn.edu.tongji.musicListen.model.Music">
+    <select id="selectMusicById" parameterType="int" resultType="music">
         SELECT id, title, type, writer, composer, producer, genre, artist, album, release_date, src, duration, language, likes, downloads, lyrics, label, play_count, music_mood
         FROM music
         WHERE id = #{id}
@@ -44,12 +44,12 @@
         SELECT COUNT(*)
         FROM music
     </select>
-    <select id="getMusicByPage" resultType="cn.edu.tongji.musicListen.model.Music">
+    <select id="getMusicByPage" resultType="music">
         SELECT *
         FROM music
         LIMIT #{startIndex}, #{pageSize}
     </select>
-    <select id="getAllMusic" resultType="cn.edu.tongji.musicListen.model.Music">
+    <select id="getAllMusic" resultType="music">
         SELECT *
         FROM music
     </select>
