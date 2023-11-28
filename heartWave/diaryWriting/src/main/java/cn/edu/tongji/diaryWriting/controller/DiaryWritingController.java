@@ -1,6 +1,7 @@
 package cn.edu.tongji.diaryWriting.controller;
 
 import cn.edu.tongji.diaryWriting.dto.AddDiaryWritingRequest;
+import cn.edu.tongji.diaryWriting.dto.DiaryWritingInfo;
 import cn.edu.tongji.diaryWriting.model.Diary;
 import cn.edu.tongji.diaryWriting.service.DiaryWritingService;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +59,25 @@ public class DiaryWritingController {
     }
 
     //用户修改随笔
+    // 更新日记的接口
+    @PutMapping("/put/{id}")
+    public ResponseEntity<String> updateDiary(@PathVariable int id, @RequestBody DiaryWritingInfo diary) {
+        //如果日记是已发布的状态，那么就把状态改为修改过了
+        if(diary.getCurrentStatus()==1){
+            diary.setCurrentStatus(3);
+        }
+        else if(diary.getCurrentStatus()==2){//如果日记是在草稿箱中未发布，那么还是保持状态2
+            diary.setCurrentStatus(2);
+        }
+        Date currentDate = new Date();
+        // 创建一个格式化日期的对象
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        // 将日期对象格式化成字符串
+        String dateString = df.format(currentDate);
+        diary.setUpdateTime(dateString);//设置更新时间
+        diaryWritingService.updateDiary(id,diary);
+        return ResponseEntity.ok("Diary updated successfully.");
 
+    }
 
 }

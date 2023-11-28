@@ -1,6 +1,7 @@
 package cn.edu.tongji.diaryWriting.mapper;
 
 import cn.edu.tongji.diaryWriting.dto.AddDiaryWritingRequest;
+import cn.edu.tongji.diaryWriting.dto.DiaryWritingInfo;
 import cn.edu.tongji.diaryWriting.model.Diary;
 import org.apache.ibatis.annotations.*;
 
@@ -29,7 +30,7 @@ public interface DiaryWritingMapper {
     @Select("SELECT COUNT(*) FROM diary")
     int getDiaryCount();
 
-    // 更新日记的方法
-    @Update("UPDATE diary SET content = #{content} WHERE id = #{id}")
-    int updateDiary(@Param("id") int id, @Param("content") String content);
+    // 更新日记的通用方法
+    @Update("UPDATE diary SET title = #{diary.title}, content = #{diary.content}, cover_img = #{diary.coverImg}, background_music = #{diary.backgroundMusic}, update_time = now(), current_status = #{diary.currentStatus}, permission = #{diary.permission} WHERE id = #{id}")
+    int updateDiary(@Param("id") int id, @Param("diary") DiaryWritingInfo diary);
 }

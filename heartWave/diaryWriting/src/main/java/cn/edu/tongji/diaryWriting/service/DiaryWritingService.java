@@ -1,6 +1,7 @@
 package cn.edu.tongji.diaryWriting.service;
 
 import cn.edu.tongji.diaryWriting.dto.AddDiaryWritingRequest;
+import cn.edu.tongji.diaryWriting.dto.DiaryWritingInfo;
 import cn.edu.tongji.diaryWriting.mapper.DiaryWritingMapper;
 import cn.edu.tongji.diaryWriting.model.Diary;
 import lombok.RequiredArgsConstructor;
@@ -33,10 +34,10 @@ public class DiaryWritingService {
         diaryWritingMapper.deleteDiaryById(id);
         return id;
     }
-
-    //查询指定用户的指定日记
-    public Diary getDiary(int id, int userId){
-        return diaryWritingMapper.getDiaryById(id,userId);
+    //更新日记内容
+    public int updateDiary(int id, DiaryWritingInfo diary){
+        diaryWritingMapper.updateDiary(id,diary);
+        return id;
     }
 
 }
