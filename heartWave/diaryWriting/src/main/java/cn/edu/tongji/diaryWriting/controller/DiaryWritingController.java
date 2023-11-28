@@ -35,7 +35,7 @@ public class DiaryWritingController {
         return ResponseEntity.ok(diaries);
     }
 
-    // 为指定用户创建新的日记
+    // 为指定用户创建新的日记（成功）
     @PostMapping("/add")
     public ResponseEntity<Integer> createDiary(@RequestBody AddDiaryWritingRequest diaryRequest) {
         Date currentDate = new Date();
@@ -50,4 +50,11 @@ public class DiaryWritingController {
         return ResponseEntity.ok(newDiaryId);
     }
 
+    //删除指定日记
+// 删除数据的方法
+    @DeleteMapping("/delete/{id}")
+    public int deleteDiaryByID(@PathVariable int id) {
+        // 根据id删除数据的逻辑处理
+        return diaryWritingService.deleteDiary(id);
+    }
 }

@@ -29,8 +29,9 @@ public class DiaryWritingService {
     }
 
     //删除日记的时候执行的函数
-    public void deleteDiary(int id, int userId) {
-        diaryWritingMapper.deleteDiaryById(id,userId);
+    public int deleteDiary(int id) {
+        diaryWritingMapper.deleteDiaryById(id);
+        return id;
     }
 
     //查询指定用户的指定日记

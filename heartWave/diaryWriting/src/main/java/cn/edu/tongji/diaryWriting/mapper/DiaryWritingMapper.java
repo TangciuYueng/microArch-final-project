@@ -14,8 +14,8 @@ public interface DiaryWritingMapper {
     void insertDiary(AddDiaryWritingRequest Diary);
 
     //删除日记
-    @Delete("DELETE FROM diary WHERE id = #{id} AND user_id=#{userId}")
-    void deleteDiaryById(int id,int userId);
+    @Delete("DELETE FROM diary WHERE id = #{id}")
+    void deleteDiaryById(int id);
 
     //根据id查询日记
     @Select("SELECT * FROM diary WHERE id = #{id} AND user_id=#{userId}")
