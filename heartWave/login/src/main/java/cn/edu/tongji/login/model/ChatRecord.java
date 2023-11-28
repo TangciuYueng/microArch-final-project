@@ -3,13 +3,15 @@ package cn.edu.tongji.login.model;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 public class ChatRecord {
     private Integer id;
     private Integer senderId;
     private Integer receiverId;
-    private String sendTime;
+    private LocalDateTime sendTime;
     private String content;
     private String type;
     private Boolean isDeleted;
