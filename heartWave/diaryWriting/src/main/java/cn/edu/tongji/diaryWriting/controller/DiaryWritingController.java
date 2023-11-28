@@ -22,7 +22,7 @@ public class DiaryWritingController {
         return "Heart wave!";
     }
 
-    // 获取指定用户的所有日记列表
+    // 获取指定用户的所有日记列表(成功)
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Diary>> getAllDiariesByUserId(@PathVariable("userId") int userId) {
         System.out.println(userId);
