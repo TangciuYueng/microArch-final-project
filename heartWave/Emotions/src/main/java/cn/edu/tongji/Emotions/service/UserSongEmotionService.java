@@ -11,30 +11,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserSongEmotionService {
+public interface UserSongEmotionService {
 
-    private final UserSongEmotionRepository userSongEmotionRepository;
+    public Page<UserSongEmotion> findAll(Pageable pageable) ;
+    public Optional<UserSongEmotion> findById(String id) ;
 
-    @Autowired
-    public UserSongEmotionService(UserSongEmotionRepository userSongEmotionRepository) {
-        this.userSongEmotionRepository = userSongEmotionRepository;
-    }
+    public UserSongEmotion save(UserSongEmotion userSongEmotion) ;
 
-    public Page<UserSongEmotion> findAll(Pageable pageable) {
-        return userSongEmotionRepository.findAll(pageable);
-    }
-
-    public Optional<UserSongEmotion> findById(String id) {
-        return userSongEmotionRepository.findById(id);
-    }
-
-    public UserSongEmotion save(UserSongEmotion userSongEmotion) {
-        return userSongEmotionRepository.save(userSongEmotion);
-    }
-
-    public void deleteById(String id) {
-        userSongEmotionRepository.deleteById(id);
-    }
+    public void deleteById(String id);
 
     // Additional business logic methods can be added here
 }

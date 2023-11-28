@@ -11,30 +11,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class DiaryEmotionService {
+public interface DiaryEmotionService {
 
-    private final DiaryEmotionRepository diaryEmotionRepository;
 
-    @Autowired
-    public DiaryEmotionService(DiaryEmotionRepository diaryEmotionRepository) {
-        this.diaryEmotionRepository = diaryEmotionRepository;
-    }
+    public Page<DiaryEmotion> findAll(Pageable pageable) ;
 
-    public Page<DiaryEmotion> findAll(Pageable pageable) {
-        return diaryEmotionRepository.findAll(pageable);
-    }
+    public Optional<DiaryEmotion> findById(String id) ;
 
-    public Optional<DiaryEmotion> findById(String id) {
-        return diaryEmotionRepository.findById(id);
-    }
+    public DiaryEmotion save(DiaryEmotion diaryEmotion);
 
-    public DiaryEmotion save(DiaryEmotion diaryEmotion) {
-        return diaryEmotionRepository.save(diaryEmotion);
-    }
+    public void deleteById(String id) ;
 
-    public void deleteById(String id) {
-        diaryEmotionRepository.deleteById(id);
-    }
-
-    // Additional business logic methods can be added here
 }

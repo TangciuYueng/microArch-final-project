@@ -2,6 +2,7 @@ package cn.edu.tongji.Emotions.controller;
 
 import cn.edu.tongji.Emotions.model.DiaryEmotion;
 import cn.edu.tongji.Emotions.service.DiaryEmotionService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,7 @@ import java.util.List;
 @RequestMapping("/api/diaryEmotions")
 public class DiaryEmotionController {
 
+    @Resource
     private final DiaryEmotionService diaryEmotionService;
 
     @Autowired
