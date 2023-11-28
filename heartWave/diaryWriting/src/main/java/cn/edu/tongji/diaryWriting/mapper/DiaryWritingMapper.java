@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface DiaryWritingMapper {
     //插入日记
-    @Insert("INSERT INTO diary (id, user_id, create_date, title, content, cover_img, background_music, permission) VALUES (#{id}, #{userId}, #{createDate}, #{title}, #{content}, #{coverImg}, #{backgroundMusic}, #{permission})")
+    @Insert("INSERT INTO diary (id, user_id, create_date,update_time,current_status, title, content, cover_img, background_music, permission) VALUES (#{id}, #{userId}, #{createDate},#{updateTime},#{currentStatus}, #{title}, #{content}, #{coverImg}, #{backgroundMusic}, #{permission})")
     void insertDiary(AddDiaryWritingRequest Diary);
 
     //删除日记
@@ -28,4 +28,8 @@ public interface DiaryWritingMapper {
     //获得目前表中一共有多少数据，用来生成diary表中数据的id
     @Select("SELECT COUNT(*) FROM diary")
     int getDiaryCount();
+
+    // 更新日记的方法
+    @Update("UPDATE diary SET content = #{content} WHERE id = #{id}")
+    int updateDiary(@Param("id") int id, @Param("content") String content);
 }

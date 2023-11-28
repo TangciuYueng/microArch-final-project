@@ -14,6 +14,8 @@ public class Diary {
     private int id;
     private int userId;
     private String createDate;
+    private String updateTime;
+    private int currentStatus;
     private String title;
     private String content;
     private String coverImg;

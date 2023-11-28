@@ -39,13 +39,13 @@ public class DiaryWritingController {
     @PostMapping("/add")
     public ResponseEntity<Integer> createDiary(@RequestBody AddDiaryWritingRequest diaryRequest) {
         Date currentDate = new Date();
-
         // 创建一个格式化日期的对象
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         // 将日期对象格式化成字符串
         String dateString = df.format(currentDate);
         diaryRequest.setCreateDate(dateString);
         System.out.println(diaryRequest.getCreateDate());
+        diaryRequest.setCurrentStatus(1);//1表示发布 2表示尚未发布在草稿箱中等待修改
         int newDiaryId = diaryWritingService.createDiary(diaryRequest);
         return ResponseEntity.ok(newDiaryId);
     }
@@ -56,4 +56,8 @@ public class DiaryWritingController {
         // 根据id删除数据的逻辑处理
         return diaryWritingService.deleteDiary(id);
     }
+
+    //用户修改随笔
+
+
 }

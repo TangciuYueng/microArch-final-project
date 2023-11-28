@@ -15,6 +15,8 @@ public class AddDiaryWritingRequest {
     private int userId;          //该日记创建者的账户id
 //    private Timestamp createDate;     //日记的创建日期
     private String createDate;
+    private String updateTime;
+    private int currentStatus;
     private String title;         //日记的标题
     private String content;       //日记的内容
     private String coverImg;     //日记的封面图片
