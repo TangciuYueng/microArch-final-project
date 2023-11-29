@@ -39,5 +39,11 @@ public class DiaryWritingService {
         diaryWritingMapper.updateDiary(id,diary);
         return id;
     }
+    //根据日记的id返回指定日记
+    public Diary getDiaryById(int Id) {
+//        System.out.println(userId);
+//        System.out.println(diaryWritingMapper.getDiariesByUserId(userId));
+        return diaryWritingMapper.getDiaryById(Id);
+    }
 
 }

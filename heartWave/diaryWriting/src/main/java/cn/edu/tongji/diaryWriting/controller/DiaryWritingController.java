@@ -63,12 +63,20 @@ public class DiaryWritingController {
     @PutMapping("/put/{id}")
     public ResponseEntity<String> updateDiary(@PathVariable int id, @RequestBody DiaryWritingInfo diary) {
         //如果日记是已发布的状态，那么就把状态改为修改过了
-        if(diary.getCurrentStatus()==1){
-            diary.setCurrentStatus(3);
+        Diary previousDiary=diaryWritingService.getDiaryById(id);
+//        System.out.println(previousDiary.getCurrentStatus());
+//        System.out.println(diary.getCurrentStatus());
+        if(diary.getCurrentStatus()==0){
+            if(previousDiary.getCurrentStatus()==1 || previousDiary.getCurrentStatus()==3){
+//            System.out.println(previousDiary.getCurrentStatus());
+                diary.setCurrentStatus(3);
+            }
+            else if(previousDiary.getCurrentStatus()==2){//如果日记是在草稿箱中未发布，那么还是保持状态2
+//            System.out.println(previousDiary.getCurrentStatus());
+                diary.setCurrentStatus(2);
+            }
         }
-        else if(diary.getCurrentStatus()==2){//如果日记是在草稿箱中未发布，那么还是保持状态2
-            diary.setCurrentStatus(2);
-        }
+
         Date currentDate = new Date();
         // 创建一个格式化日期的对象
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

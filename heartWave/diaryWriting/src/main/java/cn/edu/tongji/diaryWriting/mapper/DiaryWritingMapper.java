@@ -19,8 +19,8 @@ public interface DiaryWritingMapper {
     void deleteDiaryById(int id);
 
     //根据id查询日记
-    @Select("SELECT * FROM diary WHERE id = #{id} AND user_id=#{userId}")
-    Diary getDiaryById(int id, int userId);
+    @Select("SELECT * FROM diary WHERE id = #{id}")
+    Diary getDiaryById(int id);
 
     //根据用户id查询该用户的所有日记
     @Select("SELECT * FROM diary WHERE user_id = #{userId}")
