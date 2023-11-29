@@ -45,7 +45,7 @@ public class DiaryEmotionController {
     public ResponseEntity<?> createDiaryEmotion(@RequestBody DiaryEmotion diaryEmotion) {
         try {
             // 将diaryId从String转换为int
-            int diaryId = Integer.parseInt(diaryEmotion.getDiaryId());
+            int diaryId = diaryEmotion.getDiaryId();
 
             // 调用diaryServiceClient来检查diaryId是否存在
             ResponseEntity<?> response = diaryServiceClient.getDiaryById(diaryId);

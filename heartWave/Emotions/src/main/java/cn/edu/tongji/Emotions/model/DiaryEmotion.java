@@ -13,20 +13,20 @@ public class DiaryEmotion {
 
     @Id
     private String id;
-    private String userId;
-    private String diaryId;
+    private int userId;
+    private int diaryId;
     private LocalDateTime createTime;
-    private String sentiment;   // 可能的值例如 "positive", "neutral", "negative"
-    private double confidence;  // 置信度分数，通常在0到1之间
-    private double positive;    // 正面情绪得分
-    private double negative;    // 负面情绪得分
+    private int sentiment;
+    private float confidence;  // 置信度分数，通常在0到1之间
+    private float positive;    // 正面情绪得分
+    private float negative;    // 负面情绪得分
 
     // 无参构造函数
     public DiaryEmotion() {
     }
 
     // 带所有参数的构造函数
-    public DiaryEmotion(String id, String userId, String diaryId, LocalDateTime createTime, String sentiment, double confidence, double positive, double negative) {
+    public DiaryEmotion(String id, int userId, int diaryId, LocalDateTime createTime, int sentiment, float confidence, float positive, float negative) {
         this.id = id;
         this.userId = userId;
         this.diaryId = diaryId;
