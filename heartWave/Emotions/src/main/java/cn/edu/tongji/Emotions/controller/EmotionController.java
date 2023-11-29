@@ -45,7 +45,6 @@ public class EmotionController {
 
     @PostMapping
     public ResponseEntity<?> createEmotion(@RequestBody Emotion emotion) {
-
         try {
             // 调用 LoginService 来验证 userId 是否存在
             ResponseEntity<?> userResponse = loginServiceClient.getUserById(Integer.parseInt(emotion.getUserId()));
@@ -63,7 +62,6 @@ public class EmotionController {
             // 处理其他可能的异常，如网络问题或服务不可用
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while verifying user ID");
         }
-
     }
 
     @PutMapping("/{id}")

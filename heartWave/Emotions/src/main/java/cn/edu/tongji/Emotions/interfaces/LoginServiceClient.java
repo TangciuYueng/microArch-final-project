@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "login-service", path = "/api/user")
 public interface LoginServiceClient {
 
+
     @GetMapping("/{id}")
     ResponseEntity<?> getUserById(@PathVariable("id") int id);
 }
