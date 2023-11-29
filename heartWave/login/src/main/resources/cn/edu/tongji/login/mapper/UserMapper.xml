@@ -11,6 +11,10 @@
         SELECT * FROM user WHERE id = #{id};
     </select>
 
+    <select id="getByPhone" resultType="user">
+        SELECT * FROM user WHERE phone = #{phone};
+    </select>
+
     <insert id="add" parameterType="user" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO user(name, password, email, age, region, avatar, phone, gender)
         VALUES (#{name}, #{password}, #{email}, #{age}, #{region}, #{avatar}, #{phone}, #{gender})

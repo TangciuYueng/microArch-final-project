@@ -1,13 +1,13 @@
 package cn.edu.tongji.login.utils;
 
-
 import java.util.concurrent.ThreadLocalRandom;
 
-public class RandomSmsCode {
+public class SmsCodeGenerator {
     // 更适合并发环境的随机数生成器
-    private final static ThreadLocalRandom random = ThreadLocalRandom.current();
+    private final static ThreadLocalRandom generator = ThreadLocalRandom.current();
+
     public static String getCode() {
-        int code = random.nextInt(900000) + 100000;
+        int code = generator.nextInt(899999) + 100000;
         return String.valueOf(code);
     }
 

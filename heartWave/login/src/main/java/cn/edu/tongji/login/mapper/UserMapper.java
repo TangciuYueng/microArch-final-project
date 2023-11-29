@@ -12,6 +12,7 @@ import java.util.List;
 public interface UserMapper {
     List<User> getAll();
     User getById(@Param("id") int id);
+    User getByPhone(@Param("phone") String phone);
     int add(User user);
     int update(User user);
 }

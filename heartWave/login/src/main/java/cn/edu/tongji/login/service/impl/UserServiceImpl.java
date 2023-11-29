@@ -5,6 +5,7 @@ import cn.edu.tongji.login.dto.UpdateUserRequest;
 import cn.edu.tongji.login.dto.UserInfo;
 import cn.edu.tongji.login.mapper.UserMapper;
 import cn.edu.tongji.login.model.User;
+import cn.edu.tongji.login.service.EncryptService;
 import cn.edu.tongji.login.service.UserService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private EncryptService encryptService;
 
     @Override
     public List<User> getAllUsers() {
@@ -42,7 +45,7 @@ public class UserServiceImpl implements UserService {
     public User addUser(AddUserRequest addUserRequest) {
         User user = User.builder()
                 .name(addUserRequest.getName())
-                .password(addUserRequest.getPassword())
+                .password(encryptService.encryptPassword(addUserRequest.getPassword()))  //加密
                 .email(addUserRequest.getEmail())
                 .age(addUserRequest.getAge())
                 .region(addUserRequest.getRegion())
@@ -60,7 +63,7 @@ public class UserServiceImpl implements UserService {
         userMapper.update(User.builder()
                 .id(updateUserRequest.getId())
                 .name(updateUserRequest.getName())
-                .password(updateUserRequest.getPassword())
+                .password(encryptService.encryptPassword(updateUserRequest.getPassword()))
                 .email(updateUserRequest.getEmail())
                 .age(updateUserRequest.getAge())
                 .region(updateUserRequest.getRegion())
