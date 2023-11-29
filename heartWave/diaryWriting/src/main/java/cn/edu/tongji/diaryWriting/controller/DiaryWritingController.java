@@ -107,6 +107,7 @@ public class DiaryWritingController {
         return ResponseEntity.ok(diary);
     }
 
+    //获得指定id日记的情绪分析
     @GetMapping("/emotionAnalysis/{id}")
     public SentimentData getDiaryEmotion(@PathVariable("id") int id){
         Diary diary=diaryWritingService.getDiaryById(id);
