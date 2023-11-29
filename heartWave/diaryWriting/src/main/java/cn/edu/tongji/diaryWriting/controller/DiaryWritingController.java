@@ -2,7 +2,9 @@ package cn.edu.tongji.diaryWriting.controller;
 
 import cn.edu.tongji.diaryWriting.dto.AddDiaryWritingRequest;
 import cn.edu.tongji.diaryWriting.dto.DiaryWritingInfo;
+import cn.edu.tongji.diaryWriting.dto.SentimentData;
 import cn.edu.tongji.diaryWriting.model.Diary;
+import cn.edu.tongji.diaryWriting.service.BaiduSentimentAnalysis;
 import cn.edu.tongji.diaryWriting.service.DiaryWritingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DiaryWritingController {
     private final DiaryWritingService diaryWritingService;
-
+    private final BaiduSentimentAnalysis baiduSentimentAnalysis;
     //测试接口是否可以使用，事实证明通过http://localhost:8881/api/diary/test就可以获取到Heart wave!
     @RequestMapping("/test")
     public String test() {
@@ -105,5 +107,11 @@ public class DiaryWritingController {
         return ResponseEntity.ok(diary);
     }
 
+    @GetMapping("/emotionAnalysis/{id}")
+    public SentimentData getDiaryEmotion(@PathVariable("id") int id){
+        Diary diary=diaryWritingService.getDiaryById(id);
+        String content=diary.getContent();
+        return baiduSentimentAnalysis.sentimentAnalysis(content);
+    }
 
 }
