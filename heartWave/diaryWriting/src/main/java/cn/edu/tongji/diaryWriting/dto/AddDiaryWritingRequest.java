@@ -3,7 +3,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.security.Timestamp;
 
 @Data
 @AllArgsConstructor
@@ -13,7 +13,10 @@ import java.util.Date;
 public class AddDiaryWritingRequest {
     private int id;               //该日记在该用户的列表中的id
     private int userId;          //该日记创建者的账户id
-    private Date createDate;     //日记的创建日期
+//    private Timestamp createDate;     //日记的创建日期
+    private String createDate;
+    private String updateTime;
+    private int currentStatus;
     private String title;         //日记的标题
     private String content;       //日记的内容
     private String coverImg;     //日记的封面图片
