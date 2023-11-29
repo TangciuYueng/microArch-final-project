@@ -12,7 +12,7 @@ public class MusicEmotion {
 
     @Id
     private String id;
-    private String musicId;
+    private int musicId;
     private float dramatic;
     private float aggressive;
     private float romantic;
@@ -24,7 +24,7 @@ public class MusicEmotion {
     }
 
     // 带所有参数的构造函数
-    public MusicEmotion(String id, String musicId, float dramatic, float aggressive, float romantic, float happy, float sad) {
+    public MusicEmotion(String id, int musicId, float dramatic, float aggressive, float romantic, float happy, float sad) {
         this.id = id;
         this.musicId = musicId;
         this.dramatic = dramatic;

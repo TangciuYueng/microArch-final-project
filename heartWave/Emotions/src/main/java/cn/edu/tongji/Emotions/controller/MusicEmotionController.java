@@ -45,7 +45,7 @@ public class MusicEmotionController {
     public ResponseEntity<?> createMusicEmotion(@RequestBody MusicEmotion musicEmotion) {
         try {
             // 调用 LoginService 来验证 userId 是否存在
-            ResponseEntity<?> userResponse = musicServiceClient.getMusicById(Integer.parseInt(musicEmotion.getMusicId()));
+            ResponseEntity<?> userResponse = musicServiceClient.getMusicById(musicEmotion.getMusicId());
             // 检查用户是否存在
             if (userResponse.getStatusCode() == HttpStatus.OK) {
                 // 如果用户存在，保存并返回 CheckinEmotion
