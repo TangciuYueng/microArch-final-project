@@ -3,8 +3,11 @@ package cn.edu.tongji.musicListen.controller;
 import cn.edu.tongji.musicListen.model.Music;
 import cn.edu.tongji.musicListen.model.MusicComment;
 import cn.edu.tongji.musicListen.service.MusicCommentService;
+import com.alibaba.nacos.api.naming.pojo.healthcheck.impl.Http;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,16 +20,26 @@ public class MusicCommentController {
     private MusicCommentService musicCommentService;
 
     @GetMapping
-    public List<Music> getThisMusicComment(){return musicCommentService.getThisMusicComment();}
+    public ResponseEntity<?> getThisMusicComment(){
+
+        try {
+            return new ResponseEntity<>(musicCommentService.getThisMusicComment(), HttpStatus.OK);
+        } catch(Exception e){
+            e.printStackTrace();
+            String errMsg = "get this music comment failed";
+            return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @PostMapping
-    public int insertMusicComment(@RequestBody MusicComment musicComment){
+    public ResponseEntity<?> insertMusicComment(@RequestBody MusicComment musicComment){
         try {
             System.out.println("contrl" + musicComment);
-            return musicCommentService.insertMusicComment(musicComment);
+            return new ResponseEntity<>(musicCommentService.insertMusicComment(musicComment),HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return -1; // 或者根据实际情况返回适当的错误代码
+            String errMsg = "insert music comment failed";
+            return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

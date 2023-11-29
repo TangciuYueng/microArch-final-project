@@ -5,6 +5,8 @@ import cn.edu.tongji.musicListen.service.MusicListService;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -18,16 +20,13 @@ public class MusicListController {
     @Resource
     private MusicListService musicListService;
     @PostMapping
-    public int insertMusicList(@RequestBody MusicList musicList) {
+    public ResponseEntity<?> insertMusicList(@RequestBody MusicList musicList) {
         try {
-            System.out.println("contrl" + musicList);
-            return musicListService.insertMusicList(musicList);
+            return new ResponseEntity<>(musicListService.insertMusicList(musicList), HttpStatus.OK);
         } catch (Exception e) {
-            // 捕获异常并打印错误信息
             e.printStackTrace();
-            // 或者使用日志框架记录错误信息
-            // logger.error("Failed to insert music list", e);
-            return -1; // 或者根据实际情况返回适当的错误代码
+            String errMsg = "inset music list failed";
+            return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 //    @GetMapping

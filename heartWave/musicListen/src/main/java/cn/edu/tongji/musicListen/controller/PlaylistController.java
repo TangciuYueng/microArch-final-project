@@ -4,6 +4,8 @@ import cn.edu.tongji.musicListen.model.Playlist;
 import cn.edu.tongji.musicListen.service.PlaylistService;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,25 +20,36 @@ public class PlaylistController {
     public List<Playlist> getAllPlaylist(){return playlistService.getAllPlaylist();}
 
     @PostMapping
-    public int insertPlaylist(@RequestBody Playlist playlist){
+    public ResponseEntity<?> insertPlaylist(@RequestBody Playlist playlist){
         try {
-            System.out.println("contrl" + playlist);
-            return playlistService.insertPlaylist(playlist);
+            return new ResponseEntity<>(playlistService.insertPlaylist(playlist), HttpStatus.OK);
         } catch (Exception e) {
-            // 捕获异常并打印错误信息
             e.printStackTrace();
-            // 或者使用日志框架记录错误信息
-            // logger.error("Failed to insert playlist list", e);
-            return -1; // 或者根据实际情况返回适当的错误代码
+            String errMsg = "insert playlist failed";
+            return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     @PutMapping
-    public void updatePlaylist(@RequestBody Playlist playlist){
-        playlistService.updatePlaylist(playlist);
-    }
+    public ResponseEntity<?> updatePlaylist(@RequestBody Playlist playlist){
+        try {
+            playlistService.updatePlaylist(playlist);
+            return ResponseEntity.ok("update playlist successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+            String errMsg = "update playlist failed";
+            return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
+    }
     @DeleteMapping
-    public void deletePlaylist(int id){
-        playlistService.deletePlaylist(id);
+    public ResponseEntity<?> deletePlaylist(int id){
+        try {
+            playlistService.deletePlaylist(id);
+            return ResponseEntity.ok("delete playlist successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+            String errMsg = "delete playlist failed";
+            return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
