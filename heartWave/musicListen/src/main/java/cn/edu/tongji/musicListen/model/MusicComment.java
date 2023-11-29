@@ -13,7 +13,7 @@ public class MusicComment {
     private int id;
     private int senderId;
     private int musicId;
-    private String context;
+    private String content;
     private LocalDate sendTime;
-    private int likes;
+    private int likes;//点赞
 }

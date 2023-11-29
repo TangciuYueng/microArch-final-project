@@ -4,15 +4,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.tongji.musicListen.mapper.MusicCommentMapper">
     <insert id="insertMusicComment" parameterType="musicComment">
-        INSERT INTO music_comment (sender_id, music_id, context, send_time, likes)
-        VALUES (#{senderId}, #{musicId}, #{context}, #{sendTime}, #{likes})
+        INSERT INTO music_comment (sender_id, music_id, content, likes)
+        VALUES (#{senderId}, #{musicId}, #{content}, #{likes})
+    </insert>
+    <insert id="addCommentLikes">
+        UPDATE music_comment
+        SET likes = likes + #{val}
+        WHERE id = #{id};
     </insert>
     <update id="updateMusicComment" parameterType="musicComment">
         UPDATE music_comment
         <set>
             <if test="senderId != null">sender_id = #{senderId},</if>
             <if test="musicId != null">music_id = #{musicId},</if>
-            <if test="context != null">context = #{context},</if>
+            <if test="content != null">content = #{content},</if>
             <if test="sendTime != null">send_time = #{sendTime},</if>
             <if test="likes != null">likes = #{likes},</if>
         </set>
@@ -23,20 +28,21 @@
         WHERE id = #{id}
     </delete>
     <select id="selectMusicCommentById" parameterType="int" resultType="musicComment">
-        SELECT id, sender_id, music_id, context, send_time, likes
+        SELECT *
         FROM music_comment
         WHERE id = #{id}
     </select>
-    <select id="getAllMusicCommentCount" resultType="int">
+    <select id="getThisMusicCommentCount" resultType="java.lang.Integer">
         SELECT COUNT(*)
         FROM music_comment
+        WHERE music_id = #{id};
     </select>
-    <select id="getMusicCommentByPage" resultType="musicComment">
-        SELECT *
+    <select id="getCommentLikesCount" resultType="java.lang.Integer">
+        SELECT COALESCE(likes, 0) as likes
         FROM music_comment
-        LIMIT #{startIndex}, #{pageSize}
+        WHERE id = #{id};
     </select>
-<!--    <select id="getThisMusicCommentCount" resultType="java.lang.Integer">-->
+    <!--    <select id="getThisMusicCommentCount" resultType="java.lang.Integer">-->
 <!--        -->
 <!--    </select>-->
 </mapper>

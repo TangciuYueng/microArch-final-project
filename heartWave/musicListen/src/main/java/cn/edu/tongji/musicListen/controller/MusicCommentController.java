@@ -1,35 +1,66 @@
 package cn.edu.tongji.musicListen.controller;
 
-import cn.edu.tongji.musicListen.model.Music;
+
 import cn.edu.tongji.musicListen.model.MusicComment;
 import cn.edu.tongji.musicListen.service.MusicCommentService;
-import com.alibaba.nacos.api.naming.pojo.healthcheck.impl.Http;
 import jakarta.annotation.Resource;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
-@RequestMapping("/api/musiclisten/musiccomment")
-
+@RequestMapping("/api/music_listen/music_comment")
 public class MusicCommentController {
     @Resource
     private MusicCommentService musicCommentService;
-    // 获取一首歌的音乐评论
-    @GetMapping
-    public ResponseEntity<?> getThisMusicComment(){
+    // 1.通过音乐id获取一首歌的所有音乐评论
+    @GetMapping("/{musicId}")
+    public ResponseEntity<?> getThisMusicComment(@PathVariable("musicId") int id){
         try {
-            return new ResponseEntity<>(musicCommentService.getThisMusicComment(), HttpStatus.OK);
+            return new ResponseEntity<>(musicCommentService.selectMusicCommentById(id), HttpStatus.OK);
         } catch(Exception e){
             e.printStackTrace();
             String errMsg = "get this music comment failed";
             return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    // 给某首歌新增一条音乐评论
+    // 2.获取某条音乐评论的点赞数量
+    @GetMapping("likes_count/{id}")
+    public ResponseEntity<?> getCommentLikes(@PathVariable("id") int id){
+        try {
+            return new ResponseEntity<>(musicCommentService.getCommentLikesCount(id), HttpStatus.OK);
+        } catch(Exception e){
+            e.printStackTrace();
+            String errMsg = "get this music comment likes failed";
+            return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // 3.获取一首歌的评论数量
+    @GetMapping("/count/{musicId}")
+    public ResponseEntity<?> getMusicCommentCount(@PathVariable("musicId") int musicId){
+        try {
+            return new ResponseEntity<>(musicCommentService.getThisMusicCommentCount(musicId), HttpStatus.OK);
+        } catch(Exception e){
+            e.printStackTrace();
+            String errMsg = "get this music comment count failed";
+            return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    // 4.为某条音乐评论的点赞数加一个值
+    @PutMapping("/{id}/{val}")
+    public ResponseEntity<?> addCommentLikes(@PathVariable("id")int id,@PathVariable("val") int val){
+        try {
+            ResponseEntity chatRecordInfo = musicCommentService.addCommentLikes(id, val);
+            return new ResponseEntity<>(chatRecordInfo, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            String errMsg = "add music likes failed";
+            return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    // 5.给某首歌新增一条音乐评论
     @PostMapping
     public ResponseEntity<?> insertMusicComment(@RequestBody MusicComment musicComment){
         try {
@@ -41,9 +72,18 @@ public class MusicCommentController {
             return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    // 删除某条音乐评论
-//    @DeleteMapping
-//    public void deleteMusicComment(int id){
-//        musicCommentService.deleteMusicComment(id);
-//    }
+    // 6.通过音乐评论id删除某条音乐评论
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteMusicComment(@PathVariable("id") int id){
+        try{
+            musicCommentService.deleteMusicComment(id);
+            return ResponseEntity.ok("delete music comment successfully");
+        }catch (Exception e){
+            e.printStackTrace();
+            String errMsg = "delete music comment failed";
+            return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 }
