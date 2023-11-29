@@ -4,6 +4,7 @@ import cn.edu.tongji.diaryWriting.service.BaiduSentimentAnalysis;
 import jakarta.annotation.Resource;
 import okhttp3.*;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class BaiduSentimentAnalysisImpl implements BaiduSentimentAnalysis {
     @Resource
     private String content;  //表示准备进行分析的文本
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
 
         String API_KEY = "0SCnD9Cs92xQC2GH96k3yXBg";
         String SECRET_KEY = "B7AzqjzAK6AvxtdQTZfehDLp3yGwuHdX";
@@ -49,7 +50,23 @@ public class BaiduSentimentAnalysisImpl implements BaiduSentimentAnalysis {
             try {
                 Response response = client.newCall(request).execute();
                 String jsonResponse = response.body().string();
+
                 System.out.println(jsonResponse);
+                // 解析JSON响应
+                JSONObject jsonObject = new JSONObject(jsonResponse);
+                JSONArray itemsArray = jsonObject.getJSONArray("items");
+                //获取重要信息并且输出
+                if (itemsArray.length() > 0) {
+                    JSONObject item = itemsArray.getJSONObject(0);
+                    float confidence = item.getFloat("confidence");
+                    float negtiveProb=item.getFloat("negative_prob");
+                    float positiveProb=item.getFloat("positive_prob");
+                    int sentiment=item.getInt("sentiment");
+                    System.out.println("Confidence: " + confidence);
+                    System.out.println("Negative_Prob: " + negtiveProb);
+                    System.out.println("Positive_Prob: " + positiveProb);
+                    System.out.println("sentiment: " + sentiment);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
