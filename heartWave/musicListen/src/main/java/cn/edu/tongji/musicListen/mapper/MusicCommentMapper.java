@@ -13,7 +13,11 @@ public interface MusicCommentMapper {
     void deleteMusicComment(int id);
     // 通过音乐评论的id获取音乐评论
     MusicComment selectMusicCommentById(int id);
-    //获取这一首歌的评论数量
-//    int getThisMusicCommentCount(int musicId);
+    // 获取这一首歌的评论数量
+    int getThisMusicCommentCount(@Param("id") int musicId);
+    // 获取某条评论的点赞数量
+    int getCommentLikesCount(int id);
+    // 为某条音乐评论增加val条点赞数
+    void addCommentLikes(@Param("id") int id, @Param("val") int val);
 
 }
