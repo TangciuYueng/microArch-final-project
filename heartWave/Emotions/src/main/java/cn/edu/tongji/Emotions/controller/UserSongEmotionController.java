@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/emotion/serSongEmotions")
+@RequestMapping("/api/UserSongEmotions")
 public class UserSongEmotionController {
 
     @Resource

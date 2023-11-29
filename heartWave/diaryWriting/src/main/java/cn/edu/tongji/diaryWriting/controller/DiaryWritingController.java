@@ -94,8 +94,16 @@ public class DiaryWritingController {
 
     //根据日记的id获取日记信息
     @GetMapping("/diary/{id}")
-    public Diary getDiaryById(@PathVariable("id") int id){
-        return diaryWritingService.getDiaryById(id);
+    public ResponseEntity<?> getDiaryById(@PathVariable("id") int id) {
+        Diary diary = diaryWritingService.getDiaryById(id);
+
+        // 检查日记是否存在
+        if (diary == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(diary);
     }
+
 
 }

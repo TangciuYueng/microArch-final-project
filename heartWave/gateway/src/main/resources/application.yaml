@@ -24,7 +24,7 @@ spring:
                 POST
                 DELETE
                 PUT
-                OPTION
+                OPTIONS
       routes:
         - id: music-room-service
           uri: lb://music-room-service      # 按照注册在 nacos 上的服务名获取实例
@@ -50,7 +50,7 @@ spring:
         - id: emotion-service
           uri: lb://emotion-service
           predicates:
-            - Path=/api/emotion/**
+            - Path=/emotion/**
           filters:
             - StripPrefix=1
     nacos:
