@@ -5,13 +5,13 @@
 <mapper namespace="cn.edu.tongji.musicListen.mapper.PlaylistMapper">
     <insert id="insertPlaylist" parameterType="playlist">
         INSERT INTO Playlist (user_id, music_id)
-        VALUES (#{user_id}, #{music_id})
+        VALUES (#{userId}, #{musicId})
     </insert>
     <update id="updatePlaylist" parameterType="playlist">
         UPDATE Playlist
         <set>
-            <if test="user_id != null">user_id = #{user_id},</if>
-            <if test="music_id != null">theme = #{music_id},</if>
+            <if test="user_id != null">user_id = #{userId},</if>
+            <if test="music_id != null">theme = #{musicId},</if>
         </set>
         WHERE id = #{id}
     </update>

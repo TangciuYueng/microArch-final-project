@@ -4,20 +4,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.tongji.musicListen.mapper.MusicListMapper">
     <insert id="insertMusicList" parameterType="musicList">
-        INSERT INTO music_list (type)
-        VALUES (#{type})
+        INSERT INTO music_list (type,userId,music_id,create_date,listOrder,description,play_count,is_deleted)
+        VALUES (#{type},#{userId},#{musicId},#{createDate},#{listOrder},#{description},#{playCount},#{isDeleted})
     </insert>
     <update id="updateMusicList" parameterType="musicList">
         UPDATE music_list
         <set>
             <if test="type != null">type = #{type},</if>
-            <if test="user_id != null">user_id = #{user_id},</if>
-            <if test="music_id != null">music_id = #{music_id},</if>
-            <if test="create_date != null">create_date = #{create_date},</if>
-            <if test="list_order != null">list_order = #{list_order},</if>
+            <if test="user_id != null">user_id = #{userId},</if>
+            <if test="music_id != null">music_id = #{musicId},</if>
+            <if test="create_date != null">create_date = #{createDate},</if>
+            <if test="list_order != null">list_order = #{listOrder},</if>
             <if test="description != null">description = #{description},</if>
-            <if test="play_count != null">play_count = #{play_count},</if>
-            <if test="is_deleted != null">is_deleted = #{is_deleted},</if>
+            <if test="play_count != null">play_count = #{playCount},</if>
+            <if test="is_deleted != null">is_deleted = #{isDeleted},</if>
         </set>
         WHERE id = #{id}
     </update>

@@ -18,7 +18,7 @@
             <if test="genre != null">genre = #{genre},</if>
             <if test="artist != null">artist = #{artist},</if>
             <if test="album != null">album = #{album},</if>
-            <if test="release_date != null">release_date = #{release_date},</if>
+            <if test="release_date != null">release_date = #{releaseDate},</if>
             <if test="src != null">src = #{src},</if>
             <if test="duration != null">duration = #{duration},</if>
             <if test="language != null">language = #{language},</if>
@@ -26,8 +26,8 @@
             <if test="downloads != null">downloads = #{downloads},</if>
             <if test="lyrics != null">lyrics = #{lyrics},</if>
             <if test="label != null">label = #{label},</if>
-            <if test="play_count != null">play_count = #{play_count},</if>
-            <if test="music_mood != null">music_mood = #{music_mood},</if>
+            <if test="play_count != null">play_count = #{playCount},</if>
+            <if test="music_mood != null">music_mood = #{musicMood},</if>
         </set>
         WHERE id = #{id}
     </update>
