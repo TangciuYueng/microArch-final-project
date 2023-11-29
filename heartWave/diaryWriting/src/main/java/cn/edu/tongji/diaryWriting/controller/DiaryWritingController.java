@@ -86,8 +86,16 @@ public class DiaryWritingController {
 
     }
 
+    //获得某个用户的日记总数
     @GetMapping("/count/{userId}")
     public int getDiaryCount(@PathVariable("userId") int userId){
         return diaryWritingService.diaryCount(userId);
     }
+
+    //根据日记的id获取日记信息
+    @GetMapping("/diary/{id}")
+    public Diary getDiaryById(@PathVariable("id") int id){
+        return diaryWritingService.getDiaryById(id);
+    }
+
 }
