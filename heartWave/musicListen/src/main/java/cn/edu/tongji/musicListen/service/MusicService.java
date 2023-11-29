@@ -21,8 +21,11 @@ public interface MusicService {
     void updateMusic(Music music);
     // 通过音乐id删除一首歌
     void deleteMusic(int id);
-
-//    Music getMusicById(int id);
+    // 通过音乐id获取音乐
+    Music getMusicById(int id);
+    //获取所有音乐的数量
+    int getAllMusicCount();
     // 播放音乐
     void playMusic(int id);
+
 }

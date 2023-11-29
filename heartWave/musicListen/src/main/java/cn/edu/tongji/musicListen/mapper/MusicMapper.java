@@ -22,4 +22,5 @@ public interface MusicMapper {
     List<Music> getAllMusic();
     //获取部分音乐
     List<Music> getMusicByPage(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize);
+
 }

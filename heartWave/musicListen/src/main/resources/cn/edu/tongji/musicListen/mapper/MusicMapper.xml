@@ -5,7 +5,7 @@
 <mapper namespace="cn.edu.tongji.musicListen.mapper.MusicMapper">
     <insert id="insertMusic" parameterType="music">
         INSERT INTO music (title, type, writer, composer, producer, genre, artist, album, release_date, src, duration, language, likes, downloads, lyrics, label, play_count, music_mood)
-        VALUES (#{title}, #{type}, #{writer}, #{composer}, #{producer}, #{genre}, #{artist}, #{album}, #{release_date}, #{src}, #{duration}, #{language}, #{likes}, #{downloads}, #{lyrics}, #{label}, #{play_count}, #{music_mood})
+        VALUES (#{title}, #{type}, #{writer}, #{composer}, #{producer}, #{genre}, #{artist}, #{album}, #{releaseDate}, #{src}, #{duration}, #{language}, #{likes}, #{downloads}, #{lyrics}, #{label}, #{playCount}, #{musicMood})
     </insert>
     <update id="updateMusic" parameterType="music">
         UPDATE music

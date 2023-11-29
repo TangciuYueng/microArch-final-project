@@ -15,8 +15,20 @@ public class MusicController {
     @Resource
     private MusicService musicService;
 
+    //获取所有音乐
     @GetMapping
     public List<Music> getAllMusic(){return musicService.getAllMusic();}
+    //通过音乐id获取一首音乐
+    @GetMapping("/{id}")
+    public Music getMusicById(@PathVariable("id") int id){
+        return musicService.getMusicById(id);
+    }
+    //获取所有音乐的数量
+    @GetMapping("/count")
+    public int getAllMusicCount(){
+        return musicService.getAllMusicCount();
+    }
+
 
     @PostMapping
     public int insertMusic(@RequestBody Music music){
@@ -24,20 +36,18 @@ public class MusicController {
             System.out.println("contrl" + music);
             return musicService.insertMusic(music);
         } catch (Exception e) {
-            // 捕获异常并打印错误信息
             e.printStackTrace();
-            // 或者使用日志框架记录错误信息
-            // logger.error("Failed to insert music list", e);
             return -1; // 或者根据实际情况返回适当的错误代码
         }
     }
     @PutMapping
-    public void updateMusic(Music music){
+    public void updateMusic(@RequestBody Music music){
         musicService.updateMusic(music);
     }
 
-    @DeleteMapping
-    public void deleteMusic(int id){
+    //通过音乐id来删除一首歌
+    @DeleteMapping("/{id}")
+    public void deleteMusic(@PathVariable("id") int id){
         musicService.deleteMusic(id);
     }
 

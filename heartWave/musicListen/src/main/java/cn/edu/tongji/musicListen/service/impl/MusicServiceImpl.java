@@ -35,6 +35,17 @@ public class MusicServiceImpl implements MusicService {
         musicMapper.deleteMusic(id);
     }
 
+    // 通过音乐id获取音乐
+    @Override
+    public Music getMusicById(int id){
+        return musicMapper.selectMusicById(id);
+    }
+    //获取所有音乐的数量
+    @Override
+    public int getAllMusicCount(){
+        return musicMapper.getAllMusicCount();
+    }
+
     // 播放音乐
     @Override
     public void playMusic(int id){
@@ -68,4 +79,5 @@ public class MusicServiceImpl implements MusicService {
             e.printStackTrace();
         }
     }
+
 }

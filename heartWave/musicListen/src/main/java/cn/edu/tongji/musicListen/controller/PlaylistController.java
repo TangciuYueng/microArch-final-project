@@ -31,7 +31,7 @@ public class PlaylistController {
         }
     }
     @PutMapping
-    public void updatePlaylist(Playlist playlist){
+    public void updatePlaylist(@RequestBody Playlist playlist){
         playlistService.updatePlaylist(playlist);
     }
 

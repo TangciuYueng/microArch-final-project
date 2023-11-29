@@ -1,13 +1,9 @@
 package cn.edu.tongji.musicListen.controller;
 
+import cn.edu.tongji.musicListen.mapper.MusicMapper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
 public class Test {
-    @RequestMapping("/sjm")
-    public String Test(){
-        return "hello world!";
-    }
 
 }

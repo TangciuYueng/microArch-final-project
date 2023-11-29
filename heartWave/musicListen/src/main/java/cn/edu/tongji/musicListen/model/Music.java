@@ -1,14 +1,17 @@
 package cn.edu.tongji.musicListen.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Music {
     private int id;
     private String title;
@@ -19,7 +22,7 @@ public class Music {
     private String genre;
     private String artist;
     private String album; // 专辑
-    private LocalDate releaseDate;
+    private LocalDateTime releaseDate;
     private String src;
     private int duration;
     private String language;
