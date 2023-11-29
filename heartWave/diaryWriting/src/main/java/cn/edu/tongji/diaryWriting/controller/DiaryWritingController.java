@@ -88,4 +88,8 @@ public class DiaryWritingController {
 
     }
 
+    @GetMapping("/count/{userId}")
+    public int getDiaryCount(@PathVariable("userId") int userId){
+        return diaryWritingService.diaryCount(userId);
+    }
 }

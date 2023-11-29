@@ -46,4 +46,9 @@ public class DiaryWritingService {
         return diaryWritingMapper.getDiaryById(Id);
     }
 
+    //得到日记的指定用户日记的总量
+    public int diaryCount(int userId){
+        return diaryWritingMapper.getDiaryCount(userId);
+    }
+
 }
