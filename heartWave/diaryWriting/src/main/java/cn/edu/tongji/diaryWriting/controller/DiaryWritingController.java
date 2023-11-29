@@ -90,9 +90,11 @@ public class DiaryWritingController {
 
     //获得某个用户的日记总数
     @GetMapping("/count/{userId}")
-    public int getDiaryCount(@PathVariable("userId") int userId){
-        return diaryWritingService.diaryCount(userId);
+    public ResponseEntity<Integer> getDiaryCount(@PathVariable("userId") int userId) {
+        int count = diaryWritingService.diaryCount(userId);
+        return ResponseEntity.ok().body(count);
     }
+
 
     //根据日记的id获取日记信息
     @GetMapping("/diary/{id}")
@@ -109,10 +111,12 @@ public class DiaryWritingController {
 
     //获得指定id日记的情绪分析
     @GetMapping("/emotionAnalysis/{id}")
-    public SentimentData getDiaryEmotion(@PathVariable("id") int id){
-        Diary diary=diaryWritingService.getDiaryById(id);
-        String content=diary.getContent();
-        return baiduSentimentAnalysis.sentimentAnalysis(content);
+    public ResponseEntity<SentimentData> getDiaryEmotion(@PathVariable("id") int id) {
+        Diary diary = diaryWritingService.getDiaryById(id);
+        String content = diary.getContent();
+        SentimentData sentimentData = baiduSentimentAnalysis.sentimentAnalysis(content);
+        return ResponseEntity.ok().body(sentimentData);
     }
+
 
 }
