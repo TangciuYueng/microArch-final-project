@@ -4,19 +4,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.tongji.musicListen.mapper.PlaylistMapper">
     <insert id="insertPlaylist" parameterType="playlist">
-        INSERT INTO Playlist (user_id, music_id)
+        INSERT INTO playlist (user_id, music_id)
         VALUES (#{userId}, #{musicId})
     </insert>
     <update id="updatePlaylist" parameterType="playlist">
-        UPDATE Playlist
+        UPDATE playlist
         <set>
-            <if test="user_id != null">user_id = #{userId},</if>
-            <if test="music_id != null">theme = #{musicId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="musicId != null">music_id = #{musicId},</if>
         </set>
         WHERE id = #{id}
     </update>
     <delete id="deletePlaylist" parameterType="int">
-        DELETE FROM Playlist
+        DELETE FROM playlist
         WHERE id = #{id}
     </delete>
     <select id="selectPlaylistById" parameterType="int" resultType="playlist">
@@ -30,11 +30,11 @@
     </select>
     <select id="getPlaylistByPage" resultType="playlist">
         SELECT *
-        FROM Playlist
+        FROM playlist
         LIMIT #{startIndex}, #{pageSize}
     </select>
     <select id="getAllPlaylist" resultType="playlist">
         SELECT *
-        FROM Playlist
+        FROM playlist
     </select>
 </mapper>

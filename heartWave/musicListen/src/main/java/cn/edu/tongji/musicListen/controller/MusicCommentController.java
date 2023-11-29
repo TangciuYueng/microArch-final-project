@@ -18,10 +18,9 @@ import java.util.List;
 public class MusicCommentController {
     @Resource
     private MusicCommentService musicCommentService;
-
+    // 获取一首歌的音乐评论
     @GetMapping
     public ResponseEntity<?> getThisMusicComment(){
-
         try {
             return new ResponseEntity<>(musicCommentService.getThisMusicComment(), HttpStatus.OK);
         } catch(Exception e){
@@ -30,7 +29,7 @@ public class MusicCommentController {
             return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    // 给某首歌新增一条音乐评论
     @PostMapping
     public ResponseEntity<?> insertMusicComment(@RequestBody MusicComment musicComment){
         try {
@@ -42,7 +41,7 @@ public class MusicCommentController {
             return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    // 删除某条音乐评论
 //    @DeleteMapping
 //    public void deleteMusicComment(int id){
 //        musicCommentService.deleteMusicComment(id);

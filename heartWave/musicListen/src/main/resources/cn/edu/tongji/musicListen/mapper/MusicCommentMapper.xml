@@ -10,10 +10,10 @@
     <update id="updateMusicComment" parameterType="musicComment">
         UPDATE music_comment
         <set>
-            <if test="sender_id != null">sender_id = #{senderId},</if>
-            <if test="music_id != null">music_id = #{musicId},</if>
+            <if test="senderId != null">sender_id = #{senderId},</if>
+            <if test="musicId != null">music_id = #{musicId},</if>
             <if test="context != null">context = #{context},</if>
-            <if test="send_time != null">send_time = #{sendTime},</if>
+            <if test="sendTime != null">send_time = #{sendTime},</if>
             <if test="likes != null">likes = #{likes},</if>
         </set>
         WHERE id = #{id}

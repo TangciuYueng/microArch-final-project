@@ -11,13 +11,13 @@
         UPDATE music_list
         <set>
             <if test="type != null">type = #{type},</if>
-            <if test="user_id != null">user_id = #{userId},</if>
-            <if test="music_id != null">music_id = #{musicId},</if>
-            <if test="create_date != null">create_date = #{createDate},</if>
-            <if test="list_order != null">list_order = #{listOrder},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="musicId != null">music_id = #{musicId},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="listOrder != null">list_order = #{listOrder},</if>
             <if test="description != null">description = #{description},</if>
-            <if test="play_count != null">play_count = #{playCount},</if>
-            <if test="is_deleted != null">is_deleted = #{isDeleted},</if>
+            <if test="playCount != null">play_count = #{playCount},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
         </set>
         WHERE id = #{id}
     </update>

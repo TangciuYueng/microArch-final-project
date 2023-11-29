@@ -16,12 +16,22 @@ public class PlaylistController {
     @Resource
     private PlaylistService playlistService;
 
+    // 获取所有的playlist数据
     @GetMapping
-    public List<Playlist> getAllPlaylist(){return playlistService.getAllPlaylist();}
-
+    public ResponseEntity<?> getAllPlaylist(){
+        try {
+            return new ResponseEntity<>(playlistService.getAllPlaylist(), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            String errMsg = "insert playlist failed";
+            return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    // 插入一条playlist
     @PostMapping
     public ResponseEntity<?> insertPlaylist(@RequestBody Playlist playlist){
         try {
+            System.out.println("contrl" + playlist);
             return new ResponseEntity<>(playlistService.insertPlaylist(playlist), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -29,6 +39,7 @@ public class PlaylistController {
             return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    // 更新一条playlist的数据
     @PutMapping
     public ResponseEntity<?> updatePlaylist(@RequestBody Playlist playlist){
         try {
@@ -41,8 +52,9 @@ public class PlaylistController {
         }
 
     }
-    @DeleteMapping
-    public ResponseEntity<?> deletePlaylist(int id){
+    // 用playlist的id来删除一条playlist
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletePlaylist(@PathVariable("id")int id){
         try {
             playlistService.deletePlaylist(id);
             return ResponseEntity.ok("delete playlist successfully");
