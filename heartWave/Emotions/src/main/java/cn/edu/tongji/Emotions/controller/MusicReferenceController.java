@@ -24,24 +24,24 @@ public class MusicReferenceController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<MusicReference>> getAllMusicReferences(Pageable pageable) {
+    public ResponseEntity<Page<?>> getAllMusicReferences(Pageable pageable) {
         return ResponseEntity.ok(musicReferenceService.findAll(pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MusicReference> getMusicReferenceById(@PathVariable String id) {
+    public ResponseEntity<?> getMusicReferenceById(@PathVariable String id) {
         return musicReferenceService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<MusicReference> createMusicReference(@RequestBody MusicReference musicReference) {
+    public ResponseEntity<?> createMusicReference(@RequestBody MusicReference musicReference) {
         return ResponseEntity.ok(musicReferenceService.save(musicReference));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MusicReference> updateMusicReference(@PathVariable String id, @RequestBody MusicReference musicReference) {
+    public ResponseEntity<?> updateMusicReference(@PathVariable String id, @RequestBody MusicReference musicReference) {
         if (!musicReferenceService.findById(id).isPresent()) {
             return ResponseEntity.notFound().build();
         }
@@ -50,7 +50,7 @@ public class MusicReferenceController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMusicReference(@PathVariable String id) {
+    public ResponseEntity<?> deleteMusicReference(@PathVariable String id) {
         if (!musicReferenceService.findById(id).isPresent()) {
             return ResponseEntity.notFound().build();
         }

@@ -24,24 +24,24 @@ public class MusicEmotionController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<MusicEmotion>> getAllMusicEmotions(Pageable pageable) {
+    public ResponseEntity<Page<?>> getAllMusicEmotions(Pageable pageable) {
         return ResponseEntity.ok(musicEmotionService.findAll(pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MusicEmotion> getMusicEmotionById(@PathVariable String id) {
+    public ResponseEntity<?> getMusicEmotionById(@PathVariable String id) {
         return musicEmotionService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<MusicEmotion> createMusicEmotion(@RequestBody MusicEmotion musicEmotion) {
+    public ResponseEntity<?> createMusicEmotion(@RequestBody MusicEmotion musicEmotion) {
         return ResponseEntity.ok(musicEmotionService.save(musicEmotion));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MusicEmotion> updateMusicEmotion(@PathVariable String id, @RequestBody MusicEmotion musicEmotion) {
+    public ResponseEntity<?> updateMusicEmotion(@PathVariable String id, @RequestBody MusicEmotion musicEmotion) {
         if (!musicEmotionService.findById(id).isPresent()) {
             return ResponseEntity.notFound().build();
         }
@@ -50,7 +50,7 @@ public class MusicEmotionController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMusicEmotion(@PathVariable String id) {
+    public ResponseEntity<?> deleteMusicEmotion(@PathVariable String id) {
         if (!musicEmotionService.findById(id).isPresent()) {
             return ResponseEntity.notFound().build();
         }

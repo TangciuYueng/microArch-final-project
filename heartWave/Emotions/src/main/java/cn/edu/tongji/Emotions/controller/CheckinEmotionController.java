@@ -38,27 +38,27 @@ public class CheckinEmotionController {
 //        return restTemplate.getForObject("http://login-service/controller/test/", String.class);
 //    }
     @GetMapping
-    public ResponseEntity<Page<CheckinEmotion>> getAllCheckinEmotions(Pageable pageable) {
+    public ResponseEntity<Page<?>> getAllCheckinEmotions(Pageable pageable) {
         //System.out.println(loginServiceClient.test());
         return ResponseEntity.ok(checkinEmotionService.findAll(pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CheckinEmotion> getCheckinEmotionById(@PathVariable String id) {
+    public ResponseEntity<?> getCheckinEmotionById(@PathVariable String id) {
         return checkinEmotionService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/byUser/{id}")
-    public ResponseEntity<CheckinEmotion> getCheckinEmotionByUserId(@PathVariable String UserId) {
+    public ResponseEntity<?> getCheckinEmotionByUserId(@PathVariable String UserId) {
         return checkinEmotionService.findByUserId(UserId)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
     // 根据日期获取情绪打卡记录的接口
     @GetMapping("/byDate/{date}")
-    public ResponseEntity<List<CheckinEmotion>> getCheckinEmotionByDay(@PathVariable String date) {
+    public ResponseEntity<List<?>> getCheckinEmotionByDay(@PathVariable String date) {
         LocalDate parsedDate;
         try {
             parsedDate = LocalDate.parse(date);
@@ -75,7 +75,7 @@ public class CheckinEmotionController {
     }
 
     @GetMapping("/byDates/{date}")
-    public ResponseEntity<Page<CheckinEmotion>> getCheckinEmotionByDays(@PathVariable String date, Pageable pageable) {
+    public ResponseEntity<Page<?>> getCheckinEmotionByDays(@PathVariable String date, Pageable pageable) {
         LocalDate parsedDate;
         try {
             parsedDate = LocalDate.parse(date);

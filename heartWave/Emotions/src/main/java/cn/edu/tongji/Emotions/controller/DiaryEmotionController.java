@@ -30,12 +30,12 @@ public class DiaryEmotionController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<DiaryEmotion>> getAllDiaryEmotions(Pageable pageable) {
+    public ResponseEntity<Page<?>> getAllDiaryEmotions(Pageable pageable) {
         return ResponseEntity.ok(diaryEmotionService.findAll(pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DiaryEmotion> getDiaryEmotionById(@PathVariable String id) {
+    public ResponseEntity<?> getDiaryEmotionById(@PathVariable String id) {
         return diaryEmotionService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
