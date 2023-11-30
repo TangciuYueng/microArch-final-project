@@ -1,5 +1,6 @@
 package cn.edu.tongji.musicRoom.controller;
 
+import cn.edu.tongji.musicRoom.dto.CloseRequest;
 import cn.edu.tongji.musicRoom.dto.MusicRoomDTO;
 import cn.edu.tongji.musicRoom.dto.MusicRoomDetailed;
 import cn.edu.tongji.musicRoom.dto.MusicRoomInfo;
@@ -49,6 +50,17 @@ public class MusicRoomController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/close")
+    public ResponseEntity<?> closeMusicRoom(@RequestBody CloseRequest closeRequest) {
+        try {
+            musicRoomService.closeMusicRoom(closeRequest);
+            return new ResponseEntity<>(0, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(-1, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

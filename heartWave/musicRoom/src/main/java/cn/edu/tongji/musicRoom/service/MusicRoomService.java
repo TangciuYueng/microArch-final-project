@@ -1,5 +1,6 @@
 package cn.edu.tongji.musicRoom.service;
 
+import cn.edu.tongji.musicRoom.dto.CloseRequest;
 import cn.edu.tongji.musicRoom.dto.MusicRoomDTO;
 import cn.edu.tongji.musicRoom.dto.MusicRoomDetailed;
 import cn.edu.tongji.musicRoom.dto.MusicRoomInfo;
@@ -15,4 +16,6 @@ public interface MusicRoomService {
     MusicRoom createMusicRoom(MusicRoomDTO musicRoomDTO);
 
     MusicRoomDetailed getMusicRoomDetailed(int musicRoomId);
+
+    void closeMusicRoom(CloseRequest closeRequest);
 }

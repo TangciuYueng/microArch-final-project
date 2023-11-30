@@ -1,9 +1,6 @@
 package cn.edu.tongji.musicRoom.service.impl;
 
-import cn.edu.tongji.musicRoom.dto.MusicRoomDTO;
-import cn.edu.tongji.musicRoom.dto.MusicRoomDetailed;
-import cn.edu.tongji.musicRoom.dto.MusicRoomInfo;
-import cn.edu.tongji.musicRoom.dto.PublicityDTO;
+import cn.edu.tongji.musicRoom.dto.*;
 import cn.edu.tongji.musicRoom.mapper.AdminGroupMapper;
 import cn.edu.tongji.musicRoom.mapper.MusicRoomMapper;
 import cn.edu.tongji.musicRoom.mapper.MusicRoomMemberMapper;
@@ -104,5 +101,21 @@ public class MusicRoomServiceImpl implements MusicRoomService {
                 .build();
 
         return musicRoomDetailed;
+    }
+
+    @Override
+    public void closeMusicRoom(CloseRequest closeRequest) {
+        int musicRoomId = closeRequest.getMusicRoomId();
+        int operatorId = closeRequest.getOperatorId();
+        // 验证是否为音乐室管理员
+        List<AdminGroup> adminGroups = adminGroupMapper.getAdminGroupByMusicRoomId(musicRoomId);
+        if (!adminGroups.stream().anyMatch(adminGroup -> adminGroup.getUserId() == operatorId)) {
+            throw new IllegalArgumentException("Illegal insert, publicity don't allow");
+        }
+        // 所有成员退出
+        List<MusicRoomMember> musicRoomMembers = musicRoomMemberMapper.getMusicRoomMemberByMusicRoomId(musicRoomId);
+        for (MusicRoomMember musicRoomMember: musicRoomMembers) {
+            musicRoomMemberMapper.setStatus(musicRoomMember.getUserId(), "out");
+        }
     }
 }
