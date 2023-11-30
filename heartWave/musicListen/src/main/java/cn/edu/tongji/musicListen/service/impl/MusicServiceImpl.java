@@ -1,5 +1,6 @@
 package cn.edu.tongji.musicListen.service.impl;
 
+import cn.edu.tongji.musicListen.dto.MusicInfo;
 import cn.edu.tongji.musicListen.mapper.MusicMapper;
 import cn.edu.tongji.musicListen.model.Music;
 import cn.edu.tongji.musicListen.service.MusicService;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Service
 public class MusicServiceImpl implements MusicService {
+    private static final int PAGE_SIZE = 30;
     @Resource
     private MusicMapper musicMapper;
 
@@ -22,8 +24,17 @@ public class MusicServiceImpl implements MusicService {
         return musicMapper.insertMusic(music);
     }
     @Override
-    public List<Music> getAllMusic(){
-        return musicMapper.getAllMusic();
+    public MusicInfo getAllMusic(int page) {
+        int startIndex = (page - 1) * PAGE_SIZE;
+        List<Music> musics = musicMapper.getMusicByPage(startIndex, PAGE_SIZE);
+        int musicCount = musicMapper.getAllMusicCount();
+        int totalPage = (int) Math.ceil((double) musicCount / PAGE_SIZE);
+
+        return MusicInfo.builder()
+                .musics(musics)
+                .page(page)
+                .totalPage(totalPage)
+                .build();
     }
     @Override
     public void updateMusic(Music music){
@@ -51,6 +62,8 @@ public class MusicServiceImpl implements MusicService {
     public void playMusic(int id){
 
         // 通过音乐id获取音乐所在路径
+        Music music = getMusicById(id);
+//        String filePath = music.getSrc();
         String filePath = "\\D:\\大学学习资料\\大三上学期学习\\微服务架构\\microArch-final-project\\heartWave\\musicListen\\abc.wav\\";
 
         try {

@@ -14,4 +14,5 @@ public interface MusicListMapper {
     MusicList selectMusicListById(int id);
     int getAllMusicListCount();
     List<MusicList> getMusicListByPage(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize);
+    List<MusicList> getMusicListByUserId(int userId);
 }

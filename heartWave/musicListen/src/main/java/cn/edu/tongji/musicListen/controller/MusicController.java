@@ -1,5 +1,6 @@
 package cn.edu.tongji.musicListen.controller;
 
+import cn.edu.tongji.musicListen.dto.MusicInfo;
 import cn.edu.tongji.musicListen.model.Music;
 import cn.edu.tongji.musicListen.service.MusicService;
 import jakarta.annotation.Resource;
@@ -8,16 +9,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/musiclisten/music")
+@RequestMapping("/api/music_listen/music")
 public class MusicController {
     @Resource
     private MusicService musicService;
 
     //获取所有音乐
-    @GetMapping
-    public ResponseEntity<?> getAllMusic(){
+    @GetMapping("/by_page/{page}")
+    public ResponseEntity<?> getAllMusic(@PathVariable("page") int page){
         try{
-            return new ResponseEntity<>(musicService.getAllMusic(),HttpStatus.OK);
+            MusicInfo musicInfo = musicService.getAllMusic(page);
+            return new ResponseEntity<>(musicInfo, HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
             String errMsg = "get all music failed";
@@ -28,18 +30,18 @@ public class MusicController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getMusicById(@PathVariable("id") int id){
         try{
-            return new ResponseEntity<>(musicService.getMusicById(id),HttpStatus.OK);
+            return new ResponseEntity<>(musicService.getMusicById(id), HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
             String errMsg = "get music by id failed";
             return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    //获取所有音乐的数量
+    // 获取所有音乐的数量
     @GetMapping("/count")
     public ResponseEntity<?> getAllMusicCount(){
         try{
-            return new ResponseEntity<>(musicService.getAllMusicCount(),HttpStatus.OK);
+            return new ResponseEntity<>(musicService.getAllMusicCount(), HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
             String errMsg = "get the count of music failed";
@@ -51,7 +53,7 @@ public class MusicController {
     @PostMapping
     public ResponseEntity<?> insertMusic(@RequestBody Music music){
         try{
-            return new ResponseEntity<>(musicService.insertMusic(music),HttpStatus.OK);
+            return new ResponseEntity<>(musicService.insertMusic(music), HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
             String errMsg = "insert music failed";
