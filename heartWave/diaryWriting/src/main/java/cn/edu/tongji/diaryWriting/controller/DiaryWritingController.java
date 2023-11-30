@@ -7,6 +7,8 @@ import cn.edu.tongji.diaryWriting.model.Diary;
 import cn.edu.tongji.diaryWriting.service.BaiduSentimentAnalysis;
 import cn.edu.tongji.diaryWriting.service.DiaryWritingService;
 import lombok.RequiredArgsConstructor;
+import org.apache.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,10 +32,15 @@ public class DiaryWritingController {
 
     // 获取指定用户的所有日记列表(成功)
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Diary>> getAllDiariesByUserId(@PathVariable("userId") int userId) {
-        System.out.println(userId);
-        List<Diary> diaries = diaryWritingService.getAllDiariesByUserId(userId);
-        return ResponseEntity.ok(diaries);
+    public ResponseEntity<?> getAllDiariesByUserId(@PathVariable("userId") int userId) {
+        try{
+            System.out.println(userId);
+            List<Diary> diaries = diaryWritingService.getAllDiariesByUserId(userId);
+            return new ResponseEntity<>(diaries, HttpStatusCode.valueOf(HttpStatus.SC_OK));
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>("get diaries by user Id failed", HttpStatusCode.valueOf(HttpStatus.SC_INTERNAL_SERVER_ERROR));
+        }
     }
 
     // 为指定用户创建新的日记（成功）
@@ -99,14 +106,20 @@ public class DiaryWritingController {
     //根据日记的id获取日记信息
     @GetMapping("/diary/{id}")
     public ResponseEntity<?> getDiaryById(@PathVariable("id") int id) {
-        Diary diary = diaryWritingService.getDiaryById(id);
+        try {
+            Diary diary = diaryWritingService.getDiaryById(id);
 
-        // 检查日记是否存在
-        if (diary == null) {
-            return ResponseEntity.notFound().build();
+            // 检查日记是否存在
+            if (diary == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            return new ResponseEntity<>(diary, HttpStatusCode.valueOf(HttpStatus.SC_OK));
         }
-
-        return ResponseEntity.ok(diary);
+        catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>("get diaries by user Id failed", HttpStatusCode.valueOf(HttpStatus.SC_INTERNAL_SERVER_ERROR));
+        }
     }
 
     //获得指定id日记的情绪分析
