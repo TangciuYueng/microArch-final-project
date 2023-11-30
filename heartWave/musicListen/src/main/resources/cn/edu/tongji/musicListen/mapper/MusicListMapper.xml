@@ -39,4 +39,9 @@
         FROM music_list
         LIMIT #{startIndex}, #{pageSize}
     </select>
+    <select id="getMusicListByUserId" resultType="musicList">
+        SELECT *
+        FROM music_list
+        WHERE user_id = #{userId} AND is_deleted = 0
+    </select>
 </mapper>

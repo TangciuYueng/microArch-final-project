@@ -1,5 +1,6 @@
 package cn.edu.tongji.musicListen.service;
 
+import cn.edu.tongji.musicListen.dto.MusicInfo;
 import cn.edu.tongji.musicListen.mapper.MusicMapper;
 import cn.edu.tongji.musicListen.model.Music;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ public interface MusicService {
     //添加一首歌
     int insertMusic(Music music);
     //获取所有歌
-    List<Music> getAllMusic();
+    MusicInfo getAllMusic(int page);
     //更新一首歌的信息
     void updateMusic(Music music);
     // 通过音乐id删除一首歌
