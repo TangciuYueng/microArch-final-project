@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.tongji.musicListen.mapper.MusicMapper">
     <insert id="insertMusic" parameterType="music">
-        INSERT INTO music (title, type, writer, composer, producer, genre, artist, album, release_date, src, duration, language, likes, downloads, lyrics, label, play_count, music_mood)
-        VALUES (#{title}, #{type}, #{writer}, #{composer}, #{producer}, #{genre}, #{artist}, #{album}, #{releaseDate}, #{src}, #{duration}, #{language}, #{likes}, #{downloads}, #{lyrics}, #{label}, #{playCount}, #{musicMood})
+        INSERT INTO music (title, type, writer, composer, producer, genre, artist, album, release_date, src, duration, language, likes, downloads, lyrics, label, play_count, music_mood, storage_time)
+        VALUES (#{title}, #{type}, #{writer}, #{composer}, #{producer}, #{genre}, #{artist}, #{album}, #{releaseDate}, #{src}, #{duration}, #{language}, #{likes}, #{downloads}, #{lyrics}, #{label}, #{playCount}, #{musicMood}, #{storageTime})
     </insert>
     <update id="updateMusic" parameterType="music">
         UPDATE music
@@ -27,7 +27,7 @@
             <if test="lyrics != null">lyrics = #{lyrics},</if>
             <if test="label != null">label = #{label},</if>
             <if test="playCount != null">play_count = #{playCount},</if>
-            <if test="musicMood != null">music_mood = #{musicMood},</if>
+            <if test="storageTime != null">storage_time= #{storageTime},</if>
         </set>
         WHERE id = #{id}
     </update>
@@ -36,7 +36,7 @@
         WHERE id = #{id}
     </delete>
     <select id="selectMusicById" parameterType="int" resultType="music">
-        SELECT id, title, type, writer, composer, producer, genre, artist, album, release_date, src, duration, language, likes, downloads, lyrics, label, play_count, music_mood
+        SELECT id, title, type, writer, composer, producer, genre, artist, album, release_date, src, duration, language, likes, downloads, lyrics, label, play_count, music_mood, storage_time
         FROM music
         WHERE id = #{id}
     </select>
@@ -52,5 +52,10 @@
     <select id="getAllMusic" resultType="music">
         SELECT *
         FROM music
+    </select>
+    <select id="getNewMusicToday" resultType="cn.edu.tongji.musicListen.model.Music">
+        SELECT *
+        FROM music
+        WHERE storage_time BETWEEN (NOW() - INTERVAL 24 HOUR) AND NOW();
     </select>
 </mapper>

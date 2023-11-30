@@ -32,4 +32,5 @@ public class Music {
     private String label;
     private int playCount;
     private String musicMood;
+    private LocalDateTime storageTime;
 }

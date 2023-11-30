@@ -18,6 +18,8 @@ public interface MusicService {
     int insertMusic(Music music);
     //获取所有歌
     MusicInfo getAllMusic(int page);
+    // 获取当天新增的歌曲
+    List<Music> getNewMusicToday();
     //更新一首歌的信息
     void updateMusic(Music music);
     // 通过音乐id删除一首歌

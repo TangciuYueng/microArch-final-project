@@ -23,4 +23,6 @@ public interface MusicMapper {
     //获取部分音乐
     List<Music> getMusicByPage(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize);
 
+    // 获取当天新增的音乐
+    List<Music> getNewMusicToday();
 }

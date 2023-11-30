@@ -37,6 +37,10 @@ public class MusicServiceImpl implements MusicService {
                 .build();
     }
     @Override
+    public List<Music> getNewMusicToday(){
+        return musicMapper.getNewMusicToday();
+    }
+    @Override
     public void updateMusic(Music music){
         musicMapper.updateMusic(music);
     }

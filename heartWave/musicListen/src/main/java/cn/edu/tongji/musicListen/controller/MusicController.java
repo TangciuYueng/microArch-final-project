@@ -14,7 +14,7 @@ public class MusicController {
     @Resource
     private MusicService musicService;
 
-    //获取所有音乐
+    //获取所有音乐(分页)
     @GetMapping("/by_page/{page}")
     public ResponseEntity<?> getAllMusic(@PathVariable("page") int page){
         try{
@@ -26,7 +26,19 @@ public class MusicController {
             return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    //通过音乐id获取一首音乐
+
+    // 返回一天内新增的的音乐（需要给推荐微服务）
+    @GetMapping("/new")
+    public ResponseEntity<?> getNewMusicToday(){
+        try{
+            return new ResponseEntity<>(musicService.getNewMusicToday(), HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            String errMsg = "get new music today failed";
+            return new ResponseEntity<>(errMsg,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    // 通过音乐id获取一首音乐
     @GetMapping("/{id}")
     public ResponseEntity<?> getMusicById(@PathVariable("id") int id){
         try{
