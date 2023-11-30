@@ -43,3 +43,10 @@ mybatis:
   type-aliases-package: cn.edu.tongji.login.model
   configuration:
     map-underscore-to-camel-case: true  # 将下划线字段名转换为驼峰命名
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    health:
+      show-details: always

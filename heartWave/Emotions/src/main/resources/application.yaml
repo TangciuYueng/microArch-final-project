@@ -29,3 +29,10 @@ spring:
     mongodb:
       uri:  mongodb://emotions:microArch2023@120.26.0.232:27017/emotions
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    health:
+      show-details: always

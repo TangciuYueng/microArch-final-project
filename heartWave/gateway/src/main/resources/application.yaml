@@ -75,3 +75,10 @@ spring:
 #        context-path: /nacos
   application:
     name: gateway
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    health:
+      show-details: always

@@ -21,3 +21,10 @@ mybatis:
   type-aliases-package: cn.edu.tongji.musicRoom.model
   configuration:
     map-underscore-to-camel-case: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    health:
+      show-details: always
