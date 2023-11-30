@@ -4,6 +4,7 @@ import cn.edu.tongji.Emotions.interfaces.DiaryServiceClient;
 import cn.edu.tongji.Emotions.interfaces.LoginServiceClient;
 import cn.edu.tongji.Emotions.model.DiaryEmotion;
 import cn.edu.tongji.Emotions.service.DiaryEmotionService;
+import feign.FeignException;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -43,24 +44,24 @@ public class DiaryEmotionController {
 
     @PostMapping
     public ResponseEntity<?> createDiaryEmotion(@RequestBody DiaryEmotion diaryEmotion) {
+        int diaryId = 0;
         try {
-            // 将diaryId从String转换为int
-            int diaryId = diaryEmotion.getDiaryId();
-
-            // 调用diaryServiceClient来检查diaryId是否存在
+            diaryId = diaryEmotion.getDiaryId();
             ResponseEntity<?> response = diaryServiceClient.getDiaryById(diaryId);
 
-            // 检查日记是否存在（根据响应状态码）
             if (response.getStatusCode() != HttpStatus.OK) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Diary with ID " + diaryId + " not found");
             }
 
-            // 如果日记存在，则保存DiaryEmotion
             return ResponseEntity.ok(diaryEmotionService.save(diaryEmotion));
         } catch (NumberFormatException e) {
             return ResponseEntity.badRequest().body("Invalid diary ID format");
+        } catch (FeignException e) {
+            // 处理Feign客户端异常
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Diary with ID " + diaryId + " not found");
         }
     }
+
 
 
     @PutMapping("/{id}")

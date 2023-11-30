@@ -6,6 +6,10 @@ import cn.edu.tongji.musicListen.service.MusicListService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @Service
 public class MusicListServiceImpl implements MusicListService {
     @Resource
@@ -14,5 +18,20 @@ public class MusicListServiceImpl implements MusicListService {
     public int insertMusicList(MusicList musicList){
         System.out.println(musicList);
         return musicListMapper.insertMusicList(musicList);
+    }
+
+    @Override
+    public Map<String, List<MusicList>> getMusicListByUserId(int userId) {
+        var musicLists = musicListMapper.getMusicListByUserId(userId);
+        Map<String, List<MusicList>> typeMap = musicLists.stream()
+                .collect(Collectors.groupingBy(MusicList::getType));
+
+        // 打印结果
+        typeMap.forEach((type, list) -> {
+            System.out.println("Type: " + type);
+            list.forEach(System.out::println);
+            System.out.println("-----------");
+        });
+        return typeMap;
     }
 }

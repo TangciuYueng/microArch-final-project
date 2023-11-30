@@ -11,21 +11,34 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/musiclisten/musiclist")
+@RequestMapping("/api/music_listen/music_list")
 public class MusicListController {
 //    @Resource
 //    private List<MusicList> allMusicList = new ArrayList<>();
     @Resource
     private MusicListService musicListService;
+    // 插入一个musicList
     @PostMapping
     public ResponseEntity<?> insertMusicList(@RequestBody MusicList musicList) {
         try {
             return new ResponseEntity<>(musicListService.insertMusicList(musicList), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            String errMsg = "inset music list failed";
+            String errMsg = "insert music list failed";
+            return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    // 通过userid获取该用户创建的musicList
+    @GetMapping("/{userId}")
+    public  ResponseEntity<?> getMusicListByUserId(@PathVariable("userId") int userId){
+        try{
+            Map<String, List<MusicList>> musicLists = musicListService.getMusicListByUserId(userId);
+            return new ResponseEntity<>(musicLists, HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e){
+            String errMsg = "get music list failed";
             return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
