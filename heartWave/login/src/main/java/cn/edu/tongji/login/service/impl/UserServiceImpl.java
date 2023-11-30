@@ -1,12 +1,15 @@
 package cn.edu.tongji.login.service.impl;
 
 import cn.edu.tongji.login.dto.AddUserRequest;
+import cn.edu.tongji.login.dto.SmsInfo;
 import cn.edu.tongji.login.dto.UpdateUserRequest;
 import cn.edu.tongji.login.dto.UserInfo;
 import cn.edu.tongji.login.mapper.UserMapper;
 import cn.edu.tongji.login.model.User;
 import cn.edu.tongji.login.service.EncryptService;
+import cn.edu.tongji.login.service.SmsService;
 import cn.edu.tongji.login.service.UserService;
+import cn.edu.tongji.login.utils.SmsCodeGenerator;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +22,8 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Resource
     private EncryptService encryptService;
+    @Resource
+    private SmsService smsService;
 
     @Override
     public List<User> getAllUsers() {
@@ -72,5 +77,17 @@ public class UserServiceImpl implements UserService {
                 .gender(updateUserRequest.getGender())
                 .build()
         );
+    }
+
+    @Override
+    public boolean checkPhoneAvailable(String phone) {
+        return userMapper.getByPhone(phone).isEmpty();
+    }
+
+    @Override
+    public SmsInfo sendSmsCode(String phone) {
+        String code = SmsCodeGenerator.getCode();
+        boolean ifSend = smsService.sendSmsCode(code, phone);
+        return new SmsInfo(ifSend ? code : null, ifSend);
     }
 }

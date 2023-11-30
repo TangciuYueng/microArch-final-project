@@ -4,6 +4,7 @@ import cn.edu.tongji.login.dto.UserLoginRequest;
 import cn.edu.tongji.login.dto.VerifyInfo;
 import cn.edu.tongji.login.model.User;
 import cn.edu.tongji.login.service.LoginService;
+import cn.edu.tongji.login.service.SmsService;
 import jakarta.annotation.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
     @Resource
     private LoginService loginService;
+    @Resource
+    private SmsService smsService;
 
     @GetMapping("/user")
     public ResponseEntity<?> userLogin(@RequestBody UserLoginRequest userLoginRequest) {

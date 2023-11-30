@@ -1,6 +1,7 @@
 package cn.edu.tongji.login.controller;
 
 import cn.edu.tongji.login.dto.AddUserRequest;
+import cn.edu.tongji.login.dto.SmsInfo;
 import cn.edu.tongji.login.dto.UpdateUserRequest;
 import cn.edu.tongji.login.dto.UserInfo;
 import cn.edu.tongji.login.model.User;
@@ -123,6 +124,22 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("update user failed", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/sms/{phone}")
+    public ResponseEntity<?> sendSmsCode(@PathVariable("phone") String phone) {
+        try {
+            if (userService.checkPhoneAvailable(phone)) {
+                SmsInfo smsInfo = userService.sendSmsCode(phone);
+                return new ResponseEntity<>(smsInfo, HttpStatus.OK);
+            }
+            else {
+                return new ResponseEntity<>("this phone is already used, try another or login", HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("send sms code failed", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

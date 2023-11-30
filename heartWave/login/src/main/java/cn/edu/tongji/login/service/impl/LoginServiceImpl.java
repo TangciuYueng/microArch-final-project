@@ -10,6 +10,8 @@ import cn.edu.tongji.login.utils.VerifyGenerator;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class LoginServiceImpl implements LoginService {
     @Resource
@@ -20,10 +22,10 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public User checkUserLogin(UserLoginRequest userLoginRequest) {
         try {
-            User user = userMapper.getByPhone(userLoginRequest.getPhone());
+            List<User> users = userMapper.getByPhone(userLoginRequest.getPhone());
 
-            if (encryptService.passwordCmp(user.getPassword(), userLoginRequest.getPassword()))
-                return user;
+            if (encryptService.passwordCmp(users.get(0).getPassword(), userLoginRequest.getPassword()))
+                return users.get(0);
             else
                 return null;
         } catch (Exception e) {
