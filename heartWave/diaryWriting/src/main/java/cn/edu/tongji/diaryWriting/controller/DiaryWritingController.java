@@ -1,5 +1,6 @@
 package cn.edu.tongji.diaryWriting.controller;
 
+import cn.edu.tongji.Emotions.model.DiaryEmotion;
 import cn.edu.tongji.diaryWriting.dto.AddDiaryWritingRequest;
 import cn.edu.tongji.diaryWriting.dto.DiaryWritingInfo;
 import cn.edu.tongji.diaryWriting.dto.SentimentData;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -146,10 +148,19 @@ public class DiaryWritingController {
     @GetMapping("/emotionAnalysis/{id}")
     public ResponseEntity<?> getDiaryEmotion(@PathVariable("id") int id) {
         try{
-        Diary diary = diaryWritingService.getDiaryById(id);
-        String content = diary.getContent();
-        SentimentData sentimentData = baiduSentimentAnalysis.sentimentAnalysis(content);
-        return new ResponseEntity<>(sentimentData,HttpStatusCode.valueOf(HttpStatus.SC_OK));
+            //获取日记的id
+            Diary diary = diaryWritingService.getDiaryById(id);
+            //获取日记的内容
+            String content = diary.getContent();
+            DiaryEmotion diaryEmotion=baiduSentimentAnalysis.sentimentAnalysis(content);
+            // 生成当前时间的 LocalDateTime 对象
+            LocalDateTime currentTime = LocalDateTime.now();
+
+            diaryEmotion.setDiaryId(id);
+            diaryEmotion.setUserId(diary.getUserId());
+            diaryEmotion.setCreateTime(currentTime);
+//            SentimentData sentimentData = baiduSentimentAnalysis.sentimentAnalysis(content);
+            return new ResponseEntity<>(diaryEmotion,HttpStatusCode.valueOf(HttpStatus.SC_OK));
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>("analyze diaries emotion failed", HttpStatusCode.valueOf(HttpStatus.SC_INTERNAL_SERVER_ERROR));

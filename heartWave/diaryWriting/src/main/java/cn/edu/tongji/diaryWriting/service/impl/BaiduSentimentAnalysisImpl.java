@@ -1,6 +1,6 @@
 package cn.edu.tongji.diaryWriting.service.impl;
 
-import cn.edu.tongji.diaryWriting.dto.SentimentData;
+import cn.edu.tongji.Emotions.model.DiaryEmotion;
 import cn.edu.tongji.diaryWriting.service.BaiduSentimentAnalysis;
 //import jakarta.annotation.Resource;
 import okhttp3.*;
@@ -14,8 +14,8 @@ import java.io.IOException;
 //调用百度文本情感分析的接口实现对日记文本情绪的分析
 @Service
 public class BaiduSentimentAnalysisImpl implements BaiduSentimentAnalysis {
-    private SentimentData sentimentResult = new SentimentData();
-    public SentimentData sentimentAnalysis(String content){
+    private DiaryEmotion sentimentResult = new DiaryEmotion();
+    public DiaryEmotion sentimentAnalysis(String content){
         String API_KEY = "0SCnD9Cs92xQC2GH96k3yXBg";
         String SECRET_KEY = "B7AzqjzAK6AvxtdQTZfehDLp3yGwuHdX";
 
@@ -58,9 +58,9 @@ public class BaiduSentimentAnalysisImpl implements BaiduSentimentAnalysis {
                     System.out.println("Positive_Prob: " + positiveProb);
                     System.out.println("sentiment: " + sentiment);
                     sentimentResult.setSentiment(sentiment);
-                    sentimentResult.setNegativeProb(negativeProb);
+                    sentimentResult.setNegative(negativeProb);
                     sentimentResult.setConfidence(confidence);
-                    sentimentResult.setPositiveProb(positiveProb);
+                    sentimentResult.setPositive(positiveProb);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
