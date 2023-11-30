@@ -1,6 +1,7 @@
 package cn.edu.tongji.musicListen.controller;
 
 import cn.edu.tongji.musicListen.dto.MusicInfo;
+import cn.edu.tongji.musicListen.dto.MusicRoomSongRequest;
 import cn.edu.tongji.musicListen.model.Music;
 import cn.edu.tongji.musicListen.service.MusicService;
 import jakarta.annotation.Resource;
@@ -60,8 +61,6 @@ public class MusicController {
             return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-
     @PostMapping
     public ResponseEntity<?> insertMusic(@RequestBody Music music){
         try{
@@ -96,6 +95,13 @@ public class MusicController {
             return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-
+    @PostMapping("/music_room")
+    public ResponseEntity<?> addMusicRoomSong(@RequestBody MusicRoomSongRequest request) {
+        try {
+            musicService.addMusicRoomSong(request);
+            return ResponseEntity.ok(0);
+        } catch (Exception e) {
+            return new ResponseEntity<>(-1, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

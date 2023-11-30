@@ -1,10 +1,12 @@
 package cn.edu.tongji.musicListen.service;
 
 import cn.edu.tongji.musicListen.dto.MusicInfo;
+import cn.edu.tongji.musicListen.dto.MusicRoomSongRequest;
 import cn.edu.tongji.musicListen.mapper.MusicMapper;
 import cn.edu.tongji.musicListen.model.Music;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sound.sampled.*;
 import java.io.File;
@@ -30,5 +32,7 @@ public interface MusicService {
     int getAllMusicCount();
     // 播放音乐
     void playMusic(int id);
-
+    // 增加音乐室唱歌的记录
+    @Transactional
+    void addMusicRoomSong(MusicRoomSongRequest request);
 }

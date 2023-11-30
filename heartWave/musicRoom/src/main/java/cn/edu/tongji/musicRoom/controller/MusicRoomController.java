@@ -1,16 +1,14 @@
 package cn.edu.tongji.musicRoom.controller;
 
-import cn.edu.tongji.musicRoom.dto.CloseRequest;
-import cn.edu.tongji.musicRoom.dto.MusicRoomDTO;
-import cn.edu.tongji.musicRoom.dto.MusicRoomDetailed;
-import cn.edu.tongji.musicRoom.dto.MusicRoomInfo;
+import cn.edu.tongji.musicRoom.client.MusicListenServiceClient;
+import cn.edu.tongji.musicRoom.dto.*;
 import cn.edu.tongji.musicRoom.model.MusicRoom;
 import cn.edu.tongji.musicRoom.service.MusicRoomService;
 import jakarta.annotation.Resource;
-import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 public class MusicRoomController {
     @Resource
     private MusicRoomService musicRoomService;
+    @Autowired
+    private MusicListenServiceClient musicListenServiceClient;
 
     @PostMapping
     public ResponseEntity<?> createMusicRoom(@RequestBody MusicRoomDTO musicRoomDTO) {
@@ -58,6 +58,18 @@ public class MusicRoomController {
         try {
             musicRoomService.closeMusicRoom(closeRequest);
             return new ResponseEntity<>(0, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(-1, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/song")
+    @Transactional
+    public ResponseEntity<?> addMusicRoomSong(@RequestBody MusicRoomSongRequest request) {
+        try {
+            musicListenServiceClient.addMusicRoomSong(request);
+            return ResponseEntity.ok(0);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(-1, HttpStatus.INTERNAL_SERVER_ERROR);

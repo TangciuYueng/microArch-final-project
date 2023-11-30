@@ -1,8 +1,11 @@
 package cn.edu.tongji.musicListen.service.impl;
 
 import cn.edu.tongji.musicListen.dto.MusicInfo;
+import cn.edu.tongji.musicListen.dto.MusicRoomSongRequest;
+import cn.edu.tongji.musicListen.mapper.MusicListMapper;
 import cn.edu.tongji.musicListen.mapper.MusicMapper;
 import cn.edu.tongji.musicListen.model.Music;
+import cn.edu.tongji.musicListen.model.MusicList;
 import cn.edu.tongji.musicListen.service.MusicService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,8 @@ import java.util.List;
 @Service
 public class MusicServiceImpl implements MusicService {
     private static final int PAGE_SIZE = 30;
+    @Resource
+    private MusicListMapper musicListMapper;
     @Resource
     private MusicMapper musicMapper;
 
@@ -95,6 +100,26 @@ public class MusicServiceImpl implements MusicService {
         } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
             e.printStackTrace();
         }
+    }
+
+    // 增加音乐室唱歌记录
+    @Override
+    public void addMusicRoomSong(MusicRoomSongRequest request) {
+        // 构建 Music
+        Music music = Music.builder()
+                .type(request.getType())
+                .src(request.getSrc())
+                .language(request.getLanguage())
+                .build();
+        // 插入 music 表
+        int newId = musicMapper.insertMusic(music);
+        // 加入 music_list 表
+        MusicList musicList = MusicList.builder()
+                .musicId(newId)
+                .type("personal")
+                .userId(request.getUserId())
+                .build();
+        musicListMapper.insertMusicList(musicList);
     }
 
 }
