@@ -21,6 +21,8 @@ public class DiaryEmotionController {
 
     @Autowired
     private DiaryServiceClient diaryServiceClient;
+    @Autowired
+    private LoginServiceClient loginServiceClient;
 
     @Resource
     private final DiaryEmotionService diaryEmotionService;
@@ -44,23 +46,33 @@ public class DiaryEmotionController {
 
     @PostMapping
     public ResponseEntity<?> createDiaryEmotion(@RequestBody DiaryEmotion diaryEmotion) {
-        int diaryId = 0;
         try {
-            diaryId = diaryEmotion.getDiaryId();
-            ResponseEntity<?> response = diaryServiceClient.getDiaryById(diaryId);
+            // 首先，验证 userId 是否存在
+            ResponseEntity<?> userResponse = loginServiceClient.getUserById(diaryEmotion.getUserId());
+            if (userResponse.getStatusCode() != HttpStatus.OK) {
+                // 如果用户不存在
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with ID " + diaryEmotion.getUserId() + " not found");
+            }
 
-            if (response.getStatusCode() != HttpStatus.OK) {
+            // 接着，验证 diaryId 是否存在
+            int diaryId = diaryEmotion.getDiaryId();
+            ResponseEntity<?> diaryResponse = diaryServiceClient.getDiaryById(diaryId);
+            if (diaryResponse.getStatusCode() != HttpStatus.OK) {
+                // 如果日记不存在
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Diary with ID " + diaryId + " not found");
             }
 
+            // 如果 userId 和 diaryId 都存在，则保存并返回 DiaryEmotion
             return ResponseEntity.ok(diaryEmotionService.save(diaryEmotion));
         } catch (NumberFormatException e) {
-            return ResponseEntity.badRequest().body("Invalid diary ID format");
-        } catch (FeignException e) {
-            // 处理Feign客户端异常
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Diary with ID " + diaryId + " not found");
+            // 捕获格式错误异常
+            return ResponseEntity.badRequest().body("Invalid ID format");
+        } catch (Exception e) {
+            // 捕获并处理异常
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error during service call: " + e.getMessage());
         }
     }
+
 
 
 
