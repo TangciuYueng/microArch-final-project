@@ -36,7 +36,7 @@ public class MusicListController {
     public  ResponseEntity<?> getMusicListByUserId(@PathVariable("userId") int userId){
         try{
             Map<String, List<MusicList>> musicLists = musicListService.getMusicListByUserId(userId);
-            return new ResponseEntity<>(musicLists, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(musicLists, HttpStatus.OK);
         } catch (Exception e){
             String errMsg = "get music list failed";
             return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
