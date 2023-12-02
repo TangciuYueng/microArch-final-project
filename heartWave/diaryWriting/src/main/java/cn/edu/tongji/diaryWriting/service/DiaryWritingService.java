@@ -14,4 +14,5 @@ public interface DiaryWritingService {
     int updateDiary(int id, DiaryWritingInfo diary);
     Diary getDiaryById(int Id);
     int diaryCount(int userId);
+    List<Diary> getRecentDiaries();
 }

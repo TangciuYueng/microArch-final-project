@@ -33,4 +33,8 @@ public interface DiaryWritingMapper {
     // 更新日记的通用方法
     @Update("UPDATE diary SET title = #{diary.title}, content = #{diary.content}, cover_img = #{diary.coverImg}, background_music = #{diary.backgroundMusic}, update_time = now(), current_status = #{diary.currentStatus}, permission = #{diary.permission} WHERE id = #{id}")
     int updateDiary(@Param("id") int id, @Param("diary") DiaryWritingInfo diary);
+
+    //获得最近一个小时前新创建的所有日记
+    @Select("SELECT * FROM diary WHERE create_date >= #{oneHourAgoStr}")
+    List<Diary> getRecentDiaries(@Param("oneHourAgoStr") String oneHourAgoStr);
 }

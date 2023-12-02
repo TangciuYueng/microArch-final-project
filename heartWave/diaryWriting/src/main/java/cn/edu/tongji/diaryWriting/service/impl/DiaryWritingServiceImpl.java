@@ -9,6 +9,8 @@ import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -58,6 +60,16 @@ public class DiaryWritingServiceImpl implements DiaryWritingService {
     @Override
     public int diaryCount(int userId){
         return diaryWritingMapper.getDiaryCount(userId);
+    }
+
+    @Override
+    public List<Diary> getRecentDiaries(){
+        LocalDateTime oneHourAgo = LocalDateTime.now().minusHours(1);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String oneHourAgoStr = oneHourAgo.format(formatter);
+
+        return diaryWritingMapper.getRecentDiaries(oneHourAgoStr);
+
     }
 
 }

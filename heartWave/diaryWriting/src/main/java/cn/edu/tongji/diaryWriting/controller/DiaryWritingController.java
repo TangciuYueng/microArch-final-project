@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -167,5 +168,16 @@ public class DiaryWritingController {
         }
     }
 
+    //获取当前时间一个小时前新上传的所有日记
+    @GetMapping("/recentDiaries")
+    public ResponseEntity<?> getRecentDiaries(){
+        try{
+            List<Diary> recentDiaries=diaryWritingService.getRecentDiaries();
+            return new ResponseEntity<>(recentDiaries,HttpStatusCode.valueOf(HttpStatus.SC_OK));
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>("Get recent diaries failed", HttpStatusCode.valueOf(HttpStatus.SC_INTERNAL_SERVER_ERROR));
+        }
+    }
 
 }
