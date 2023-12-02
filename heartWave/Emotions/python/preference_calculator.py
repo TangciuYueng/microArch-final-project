@@ -66,12 +66,19 @@ def run_recommendation_algorithm(music_data, music_list_data):
     recommended_songs = hybrid_recommendation(1, 0)
     return recommended_songs
 
-
 def get_music_list_by_user_id(user_id):
     url = f"http://localhost:8888/api/music_listen/music_list/{user_id}"
     response = requests.get(url)
+
     if response.status_code == 500:
-        return response.json()  # 返回获取的数据
+        data = response.json()
+        # 过滤出type为'like'和'play'的条目
+        filtered_data = []
+        for category, items in data.items():
+            for item in items:
+                if item['type'] in ['like', 'play']:
+                    filtered_data.append(item)
+        return filtered_data
     else:
         print(f"Failed to fetch music_list data: {response.status_code}")
         return None
