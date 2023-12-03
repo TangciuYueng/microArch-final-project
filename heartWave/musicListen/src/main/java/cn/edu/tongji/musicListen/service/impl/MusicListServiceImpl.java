@@ -48,26 +48,24 @@ public class MusicListServiceImpl implements MusicListService {
         var musicLists = musicListMapper.getListenRecordListByUserId(userId);
 
         // 先得到 userId 和 musicId
-        List<PlayCount> playCounts = new ArrayList<>();
-        for (MusicList musicList: musicLists) {
-            playCounts.add(PlayCount.builder()
-                    .userId(musicList.getUserId())
-                    .musicId(musicList.getMusicId())
-                    .build());
-        }
+        List<PlayCount> playCounts = musicLists.stream()
+                .map(musicList -> PlayCount.builder()
+                        .userId(musicList.getUserId())
+                        .musicId(musicList.getMusicId())
+                        .build())
+                .collect(Collectors.toList());
 
         // 查询得到 PlayCount
         List<PlayCount> playCounts1 = playCountMapper.getByUserIdMusicId(playCounts);
 
         // 更改 playCount 为 playCount 里面的 play_count
-        for (MusicList musicList: musicLists) {
-            for (PlayCount playCount: playCounts1) {
-                if (musicList.getMusicId() == playCount.getMusicId()
-                    && musicList.getUserId() == playCount.getMusicId()) {
-                    musicList.setPlayCount(playCount.getPlayCount());
-                }
-            }
-        }
+        musicLists.forEach(musicList -> {
+            playCounts1.stream()
+                    .filter(playCount -> musicList.getMusicId() == playCount.getMusicId()
+                            && musicList.getUserId() == playCount.getUserId())
+                    .findFirst()
+                    .ifPresent(playCount -> musicList.setPlayCount(playCount.getPlayCount()));
+        });
 
         // 构造返回值
         Map<String, List<MusicList>> typeMap = musicLists.stream()
