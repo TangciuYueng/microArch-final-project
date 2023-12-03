@@ -1,12 +1,5 @@
-import pandas as pd
+#根据用户操作推荐音乐
 import requests
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
-from scipy.sparse import csr_matrix
-from sklearn.decomposition import TruncatedSVD
-
-
-
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -29,11 +22,11 @@ def run_recommendation_algorithm(music_data, music_list_data):
     tfidf_matrix = tfidf.fit_transform(music_df['combined_features'])
     cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
 
-    # 将互动类型转换为数值
+    # 将互动类型转换为数值，目前为人为定义
     def interaction_type_to_numeric(x):
-        if x == 'like':
+        if x == 'favour':
             return 1
-        elif x == 'play':
+        elif x == 'normal':
             return 0.5
         return 0
 
@@ -70,13 +63,14 @@ def get_music_list_by_user_id(user_id):
     url = f"http://localhost:8888/api/music_listen/music_list/{user_id}"
     response = requests.get(url)
 
-    if response.status_code == 500:
+    if response.status_code == 200:
         data = response.json()
-        # 过滤出type为'like'和'play'的条目
+        print(data)
+        # 过滤出type为'favour'和'normal'的条目
         filtered_data = []
         for category, items in data.items():
             for item in items:
-                if item['type'] in ['like', 'play']:
+                if item['type'] in ['favour', 'normal']:
                     filtered_data.append(item)
         return filtered_data
     else:

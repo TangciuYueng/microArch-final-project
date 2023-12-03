@@ -5,16 +5,34 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Getter
 @Setter
 @Document(collection = "music_references")
 public class MusicReference {
+    public enum Genres {
+        POP,
+        ROCK,
+        JAZZ,
+        CLASSICAL,
+        ELECTRONIC,
+        HIP_HOP,
+        RNB_SOUL,
+        COUNTRY,
+        LATIN,
+        METAL,
+        BLUES,
+        FOLK,
+        WORLD_MUSIC,
+        INDIE,
+        INSTRUMENTAL;
+    }
 
     @Id
     private String id;
     private String userId;
-    private String genre; // 音乐类型
+    private Map<Genres, Double> genre; // 音乐类型
     private LocalDateTime createTime; // 创建时间
 
     // 无参构造函数
@@ -22,7 +40,7 @@ public class MusicReference {
     }
 
     // 带所有参数的构造函数
-    public MusicReference(String id, String userId, String genre, LocalDateTime createTime) {
+    public MusicReference(String id, String userId, Map<Genres, Double> genre, LocalDateTime createTime) {
         this.id = id;
         this.userId = userId;
         this.genre = genre;
