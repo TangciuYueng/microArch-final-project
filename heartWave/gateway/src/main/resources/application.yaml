@@ -53,32 +53,5 @@ spring:
             - Path=/emotion/**
           filters:
             - StripPrefix=1
-    nacos:
-      # 服务注册与发现
-      discovery:
-        server-addr: 120.26.0.232:8848  # nacos地址
-        namespace: 2023                 # 命名空间ID
-        group: dev                      # 群组名称（自己设定，将服务进行逻辑分组）
-        username: nacos                 # 用户名
-        password: microArch2023         # 密码
-      # 拉取nacos配置中心文件
-      # 若不确定要不要拉取，可以先注释掉下面到datasource前两个config下的内容
-      # 注释了之后一定要把pom.xml里的spring-cloud-starter-alibaba-nacos-config依赖移除，否则会报错
-#      config:
-#        server-addr: 120.26.0.232:8848  # nacos地址
-#        namespace: 2023                 # 命名空间ID
-#        group: DEFAULT_GROUP            # 群组名称（自己设定，将服务进行逻辑分组）
-#        username: nacos                 # 用户名
-#        password: microArch2023         # 密码
-#        name: login-service             # 文件名（缺省则是微服务的名字）
-#        file-extension: yaml            # 文件后缀
-#        context-path: /nacos
   application:
     name: gateway
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-    health:
-      show-details: always

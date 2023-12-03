@@ -5,6 +5,26 @@ from sklearn.metrics.pairwise import cosine_similarity
 from scipy.sparse import csr_matrix
 import numpy as np
 
+
+def get_all_users():  #获取用户数据
+    url = "http://localhost:8887/api/user"  # 替换为您的API地址
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # 检查请求是否成功
+        users = response.json()
+        return users
+    except requests.exceptions.HTTPError as errh:
+        print(f"Http Error: {errh}")
+    except requests.exceptions.ConnectionError as errc:
+        print(f"Error Connecting: {errc}")
+    except requests.exceptions.Timeout as errt:
+        print(f"Timeout Error: {errt}")
+    except requests.exceptions.RequestException as err:
+        print(f"Error: {err}")
+
+
+
+
 # 模拟的音乐信息数据
 music_info = pd.DataFrame({
     'musicId': [101, 102, 103, 104, 105, 106, 107, 108, 109, 110],
@@ -51,6 +71,11 @@ def predict_genre_preferences(user_genre_matrix, user_similarity_matrix):
     return user_genre_preferences
 
 
+
+
+users = get_all_users()
+user_ids = [user['id'] for user in users]
+print(user_ids)
 # 示例
 user_genre_matrix = build_user_genre_matrix(user_actions, music_info)
 user_similarity_matrix = cosine_similarity(user_genre_matrix)
