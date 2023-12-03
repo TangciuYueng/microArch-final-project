@@ -100,6 +100,13 @@
                 <version>2022.0.0.0-RC2</version>
             </dependency>
 
+            <!-- Bootstrap启用 -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-bootstrap</artifactId>
+                <version>4.0.4</version>
+            </dependency>
+
             <!-- Spring Authorization Server -->
 <!--            <dependency>-->
 <!--                <groupId>org.springframework.boot</groupId>-->

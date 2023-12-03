@@ -7,7 +7,6 @@ import cn.edu.tongji.login.dto.UserInfo;
 import cn.edu.tongji.login.model.User;
 import cn.edu.tongji.login.service.UserService;
 import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.core.ParameterizedTypeReference;
@@ -29,28 +28,6 @@ public class UserController {
     private RestTemplate restTemplate;  //需要配置RestTemplate的Bean
     @Resource
     private DiscoveryClient discoveryClient;
-
-    @Value("${student.name}")
-    private String name;
-    @Value("${student.id}")
-    private Integer id;
-    @Value("${student.gender}")
-    private String gender;
-    @Value("${student.age}")
-    private Integer age;
-    @Value("${student.major}")
-    private String major;
-
-    @Override
-    public String toString() {
-        return "HelloController{" +
-                "name='" + name + '\'' +
-                ", id=" + id +
-                ", gender='" + gender + '\'' +
-                ", age=" + age +
-                ", major='" + major + '\'' +
-                '}';
-    }
 
     @RequestMapping("/hello")
     private String sayHello() {
@@ -76,11 +53,6 @@ public class UserController {
                 null,
                 new ParameterizedTypeReference<>() {}
         );
-    }
-
-    @RequestMapping("/config_test")
-    public String configTest() {
-        return toString();
     }
 
     @GetMapping
