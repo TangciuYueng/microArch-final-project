@@ -121,10 +121,14 @@ def run_recommendation_algorithm(music_data, music_list_data):
 
             # 计算混合推荐分数
             hybrid_score = (content_based_scores + collaborative_scores) / 2
-            user_recommendations.append((music_id, hybrid_score[user_index[0]]))
+            # 确保用户索引不超出范围
+            if user_index[0] < len(hybrid_score):
+                user_recommendations.append((music_id, hybrid_score[user_index[0]]))
+
+
 
         # 对结果进行排序并选择前10个推荐
-        user_recommendations = sorted(user_recommendations, key=lambda x: x[1], reverse=True)[:10]
+        user_recommendations = sorted(user_recommendations, key=lambda x: x[1], reverse=True)[:2]
         recommended_music_ids = [i[0] for i in user_recommendations]
 
         return music_df[music_df.index.isin(recommended_music_ids)].reset_index(drop=True)
