@@ -22,7 +22,7 @@ def run_recommendation_algorithm(music_data, music_list_data):
     tfidf_matrix = tfidf.fit_transform(music_df['combined_features'])
     cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
 
-    # 将互动类型转换为数值
+    # 将互动类型转换为数值，目前为人为定义
     def interaction_type_to_numeric(x):
         if x == 'favour':
             return 1
