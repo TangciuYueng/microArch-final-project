@@ -28,7 +28,7 @@ def build_user_genre_matrix(user_actions, music_info):
     merged_data = pd.merge(user_actions, music_info, on='musicId')
 
     # 将 'favour' 和 'normal' 转换为数值，并考虑听歌次数
-    merged_data['weighted_interaction'] = merged_data.apply(lambda x: (2 if x['interaction'] == 'favour' else 1) * x['listenRecord'], axis=1)
+    merged_data['weighted_interaction'] = merged_data.apply(lambda x: (2 if x['interaction'] == 'favour' else 1) * (1 + x['listenRecord']), axis=1)
 
     # 构建用户-流派矩阵
     user_genre_matrix = pd.pivot_table(merged_data, index='userId', columns='genre', values='weighted_interaction', aggfunc='sum', fill_value=0)
