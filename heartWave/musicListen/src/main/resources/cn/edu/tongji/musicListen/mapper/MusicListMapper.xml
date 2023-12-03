@@ -44,4 +44,9 @@
         FROM music_list
         WHERE user_id = #{userId} AND is_deleted = 0
     </select>
+    <select id="getListenRecordListByUserId" resultType="musicList">
+        SELECT *
+        FROM music_list
+        WHERE user_id = #{userId} AND is_deleted = 0 AND type = "listenRecord"
+    </select>
 </mapper>

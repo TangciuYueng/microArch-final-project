@@ -34,4 +34,20 @@ public class MusicListServiceImpl implements MusicListService {
         });
         return typeMap;
     }
+
+    @Override
+    public Map<String, List<MusicList>> getListenRecordListByUserId(int userId) {
+        var musicLists = musicListMapper.getListenRecordListByUserId(userId);
+        Map<String, List<MusicList>> typeMap = musicLists.stream()
+                .collect(Collectors.groupingBy(MusicList::getType));
+
+        // 打印结果
+        typeMap.forEach((type, list) -> {
+            System.out.println("Type2: " + type);
+            list.forEach(System.out::println);
+            System.out.println("-----------");
+        });
+        return typeMap;
+    }
+
 }

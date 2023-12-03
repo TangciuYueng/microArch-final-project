@@ -42,8 +42,15 @@ public class MusicListController {
             return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-//    @GetMapping
-//    public List<MusicList> getAllMusicLists() {
-//        return allMusicList;
-//    }
+    // 通过userId获取某用户播放记录歌单
+    @GetMapping("listen_record/{userId}")
+    public  ResponseEntity<?> getListenRecordListByUserId(@PathVariable("userId") int userId){
+        try{
+            Map<String, List<MusicList>> musicLists = musicListService.getListenRecordListByUserId(userId);
+            return new ResponseEntity<>(musicLists, HttpStatus.OK);
+        } catch (Exception e){
+            String errMsg = "get music list failed";
+            return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

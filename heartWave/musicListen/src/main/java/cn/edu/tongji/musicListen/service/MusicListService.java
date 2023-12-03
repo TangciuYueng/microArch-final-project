@@ -14,4 +14,7 @@ public interface MusicListService {
     int insertMusicList(MusicList musicList);
 
     Map<String, List<MusicList>> getMusicListByUserId(int userId);
+
+    Map<String, List<MusicList>> getListenRecordListByUserId(int userId);
+
 }

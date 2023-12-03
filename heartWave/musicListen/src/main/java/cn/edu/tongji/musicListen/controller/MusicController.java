@@ -61,9 +61,12 @@ public class MusicController {
             return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    // 添加一首歌
     @PostMapping
     public ResponseEntity<?> insertMusic(@RequestBody Music music){
         try{
+            System.out.println("corol:"+ music);
             return new ResponseEntity<>(musicService.insertMusic(music), HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
@@ -71,6 +74,7 @@ public class MusicController {
             return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    // 更改一首歌的信息
     @PutMapping
     public ResponseEntity<?> updateMusic(@RequestBody Music music){
         try{

@@ -1,5 +1,6 @@
 package cn.edu.tongji.musicListen.mapper;
 
+import cn.edu.tongji.musicListen.dto.MusicInfo;
 import cn.edu.tongji.musicListen.model.MusicList;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -15,4 +16,6 @@ public interface MusicListMapper {
     int getAllMusicListCount();
     List<MusicList> getMusicListByPage(@Param("startIndex") int startIndex, @Param("pageSize") int pageSize);
     List<MusicList> getMusicListByUserId(int userId);
+
+    List<MusicList> getListenRecordListByUserId(int userId);
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.tongji.musicListen.mapper.PlayCountMapper">
+    <insert id="insertPlayCount" parameterType="playCount">
+        INSERT INTO play_count (user_id, music_id, play_count)
+        VALUES (#{userId}, #{musicId}, #{playCount})
+    </insert>
+    <select id="getListenRecordListByUserId" resultType="playCount">
+        SELECT *
+        FROM play_count
+        WHERE user_id = #{userId}
+    </select>
+</mapper>
