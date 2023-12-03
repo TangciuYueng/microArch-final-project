@@ -7,6 +7,22 @@
         INSERT INTO music_list (type,user_id,music_id,create_date,list_order,description,play_count,is_deleted)
         VALUES (#{type},#{userId},#{musicId},#{createDate},#{listOrder},#{description},#{playCount},#{isDeleted})
     </insert>
+    <insert id="batchInsertMusicList" useGeneratedKeys="true" keyProperty="id" parameterType="list">
+        INSERT INTO music_list(type, user_id, music_id, description) VALUES
+        <foreach collection="musicLists" item="musicList" separator=",">
+            (
+            #{musicList.type},
+            #{musicList.userId},
+            #{musicList.musicId},
+            <if test="musicList.description != null">
+                #{musicList.description}
+            </if>
+            <if test="musicList.description == null">
+                NULL
+            </if>
+            )
+        </foreach>
+    </insert>
     <update id="updateMusicList" parameterType="musicList">
         UPDATE music_list
         <set>
@@ -48,5 +64,13 @@
         SELECT *
         FROM music_list
         WHERE user_id = #{userId} AND is_deleted = 0 AND type = "listenRecord"
+    </select>
+    <select id="getGeneratedIds" resultType="integer" parameterType="list">
+        SELECT id FROM music_list
+        WHERE id
+        IN
+        <foreach collection="musicLists" item="musicList" separator="," open="(" close=")">
+            #{musicList.id}
+        </foreach>
     </select>
 </mapper>

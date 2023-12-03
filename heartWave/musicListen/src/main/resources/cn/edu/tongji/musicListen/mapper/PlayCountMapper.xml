@@ -12,4 +12,12 @@
         FROM play_count
         WHERE user_id = #{userId}
     </select>
+    <select id="getByUserIdMusicId" resultType="cn.edu.tongji.musicListen.model.PlayCount">
+        SELECT *
+        FROM play_count
+        WHERE (user_id, music_id) IN
+        <foreach collection="playCounts" item="playCount" separator="," open="(" close=")">
+            (#{playCount.userId}, #{playCount.musicId})
+        </foreach>
+    </select>
 </mapper>

@@ -1,5 +1,6 @@
 package cn.edu.tongji.musicListen.controller;
 
+import cn.edu.tongji.musicListen.dto.MultiMusicMusicListRequest;
 import cn.edu.tongji.musicListen.model.MusicList;
 import cn.edu.tongji.musicListen.service.MusicListService;
 import jakarta.annotation.Resource;
@@ -43,14 +44,26 @@ public class MusicListController {
         }
     }
     // 通过userId获取某用户播放记录歌单
-    @GetMapping("listen_record/{userId}")
+    @GetMapping("/listen_record/{userId}")
     public  ResponseEntity<?> getListenRecordListByUserId(@PathVariable("userId") int userId){
         try{
             Map<String, List<MusicList>> musicLists = musicListService.getListenRecordListByUserId(userId);
             return new ResponseEntity<>(musicLists, HttpStatus.OK);
         } catch (Exception e){
+            e.printStackTrace();
             String errMsg = "get music list failed";
             return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    // 多首歌创建歌单
+    @PostMapping("/musics")
+    public ResponseEntity<?> insertMusicList(@RequestBody MultiMusicMusicListRequest request) {
+        try {
+            List<Integer> musicListIds = musicListService.insertMusicList(request);
+            return ResponseEntity.ok(musicListIds);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
         }
     }
 }

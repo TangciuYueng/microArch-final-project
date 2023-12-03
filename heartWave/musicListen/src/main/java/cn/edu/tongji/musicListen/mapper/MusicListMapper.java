@@ -18,4 +18,8 @@ public interface MusicListMapper {
     List<MusicList> getMusicListByUserId(int userId);
 
     List<MusicList> getListenRecordListByUserId(int userId);
+
+    void batchInsertMusicList(@Param("musicLists") List<MusicList> musicLists);
+
+    List<Integer> getGeneratedIds(@Param("musicLists") List<MusicList> musicLists);
 }

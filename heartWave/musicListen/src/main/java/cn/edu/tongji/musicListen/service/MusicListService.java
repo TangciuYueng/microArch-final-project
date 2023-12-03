@@ -1,6 +1,7 @@
 package cn.edu.tongji.musicListen.service;
 
 
+import cn.edu.tongji.musicListen.dto.MultiMusicMusicListRequest;
 import cn.edu.tongji.musicListen.model.MusicList;
 import org.springframework.stereotype.Service;
 
@@ -17,4 +18,5 @@ public interface MusicListService {
 
     Map<String, List<MusicList>> getListenRecordListByUserId(int userId);
 
+    List<Integer> insertMusicList(MultiMusicMusicListRequest request);
 }
