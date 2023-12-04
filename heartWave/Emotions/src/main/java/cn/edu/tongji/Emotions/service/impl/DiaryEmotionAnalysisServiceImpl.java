@@ -1,9 +1,13 @@
-package cn.edu.tongji.diaryWriting.service.impl;
+package cn.edu.tongji.Emotions.service.impl;
 
 import cn.edu.tongji.Emotions.model.DiaryEmotion;
-import cn.edu.tongji.diaryWriting.service.BaiduSentimentAnalysis;
-//import jakarta.annotation.Resource;
-import okhttp3.*;
+import cn.edu.tongji.Emotions.service.DiaryEmotionAnalysisService;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.Request;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,9 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-//调用百度文本情感分析的接口实现对日记文本情绪的分析
 @Service
-public class BaiduSentimentAnalysisImpl implements BaiduSentimentAnalysis {
+public class DiaryEmotionAnalysisServiceImpl implements DiaryEmotionAnalysisService {
     private final DiaryEmotion sentimentResult = new DiaryEmotion();
     public DiaryEmotion sentimentAnalysis(String content){
         String API_KEY = "0SCnD9Cs92xQC2GH96k3yXBg";
