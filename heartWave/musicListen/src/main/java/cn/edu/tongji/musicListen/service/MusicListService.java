@@ -2,6 +2,7 @@ package cn.edu.tongji.musicListen.service;
 
 
 import cn.edu.tongji.musicListen.dto.MultiMusicMusicListRequest;
+import cn.edu.tongji.musicListen.dto.MusicListId;
 import cn.edu.tongji.musicListen.model.MusicList;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +13,11 @@ import java.util.Map;
 
 public interface MusicListService {
 
-    int insertMusicList(MusicList musicList);
+    MusicListId insertMusicList(MusicList musicList);
 
     Map<String, List<MusicList>> getMusicListByUserId(int userId);
 
     Map<String, List<MusicList>> getListenRecordListByUserId(int userId);
 
-    List<Integer> insertMusicList(MultiMusicMusicListRequest request);
+    List<MusicListId> insertMusicList(MultiMusicMusicListRequest request);
 }

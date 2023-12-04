@@ -1,16 +1,14 @@
 package cn.edu.tongji.musicListen.controller;
 
 import cn.edu.tongji.musicListen.dto.MultiMusicMusicListRequest;
+import cn.edu.tongji.musicListen.dto.MusicListId;
 import cn.edu.tongji.musicListen.model.MusicList;
 import cn.edu.tongji.musicListen.service.MusicListService;
 import jakarta.annotation.Resource;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -59,7 +57,7 @@ public class MusicListController {
     @PostMapping("/musics")
     public ResponseEntity<?> insertMusicList(@RequestBody MultiMusicMusicListRequest request) {
         try {
-            List<Integer> musicListIds = musicListService.insertMusicList(request);
+            List<MusicListId> musicListIds = musicListService.insertMusicList(request);
             return ResponseEntity.ok(musicListIds);
         } catch (Exception e) {
             e.printStackTrace();

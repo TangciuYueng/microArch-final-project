@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.tongji.musicListen.mapper.MusicListMapper">
-    <insert id="insertMusicList" parameterType="musicList">
+    <insert id="insertMusicList" parameterType="musicList" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO music_list (type,user_id,music_id,create_date,list_order,description,play_count,is_deleted)
         VALUES (#{type},#{userId},#{musicId},#{createDate},#{listOrder},#{description},#{playCount},#{isDeleted})
     </insert>
