@@ -1,7 +1,7 @@
 package cn.edu.tongji.musicListen.controller;
 
 import cn.edu.tongji.musicListen.dto.MultiMusicMusicListRequest;
-import cn.edu.tongji.musicListen.dto.MusicListId;
+import cn.edu.tongji.musicListen.dto.MusicListRequest;
 import cn.edu.tongji.musicListen.model.MusicList;
 import cn.edu.tongji.musicListen.service.MusicListService;
 import jakarta.annotation.Resource;
@@ -21,9 +21,9 @@ public class MusicListController {
     private MusicListService musicListService;
     // 插入一个musicList
     @PostMapping
-    public ResponseEntity<?> insertMusicList(@RequestBody MusicList musicList) {
+    public ResponseEntity<?> insertMusicList(@RequestBody MusicListRequest request) {
         try {
-            return new ResponseEntity<>(musicListService.insertMusicList(musicList), HttpStatus.OK);
+            return new ResponseEntity<>(musicListService.insertMusicList(request), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             String errMsg = "insert music list failed";
@@ -57,7 +57,7 @@ public class MusicListController {
     @PostMapping("/musics")
     public ResponseEntity<?> insertMusicList(@RequestBody MultiMusicMusicListRequest request) {
         try {
-            List<MusicListId> musicListIds = musicListService.insertMusicList(request);
+            List<Integer> musicListIds = musicListService.insertMusicList(request);
             return ResponseEntity.ok(musicListIds);
         } catch (Exception e) {
             e.printStackTrace();

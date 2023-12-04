@@ -1,15 +1,16 @@
 package cn.edu.tongji.musicListen.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class MusicListId {
-    private int musicListId;
+public class MusicListRequest {
+    private Integer musicListId;
+    private String type;
     private int userId;
+    private int musicId;
+    private String description;
 }

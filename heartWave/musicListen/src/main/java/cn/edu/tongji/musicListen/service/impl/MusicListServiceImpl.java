@@ -1,7 +1,7 @@
 package cn.edu.tongji.musicListen.service.impl;
 
 import cn.edu.tongji.musicListen.dto.MultiMusicMusicListRequest;
-import cn.edu.tongji.musicListen.dto.MusicListId;
+import cn.edu.tongji.musicListen.dto.MusicListRequest;
 import cn.edu.tongji.musicListen.mapper.MusicListMapper;
 import cn.edu.tongji.musicListen.mapper.PlayCountMapper;
 import cn.edu.tongji.musicListen.model.MusicList;
@@ -23,14 +23,18 @@ public class MusicListServiceImpl implements MusicListService {
     @Resource
     private PlayCountMapper playCountMapper;
     @Override
-    public MusicListId insertMusicList(MusicList musicList){
-        System.out.println(musicList);
-        musicListMapper.insertMusicList(musicList);
-        MusicListId musicListId = MusicListId.builder()
-                .musicListId(musicList.getMusicId())
-                .userId(musicList.getUserId())
+    public int insertMusicList(MusicListRequest request){
+        MusicList musicList = MusicList.builder()
+                .musicListId(request.getMusicListId())
+                .userId(request.getUserId())
+                .musicId(request.getMusicId())
+                .type(request.getType())
+                .description(request.getDescription())
                 .build();
-        return musicListId;
+        // 此时需要判断 musicListId 是否为空
+        musicListMapper.insertMusicList(musicList);
+        System.out.println(musicList);
+        return musicList.getId();
     }
 
     @Override
@@ -87,18 +91,14 @@ public class MusicListServiceImpl implements MusicListService {
 
     @Override
     @Transactional
-    public List<MusicListId> insertMusicList(MultiMusicMusicListRequest request) {
+    public List<Integer> insertMusicList(MultiMusicMusicListRequest request) {
         List<MusicList> musicLists = convertToMusicListArray(request);
         musicListMapper.batchInsertMusicList(musicLists);
         System.out.println(musicLists);
-        // 返回 musicListId、userId 作为主码
-        List<MusicListId> musicListIds = musicLists.stream()
-                .map(musicList -> MusicListId.builder()
-                        .musicListId(musicList.getMusicId())
-                        .userId(musicList.getUserId()).
-                        build())
+        List<Integer> ids = musicLists.stream()
+                .map(musicList -> musicList.getId())
                 .collect(Collectors.toList());
-        return musicListIds;
+        return ids;
     }
 
     private List<MusicList> convertToMusicListArray(MultiMusicMusicListRequest request) {

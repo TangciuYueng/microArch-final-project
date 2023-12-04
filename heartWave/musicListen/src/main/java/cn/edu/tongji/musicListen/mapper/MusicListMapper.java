@@ -1,7 +1,5 @@
 package cn.edu.tongji.musicListen.mapper;
 
-import cn.edu.tongji.musicListen.dto.MusicInfo;
-import cn.edu.tongji.musicListen.dto.MusicListId;
 import cn.edu.tongji.musicListen.model.MusicList;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

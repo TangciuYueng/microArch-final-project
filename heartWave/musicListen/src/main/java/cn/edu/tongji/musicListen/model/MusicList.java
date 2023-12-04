@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @Builder
 public class MusicList {
     private int id;
+    private int musicListId;
     private String type;
     private int userId;
     private int musicId;
