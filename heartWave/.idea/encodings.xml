@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/EmotionProcessor/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/EmotionProcessor/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Emotions/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Emotions/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/diaryWriting/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/diaryWriting/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/emotionsProcessor/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/emotionsProcessor/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/gateway/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/login/src/main/java" charset="UTF-8" />

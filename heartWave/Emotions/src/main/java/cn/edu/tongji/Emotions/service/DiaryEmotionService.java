@@ -14,9 +14,9 @@ import java.util.Optional;
 public interface DiaryEmotionService {
 
 
-    public Page<DiaryEmotion> findAll(Pageable pageable) ;
+    Page<DiaryEmotion> findAll(Pageable pageable) ;
 
-    public Optional<DiaryEmotion> findById(String id) ;
+    Optional<DiaryEmotion> findById(String id) ;
 
     public DiaryEmotion save(DiaryEmotion diaryEmotion);
 

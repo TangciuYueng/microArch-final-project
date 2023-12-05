@@ -5,7 +5,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from scipy.sparse import csr_matrix
 import numpy as np
 
-from heartWave.Emotions.python.methods import *
+from methods import *
 
 users = get_all_users()
 user_ids = [user['id'] for user in users]
@@ -122,4 +122,4 @@ for user_id in user_ids:
 # 检查输出结果
 for user_pref in user_preferences_post_format:
     post_user_preferences(user_pref)
-    print(user_pref)
+

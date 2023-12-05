@@ -1,24 +1,24 @@
-package cn.edu.tongji.Emotions.service.impl;
-
-import cn.edu.tongji.Emotions.model.DiaryEmotion;
-import cn.edu.tongji.Emotions.service.DiaryEmotionAnalysisService;
-
+package cn.edu.tongji.EmotionProcessor.service.impl;
+import cn.edu.tongji.EmotionProcessor.model.SentimentResult;
+import jakarta.annotation.Resource;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.Request;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import cn.edu.tongji.EmotionProcessor.service.DiaryEmotionAnalysisService;
 
 import java.io.IOException;
 
 @Service
 public class DiaryEmotionAnalysisServiceImpl implements DiaryEmotionAnalysisService {
-    private final DiaryEmotion sentimentResult = new DiaryEmotion();
-    public DiaryEmotion sentimentAnalysis(String content){
+
+    SentimentResult sentimentResult = new SentimentResult();
+    public ResponseEntity<?> sentimentAnalysis(String content){
         String API_KEY = "0SCnD9Cs92xQC2GH96k3yXBg";
         String SECRET_KEY = "B7AzqjzAK6AvxtdQTZfehDLp3yGwuHdX";
 
@@ -60,16 +60,17 @@ public class DiaryEmotionAnalysisServiceImpl implements DiaryEmotionAnalysisServ
                     System.out.println("Negative_Prob: " + negativeProb);
                     System.out.println("Positive_Prob: " + positiveProb);
                     System.out.println("sentiment: " + sentiment);
-                    sentimentResult.setSentiment(sentiment);
-                    sentimentResult.setNegative(negativeProb);
-                    sentimentResult.setConfidence(confidence);
-                    sentimentResult.setPositive(positiveProb);
+
+                    sentimentResult.sentiment = sentiment;
+                    sentimentResult.negative = negativeProb;
+                    sentimentResult.confidence = confidence;
+                    sentimentResult.positive = positiveProb;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return sentimentResult;
+        return ResponseEntity.ok(sentimentResult);
     }
 
     private static String getAccessToken(String apiKey, String secretKey) {
