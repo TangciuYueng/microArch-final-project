@@ -7,7 +7,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from scipy.sparse import csr_matrix
 from sklearn.decomposition import TruncatedSVD
 
-from heartWave.Emotions.python.methods import *
+from methods import *
 
 
 def run_recommendation_algorithm(music_data, music_list_data):
@@ -108,4 +108,4 @@ all_user_recommendations = run_recommendation_algorithm(music_data, all_music_li
 # 打印出每个用户的推荐结果
 for user_id, recommendations in all_user_recommendations.items():
     print(f"Recommendations for User {user_id}:")
-    print(recommendations)
+

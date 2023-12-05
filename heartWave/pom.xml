@@ -17,6 +17,7 @@
         <module>Emotions</module>
         <module>login</module>
         <module>gateway</module>
+        <module>EmotionProcessor</module>
     </modules>
 
     <properties>
