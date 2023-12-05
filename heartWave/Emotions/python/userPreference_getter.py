@@ -1,4 +1,4 @@
-
+from datetime import datetime
 import pandas as pd
 import requests
 from sklearn.metrics.pairwise import cosine_similarity
@@ -64,12 +64,62 @@ normalized_predicted_preferences = predicted_preferences / sum_of_similarities
 # 为每个用户生成推荐
 user_genre_preferences = pd.DataFrame(normalized_predicted_preferences, index=user_music_matrix.index, columns=user_music_matrix.columns)
 
-all_user_preferences = {}
-for user_id in user_ids:
-    if user_id in user_genre_preferences.index:
-        all_user_preferences[user_id] = user_genre_preferences.loc[user_id]
-    else:
-        # 如果 user_id 不存在于 user_genre_preferences 索引中
-        all_user_preferences[user_id] = None
+# all_user_preferences = {}
+# for user_id in user_ids:
+#     user_preference_dict = {
+#         "id": str(user_id),  # 假设用户ID是整数，需要转换为字符串
+#         "userId": str(user_id),
+#         "genre": {},  # 您需要根据用户偏好计算每个流派的权重
+#         "favoriteArtists": [],  # 您需要从用户数据中提取最喜欢的艺术家
+#         "createTime": datetime.now().isoformat()  # 当前时间的ISO格式
+#     }
+#     if user_id in user_genre_preferences.index:
+#         all_user_preferences[user_id] = user_genre_preferences.loc[user_id]
+#     else:
+#         # 如果 user_id 不存在于 user_genre_preferences 索引中
+#         all_user_preferences[user_id] = None
+#
+# print(all_user_preferences)
 
-print(all_user_preferences)
+# 为每个用户提取Top N首歌曲的ID
+TOP_N = 20
+top_music_ids_per_user = user_genre_preferences.apply(lambda row: row.nlargest(TOP_N).index.tolist(), axis=1)
+
+
+# 使用 music_data 映射音乐ID到流派和艺术家
+def map_music_id_to_genre_artist(music_ids, music_data_df):
+    genres = []
+    artists = []
+    for music_id in music_ids:
+        music_info = music_data_df.loc[music_data_df['musicId'] == music_id]
+        if not music_info.empty:
+            genres.extend(music_info['genre'].tolist())
+            artists.extend(music_info['artist'].tolist())
+    return genres, artists
+
+
+user_preferences_post_format = []
+
+for user_id in user_ids:
+
+    if user_id in top_music_ids_per_user:
+        music_ids = top_music_ids_per_user[user_id]
+        genres, artists = map_music_id_to_genre_artist(music_ids, music_data)
+
+        # 计算每个流派的出现次数
+        genre_counts = pd.Series(genres).value_counts()
+        # 归一化流派出现次数
+        normalized_genre_counts = genre_counts / genre_counts.sum()
+
+        user_pref = {
+            "id": str(user_id),
+            "userId": str(user_id),
+            "genre": normalized_genre_counts.to_dict(),  # 归一化后的流派偏好
+            "favoriteArtists": list(dict.fromkeys(artists)),  # 移除重复的艺术家
+            "createTime": datetime.now().isoformat()
+        }
+        user_preferences_post_format.append(user_pref)
+# 检查输出结果
+for user_pref in user_preferences_post_format:
+    post_user_preferences(user_pref)
+    print(user_pref)

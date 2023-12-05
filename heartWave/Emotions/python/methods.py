@@ -64,3 +64,16 @@ def get_listenRecord_by_user_id(user_id):
     else:
         print(f"Failed to fetch listen_record data: {response.status_code}")
         return None
+
+
+def post_user_preferences(user_preferences):
+
+    headers = {'Content-Type': 'application/json'}
+    response = requests.post('http://localhost:8111/api/musicReferences', json=user_preferences, headers=headers)
+
+    if response.status_code == 200:
+        print("数据成功发送到服务器")
+        return response.json()  # 或者根据API的实际响应返回适当的数据
+    else:
+        print(f"Failed to post data: {response.status_code}")
+        return None

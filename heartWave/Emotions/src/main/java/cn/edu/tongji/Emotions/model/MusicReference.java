@@ -1,14 +1,15 @@
 package cn.edu.tongji.Emotions.model;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
-@Getter
-@Setter
+@Data
 @Document(collection = "music_references")
 public class MusicReference {
     public enum Genres {
@@ -33,27 +34,8 @@ public class MusicReference {
     private String id;
     private String userId;
     private Map<Genres, Double> genre; // 音乐类型
+    private List<String> favoriteArtists;
     private LocalDateTime createTime; // 创建时间
 
-    // 无参构造函数
-    public MusicReference() {
-    }
 
-    // 带所有参数的构造函数
-    public MusicReference(String id, String userId, Map<Genres, Double> genre, LocalDateTime createTime) {
-        this.id = id;
-        this.userId = userId;
-        this.genre = genre;
-        this.createTime = createTime;
-    }
-
-    @Override
-    public String toString() {
-        return "MusicReference{" +
-                "id='" + id + '\'' +
-                ", userId='" + userId + '\'' +
-                ", genre='" + genre + '\'' +
-                ", createTime=" + createTime +
-                '}';
-    }
 }
