@@ -16,8 +16,10 @@ public class VerifyGenerator {
     //  0、O、o
     private static final String ALPHABET = "23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz";
     private static BufferedImage logo;
-    private static final int logoWidth = 150;
-    private static final int logoHeight = 75;
+    private static final int LOGO_WIDTH = 200;
+    private static final int LOGO_HEIGHT = 200;
+    private static final int IMAGE_WIDTH = 400;
+    private static final int IMAGE_HEIGHT = 200;
 
     public static String getVerifyCode(final int length) {
         Random generator = new Random(System.currentTimeMillis());
@@ -58,7 +60,7 @@ public class VerifyGenerator {
 
     private static void drawVerifyImageBackground(Graphics2D g2, final int width, final int height) {
         AffineTransform scaleTransformer = new AffineTransform();
-        scaleTransformer.setToScale((double) width / logoWidth, (double) height / logoHeight);
+        scaleTransformer.setToScale((double) width / LOGO_WIDTH, (double) height / LOGO_HEIGHT);
         g2.drawImage(logo, scaleTransformer, null);
     }
 
@@ -117,26 +119,26 @@ public class VerifyGenerator {
 
     private static void generateVerifyImage(String verifyCode, OutputStream out) {
         try {
-            BufferedImage image = new BufferedImage(logoWidth, logoHeight, BufferedImage.TYPE_INT_RGB);
+            BufferedImage image = new BufferedImage(IMAGE_WIDTH, IMAGE_HEIGHT, BufferedImage.TYPE_INT_RGB);
             Graphics2D g2 = image.createGraphics();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2.setColor(Color.GRAY);// 设置边框色
-            g2.fillRect(0, 0, logoWidth, logoHeight);
+            g2.fillRect(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
 
             Color c = getRandColor(200, 250);
             g2.setColor(c);// 设置背景色
-            g2.fillRect(0, 2, logoWidth, logoHeight - 4);
+            g2.fillRect(0, 2, IMAGE_WIDTH, IMAGE_HEIGHT - 4);
 
             if (logo == null) {
-                ClassPathResource classPathResource = new ClassPathResource("static/img/bg.png");
+                ClassPathResource classPathResource = new ClassPathResource("static/img/music.png");
                 InputStream inFromLogo = classPathResource.getInputStream();
                 logo = ImageIO.read(inFromLogo);
             }
 
-            drawVerifyImageBackground(g2, logoWidth, logoHeight);                //绘制背景
-            drawVerifyImageCode(g2, logoWidth, logoHeight, verifyCode);          //绘制验证码
-            drawVerifyImageLine(g2, logoWidth, logoHeight, 40);         //绘制干扰线
-            drawVerifyImageNoise(logoWidth, logoHeight, 0.01f, image);  //添加噪点
+            drawVerifyImageBackground(g2, IMAGE_WIDTH, IMAGE_HEIGHT);                //绘制背景
+            drawVerifyImageCode(g2, IMAGE_WIDTH, IMAGE_HEIGHT, verifyCode);          //绘制验证码
+            drawVerifyImageLine(g2, IMAGE_WIDTH, IMAGE_HEIGHT, 40);         //绘制干扰线
+            drawVerifyImageNoise(IMAGE_WIDTH, IMAGE_HEIGHT, 0.01f, image);  //添加噪点
             g2.dispose();  //释放绘图资源
 
             ImageIO.write(image, "png", out);
