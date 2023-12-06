@@ -13,6 +13,9 @@ maven-name: musicRoom
 spring:
   cloud:
     sentinel:
+      enabled: true
+      eager: true
       transport:
         port: 8899 # 与sentinel-dashboard通信端口，如果被占用会自动向后扫描
-        dashboard: 121.40.220.228:8858
+#        dashboard: 121.40.220.228:8858 # 服务器的
+        dashboard: 100.80.163.94:8080 # 自己机器的
