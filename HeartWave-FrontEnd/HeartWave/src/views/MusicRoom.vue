@@ -1,7 +1,7 @@
 <template>
     <!-- 顶部的导航栏 -->
     <DefaultBar />
-    反馈中心
+    音乐室
 </template>
   
 <script>

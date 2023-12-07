@@ -7,7 +7,7 @@
       </template>
       <!-- 左上角的标题 -->
       <v-col class="text-center" cols="1">
-        <strong>Footprint Walker</strong>
+        <strong>Heart Wave</strong>
       </v-col>
       <!-- 一个竖直的分割线 -->
       <v-divider class="mx-4" vertical dark></v-divider>
@@ -15,20 +15,20 @@
       <v-tabs align-with-title>
         <!-- 前往首页 -->
         <v-tab class="mx-2 white--text" to="/home-page">
-          <v-icon left dense> mdi-home </v-icon>
-          首页资讯
+          <v-icon left dense> mdi-hand-heart </v-icon>
+          推荐音乐
         </v-tab>
-        <v-tab class="mx-2 white--text" to="/about-us">
-          <v-icon left dense> mdi-facebook-messenger </v-icon>
-          关于我们
+        <v-tab class="mx-2 white--text" to="/music-room">
+          <v-icon left dense> mdi-microphone-variant </v-icon>
+          音乐室
         </v-tab>
-        <v-tab class="mx-2 white--text" to="/assign-activity">
-          <v-icon left dense> mdi-party-popper </v-icon>
-          活动报名
+        <v-tab class="mx-2 white--text" to="/diary">
+          <v-icon left dense> mdi-notebook </v-icon>
+          日记
         </v-tab>
-        <v-tab class="mx-2 white--text" to="/feedback">
-          <v-icon left dense> mdi-pen </v-icon>
-          反馈中心
+        <v-tab class="mx-2 white--text" to="/music-listen">
+          <v-icon left dense> mdi-music</v-icon>
+          音乐收听
         </v-tab>
       </v-tabs>
 

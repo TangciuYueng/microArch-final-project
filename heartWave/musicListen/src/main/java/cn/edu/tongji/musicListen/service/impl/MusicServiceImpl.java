@@ -68,12 +68,14 @@ public class MusicServiceImpl implements MusicService {
 
     // 播放音乐
     @Override
-    public void playMusic(int id){
-
+    public int playMusic(int id){
         // 通过音乐id获取音乐所在路径
+        System.out.println("play music!");
         Music music = getMusicById(id);
-//        String filePath = music.getSrc();
-        String filePath = "\\D:\\大学学习资料\\大三上学期学习\\微服务架构\\microArch-final-project\\heartWave\\musicListen\\abc.wav\\";
+
+        String filePath = music.getSrc();
+
+//        String filePath = "D:\\大学学习资料\\大三上学期学习\\微服务架构\\microArch-final-project\\heartWave\\musicListen\\abc.wav";
 
         try {
             File file = new File(filePath);
@@ -100,7 +102,10 @@ public class MusicServiceImpl implements MusicService {
         } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
             e.printStackTrace();
         }
+
+        return 1;
     }
+
 
     // 增加音乐室唱歌记录
     @Override

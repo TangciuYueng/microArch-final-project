@@ -42,19 +42,19 @@ const routes = [
         component: () => import('@/views/HomePage.vue'),
       },
       {
-        path:'/about-us',
-        name:'AboutUs',
-        component: () => import('@/views/AboutUs.vue'),
+        path:'/music-room',
+        name:'MusicRoom',
+        component: () => import('@/views/MusicRoom.vue'),
       },
       {
-        path:'/assign-activity',
-        name:'AssignActivity',
-        component: () => import('@/views/AssignActivity.vue'),
+        path:'/diary',
+        name:'Diary',
+        component: () => import('@/views/Diary.vue'),
       },
       {
-        path:'/feedback',
-        name:'Feedback',
-        component: () => import('@/views/Feedback.vue'),
+        path:'/music-listen',
+        name:'MusicListen',
+        component: () => import('@/views/MusicListen.vue'),
       },
       {
         path:'/personal-center',

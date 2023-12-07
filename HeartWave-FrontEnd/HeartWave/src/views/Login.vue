@@ -3,7 +3,7 @@
     <!-- 登陆界面 -->
     <div class="Screen">
         <div class="login">
-            <div class="title text-h3 font-weight-bold">去旅行，去热爱!</div>
+            <div class="title text-h3 font-weight-bold">波动你的心弦</div>
             <v-card class="mx-auto px-6 py-8 login-card" max-width="400">
                 <!-- 使用了 @submit.prevent 监听表单的提交事件，并调用 onSubmit 方法进行处理。.prevent 修饰符阻止了表单的默认提交行为，从而可以使用自定义的提交方法进行处理。 -->
                 <v-form v-model="form" @submit.prevent="onSubmit">
@@ -101,7 +101,7 @@ export default {
     position: relative;
     width: 100%;
     height: 100%;
-    background-image: url(../assets/loginBackgroundImage.png);
+    background-image: url(https://picsum.photos/1920/1080?random);
     background-size: 100%;
 }
 

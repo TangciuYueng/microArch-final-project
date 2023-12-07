@@ -50,6 +50,17 @@ public class MusicController {
             return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    // 通过音乐id播放一首歌
+    @GetMapping("/play/{id}")
+    public ResponseEntity<?> playMusicById(@PathVariable("id") int id){
+        try{
+            return new ResponseEntity<>(musicService.playMusic(id), HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            String errMsg = "play music by id failed";
+            return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     // 获取所有音乐的数量
     @GetMapping("/count")
     public ResponseEntity<?> getAllMusicCount(){

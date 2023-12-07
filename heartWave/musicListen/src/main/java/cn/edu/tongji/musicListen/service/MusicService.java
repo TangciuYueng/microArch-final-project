@@ -31,7 +31,7 @@ public interface MusicService {
     //获取所有音乐的数量
     int getAllMusicCount();
     // 播放音乐
-    void playMusic(int id);
+    int playMusic(int id);
     // 增加音乐室唱歌的记录
     @Transactional
     void addMusicRoomSong(MusicRoomSongRequest request);
