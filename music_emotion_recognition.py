@@ -78,7 +78,7 @@ print("Extracting features...")
 #         print("#", end="")
 # print("\ndone")
 
-feature=feature_extractor("dramatic.wav");
+feature=feature_extractor("YuZhouChangWan.mp3");
 print(feature);
 # 加载模型
 model = load_model('my_model.h5')
