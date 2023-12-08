@@ -60,26 +60,11 @@ def feature_extractor(path):
     return result
 
 
-# df = create_dataframe(musicMoodClass)
-# extracts the top five rows of the dataframe
-# df.head()
-# A look at number of audio files for each target value
-# df["target"].value_counts()
-
-# print(df.iloc[0, 1])
-
 X, y = [], []
 print("Extracting features...")
-# for index, (data, emotion) in enumerate(zip(df["audio"], df["target"])):
-#     feature = feature_extractor(data)
-#     X.append(feature)
-#     y.append(emotion)
-#     if index % 100 == 0:
-#         print("#", end="")
-# print("\ndone")
 
-feature=feature_extractor("YuZhouChangWan.mp3");
-print(feature);
+feature=feature_extractor("./MusicTest/Under Tides.mp3");
+# print(feature);
 # 加载模型
 model = load_model('my_model.h5')
 
