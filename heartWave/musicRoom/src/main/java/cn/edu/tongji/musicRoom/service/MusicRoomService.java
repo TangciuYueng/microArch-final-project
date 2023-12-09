@@ -17,5 +17,5 @@ public interface MusicRoomService {
 
     MusicRoomDetailed getMusicRoomDetailed(int musicRoomId);
 
-    void closeMusicRoom(CloseRequest closeRequest);
+    void closeMusicRoom(int musicRoomId, int operatorId);
 }
