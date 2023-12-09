@@ -104,9 +104,7 @@ public class MusicRoomServiceImpl implements MusicRoomService {
     }
 
     @Override
-    public void closeMusicRoom(CloseRequest closeRequest) {
-        int musicRoomId = closeRequest.getMusicRoomId();
-        int operatorId = closeRequest.getOperatorId();
+    public void closeMusicRoom(int musicRoomId, int operatorId) {
         // 验证是否为音乐室管理员
         List<AdminGroup> adminGroups = adminGroupMapper.getAdminGroupByMusicRoomId(musicRoomId);
         if (!adminGroups.stream().anyMatch(adminGroup -> adminGroup.getUserId() == operatorId)) {

@@ -112,7 +112,6 @@ for user_id in user_ids:
         normalized_genre_counts = genre_counts / genre_counts.sum()
 
         user_pref = {
-            "id": str(user_id),
             "userId": str(user_id),
             "genre": normalized_genre_counts.to_dict(),  # 归一化后的流派偏好
             "favoriteArtists": list(dict.fromkeys(artists)),  # 移除重复的艺术家

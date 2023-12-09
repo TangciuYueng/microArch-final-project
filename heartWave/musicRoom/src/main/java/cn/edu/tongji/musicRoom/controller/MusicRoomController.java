@@ -54,9 +54,9 @@ public class MusicRoomController {
     }
 
     @PutMapping("/close")
-    public ResponseEntity<?> closeMusicRoom(@RequestBody CloseRequest closeRequest) {
+    public ResponseEntity<?> closeMusicRoom(@RequestParam("musicRoomId") int musicRoomId, @RequestParam("operatorId") int operatorId) {
         try {
-            musicRoomService.closeMusicRoom(closeRequest);
+            musicRoomService.closeMusicRoom(musicRoomId, operatorId);
             return new ResponseEntity<>(0, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

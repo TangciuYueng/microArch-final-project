@@ -72,7 +72,6 @@ def post_user_preferences(user_preferences):
     response = requests.post('http://localhost:8111/api/musicReferences', json=user_preferences, headers=headers)
 
     if response.status_code == 200:
-        print("数据成功发送到服务器")
         return response.json()  # 或者根据API的实际响应返回适当的数据
     else:
         print(f"Failed to post data: {response.status_code}")
