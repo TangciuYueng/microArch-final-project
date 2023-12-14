@@ -15,11 +15,12 @@ public interface MusicEmotionService {
 
     public Page<MusicEmotion> findAll(Pageable pageable);
 
-    public Optional<MusicEmotion> findById(String id);
+    Optional<MusicEmotion> findById(String id);
 
     public MusicEmotion save(MusicEmotion musicEmotion);
 
-    public void deleteById(String id) ;
+    void deleteById(String id) ;
 
+    Optional<MusicEmotion> findByMusicId(int id);
     // Additional business logic methods can be added here
 }

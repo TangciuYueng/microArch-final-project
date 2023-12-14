@@ -60,6 +60,7 @@ public class RoomServiceImpl implements RoomService {
             }
         });
         chatRooms.put(port, server);
+        System.out.println(musicRoomDTO);
         client.createMusicRoom(musicRoomDTO);
         return port;
     }

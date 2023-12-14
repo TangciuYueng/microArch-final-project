@@ -40,14 +40,38 @@ public class MusicEmotionController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+    @GetMapping("/music/{musicId}")
+    public ResponseEntity<?> getMusicEmotionByMusicId(@PathVariable int musicId) {
 
+        try {
+            // 调用 musicListenService 来验证 MusicId 是否存在
+            ResponseEntity<?> MusicResponse = musicServiceClient.getMusicById(musicId);
+            System.out.println(MusicResponse);
+            // 检查音乐是否存在
+            if (MusicResponse.getStatusCode() == HttpStatus.OK) {
+
+                return ResponseEntity.ok(musicEmotionService.findByMusicId(musicId)
+                        .map(ResponseEntity::ok)
+                        .orElseGet(() -> ResponseEntity.notFound().build()));
+            } else {
+                // 如果音乐不存在（任何非200的HTTP状态码），返回适当的错误响应
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Music with ID " + musicId + " not found");
+            }
+        } catch (NumberFormatException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Music ID format");
+        } catch (Exception e) {
+            // 处理其他可能的异常，如网络问题或服务不可用
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while verifying Music ID");
+        }
+
+    }
     @PostMapping
     public ResponseEntity<?> createMusicEmotion(@RequestBody MusicEmotion musicEmotion) {
         try {
-            // 调用 LoginService 来验证 userId 是否存在
-            ResponseEntity<?> userResponse = musicServiceClient.getMusicById(musicEmotion.getMusicId());
+            // 调用 musicListenService 来验证 MusicId 是否存在
+            ResponseEntity<?> MusicResponse = musicServiceClient.getMusicById(musicEmotion.getMusicId());
             // 检查用户是否存在
-            if (userResponse.getStatusCode() == HttpStatus.OK) {
+            if (MusicResponse.getStatusCode() == HttpStatus.OK) {
                 // 如果用户存在，保存并返回 CheckinEmotion
                 return ResponseEntity.ok(musicEmotionService.save(musicEmotion));
             } else {
