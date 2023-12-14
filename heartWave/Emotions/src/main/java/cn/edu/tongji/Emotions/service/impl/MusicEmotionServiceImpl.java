@@ -42,5 +42,9 @@ public class MusicEmotionServiceImpl implements MusicEmotionService {
         musicEmotionRepository.deleteById(id);
     }
 
-    // Additional business logic methods can be added here
+    @Override
+    public Optional<MusicEmotion> findByMusicId(int id) {
+        return musicEmotionRepository.findByMusicId(id);
+    }
+
 }

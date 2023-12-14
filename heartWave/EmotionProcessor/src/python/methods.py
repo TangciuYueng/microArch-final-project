@@ -11,7 +11,7 @@ def get_music_list_by_user_id(user_id):
         filtered_data = []
         for category, items in data.items():
             for item in items:
-                if item['type'] in ['favour', 'normal','listenRecord']:
+                if item['type'] in ['favour', 'normal']:
                     filtered_data.append(item)
         return filtered_data
     else:
@@ -60,11 +60,11 @@ def get_listenRecord_by_user_id(user_id):
 
     if response.status_code == 200:
         data = response.json()
-        return data
+        # 直接返回 listenRecord 中的数据
+        return data.get('listenRecord', [])  # 如果 listenRecord 不存在，则返回空列表
     else:
         print(f"Failed to fetch listen_record data: {response.status_code}")
-        return None
-
+        return []
 
 def post_user_preferences(user_preferences):
 
@@ -76,3 +76,20 @@ def post_user_preferences(user_preferences):
     else:
         print(f"Failed to post data: {response.status_code}")
         return None
+
+def get_music_emotion_by_music_id(music_id):
+    """
+    获取特定 musicId 的音乐情感数据。
+    """
+    try:
+        url = f"http://localhost:8888/api/music_listen/music/{music_id}"
+        response = requests.get(url)
+        if response.status_code == 200:
+            return response.json()  # 返回 JSON 数据
+        else:
+            return f"Error: {response.status_code}, {response.text}"
+    except requests.RequestException as e:
+        return f"Request Error: {e}"
+
+import requests
+

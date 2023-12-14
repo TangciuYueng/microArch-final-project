@@ -51,7 +51,7 @@ def extract_features(data, sample_rate):
 
     mel = np.mean(librosa.feature.melspectrogram(y=data, sr=sample_rate, hop_length=20).T, axis=0)
     result = np.hstack((result, mel))
-
+    print(len(result))
     return result
 
 
@@ -65,7 +65,7 @@ def feature_extractor(path):
 X, y = [], []
 print("Extracting features...")
 
-feature = feature_extractor("./MusicTest/Hoàng Thùy Linh - Gieo Quẻ.mp3");
+feature = feature_extractor("./MusicTest/Gareth.T - 劲浪漫 超温馨.mp3");
 # print(feature);
 # 加载模型
 
