@@ -8,11 +8,19 @@ import cn.edu.tongji.musicListen.model.Music;
 import cn.edu.tongji.musicListen.model.MusicList;
 import cn.edu.tongji.musicListen.service.MusicService;
 import jakarta.annotation.Resource;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Service
@@ -73,9 +81,9 @@ public class MusicServiceImpl implements MusicService {
         System.out.println("play music!");
         Music music = getMusicById(id);
 
-        String filePath = music.getSrc();
+//        String filePath = music.getSrc();
 
-//        String filePath = "D:\\大学学习资料\\大三上学期学习\\微服务架构\\microArch-final-project\\heartWave\\musicListen\\abc.wav";
+        String filePath = "D:\\大学学习资料\\大三上学期学习\\微服务架构\\microArch-final-project\\heartWave\\musicListen\\backend_music\\abc.wav";
 
         try {
             File file = new File(filePath);
@@ -125,6 +133,43 @@ public class MusicServiceImpl implements MusicService {
                 .userId(request.getUserId())
                 .build();
         musicListMapper.insertMusicList(musicList);
+    }
+
+    private static final String AUDIO_DIRECTORY = "/music_listen/backend_music"; // 替换成实际的音频文件目录
+
+    @Override
+    public ResponseEntity<?> downloadAudio(String filePath) throws IOException {
+
+        // 构建音频文件的完整路径
+//        String fullFilePath = AUDIO_DIRECTORY + filePath;
+        String fullFilePath = "D:\\大学学习资料\\大三上学期学习\\微服务架构\\microArch-final-project\\heartWave\\musicListen\\backend_music\\abc.wav";
+        System.out.println(fullFilePath);
+
+        String currentDirectory = System.getProperty("user.dir");
+
+        // 打印当前工作目录
+        System.out.println("Current Directory: " + currentDirectory);
+
+        Path path = Paths.get(fullFilePath);
+
+        // 构建响应实体
+        InputStreamResource resource = new InputStreamResource(Files.newInputStream(path));
+
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + getFileName(filePath));
+        headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(Files.size(path))
+                .body(resource);
+    }
+
+    private String getFileName(String filePath) {
+        // 从文件路径中提取文件名
+        Path path = Paths.get(filePath);
+        return path.getFileName().toString();
     }
 
 }

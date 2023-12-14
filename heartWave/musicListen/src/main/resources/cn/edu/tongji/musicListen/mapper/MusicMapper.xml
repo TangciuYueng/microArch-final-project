@@ -3,10 +3,52 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.tongji.musicListen.mapper.MusicMapper">
+
     <insert id="insertMusic" parameterType="music">
-        INSERT INTO music (title, type, writer, composer, producer, genre, artist, album, release_date, src, duration, language, likes, downloads, lyrics, label, play_count, music_mood)
-        VALUES (#{title}, #{type}, #{writer}, #{composer}, #{producer}, #{genre}, #{artist}, #{album}, #{releaseDate}, #{src}, #{duration}, #{language}, #{likes}, #{downloads}, #{lyrics}, #{label}, #{playCount}, #{musicMood})
+        INSERT INTO music
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">title,</if>
+            <if test="type != null">type,</if>
+            <if test="writer != null">writer,</if>
+            <if test="composer != null">composer,</if>
+            <if test="producer != null">producer,</if>
+            <if test="genre != null">genre,</if>
+            <if test="artist != null">artist,</if>
+            <if test="album != null">album,</if>
+            <if test="releaseDate != null">release_date,</if>
+            <if test="src != null">src,</if>
+            <if test="duration != null">duration,</if>
+            <if test="language != null">language,</if>
+            <if test="likes != null">likes,</if>
+            <if test="downloads != null">downloads,</if>
+            <if test="lyrics != null">lyrics,</if>
+            <if test="label != null">label,</if>
+            <if test="playCount != null">play_count,</if>
+            <if test="musicMood != null">music_mood,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">#{title},</if>
+            <if test="type != null">#{type},</if>
+            <if test="writer != null">#{writer},</if>
+            <if test="composer != null">#{composer},</if>
+            <if test="producer != null">#{producer},</if>
+            <if test="genre != null">#{genre},</if>
+            <if test="artist != null">#{artist},</if>
+            <if test="album != null">#{album},</if>
+            <if test="releaseDate != null">#{releaseDate},</if>
+            <if test="src != null">#{src},</if>
+            <if test="duration != null">#{duration},</if>
+            <if test="language != null">#{language},</if>
+            <if test="likes != null">#{likes},</if>
+            <if test="downloads != null">#{downloads},</if>
+            <if test="lyrics != null">#{lyrics},</if>
+            <if test="label != null">#{label},</if>
+            <if test="playCount != null">#{playCount},</if>
+            <if test="musicMood != null">#{musicMood},</if>
+        </trim>
     </insert>
+
     <update id="updateMusic" parameterType="music">
         UPDATE music
         <set>

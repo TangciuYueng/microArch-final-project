@@ -5,6 +5,7 @@ import cn.edu.tongji.musicListen.dto.MusicRoomSongRequest;
 import cn.edu.tongji.musicListen.mapper.MusicMapper;
 import cn.edu.tongji.musicListen.model.Music;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,4 +36,6 @@ public interface MusicService {
     // 增加音乐室唱歌的记录
     @Transactional
     void addMusicRoomSong(MusicRoomSongRequest request);
+
+    ResponseEntity<?> downloadAudio(String filePath) throws IOException;
 }

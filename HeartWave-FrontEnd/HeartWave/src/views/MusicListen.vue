@@ -25,12 +25,16 @@
             </v-card-title>
 
             <v-divider></v-divider>
-            {{ items }}
             {{ musicCount }}
             
         </v-card>
+        <div>
+            <h2>这是所有音乐:</h2>
+            {{ allMusic }}
+        </div>
         <v-btn @click="playMusicById">playMusicById 后端</v-btn>
         <v-btn @click="getAllMusic">获取所有音乐</v-btn>
+        <v-btn @click="downloadAndPlayAudio">Download and Play Audio</v-btn>
     </div>
     
 </template>
@@ -43,30 +47,8 @@ export default {
     data: () => ({
         search:"",
         musicCount: null,
-        headers: [
-            {
-                text: 'Dessert (100g serving)', //表头显示的文本
-                align: 'start', // 文本对齐方向
-                sortable: false, //控制切换排序的功能
-                value: 'name', //对应的值
-            },
-            { text: 'Calories', value: 'calories' },
-            { text: 'Fat (g)', value: 'fat' },
-            { text: 'Carbs (g)', value: 'carbs' },
-        ],
-        items: [
-        {
-            name: 'Frozen Yogurt',
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-        },
-        {
-            name: 'KitKat',
-            calories: 518,
-            fat: 26.0,
-            carbs: 65,
-        }],
+        
+        allMusic: '',
 
     }),
     components:{
@@ -93,9 +75,10 @@ export default {
         },
         getAllMusic(){
             try {
-				axios.get(`http://localhost:8888/api/music_listen/music/by_page/2`)
+				axios.get(`http://localhost:8888/api/music_listen/music/by_page/1`)
 				.then((response) => {
 					// 请求成功时的处理
+                    this.allMusic = response.data.musics
 					console.log(response)
 				})
 				.catch((error) => {
@@ -108,7 +91,29 @@ export default {
         },
         playMusicById2(){
 
-        }
+        },
+        downloadAndPlayAudio() {
+            const backendUrl = 'http://localhost:8888/api/music_listen/music/download_music'; // 替换成你的后端服务地址
+            const fileName = 'abc.wav'; // 替换成实际的音频文件名
+
+            axios({
+                url: backendUrl,
+                method: 'GET',
+                responseType: 'arraybuffer',
+                params: {
+                    filePath: fileName,
+                },
+            }).then(response => {
+                this.playAudio(response.data);
+            }).catch(error => {
+                console.error('Error downloading audio:', error);
+            });
+        },
+        playAudio (audioBlob) {
+            const audioUrl = URL.createObjectURL(audioBlob);
+            const audioElement = new Audio(audioUrl);
+            audioElement.play();
+        },
     },
     computed: {
       display () {

@@ -51,9 +51,11 @@ public class MusicController {
         }
     }
     // 通过音乐id播放一首歌
+    @CrossOrigin(value = "http://localhost:8888")
     @GetMapping("/play/{id}")
     public ResponseEntity<?> playMusicById(@PathVariable("id") int id){
         try{
+            System.out.println(id);
             return new ResponseEntity<>(musicService.playMusic(id), HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
@@ -115,6 +117,16 @@ public class MusicController {
         try {
             musicService.addMusicRoomSong(request);
             return ResponseEntity.ok(0);
+        } catch (Exception e) {
+            return new ResponseEntity<>(-1, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("download_music")
+    public ResponseEntity<?> downloadMusicByName(@RequestParam String filePath) {
+        try {
+            System.out.println(filePath);
+            return new ResponseEntity<>(musicService.downloadAudio(filePath), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(-1, HttpStatus.INTERNAL_SERVER_ERROR);
         }
