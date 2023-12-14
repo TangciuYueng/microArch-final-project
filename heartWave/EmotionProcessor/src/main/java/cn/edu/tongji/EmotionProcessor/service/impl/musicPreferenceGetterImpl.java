@@ -8,9 +8,10 @@ import java.io.InputStreamReader;
 
 @Service
 public class musicPreferenceGetterImpl implements musicPreferenceGetter {
-    @Scheduled(fixedRate = 3600)
+    @Scheduled(fixedRate = 36000000)
     public void runScript() {
         try {
+            System.out.println(2);
             String argument ="";
             ProcessBuilder processBuilder = new ProcessBuilder("python", "EmotionProcessor/src/python/userPreference_getter.py", argument);
             Process process = processBuilder.start();

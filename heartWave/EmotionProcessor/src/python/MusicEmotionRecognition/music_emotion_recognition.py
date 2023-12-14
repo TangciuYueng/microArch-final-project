@@ -1,9 +1,10 @@
 import os
+import sys
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import librosa
-import tensorflow as tf
 from tensorflow.keras.models import load_model
 from pathlib import Path
 
@@ -62,31 +63,45 @@ def feature_extractor(path):
     return result
 
 
-X, y = [], []
-print("Extracting features...")
 
-feature = feature_extractor("./MusicTest/Gareth.T - 劲浪漫 超温馨.mp3");
-# print(feature);
-# 加载模型
 
-current_directory = Path(__file__).parent.absolute()
-# 构建到模型文件的路径
-model_path = current_directory / 'my_model.h5'
-# 加载模型
-model = load_model(str(model_path))
+def analyze_music(file_path):
+    X, y = [], []
+    print("Extracting features...")
 
-# 进行预测
-# input_data 是你用于预测的数据
-# predictions 将包含模型对 input_data 的预测结果
+    feature = feature_extractor("./MusicTest/Gareth.T - 劲浪漫 超温馨.mp3");
+    # print(feature);
+    # 加载模型
 
-# 将feature转换为2维张量
-feature = np.expand_dims(feature[1:], axis=0)
-predictions = model.predict(feature)
-print(predictions)
+    current_directory = Path(__file__).parent.absolute()
+    # 构建到模型文件的路径
+    model_path = current_directory / 'my_model.h5'
+    # 加载模型
+    model = load_model(str(model_path))
 
-# 解释模型输出（示例）
-emotion_labels = ['aggressive', 'dramatic', 'happy', 'romantic', 'sad']  # 情绪标签列表
+    # 进行预测
+    # input_data 是你用于预测的数据
+    # predictions 将包含模型对 input_data 的预测结果
 
-# 获取最可能的情绪标签
-predicted_emotion = emotion_labels[predictions.argmax()]
-print(predicted_emotion)
+    # 将feature转换为2维张量
+    feature = np.expand_dims(feature[1:], axis=0)
+    predictions = model.predict(feature)
+    print(predictions)
+
+    # 解释模型输出（示例）
+    emotion_labels = ['aggressive', 'dramatic', 'happy', 'romantic', 'sad']  # 情绪标签列表
+
+    # 获取最可能的情绪标签
+    predicted_emotion = emotion_labels[predictions.argmax()]
+    print(predicted_emotion)
+
+
+if __name__ == "__main__":
+    # if len(sys.argv) != 2:
+    #     print("Usage: python script.py <file_path>")
+    #     sys.exit(1)
+    #
+    # file_path = sys.argv[1]
+    file_path =''
+    predicted_emotion = analyze_music(file_path)
+    print("Predicted Emotion:", predicted_emotion)

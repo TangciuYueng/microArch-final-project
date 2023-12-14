@@ -14,7 +14,7 @@ public class RoomController {
     private RoomService roomService;
 
     @PutMapping
-    private ResponseEntity<?> createRoom(MusicRoomDTO musicRoomDTO) {
+    private ResponseEntity<?> createRoom(@RequestBody MusicRoomDTO musicRoomDTO) {
         try {
             int port = roomService.createRoom(musicRoomDTO);
             return ResponseEntity.ok(port);
