@@ -1,11 +1,13 @@
 package cn.edu.tongji.musicListen.service.impl;
 
+import cn.edu.tongji.musicListen.dto.COSFileRequest;
 import cn.edu.tongji.musicListen.dto.MusicInfo;
 import cn.edu.tongji.musicListen.dto.MusicRoomSongRequest;
 import cn.edu.tongji.musicListen.mapper.MusicListMapper;
 import cn.edu.tongji.musicListen.mapper.MusicMapper;
 import cn.edu.tongji.musicListen.model.Music;
 import cn.edu.tongji.musicListen.model.MusicList;
+import cn.edu.tongji.musicListen.service.COSService;
 import cn.edu.tongji.musicListen.service.MusicService;
 import jakarta.annotation.Resource;
 import org.springframework.core.io.ByteArrayResource;
@@ -30,6 +32,9 @@ public class MusicServiceImpl implements MusicService {
     private MusicListMapper musicListMapper;
     @Resource
     private MusicMapper musicMapper;
+
+    @Resource
+    private COSService cosService;
 
     @Override
     public int insertMusic(Music music) {
@@ -80,10 +85,18 @@ public class MusicServiceImpl implements MusicService {
         // 通过音乐id获取音乐所在路径
         System.out.println("play music!");
         Music music = getMusicById(id);
+        System.out.println("This music is going to play: " + music);
+        // music里有oss的路径(src)
+        // 从oss里下载到一个固定的路径
+        COSFileRequest cosFileRequest = COSFileRequest.builder()
+                .cosPath(music.getSrc())
+                .localPath("./musicListen/backend_music/" + music.getTitle())
+                .build();
+        System.out.println(cosFileRequest.getLocalPath());
+        cosService.downloadFile(cosFileRequest);
+        
 
-//        String filePath = music.getSrc();
-
-        String filePath = "D:\\大学学习资料\\大三上学期学习\\微服务架构\\microArch-final-project\\heartWave\\musicListen\\backend_music\\abc.wav";
+        String filePath = cosFileRequest.getLocalPath();
 
         try {
             File file = new File(filePath);

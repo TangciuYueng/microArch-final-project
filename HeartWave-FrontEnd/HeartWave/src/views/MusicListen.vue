@@ -23,18 +23,18 @@
                 variant="solo-filled"
             ></v-text-field>
             </v-card-title>
-
             <v-divider></v-divider>
-            {{ musicCount }}
-            
+            <v-btn @click="getAllMusic">获取所有音乐</v-btn>
         </v-card>
         <div>
             <h2>这是所有音乐:</h2>
             {{ allMusic }}
         </div>
-        <v-btn @click="playMusicById">playMusicById 后端</v-btn>
-        <v-btn @click="getAllMusic">获取所有音乐</v-btn>
-        <v-btn @click="downloadAndPlayAudio">Download and Play Audio</v-btn>
+        <v-text-field v-model="music_id" label="输入音乐ID播放音乐" outlined solo prepend-icon="mdi-music"></v-text-field>
+        {{ music_id }}
+        <v-btn @click="playMusicById">播放音乐</v-btn>
+        
+        <!-- <v-btn @click="downloadAndPlayAudio">Download and Play Audio</v-btn> -->
     </div>
     
 </template>
@@ -46,9 +46,8 @@ export default {
     
     data: () => ({
         search:"",
-        musicCount: null,
-        
         allMusic: '',
+        music_id: null,
 
     }),
     components:{
@@ -60,7 +59,7 @@ export default {
     methods: {
         playMusicById(){
             try {
-				axios.get(`http://localhost:8888/api/music_listen/music/play/1`)
+				axios.get(`http://localhost:8888/api/music_listen/music/play/${this.music_id}`)
 				.then((response) => {
 					// 请求成功时的处理
 					console.log(response)

@@ -51,7 +51,6 @@ public class MusicController {
         }
     }
     // 通过音乐id播放一首歌
-    @CrossOrigin(value = "http://localhost:8888")
     @GetMapping("/play/{id}")
     public ResponseEntity<?> playMusicById(@PathVariable("id") int id){
         try{
