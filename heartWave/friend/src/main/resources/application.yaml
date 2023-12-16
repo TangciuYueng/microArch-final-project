@@ -1,0 +1,11 @@
+server:
+  port: 8889  #启动端口
+
+# 以下是bootstrap.yaml拉取nacos配置中心文件内容后，需要填入的值
+db:
+  host: 120.26.0.232:3306
+  name: social
+  user: social
+  password: microArch2023
+
+maven-name: friend
