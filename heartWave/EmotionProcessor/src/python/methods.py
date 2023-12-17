@@ -1,6 +1,3 @@
-import requests
-
-
 def get_music_list_by_user_id(user_id):
     url = f"http://localhost:8888/api/music_listen/music_list/{user_id}"
     response = requests.get(url)
@@ -90,6 +87,24 @@ def get_music_emotion_by_music_id(music_id):
             return f"Error: {response.status_code}, {response.text}"
     except requests.RequestException as e:
         return f"Request Error: {e}"
+
+import requests
+
+def download_music(local_path, cos_path):
+    url = "http://localhost:8887/api/cos/download"
+    payload = {
+        "localPath": local_path,
+        "cosPath": cos_path
+    }
+
+    try:
+        # 发送 POST 请求
+        response = requests.post(url, json=payload)
+        response.raise_for_status()  # 确保请求成功
+
+        return f"请求成功，文件应该已下载到 {local_path}"
+    except requests.exceptions.RequestException as e:
+        return f"下载错误: {e}"
 
 import requests
 

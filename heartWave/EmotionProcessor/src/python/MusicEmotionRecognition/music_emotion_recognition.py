@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import librosa
-from tensorflow.keras.models import load_model
+from keras.models import load_model
 from pathlib import Path
 
 import warnings
@@ -69,7 +69,7 @@ def analyze_music(file_path):
     X, y = [], []
     print("Extracting features...")
 
-    feature = feature_extractor("./MusicTest/Gareth.T - 劲浪漫 超温馨.mp3");
+    feature = feature_extractor(file_path);
     # print(feature);
     # 加载模型
 
@@ -97,11 +97,13 @@ def analyze_music(file_path):
 
 
 if __name__ == "__main__":
+    # print(111000)
     # if len(sys.argv) != 2:
     #     print("Usage: python script.py <file_path>")
     #     sys.exit(1)
     #
     # file_path = sys.argv[1]
-    file_path =''
+
+    file_path ="./MusicTest/Gareth.T - 劲浪漫 超温馨.mp3"
     predicted_emotion = analyze_music(file_path)
     print("Predicted Emotion:", predicted_emotion)
