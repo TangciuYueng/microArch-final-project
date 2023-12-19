@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/admin_group")
+@RequestMapping("/api/admin-group")
 public class AdminGroupController {
     @Resource
     private AdminGroupService adminGroupService;

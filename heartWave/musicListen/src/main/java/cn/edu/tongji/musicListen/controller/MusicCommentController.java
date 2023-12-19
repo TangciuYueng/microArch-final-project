@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/music_listen/music_comment")
+@RequestMapping("/api/music-listen/music-comment")
 public class MusicCommentController {
     @Resource
     private MusicCommentService musicCommentService;
@@ -26,7 +26,7 @@ public class MusicCommentController {
         }
     }
     // 2.获取某条音乐评论的点赞数量
-    @GetMapping("likes_count/{id}")
+    @GetMapping("likes-count/{id}")
     public ResponseEntity<?> getCommentLikes(@PathVariable("id") int id){
         try {
             return new ResponseEntity<>(musicCommentService.getCommentLikesCount(id), HttpStatus.OK);

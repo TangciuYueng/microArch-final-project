@@ -34,7 +34,7 @@ public class UserController {
         return toString();
     }
 
-    @GetMapping("/another_service")
+    @GetMapping("/another-service")
     public ResponseEntity<String> anotherService() {
         //获取所有微服务实例列表
         List<ServiceInstance> instances = discoveryClient.getInstances("music-room-service");

@@ -34,7 +34,7 @@ public class DiaryWritingController {
     }
 
     // 获取指定用户的所有日记列表(成功)
-    @GetMapping("/user/{userId}")
+    @GetMapping("/{userId}")
     public ResponseEntity<?> getAllDiariesByUserId(@PathVariable("userId") int userId) {
         try{
             System.out.println(userId);
@@ -47,7 +47,7 @@ public class DiaryWritingController {
     }
 
     // 为指定用户创建新的日记（成功）
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<?> createDiary(@RequestBody AddDiaryWritingRequest diaryRequest) {
         try {
             Date currentDate = new Date();
@@ -67,7 +67,7 @@ public class DiaryWritingController {
     }
 
     //删除指定日记（完成）
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteDiaryByID(@PathVariable int id) {
         try{
             int deleteId=diaryWritingService.deleteDiary(id);
@@ -82,7 +82,7 @@ public class DiaryWritingController {
 
     //用户修改随笔
     // 更新日记的接口
-    @PutMapping("/put/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateDiary(@PathVariable int id, @RequestBody DiaryWritingInfo diary) {
         //如果日记是已发布的状态，那么就把状态改为修改过了
         try {
@@ -146,7 +146,7 @@ public class DiaryWritingController {
     }
 
     //获得指定id日记的情绪分析
-    @GetMapping("/emotionAnalysis/{id}")
+    @GetMapping("/emotion-analysis/{id}")
     public ResponseEntity<?> getDiaryEmotion(@PathVariable("id") int id) {
         try{
             //获取日记的id
@@ -169,7 +169,7 @@ public class DiaryWritingController {
     }
 
     //获取当前时间一个小时前新上传的所有日记
-    @GetMapping("/recentDiaries")
+    @GetMapping("/recent-diaries")
     public ResponseEntity<?> getRecentDiaries(){
         try{
             List<Diary> recentDiaries=diaryWritingService.getRecentDiaries();

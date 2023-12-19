@@ -33,7 +33,7 @@ public class LoginController {
         }
     }
 
-    @GetMapping("/verify_info")
+    @GetMapping("/verify-info")
     public ResponseEntity<?> getVerifyInfo() {
         try {
             VerifyInfo verifyInfo = loginService.getVerifyCodeInfo();

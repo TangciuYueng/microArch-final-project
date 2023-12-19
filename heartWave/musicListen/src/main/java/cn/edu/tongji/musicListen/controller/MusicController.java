@@ -111,7 +111,7 @@ public class MusicController {
             return new ResponseEntity<>(errMsg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PostMapping("/music_room")
+    @PostMapping("/music-room")
     public ResponseEntity<?> addMusicRoomSong(@RequestBody MusicRoomSongRequest request) {
         try {
             musicService.addMusicRoomSong(request);
@@ -121,7 +121,7 @@ public class MusicController {
         }
     }
 
-    @GetMapping("download_music")
+    @GetMapping("download-music")
     public ResponseEntity<?> downloadMusicByName(@RequestParam String filePath) {
         try {
             System.out.println(filePath);

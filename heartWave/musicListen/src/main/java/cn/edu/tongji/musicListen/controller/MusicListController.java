@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/music_listen/music_list")
+@RequestMapping("/api/music-listen/music-list")
 public class MusicListController {
 //    @Resource
 //    private List<MusicList> allMusicList = new ArrayList<>();
@@ -42,7 +42,7 @@ public class MusicListController {
         }
     }
     // 通过userId获取某用户播放记录歌单
-    @GetMapping("/listen_record/{userId}")
+    @GetMapping("/listen-record/{userId}")
     public  ResponseEntity<?> getListenRecordListByUserId(@PathVariable("userId") int userId){
         try{
             Map<String, List<MusicList>> musicLists = musicListService.getListenRecordListByUserId(userId);

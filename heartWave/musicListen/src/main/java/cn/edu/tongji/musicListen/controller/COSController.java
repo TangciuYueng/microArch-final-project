@@ -31,7 +31,7 @@ public class COSController {
         }
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<?> uploadFile(@RequestBody COSMusicAddRequest cosMusicAddRequest) {
         try {
             cosService.uploadFile(cosMusicAddRequest);
@@ -45,7 +45,7 @@ public class COSController {
     /**
      * 叫getObjects的原因是：oss中文件夹和文件都是Object
      */
-    @GetMapping("/get")
+    @GetMapping
     public ResponseEntity<?> getObjects(@RequestBody COSGetObjectsRequest cosGetObjectsRequest) {
         try {
             List<COSObjectSummary> cosObjectSummaries = cosService.getObjects(cosGetObjectsRequest);
@@ -56,7 +56,7 @@ public class COSController {
         }
     }
 
-    @GetMapping("/download")
+    @GetMapping("/file")
     public ResponseEntity<?> downloadFile(@RequestBody COSFileRequest cosFileRequest) {
         try {
             ObjectMetadata objectMetadata = cosService.downloadFile(cosFileRequest);
@@ -70,7 +70,7 @@ public class COSController {
     /**
      * 只能删除文件（oss在文件夹为空后，会自动删除文件夹）
      */
-    @DeleteMapping("/delete")
+    @DeleteMapping
     public ResponseEntity<?> deleteFile(@RequestBody COSFileRequest cosFileRequest) {
         try {
             cosService.deleteFile(cosFileRequest);

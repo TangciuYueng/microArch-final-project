@@ -17,7 +17,7 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/checkinEmotions")
+@RequestMapping("/api/emotions/checkin-emotions")
 public class CheckinEmotionController {
 
 //    @Autowired
@@ -50,14 +50,14 @@ public class CheckinEmotionController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/byUser/{id}")
+    @GetMapping("/by-user/{id}")
     public ResponseEntity<?> getCheckinEmotionByUserId(@PathVariable String UserId) {
         return checkinEmotionService.findByUserId(UserId)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
     // 根据日期获取情绪打卡记录的接口
-    @GetMapping("/byDate/{date}")
+    @GetMapping("/by-date/{date}")
     public ResponseEntity<List<?>> getCheckinEmotionByDay(@PathVariable String date) {
         LocalDate parsedDate;
         try {
@@ -74,7 +74,7 @@ public class CheckinEmotionController {
         return ResponseEntity.ok(emotions); // 返回找到的记录
     }
 
-    @GetMapping("/byDates/{date}")
+    @GetMapping("/by-dates/{date}")
     public ResponseEntity<Page<?>> getCheckinEmotionByDays(@PathVariable String date, Pageable pageable) {
         LocalDate parsedDate;
         try {
