@@ -14,3 +14,4 @@ spring:
           - data-id: shared-nacos-discover.yaml
           - data-id: shared-mysql.yaml
           - data-id: shared-management.yaml
+          - data-id: shared-redis.yaml

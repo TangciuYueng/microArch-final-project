@@ -8,6 +8,8 @@ import cn.edu.tongji.musicRoom.mapper.MusicRoomMemberMapper;
 import cn.edu.tongji.musicRoom.model.AdminGroup;
 import cn.edu.tongji.musicRoom.model.ChatRecord;
 import cn.edu.tongji.musicRoom.service.ChatRecordService;
+import cn.edu.tongji.musicRoom.util.ObjectToOtherUtil;
+import cn.edu.tongji.musicRoom.util.RedisOperatingUtil;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,10 @@ public class ChatRecordServiceImpl implements ChatRecordService {
     private MusicRoomMemberMapper musicRoomMemberMapper;
     @Resource
     private AdminGroupMapper adminGroupMapper;
+//    @Resource
+//    private ChatRecordRepository chatRecordRepository;
+    @Resource
+    private RedisOperatingUtil redisOperatingUtil;
 
     private final static int PAGE_SIZE = 30;
 
@@ -34,7 +40,14 @@ public class ChatRecordServiceImpl implements ChatRecordService {
         int totalMusicRoom = chatRecordMapper.getAllChatRecord(musicRoomId);
         int totalPage = (int) Math.ceil((double) totalMusicRoom / PAGE_SIZE);
 
-        return new ChatRecordInfo(chatRecords, totalPage, page);
+        // 构建返回类
+        ChatRecordInfo chatRecordInfo = ChatRecordInfo.builder()
+                .chatRecords(chatRecords)
+                .currentPage(page)
+                .totalPage(totalPage)
+                .build();
+
+        return chatRecordInfo;
     }
 
     @Override
@@ -53,8 +66,8 @@ public class ChatRecordServiceImpl implements ChatRecordService {
         int musicRoomId = request.getMusicRoomId();
         int userId = request.getUserId();
         // 检查是否可以聊天
-        boolean chatable = musicRoomMemberMapper.getMemberChatable(userId, musicRoomId);
-        if (!chatable) {
+        Boolean chatable = musicRoomMemberMapper.getMemberChatable(userId, musicRoomId);
+        if (chatable == null || !chatable) {
             throw new IllegalArgumentException("Illegal chat record added");
         }
 
@@ -66,7 +79,11 @@ public class ChatRecordServiceImpl implements ChatRecordService {
                 .musicRoomId(request.getMusicRoomId())
                 .build();
 
-        chatRecordMapper.insertChatRecord(chatRecord);
+        // 插入 Redis 插入聊天记录
+        redisOperatingUtil.listRightPush("chatRecord", chatRecord);
+
+        // 插入数据库
+//        chatRecordMapper.insertChatRecord(chatRecord);
 
         return chatRecord;
     }
