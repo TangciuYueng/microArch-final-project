@@ -10,8 +10,9 @@ import org.springframework.stereotype.Service;
 // 用来实现聊天的业务逻辑
 public interface ChatRecordService {
     ChatRecordInfo getAllChatRecord(int page, Integer musicRoomId);
+
     void deleteChatRecord(int chatRecordId, int operatorId);
+
     ChatRecord addChatRecord(AddChatRecordRequest request);
 
-    void testSerializableListRedisTemplate();
 }
