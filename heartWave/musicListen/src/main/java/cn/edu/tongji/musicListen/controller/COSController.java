@@ -4,10 +4,14 @@ import cn.edu.tongji.musicListen.dto.COSFileRequest;
 import cn.edu.tongji.musicListen.dto.COSGetObjectsRequest;
 import cn.edu.tongji.musicListen.dto.COSMusicAddRequest;
 import cn.edu.tongji.musicListen.service.COSService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qcloud.cos.model.Bucket;
 import com.qcloud.cos.model.COSObjectSummary;
 import com.qcloud.cos.model.ObjectMetadata;
 import jakarta.annotation.Resource;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +23,20 @@ import java.util.List;
 public class COSController {
     @Resource
     private COSService cosService;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    private String convertRequestToJson(COSMusicAddRequest request) {
+        // 使用 Jackson 等库将请求转换为 JSON 字符串
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(request);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return "{}";
+        }
+    }
 
     @GetMapping("/buckets")
     public ResponseEntity<?> getCOSBuckets() {
@@ -35,6 +53,14 @@ public class COSController {
     public ResponseEntity<?> uploadFile(@RequestBody COSMusicAddRequest cosMusicAddRequest) {
         try {
             cosService.uploadFile(cosMusicAddRequest);
+
+            // 将请求体信息转换为字符串（JSON格式）
+            String message = convertRequestToJson(cosMusicAddRequest);
+
+            // 发送消息到 RabbitMQ
+            rabbitTemplate.convertAndSend("music", "newMusic", message);
+
+
             return new ResponseEntity<>("successfully upload file to cos", HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

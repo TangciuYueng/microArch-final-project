@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.edu.tongji.friend.mapper.ChatRecordMapper">
+    <select id="getById" resultType="chatRecord">
+        SELECT * FROM chat_record
+        WHERE id = #{id};
+    </select>
+
+    <insert id="add" parameterType="chatRecord" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO chat_record(sender_id, receiver_id, content, type)
+        VALUES (#{senderId}, #{receiverId}, #{content}, #{type});
+    </insert>
+
+    <update id="update" parameterType="chatRecord">
+        UPDATE chat_record
+        <set>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted},
+            </if>
+        </set>
+        WHERE id = #{id};
+    </update>
+
+    <select id="getCountByDate" resultType="int">
+        SELECT COUNT(*)
+        FROM chat_record
+        WHERE (sender_id = #{senderId} AND receiver_id = #{receiverId}
+            OR sender_id = #{receiverId} AND receiver_id = #{senderId})
+          AND send_time LIKE CONCAT(#{date}, '%')
+          AND is_deleted = 0;
+    </select>
+
+    <select id="getByPage" resultType="chatRecord">
+        SELECT * FROM chat_record
+        WHERE  (sender_id = #{senderId} AND receiver_id = #{receiverId}
+            OR sender_id = #{receiverId} AND receiver_id = #{senderId})
+            AND send_time LIKE CONCAT(#{date}, '%')
+            AND is_deleted = 0
+        LIMIT 2 OFFSET #{offset};
+    </select>
+
+    <select id="getByTime" resultType="chatRecord">
+        SELECT * FROM chat_record
+        WHERE (sender_id = #{senderId} AND receiver_id = #{receiverId}
+            OR sender_id = #{receiverId} AND receiver_id = #{senderId})
+            AND is_deleted = 0
+        ORDER BY send_time DESC
+        LIMIT 2 OFFSET #{offset};
+    </select>
+</mapper>

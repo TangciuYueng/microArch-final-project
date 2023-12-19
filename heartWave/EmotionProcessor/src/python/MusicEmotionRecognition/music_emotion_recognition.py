@@ -1,16 +1,20 @@
 import os
 import sys
-
+import time
+import pika
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import librosa
-from tensorflow.keras.models import load_model
+from keras.models import load_model
 from pathlib import Path
+
 
 import warnings
 # this will take a lot of time to process 2500 files.
 from IPython.display import clear_output
+
+from heartWave.EmotionProcessor.src.python.methods import download_music_from_cos
 
 warnings.filterwarnings("ignore")
 warnings.simplefilter("ignore")
@@ -69,7 +73,7 @@ def analyze_music(file_path):
     X, y = [], []
     print("Extracting features...")
 
-    feature = feature_extractor("./MusicTest/Gareth.T - 劲浪漫 超温馨.mp3");
+    feature = feature_extractor(file_path);
     # print(feature);
     # 加载模型
 
@@ -96,12 +100,51 @@ def analyze_music(file_path):
     print(predicted_emotion)
 
 
+def connect_to_rabbitmq():
+    # 设置RabbitMQ服务器的地址、用户名和密码
+    credentials = pika.PlainCredentials('music', 'musicListen')
+    connection = pika.BlockingConnection(
+        pika.ConnectionParameters(host='120.26.0.232', credentials=credentials)
+    )
+    channel = connection.channel()
+    return connection, channel
+
+def fetch_music_info(channel):
+    # 从RabbitMQ队列获取音乐信息
+    # 需要根据你的队列名和格式进行调整
+    method_frame, header_frame, body = channel.basic_get('musicQueue')
+    if method_frame:
+        # 确认消息
+        channel.basic_ack(method_frame.delivery_tag)
+        return body.decode()
+    else:
+        return None
+
+def analyze_and_publish_results(music_list, channel):
+    # 处理音乐列表并发布结果到RabbitMQ
+    for music_path in music_list:
+        predicted_emotion = analyze_music(music_path)
+        # 发布结果到另一个队列
+        channel.basic_publish(exchange='',
+                              routing_key='result_queue',
+                              body=str(predicted_emotion))
+
 if __name__ == "__main__":
-    # if len(sys.argv) != 2:
-    #     print("Usage: python script.py <file_path>")
-    #     sys.exit(1)
-    #
-    # file_path = sys.argv[1]
-    file_path =''
-    predicted_emotion = analyze_music(file_path)
-    print("Predicted Emotion:", predicted_emotion)
+    connection, channel = connect_to_rabbitmq()
+    music_list = []
+
+    while True:
+        music_info = fetch_music_info(channel)
+        print(music_info)
+        if music_info:
+            # 从COS服务器下载音乐
+            music_path = download_music_from_cos(music_info)
+            music_list.append(music_path)
+
+            if len(music_list) >= 5:
+                analyze_and_publish_results(music_list, channel)
+                music_list.clear()
+
+        time.sleep(1000)  # 每隔一段时间运行一次
+
+    connection.close()

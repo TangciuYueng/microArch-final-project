@@ -1,6 +1,3 @@
-import requests
-
-
 def get_music_list_by_user_id(user_id):
     url = f"http://localhost:8888/api/music_listen/music_list/{user_id}"
     response = requests.get(url)
@@ -91,5 +88,48 @@ def get_music_emotion_by_music_id(music_id):
     except requests.RequestException as e:
         return f"Request Error: {e}"
 
+import requests
+
+def download_music(local_path, cos_path):
+    url = "http://localhost:8887/api/cos/download"
+    payload = {
+        "localPath": local_path,
+        "cosPath": cos_path
+    }
+
+    try:
+        # 发送 POST 请求
+        response = requests.post(url, json=payload)
+        response.raise_for_status()  # 确保请求成功
+
+        return f"请求成功，文件应该已下载到 {local_path}"
+    except requests.exceptions.RequestException as e:
+        return f"下载错误: {e}"
+
+
+
+def download_music_from_cos(music_info):
+    # 将JSON字符串解析为字典
+    music_info_dict = json.loads(music_info)
+
+    # 构造请求payload
+    payload = {
+        "localPath": music_info_dict["localPath"],
+        "cosPath": music_info_dict["cosPath"]
+    }
+
+    # 发送请求到COS下载API
+    url = "http://localhost:8887/api/cos/download"
+    response = requests.post(url, json=payload)
+
+    # 检查响应状态
+    if response.status_code == 200:
+        return payload["localPath"]
+    else:
+        # 处理错误情况
+        print("Error downloading file:", response.text)
+        return None
+
+import json
 import requests
 

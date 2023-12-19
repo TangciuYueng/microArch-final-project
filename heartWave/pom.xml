@@ -19,6 +19,8 @@
         <module>gateway</module>
         <module>EmotionProcessor</module>
         <module>room</module>
+        <module>friend</module>
+        <module>friend</module>
     </modules>
 
     <properties>
@@ -114,6 +116,13 @@
                 <groupId>com.qcloud</groupId>
                 <artifactId>cos_api</artifactId>
                 <version>5.6.187</version>
+            </dependency>
+
+            <!-- Spring Data Redis -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>3.1.4</version>
             </dependency>
 
             <!-- Spring Authorization Server -->

@@ -10,3 +10,9 @@ db:
 
 maven-name: musicListen
 
+spring:
+  rabbitmq:
+    host: 120.26.0.232
+    port: 5672
+    username: "music"
+    password: "musicListen"
