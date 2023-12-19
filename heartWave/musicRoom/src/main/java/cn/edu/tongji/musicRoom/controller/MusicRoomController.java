@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/music_room")
+@RequestMapping("/api/music-room")
 public class MusicRoomController {
     @Resource
     private MusicRoomService musicRoomService;
@@ -53,7 +53,7 @@ public class MusicRoomController {
         }
     }
 
-    @PutMapping("/close")
+    @PutMapping
     public ResponseEntity<?> closeMusicRoom(@RequestParam("musicRoomId") int musicRoomId, @RequestParam("operatorId") int operatorId) {
         try {
             musicRoomService.closeMusicRoom(musicRoomId, operatorId);
@@ -64,7 +64,7 @@ public class MusicRoomController {
         }
     }
 
-    @PostMapping("/song")
+    @PostMapping("/songs")
     @Transactional
     public ResponseEntity<?> addMusicRoomSong(@RequestBody MusicRoomSongRequest request) {
         try {

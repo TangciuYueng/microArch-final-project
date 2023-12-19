@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/chat_record")
+@RequestMapping("/api/chat-record")
 public class ChatRecordController {
     @Resource
     private ChatRecordService chatRecordService;

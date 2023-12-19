@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/music_listen/play_count")
+@RequestMapping("/api/music-listen/play-count")
 public class PlayCountController {
     @Resource
     private PlayCountService playCountService;

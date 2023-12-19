@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/chat_record")
+@RequestMapping("/api/chat-record")
 public class ChatRecordController {
     @Resource
     private ChatRecordService chatRecordService;
 
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<?> addChatRecord(@RequestBody AddChatRecordRequest addChatRecordRequest) {
         try {
             ChatRecord chatRecord = chatRecordService.addChatRecord(addChatRecordRequest);
@@ -30,7 +30,7 @@ public class ChatRecordController {
         }
     }
 
-    @PutMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteChatRecord(@PathVariable("id") int id) {
         try {
             chatRecordService.deleteChatRecord(id);
@@ -41,7 +41,7 @@ public class ChatRecordController {
         }
     }
 
-    @GetMapping("/get/page_count/date")
+    @GetMapping("/count")
     public ResponseEntity<?> getChatRecordPageCountByDate(@RequestBody GetChatRecordPageCountByDateRequest getChatRecordPageCountByDateRequest) {
         try {
             int chatRecordPageCount = chatRecordService.getChatRecordPageCountByDate(getChatRecordPageCountByDateRequest);
@@ -52,7 +52,7 @@ public class ChatRecordController {
         }
     }
 
-    @GetMapping("/get/page/date")
+    @GetMapping("/pages")
     public ResponseEntity<?> getChatRecordByPage(@RequestBody GetChatRecordPageByDateRequest getChatRecordPageByDateRequest) {
         try {
             List<ChatRecord> chatRecords = chatRecordService.getChatRecordByPage(getChatRecordPageByDateRequest);
@@ -63,7 +63,7 @@ public class ChatRecordController {
         }
     }
 
-    @GetMapping("/get/page/time")
+    @GetMapping("/time")
     public ResponseEntity<?> getChatRecordByTime(@RequestBody GetChatRecordPageByTimeRequest getChatRecordPageByTimeRequest) {
         try {
             List<ChatRecord> chatRecords = chatRecordService.getChatRecordByTime(getChatRecordPageByTimeRequest);

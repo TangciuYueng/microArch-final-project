@@ -17,7 +17,7 @@ public class FriendController {
     @Resource
     private FriendService friendService;
 
-    @GetMapping("/list/{userId}")
+    @GetMapping("/{userId}")
     public ResponseEntity<?> getFriendsByUserId(@PathVariable("userId") int userId) {
         try {
             List<FriendInfo> friendInfos = friendService.getFriendsByUserId(userId);
@@ -28,7 +28,7 @@ public class FriendController {
         }
     }
 
-    @PostMapping("/add/{userId}/{friendId}")
+    @PostMapping("/{userId}/{friendId}")
     public ResponseEntity<?> addFriend(@PathVariable("userId") int userId, @PathVariable("friendId") int friendId) {
         try {
             List<Friend> friends = friendService.addFriend(userId, friendId);
@@ -39,7 +39,7 @@ public class FriendController {
         }
     }
 
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<?> updateFriendIntimacy(@RequestBody UpdateFriendIntimacyRequest updateFriendIntimacyRequest) {
         try {
             double newIntimacy = friendService.updateFriendIntimacy(updateFriendIntimacyRequest);
@@ -50,7 +50,7 @@ public class FriendController {
         }
     }
 
-    @DeleteMapping("/delete/{userId}/{friendId}")
+    @DeleteMapping("/{userId}/{friendId}")
     public ResponseEntity<?> deleteFriend(@PathVariable("userId") int userId, @PathVariable("friendId") int friendId) {
         try {
             friendService.deleteFriend(userId, friendId);
