@@ -106,5 +106,30 @@ def download_music(local_path, cos_path):
     except requests.exceptions.RequestException as e:
         return f"下载错误: {e}"
 
+
+
+def download_music_from_cos(music_info):
+    # 将JSON字符串解析为字典
+    music_info_dict = json.loads(music_info)
+
+    # 构造请求payload
+    payload = {
+        "localPath": music_info_dict["localPath"],
+        "cosPath": music_info_dict["cosPath"]
+    }
+
+    # 发送请求到COS下载API
+    url = "http://localhost:8887/api/cos/download"
+    response = requests.post(url, json=payload)
+
+    # 检查响应状态
+    if response.status_code == 200:
+        return payload["localPath"]
+    else:
+        # 处理错误情况
+        print("Error downloading file:", response.text)
+        return None
+
+import json
 import requests
 
