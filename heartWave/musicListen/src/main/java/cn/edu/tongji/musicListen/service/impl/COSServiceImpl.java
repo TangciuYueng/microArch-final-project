@@ -13,6 +13,7 @@ import com.qcloud.cos.model.*;
 import jakarta.annotation.Resource;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class COSServiceImpl implements COSService {
         return cosClient.listBuckets();
     }
 
+    @Transactional
     @Override
     public void uploadFile(COSMusicAddRequest cosMusicAddRequest) {
         // 指定文件上传到 COS 上的路径，即对象键。例如对象键为 folder/picture.jpg，则表示将文件 picture.jpg 上传到 folder 路径下
@@ -57,6 +59,20 @@ public class COSServiceImpl implements COSService {
                 .type(cosMusicAddRequest.getType())
                 .src(cosMusicAddRequest.getCosPath())
                 .genre(cosMusicAddRequest.getGenre())
+                .album(cosMusicAddRequest.getAlbum())
+                .label(cosMusicAddRequest.getLabel())
+                .likes(cosMusicAddRequest.getLikes())
+                .artist(cosMusicAddRequest.getArtist())
+                .composer(cosMusicAddRequest.getComposer())
+                .downloads(cosMusicAddRequest.getDownloads())
+                .duration(cosMusicAddRequest.getDuration())
+                .musicMood(cosMusicAddRequest.getMusicMood())
+                .lyrics(cosMusicAddRequest.getLyrics())
+                .language(cosMusicAddRequest.getLanguage())
+                .producer(cosMusicAddRequest.getProducer())
+                .releaseDate(cosMusicAddRequest.getReleaseDate())
+                .writer(cosMusicAddRequest.getWriter())
+                .playCount(cosMusicAddRequest.getPlayCount())
                 .build();
         // 插入 music 表
         int newId = musicMapper.insertMusic(music);
