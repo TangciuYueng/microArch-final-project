@@ -109,21 +109,20 @@ def download_music(local_path, cos_path):
 
 
 def download_music_from_cos(music_info):
-    # 将JSON字符串解析为字典
-    music_info_dict = json.loads(music_info)
 
     # 构造请求payload
     payload = {
-        "localPath": music_info_dict["localPath"],
-        "cosPath": music_info_dict["cosPath"]
+        "localPath": music_info["localPath"],
+        "cosPath": music_info["cosPath"]
     }
 
     # 发送请求到COS下载API
-    url = "http://localhost:8887/api/cos/download"
-    response = requests.post(url, json=payload)
+    url = "http://localhost:8888/api/cos/file"
+    response = requests.get(url, json=payload)
 
     # 检查响应状态
     if response.status_code == 200:
+        print(payload["localPath"])
         return payload["localPath"]
     else:
         # 处理错误情况

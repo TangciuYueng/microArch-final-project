@@ -1,3 +1,4 @@
+import json
 import os
 import sys
 import time
@@ -125,8 +126,8 @@ def analyze_and_publish_results(music_list, channel):
     for music_path in music_list:
         predicted_emotion = analyze_music(music_path)
         # 发布结果到另一个队列
-        channel.basic_publish(exchange='',
-                              routing_key='result_queue',
+        channel.basic_publish(exchange='music',
+                              routing_key='resultQueue',  #需要在网页端绑定
                               body=str(predicted_emotion))
 
 if __name__ == "__main__":
@@ -137,14 +138,27 @@ if __name__ == "__main__":
         music_info = fetch_music_info(channel)
         print(music_info)
         if music_info:
+
+            try:
+                music_info = json.loads(music_info)
+            except json.JSONDecodeError as e:
+                print("JSON 解析错误:", e)
+                continue
+
             # 从COS服务器下载音乐
-            music_path = download_music_from_cos(music_info)
+            filename = os.path.basename(music_info["cosPath"])
+            local_path_with_filename = os.path.join("C:/Users/86181/Desktop/MicroServices/downloadMusic", filename) #先使用绝对路径
+            download_music_info = {
+                "localPath": local_path_with_filename,
+                "cosPath": music_info["cosPath"]
+            }
+            music_path = download_music_from_cos(download_music_info)
             music_list.append(music_path)
 
-            if len(music_list) >= 5:
+            if len(music_list) >= 1:
                 analyze_and_publish_results(music_list, channel)
                 music_list.clear()
 
-        time.sleep(1000)  # 每隔一段时间运行一次
+        time.sleep(1)  # 每隔一段时间运行一次
 
     connection.close()
