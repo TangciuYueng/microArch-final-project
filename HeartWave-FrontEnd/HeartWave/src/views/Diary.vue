@@ -10,7 +10,7 @@
         <v-divider></v-divider>
         <v-row v-for="week in weeks" :key="week">
             <v-col v-for="day in days" :key="day" class="text-center">
-                {{ week * 7 + day - startDay }}
+                1
             </v-col>
         </v-row>
     </v-container>
@@ -32,10 +32,21 @@ export default {
         days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
         startDay: 3, // Wednesday
         numWeeks: 5,
+
     }),
     computed: {
         weeks() {
-            return Array.from({ length: this.numWeeks }, (_, i) => i);
+            const date = new Date();
+            const numWeeks = 52; // 假设一年有 52 周
+            const weeks = [];
+
+            for (let i = 0; i < numWeeks; i++) {
+                const weekStart = new Date(date.getFullYear(), 0, 1).getTime() + i * 7 * 24 * 60 * 60 * 1000;
+                const weekEnd = weekStart + 6 * 24 * 60 * 60 * 1000;
+                weeks.push({ start: new Date(weekStart), end: new Date(weekEnd) });
+            }
+
+            return weeks;
         },
     },
     methods: {
