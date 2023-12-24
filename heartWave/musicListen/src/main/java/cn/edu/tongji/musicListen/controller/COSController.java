@@ -10,6 +10,7 @@ import com.qcloud.cos.model.Bucket;
 import com.qcloud.cos.model.COSObjectSummary;
 import com.qcloud.cos.model.ObjectMetadata;
 import jakarta.annotation.Resource;
+import org.json.JSONObject;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,10 +53,17 @@ public class COSController {
     @PostMapping
     public ResponseEntity<?> uploadFile(@RequestBody COSMusicAddRequest cosMusicAddRequest) {
         try {
-            cosService.uploadFile(cosMusicAddRequest);
+            int newId = cosService.uploadFile(cosMusicAddRequest);
 
             // 将请求体信息转换为字符串（JSON格式）
             String message = convertRequestToJson(cosMusicAddRequest);
+
+            // 创建一个 JSON 对象，包含 newId
+            JSONObject jsonObject = new JSONObject(message);
+            jsonObject.put("newId", newId);
+
+            // 更新 message 为包含 newId 的 JSON 字符串
+            message = jsonObject.toString();
 
             // 发送消息到 RabbitMQ
             rabbitTemplate.convertAndSend("music", "newMusic", message);

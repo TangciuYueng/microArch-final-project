@@ -35,7 +35,7 @@ public class COSServiceImpl implements COSService {
 
     @Transactional
     @Override
-    public void uploadFile(COSMusicAddRequest cosMusicAddRequest) {
+    public int uploadFile(COSMusicAddRequest cosMusicAddRequest) {
         // 指定文件上传到 COS 上的路径，即对象键。例如对象键为 folder/picture.jpg，则表示将文件 picture.jpg 上传到 folder 路径下
         PutObjectRequest putObjectRequest = new PutObjectRequest(
                 getCOSBuckets().get(0).getName(),  //目前只有一个存储桶
@@ -76,6 +76,8 @@ public class COSServiceImpl implements COSService {
                 .build();
         // 插入 music 表
         int newId = musicMapper.insertMusic(music);
+
+        return newId;
 
     }
 

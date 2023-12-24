@@ -121,11 +121,15 @@ def fetch_music_info(channel):
     else:
         return None
 
-def analyze_and_publish_results(music_list, channel):
+def analyze_and_publish_results(music_info, music_list, channel):
     # 处理音乐列表并发布结果到RabbitMQ
     for music_path in music_list:
         predicted_emotion = analyze_music(music_path)
         # 发布结果到另一个队列
+        result = {
+            "music_id": music_info['id'],
+            "emotion": predicted_emotion
+        }
         channel.basic_publish(exchange='music',
                               routing_key='resultQueue',  #需要在网页端绑定
                               body=str(predicted_emotion))
@@ -156,7 +160,7 @@ if __name__ == "__main__":
             music_list.append(music_path)
 
             if len(music_list) >= 1:
-                analyze_and_publish_results(music_list, channel)
+                analyze_and_publish_results(music_info, music_list, channel)
                 music_list.clear()
 
         time.sleep(1)  # 每隔一段时间运行一次

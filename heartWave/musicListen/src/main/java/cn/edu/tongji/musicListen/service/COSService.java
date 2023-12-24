@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface COSService {
     List<Bucket> getCOSBuckets();
-    void uploadFile(COSMusicAddRequest cosMusicAddRequest);
+    int uploadFile(COSMusicAddRequest cosMusicAddRequest);
     List<COSObjectSummary> getObjects(COSGetObjectsRequest cosGetObjectsRequest);
     ObjectMetadata downloadFile(COSFileRequest cosFileRequest);
     void deleteFile(COSFileRequest cosFileRequest);
