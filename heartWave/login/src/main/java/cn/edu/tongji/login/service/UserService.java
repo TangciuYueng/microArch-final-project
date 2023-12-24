@@ -12,6 +12,7 @@ import java.util.List;
 @Service
 public interface UserService {
     List<User> getAllUsers();
+    User getUserById(int id);
     UserInfo getUserInfoById(int id);
     User addUser(AddUserRequest addUserRequest);
     void updateUser(UpdateUserRequest updateUserRequest);

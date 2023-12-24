@@ -41,7 +41,7 @@ public class ChatRecordController {
         }
     }
 
-    @GetMapping("/count")
+    @GetMapping("/page-count")
     public ResponseEntity<?> getChatRecordPageCountByDate(@RequestBody GetChatRecordPageCountByDateRequest getChatRecordPageCountByDateRequest) {
         try {
             int chatRecordPageCount = chatRecordService.getChatRecordPageCountByDate(getChatRecordPageCountByDateRequest);
@@ -52,7 +52,7 @@ public class ChatRecordController {
         }
     }
 
-    @GetMapping("/pages")
+    @GetMapping("/page")
     public ResponseEntity<?> getChatRecordByPage(@RequestBody GetChatRecordPageByDateRequest getChatRecordPageByDateRequest) {
         try {
             List<ChatRecord> chatRecords = chatRecordService.getChatRecordByPage(getChatRecordPageByDateRequest);

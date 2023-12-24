@@ -2,8 +2,8 @@ package cn.edu.tongji.friend.service.impl;
 
 import cn.edu.tongji.friend.dto.FriendInfo;
 import cn.edu.tongji.friend.dto.UpdateFriendIntimacyRequest;
+import cn.edu.tongji.friend.interfaces.LoginServiceClient;
 import cn.edu.tongji.friend.mapper.FriendMapper;
-import cn.edu.tongji.friend.mapper.UserMapper;
 import cn.edu.tongji.friend.model.Friend;
 import cn.edu.tongji.friend.model.User;
 import cn.edu.tongji.friend.service.FriendService;
@@ -19,7 +19,7 @@ public class FriendServiceImpl implements FriendService {
     @Resource
     private FriendMapper friendMapper;
     @Resource
-    private UserMapper userMapper;
+    private LoginServiceClient loginServiceClient;
 
     @Override
     @Transactional
@@ -28,7 +28,7 @@ public class FriendServiceImpl implements FriendService {
         List<Friend> friends = friendMapper.getByUserId(userId);
 
         for (Friend friend: friends) {
-            User user = userMapper.getById(friend.getId());
+            User user = (User) loginServiceClient.getUserById(friend.getFriendId()).getBody();
 
             friendInfos.add(new FriendInfo(
                     user.getId(),

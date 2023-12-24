@@ -1,6 +1,6 @@
 package cn.edu.tongji.diaryWriting.service.impl;
 
-import cn.edu.tongji.Emotions.model.DiaryEmotion;
+import cn.edu.tongji.diaryWriting.model.DiaryEmotion;
 import cn.edu.tongji.diaryWriting.service.BaiduSentimentAnalysis;
 //import jakarta.annotation.Resource;
 import okhttp3.*;

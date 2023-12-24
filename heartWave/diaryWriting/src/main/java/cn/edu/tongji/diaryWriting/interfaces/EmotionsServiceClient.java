@@ -1,6 +1,6 @@
 package cn.edu.tongji.diaryWriting.interfaces;
 
-import cn.edu.tongji.Emotions.model.DiaryEmotion;
+import cn.edu.tongji.diaryWriting.model.DiaryEmotion;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -7,53 +7,17 @@ import cn.edu.tongji.login.dto.UserInfo;
 import cn.edu.tongji.login.model.User;
 import cn.edu.tongji.login.service.UserService;
 import jakarta.annotation.Resource;
-import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-import java.util.Random;
 
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
     @Resource
     private UserService userService;
-    @Resource
-    private RestTemplate restTemplate;  //需要配置RestTemplate的Bean
-    @Resource
-    private DiscoveryClient discoveryClient;
-
-    @RequestMapping("/hello")
-    private String sayHello() {
-        return toString();
-    }
-
-    @GetMapping("/another-service")
-    public ResponseEntity<String> anotherService() {
-        //获取所有微服务实例列表
-        List<ServiceInstance> instances = discoveryClient.getInstances("music-room-service");
-        if (instances.size() == 0)
-            return null;
-
-        //手写负载均衡，随机分配一个实例提供服务
-        ServiceInstance instance = instances.get(new Random().nextInt(instances.size()));
-
-        //发送http请求并调用其余实例的服务
-        //可通过ResponseEntity的类型参数指定返回类型，一定要与对方Controller的返回类型一致
-
-        return restTemplate.exchange(
-                instance.getUri() + "/api/musicroom/all",
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<>() {}
-        );
-    }
 
     @GetMapping
     public ResponseEntity<?> getAllUsers() {
@@ -67,13 +31,24 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable int id) {
+    public ResponseEntity<?> getUserById(@PathVariable("id") int id) {
+        try {
+            User user = userService.getUserById(id);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("get user by id failed", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("info/{id}")
+    public ResponseEntity<?> getUserInfoById(@PathVariable("id") int id) {
         try {
             UserInfo userInfo = userService.getUserInfoById(id);
             return new ResponseEntity<>(userInfo, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>("get user by id failed", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("get user info by id failed", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="social">
+<<<<<<< Updated upstream
+  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.49">
+    <root id="1"/>
+    <collation id="2" parent="1" name="armscii8_bin">
+      <Charset>armscii8</Charset>
+    </collation>
+    <collation id="3" parent="1" name="armscii8_general_ci">
+      <Charset>armscii8</Charset>
+      <DefaultForCharset>1</DefaultForCharset>
+    </collation>
+    <collation id="4" parent="1" name="ascii_bin">
+      <Charset>ascii</Charset>
+    </collation>
+    <collation id="5" parent="1" name="ascii_general_ci">
+      <Charset>ascii</Charset>
+      <DefaultForCharset>1</DefaultForCharset>
+    </collation>
+    <collation id="6" parent="1" name="big5_bin">
+      <Charset>big5</Charset>
+    </collation>
+    <collation id="7" parent="1" name="big5_chinese_ci">
+=======
   <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.48">
     <root id="1">
       <DefaultCasing>exact</DefaultCasing>
@@ -27,6 +49,7 @@ social|schema||social||UPDATE|G</Grants>
       <ServerVersion>5.7.40</ServerVersion>
     </root>
     <collation id="2" parent="1" name="big5_chinese_ci">
+>>>>>>> Stashed changes
       <Charset>big5</Charset>
       <DefaultForCharset>1</DefaultForCharset>
     </collation>

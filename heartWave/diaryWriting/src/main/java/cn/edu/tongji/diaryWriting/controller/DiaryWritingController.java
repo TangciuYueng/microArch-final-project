@@ -1,9 +1,8 @@
 package cn.edu.tongji.diaryWriting.controller;
 
-import cn.edu.tongji.Emotions.model.DiaryEmotion;
+import cn.edu.tongji.diaryWriting.model.DiaryEmotion;
 import cn.edu.tongji.diaryWriting.dto.AddDiaryWritingRequest;
 import cn.edu.tongji.diaryWriting.dto.DiaryWritingInfo;
-import cn.edu.tongji.diaryWriting.dto.SentimentData;
 import cn.edu.tongji.diaryWriting.model.Diary;
 import cn.edu.tongji.diaryWriting.service.BaiduSentimentAnalysis;
 import cn.edu.tongji.diaryWriting.service.DiaryWritingService;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
