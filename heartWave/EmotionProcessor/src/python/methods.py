@@ -129,6 +129,24 @@ def download_music_from_cos(music_info):
         print("Error downloading file:", response.text)
         return None
 
+def get_all_musics_list() :
+    payload = {
+
+    }
+
+    # 发送请求到COS下载API
+    url = "http://localhost:8888/api/cos"
+    response = requests.get(url, json=payload)
+
+    # 检查响应状态
+    if response.status_code == 200:
+        print(response.json())
+        return response.json()
+    else:
+        # 处理错误情况
+        print("Error downloading file:", response.text)
+        return None
 import json
 import requests
+
 

@@ -15,7 +15,7 @@ import warnings
 # this will take a lot of time to process 2500 files.
 from IPython.display import clear_output
 
-from heartWave.EmotionProcessor.src.python.methods import download_music_from_cos
+from heartWave.EmotionProcessor.src.python.methods import *
 
 warnings.filterwarnings("ignore")
 warnings.simplefilter("ignore")
@@ -99,7 +99,7 @@ def analyze_music(file_path):
     # 获取最可能的情绪标签
     predicted_emotion = emotion_labels[predictions.argmax()]
     print(predicted_emotion)
-
+    return predictions
 
 def connect_to_rabbitmq():
     # 设置RabbitMQ服务器的地址、用户名和密码
@@ -112,57 +112,105 @@ def connect_to_rabbitmq():
 
 def fetch_music_info(channel):
     # 从RabbitMQ队列获取音乐信息
-    # 需要根据你的队列名和格式进行调整
+    # 根据队列名和格式进行调整
     method_frame, header_frame, body = channel.basic_get('musicQueue')
     if method_frame:
         # 确认消息
-        channel.basic_ack(method_frame.delivery_tag)
+       # channel.basic_ack(method_frame.delivery_tag)
         return body.decode()
     else:
         return None
 
-def analyze_and_publish_results(music_info, music_list, channel):
+def analyze_and_publish_results(music_id, music_list, channel):
     # 处理音乐列表并发布结果到RabbitMQ
     for music_path in music_list:
-        predicted_emotion = analyze_music(music_path)
+        predictions = analyze_music(music_path)
+        # 提取列表中的第一个元素，该元素是一个包含五个值的列表
+
+        values = predictions[0]
+
+        # 将每个 NumPy float32 值转换为 Python 标准 float 类型
+        values = [float(value) for value in values]
+
+        # 将每个值分配给一个单独的变量
+        aggressive, dramatic, happy, romantic, sad = values
+
         # 发布结果到另一个队列
         result = {
-            "music_id": music_info['id'],
-            "emotion": predicted_emotion
+            "music_id": music_id,
+            "aggressive": aggressive,
+            "dramatic": dramatic,
+            "happy": happy,
+            "romantic": romantic,
+            "sad": sad
         }
+        # 将字典转换为 JSON 字符串
+        result_json = json.dumps(result)
         channel.basic_publish(exchange='music',
                               routing_key='resultQueue',  #需要在网页端绑定
-                              body=str(predicted_emotion))
+                              body=result_json)
 
 if __name__ == "__main__":
     connection, channel = connect_to_rabbitmq()
     music_list = []
 
-    while True:
-        music_info = fetch_music_info(channel)
-        print(music_info)
-        if music_info:
+    # while True:
+    #     music_info = fetch_music_info(channel)
+    #     print(music_info)
+    #     if music_info:
+    #
+    #         try:
+    #             music_info = json.loads(music_info)
+    #         except json.JSONDecodeError as e:
+    #             print("JSON 解析错误:", e)
+    #             continue
+    #
+    #         # 从COS服务器下载音乐
+    #         filename = os.path.basename(music_info["cosPath"])
+    #         local_path_with_filename = os.path.join("C:/Users/86181/Desktop/MicroServices/downloadMusic", filename) #先使用绝对路径
+    #         download_music_info = {
+    #             "localPath": local_path_with_filename,
+    #             "cosPath": music_info["cosPath"]
+    #         }
+    #         music_path = download_music_from_cos(download_music_info)
+    #         music_list.append(music_path)
+    #
+    #         if len(music_list) >= 1:
+    #             analyze_and_publish_results(music_info['id'], music_list, channel)
+    #             music_list.clear()
+    #
+    #     time.sleep(1)  # 每隔一段时间运行一次
+    example_data_list = get_all_musics_list()  # 假设数据是一个列表，里面包含多个类似的字典
 
-            try:
-                music_info = json.loads(music_info)
-            except json.JSONDecodeError as e:
-                print("JSON 解析错误:", e)
-                continue
+    # 提取所有 "key" 值
+    keys = [item["key"] for item in example_data_list]
 
-            # 从COS服务器下载音乐
-            filename = os.path.basename(music_info["cosPath"])
-            local_path_with_filename = os.path.join("C:/Users/86181/Desktop/MicroServices/downloadMusic", filename) #先使用绝对路径
-            download_music_info = {
-                "localPath": local_path_with_filename,
-                "cosPath": music_info["cosPath"]
-            }
-            music_path = download_music_from_cos(download_music_info)
-            music_list.append(music_path)
+    all_music = fetch_all_music()
+    id_key_map = [(item['id'], item['src']) for item in all_music]
+    src_to_id_map = {src: id for id, src in id_key_map}
+    
+    for key in keys:
+    # 从COS服务器下载音乐
+        filename = os.path.basename(key)
+        local_path_with_filename = os.path.join("C:/Users/86181/Desktop/MicroServices/downloadMusic", filename) #先使用绝对路径
+        download_music_info = {
+            "localPath": local_path_with_filename,
+            "cosPath": key
+        }
+        music_path = download_music_from_cos(download_music_info)
+        music_list.append(music_path)
 
-            if len(music_list) >= 1:
-                analyze_and_publish_results(music_info, music_list, channel)
+        try:
+            music_id = src_to_id_map[key]
+            print(music_id)
+            # 如果 music_id 不是 None 并且 music_list 长度至少为 1，则继续处理
+            if music_id is not None and len(music_list) >= 1:
+                analyze_and_publish_results(music_id, music_list, channel)
                 music_list.clear()
+        except KeyError as e:
+            print(f"The key {e} was not found in the map.")
 
         time.sleep(1)  # 每隔一段时间运行一次
+
 
     connection.close()
