@@ -42,7 +42,7 @@ public class MusicRoomController {
         }
     }
 
-    @GetMapping("/all/{page}")
+    @GetMapping("/all-music-rooms/{page}")
     public ResponseEntity<?> getAllMusicRoom(@PathVariable("page") int page) {
         try {
             MusicRoomInfo musicRoomInfo = musicRoomService.getAllMusicRoom(page);

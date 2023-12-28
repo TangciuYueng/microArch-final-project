@@ -23,7 +23,7 @@ public class RoomController {
         }
     }
 
-    @PostMapping("/chat_room/close")
+    @PostMapping("/chat-rooms/close")
     public void closeChatRoom(@RequestBody CloseRequest request) {
         try {
             roomService.closeChatRoom(request);

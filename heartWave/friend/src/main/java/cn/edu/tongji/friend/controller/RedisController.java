@@ -16,7 +16,7 @@ public class RedisController {
     @Resource
     private RedisService redisService;
 
-    @PostMapping("/student")
+    @PostMapping("/students")
     public ResponseEntity<?> addStudent(@RequestBody AddStudentRequest addStudentRequest) {
         try {
             redisService.addStudent(addStudentRequest);
@@ -27,7 +27,7 @@ public class RedisController {
         }
     }
 
-    @GetMapping("/student/all")
+    @GetMapping("/students/all")
     public ResponseEntity<?> getStudentAll() {
         try {
             List<Student> students = redisService.getStudentAll();
@@ -38,7 +38,7 @@ public class RedisController {
         }
     }
 
-    @GetMapping("/student/{id}")
+    @GetMapping("/students/{id}")
     public ResponseEntity<?> getStudentById(@PathVariable String id) {
         try {
             Student student = redisService.getStudentById(id);
@@ -49,7 +49,7 @@ public class RedisController {
         }
     }
 
-    @DeleteMapping("/student/{id}")
+    @DeleteMapping("/students/{id}")
     public ResponseEntity<?> deleteStudentById(@PathVariable String id) {
         try {
             redisService.deleteStudentById(id);

@@ -40,7 +40,7 @@ public class MusicEmotionController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-    @GetMapping("/music/{musicId}")
+    @GetMapping("/music-id/{musicId}")
     public ResponseEntity<?> getMusicEmotionByMusicId(@PathVariable int musicId) {
 
         try {

@@ -17,7 +17,7 @@ public class PlayCountController {
     private PlayCountService playCountService;
 
     // 获取某个用户的音乐播放次数
-    @GetMapping("/{userId}")
+    @GetMapping("/user-id/{userId}")
     public ResponseEntity<?> getPlayCountByUserId(@PathVariable("userId")int userId){
         try {
             return new ResponseEntity<>(playCountService.getListenRecordListByUserId(userId), HttpStatus.OK);

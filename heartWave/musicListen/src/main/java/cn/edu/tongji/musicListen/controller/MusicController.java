@@ -16,7 +16,7 @@ public class MusicController {
     private MusicService musicService;
 
     //获取所有音乐(分页)
-    @GetMapping("/by_page/{page}")
+    @GetMapping("/by-page/{page}")
     public ResponseEntity<?> getAllMusic(@PathVariable("page") int page){
         try{
             MusicInfo musicInfo = musicService.getAllMusic(page);
@@ -29,7 +29,7 @@ public class MusicController {
     }
 
     // 返回一天内新增的的音乐（需要给推荐微服务）
-    @GetMapping("/new")
+    @GetMapping("/new-musics")
     public ResponseEntity<?> getNewMusicToday(){
         try{
             return new ResponseEntity<>(musicService.getNewMusicToday(), HttpStatus.OK);
@@ -63,7 +63,7 @@ public class MusicController {
         }
     }
     // 获取所有音乐的数量
-    @GetMapping("/count")
+    @GetMapping("/music-count")
     public ResponseEntity<?> getAllMusicCount(){
         try{
             return new ResponseEntity<>(musicService.getAllMusicCount(), HttpStatus.OK);
@@ -121,7 +121,7 @@ public class MusicController {
         }
     }
 
-    @GetMapping("download-music")
+    @GetMapping("/download-music")
     public ResponseEntity<?> downloadMusicByName(@RequestParam String filePath) {
         try {
             System.out.println(filePath);

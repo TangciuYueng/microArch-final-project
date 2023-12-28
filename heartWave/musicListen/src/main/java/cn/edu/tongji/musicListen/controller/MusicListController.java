@@ -31,7 +31,7 @@ public class MusicListController {
         }
     }
     // 通过userid获取该用户创建的musicList
-    @GetMapping("/{userId}")
+    @GetMapping("/user-id/{userId}")
     public  ResponseEntity<?> getMusicListByUserId(@PathVariable("userId") int userId){
         try{
             Map<String, List<MusicList>> musicLists = musicListService.getMusicListByUserId(userId);
@@ -42,7 +42,7 @@ public class MusicListController {
         }
     }
     // 通过userId获取某用户播放记录歌单
-    @GetMapping("/listen-record/{userId}")
+    @GetMapping("/listen-record/user-id/{userId}")
     public  ResponseEntity<?> getListenRecordListByUserId(@PathVariable("userId") int userId){
         try{
             Map<String, List<MusicList>> musicLists = musicListService.getListenRecordListByUserId(userId);

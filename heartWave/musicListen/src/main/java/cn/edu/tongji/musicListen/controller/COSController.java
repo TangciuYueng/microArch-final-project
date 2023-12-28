@@ -90,7 +90,7 @@ public class COSController {
         }
     }
 
-    @GetMapping("/file")
+    @GetMapping("/files")
     public ResponseEntity<?> downloadFile(@RequestBody COSFileRequest cosFileRequest) {
         try {
             ObjectMetadata objectMetadata = cosService.downloadFile(cosFileRequest);

@@ -15,7 +15,7 @@ public class MusicCommentController {
     @Resource
     private MusicCommentService musicCommentService;
     // 1.通过音乐id获取一首歌的所有音乐评论
-    @GetMapping("/{musicId}")
+    @GetMapping("/music-id/{musicId}")
     public ResponseEntity<?> getThisMusicComment(@PathVariable("musicId") int id){
         try {
             return new ResponseEntity<>(musicCommentService.selectMusicCommentById(id), HttpStatus.OK);
@@ -38,7 +38,7 @@ public class MusicCommentController {
     }
 
     // 3.获取一首歌的评论数量
-    @GetMapping("/count/{musicId}")
+    @GetMapping("/music-count/{musicId}")
     public ResponseEntity<?> getMusicCommentCount(@PathVariable("musicId") int musicId){
         try {
             return new ResponseEntity<>(musicCommentService.getThisMusicCommentCount(musicId), HttpStatus.OK);

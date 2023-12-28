@@ -32,7 +32,7 @@ public class DiaryWritingController {
     }
 
     // 获取指定用户的所有日记列表(成功)
-    @GetMapping("/{userId}")
+    @GetMapping("/diaries/user-id/{userId}")
     public ResponseEntity<?> getAllDiariesByUserId(@PathVariable("userId") int userId) {
         try{
             System.out.println(userId);
@@ -112,7 +112,7 @@ public class DiaryWritingController {
     }
 
     //获得某个用户的日记总数
-    @GetMapping("/count/{userId}")
+    @GetMapping("/diaries-count/{userId}")
     public ResponseEntity<?> getDiaryCount(@PathVariable("userId") int userId) {
         try {
             int count = diaryWritingService.diaryCount(userId);
@@ -125,7 +125,7 @@ public class DiaryWritingController {
 
 
     //根据日记的id获取日记信息
-    @GetMapping("/diary/{id}")
+    @GetMapping("/diaries/{id}")
     public ResponseEntity<?> getDiaryById(@PathVariable("id") int id) {
         try {
             Diary diary = diaryWritingService.getDiaryById(id);
