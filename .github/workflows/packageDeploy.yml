@@ -34,19 +34,20 @@ jobs:
     - name: Run the scripts
       run: |
         ./collect_jars.sh
-        ls
+        ls /home/runner/work/microArch-final-project/microArch-final-project/heartWave/jars
         pwd
       
     - name: Upload and deploy
-      uses: ErenKrt/ssh-push@1.3
+      uses: cross-the-world/ssh-scp-ssh-pipelines@v1.1.4
       with:
         host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        source: /home/runner/work/microArch-final-project/microArch-final-project/heartWave/jars/* # 本地文件夹的路径
-        destination: ${{ secrets.DEST }} 远程服务器上的目标路径
-        # script: |
+        user: ${{ secrets.USERNAME }}
+        pass: ${{ secrets.PASSWORD }}
+        connect_timeout: 60 # optional, default is 30s
+        scp: |
+          /home/runner/work/microArch-final-project/microArch-final-project/heartWave/jars/* ${{ secrets.DEST }}
+        # last_ssh: |
         #   cd /www/wwwroot
         #   ps -ef | grep *.jar | grep -v grep | awk '{print $2}' | xargs kill -9 
         #   nohup java -jar *.jar --spring.profiles.active=prod > nohup.out &
