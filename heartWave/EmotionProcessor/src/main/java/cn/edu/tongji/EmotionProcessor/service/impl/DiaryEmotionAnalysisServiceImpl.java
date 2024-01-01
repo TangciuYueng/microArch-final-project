@@ -1,11 +1,11 @@
 package cn.edu.tongji.EmotionProcessor.service.impl;
-import cn.edu.tongji.EmotionProcessor.client.DiaryEmotionClient;
 import cn.edu.tongji.EmotionProcessor.client.DiaryWritingClient;
+import cn.edu.tongji.EmotionProcessor.client.EmotionClient;
 import cn.edu.tongji.EmotionProcessor.dto.DiaryDTO;
 import cn.edu.tongji.EmotionProcessor.dto.DiaryEmotionDTO;
 import cn.edu.tongji.EmotionProcessor.model.SentimentResult;
 
-import jakarta.annotation.Resource;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
@@ -13,6 +13,7 @@ import okhttp3.Response;
 import okhttp3.Request;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -22,13 +23,18 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DiaryEmotionAnalysisServiceImpl implements DiaryEmotionAnalysisService {
 
     SentimentResult sentimentResult = new SentimentResult();
-    DiaryWritingClient diaryWritingClient;
-    DiaryEmotionClient diaryEmotionClient;
+
+    @Autowired
+    private DiaryWritingClient diaryWritingClient;
+
+    @Autowired
+    private EmotionClient emotionClient;
 
     public ResponseEntity<?> sentimentAnalysis(String content){
         String API_KEY = "0SCnD9Cs92xQC2GH96k3yXBg";
@@ -106,27 +112,31 @@ public class DiaryEmotionAnalysisServiceImpl implements DiaryEmotionAnalysisServ
     public void getDiaryEmotion() {
         ResponseEntity<?> diaryListResponse = diaryWritingClient.getRecentDiaries();
         if (diaryListResponse.getBody() instanceof List) {
-            List<DiaryDTO> diaryList = (List<DiaryDTO>) diaryListResponse.getBody();
-            for (DiaryDTO diary : diaryList) {
+            List<?> rawList = (List<?>) diaryListResponse.getBody();
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            for (Object item : rawList) {
+                Map<?, ?> diaryMap = (Map<?, ?>) item;
+                DiaryDTO diary = objectMapper.convertValue(diaryMap, DiaryDTO.class);
+
                 ResponseEntity<?> sentimentAnalysisResult = sentimentAnalysis(diary.getContent());
                 if (sentimentAnalysisResult.getBody() instanceof SentimentResult) {
                     SentimentResult sentimentResult = (SentimentResult) sentimentAnalysisResult.getBody();
 
-                    DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     LocalDateTime createTime = LocalDateTime.parse(diary.getCreateDate(), formatter);
 
                     DiaryEmotionDTO diaryEmotionDTO = new DiaryEmotionDTO(
                             diary.getUserId(),
                             diary.getId(),
-                            createTime,  // 设置当前时间为createTime
+                            createTime,
                             sentimentResult.sentiment,
                             sentimentResult.confidence,
                             sentimentResult.positive,
                             sentimentResult.negative
                     );
 
-                    // createDiaryEmotion方法接受一个DiaryEmotionDTO对象
-                    diaryEmotionClient.createDiaryEmotion(diaryEmotionDTO);
+                    emotionClient.createDiaryEmotion(diaryEmotionDTO);
                 }
             }
         }
