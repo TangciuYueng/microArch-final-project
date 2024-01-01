@@ -1,5 +1,5 @@
 server:
-  port: 8889  #启动端口
+  port: 8885  #启动端口
 
 # 以下是bootstrap.yaml拉取nacos配置中心文件内容后，需要填入的值
 db:

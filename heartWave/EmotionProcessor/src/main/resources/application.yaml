@@ -1,5 +1,5 @@
 server:
-  port: 6547  # 启动端口
+  port: 8883  # 启动端口
 
 
 spring:
