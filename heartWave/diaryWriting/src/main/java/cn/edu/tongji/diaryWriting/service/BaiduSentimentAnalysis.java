@@ -1,7 +1,8 @@
 package cn.edu.tongji.diaryWriting.service;
 
-import cn.edu.tongji.diaryWriting.model.DiaryEmotion;
+
+import cn.edu.tongji.diaryWriting.dto.DiaryEmotionDTO;
 
 public interface BaiduSentimentAnalysis {
-    DiaryEmotion sentimentAnalysis(String content);
+    DiaryEmotionDTO sentimentAnalysis(String content);
 }

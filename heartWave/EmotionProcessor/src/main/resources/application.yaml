@@ -1,13 +1,2 @@
 server:
-  port: 6547  #启动端口
-
-
-spring:
-  rabbitmq:
-    host: 120.26.0.232
-    port: 5672
-    username: "music"
-    password: "musicListen"
-rabbitmq:
-  queue: resultQueue
-  routingKey: emotionRoutingKey # 使用实际的路由键
+  port: 6547  # 启动端口

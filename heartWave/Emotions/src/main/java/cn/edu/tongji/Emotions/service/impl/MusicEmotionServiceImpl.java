@@ -1,5 +1,6 @@
 package cn.edu.tongji.Emotions.service.impl;
 
+import cn.edu.tongji.Emotions.dto.MusicEmotionDTO;
 import cn.edu.tongji.Emotions.model.MusicEmotion;
 import cn.edu.tongji.Emotions.repository.MusicEmotionRepository;
 import cn.edu.tongji.Emotions.service.MusicEmotionService;
@@ -17,6 +18,20 @@ public class MusicEmotionServiceImpl implements MusicEmotionService {
     @Resource
     private final MusicEmotionRepository musicEmotionRepository;
 
+    private MusicEmotion convertToEntity(MusicEmotionDTO musicEmotionDTO) {
+        MusicEmotion musicEmotion = new MusicEmotion();
+        musicEmotion.setId(musicEmotionDTO.getId());
+        musicEmotion.setMusicId(musicEmotionDTO.getMusicId());
+        musicEmotion.setDramatic(musicEmotionDTO.getDramatic());
+        musicEmotion.setAggressive(musicEmotionDTO.getAggressive());
+        musicEmotion.setRomantic(musicEmotionDTO.getRomantic());
+        musicEmotion.setHappy(musicEmotionDTO.getHappy());
+        musicEmotion.setSad(musicEmotionDTO.getSad());
+        // 设置其他属性
+        return musicEmotion;
+    }
+
+
     @Autowired
     public MusicEmotionServiceImpl(MusicEmotionRepository musicEmotionRepository) {
         this.musicEmotionRepository = musicEmotionRepository;
@@ -33,7 +48,8 @@ public class MusicEmotionServiceImpl implements MusicEmotionService {
     }
 
     @Override
-    public MusicEmotion save(MusicEmotion musicEmotion) {
+    public MusicEmotion save(MusicEmotionDTO musicEmotionDTO) {
+        MusicEmotion musicEmotion = convertToEntity(musicEmotionDTO);
         return musicEmotionRepository.save(musicEmotion);
     }
 

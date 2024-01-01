@@ -9,6 +9,9 @@ from keras.utils import to_categorical
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
+from heartWave.EmotionProcessor.src.python.methods import *
+
+
 def create_dataframe(dir):
     target = []
     audio = []
@@ -53,8 +56,15 @@ def feature_extractor(file_path):
     result = np.array(res1)
     return result
 
+#收集数据
+user_list = get_all_users()
+musics = fetch_all_music()
 
-
+#获取数据
+for user in user_list:
+    user_music_list = get_music_list_by_user_id(user["id"])
+    checkin_list = get_checkin_emotions_by_user_id(user["id"])
+    
 # 示例数据
 data = {
     # 假设的音频文件路径

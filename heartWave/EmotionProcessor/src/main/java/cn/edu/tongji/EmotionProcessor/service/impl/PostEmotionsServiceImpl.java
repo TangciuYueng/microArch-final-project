@@ -1,6 +1,8 @@
 package cn.edu.tongji.EmotionProcessor.service.impl;
 
+import cn.edu.tongji.EmotionProcessor.client.EmotionsClient;
 import cn.edu.tongji.EmotionProcessor.service.PostEmotionsService;
+import cn.edu.tongji.Emotions.dto.MusicEmotionDTO;
 import com.rabbitmq.client.Channel;
 
 import org.springframework.amqp.core.Message;
@@ -29,45 +31,46 @@ public class PostEmotionsServiceImpl implements PostEmotionsService {
     @Autowired
     private ConnectionFactory connectionFactory;
 
-
+    @Autowired
+    private EmotionsClient emotionsClient;
     private final MessagePropertiesConverter messagePropertiesConverter = new DefaultMessagePropertiesConverter();
 
     // 每小时执行一次
-    @Scheduled(fixedRate = 360)
+    @Scheduled(fixedRate = 3600000)
     public void receiveMessages() {
         // 尝试从队列中获取消息
-       /* Object message = rabbitTemplate.receiveAndConvert(queueName);
+        Object message = rabbitTemplate.receiveAndConvert(queueName);
         while (message != null) {
             // 处理接收到的消息
             System.out.println("Received message: " + message);
             // 转换和保存逻辑...
-
+            emotionsClient.createMusicEmotion((MusicEmotionDTO) message);
             // 尝试获取下一个消息
-            message = rabbitTemplate.receiveAndConvert(queueName);
-        }*/
-
-        try (Connection connection = connectionFactory.createConnection();
-             Channel channel = connection.createChannel(false)) {
-
-            com.rabbitmq.client.GetResponse response = channel.basicGet(queueName, false); // 自动确认设为 false
-
-            while (response != null) {
-                Message message = new Message(response.getBody(),
-                        messagePropertiesConverter.toMessageProperties(
-                                response.getProps(), response.getEnvelope(), "UTF-8"));
-
-                // 处理接收到的消息
-                String messageBody = new String(message.getBody());
-                System.out.println("Received message: " + messageBody);
-                // 转换和保存逻辑...
-
-                // 获取下一个消息
-                response = channel.basicGet(queueName, false);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (TimeoutException e) {
-            throw new RuntimeException(e);
+           // message = rabbitTemplate.receiveAndConvert(queueName);
         }
+
+//        try (Connection connection = connectionFactory.createConnection();
+//             Channel channel = connection.createChannel(false)) {
+//
+//            com.rabbitmq.client.GetResponse response = channel.basicGet(queueName, false); // 自动确认设为 false
+//
+//            while (response != null) {
+//                Message message = new Message(response.getBody(),
+//                        messagePropertiesConverter.toMessageProperties(
+//                                response.getProps(), response.getEnvelope(), "UTF-8"));
+//
+//                // 处理接收到的消息
+//                String messageBody = new String(message.getBody());
+//                System.out.println("Received message: " + messageBody);
+//                // 转换和保存逻辑...
+//
+//                // 获取下一个消息
+//                response = channel.basicGet(queueName, false);
+//            }
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        } catch (TimeoutException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 }

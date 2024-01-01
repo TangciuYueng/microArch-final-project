@@ -1,5 +1,6 @@
 package cn.edu.tongji.Emotions.service;
 
+import cn.edu.tongji.Emotions.dto.DiaryEmotionDTO;
 import cn.edu.tongji.Emotions.model.DiaryEmotion;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +16,7 @@ public interface DiaryEmotionService {
 
     Optional<DiaryEmotion> findById(String id) ;
 
-    public DiaryEmotion save(DiaryEmotion diaryEmotion);
+    public DiaryEmotion save(DiaryEmotionDTO diaryEmotion);
 
     public void deleteById(String id) ;
 

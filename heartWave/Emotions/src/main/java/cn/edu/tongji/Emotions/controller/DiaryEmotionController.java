@@ -1,5 +1,6 @@
 package cn.edu.tongji.Emotions.controller;
 
+import cn.edu.tongji.Emotions.dto.DiaryEmotionDTO;
 import cn.edu.tongji.Emotions.interfaces.DiaryServiceClient;
 import cn.edu.tongji.Emotions.interfaces.LoginServiceClient;
 import cn.edu.tongji.Emotions.model.DiaryEmotion;
@@ -45,17 +46,17 @@ public class DiaryEmotionController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createDiaryEmotion(@RequestBody DiaryEmotion diaryEmotion) {
+    public ResponseEntity<?> createDiaryEmotion(@RequestBody DiaryEmotionDTO diaryEmotionDTO) {
         try {
             // 首先，验证 userId 是否存在
-            ResponseEntity<?> userResponse = loginServiceClient.getUserById(diaryEmotion.getUserId());
+            ResponseEntity<?> userResponse = loginServiceClient.getUserById(diaryEmotionDTO.getUserId());
             if (userResponse.getStatusCode() != HttpStatus.OK) {
                 // 如果用户不存在
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with ID " + diaryEmotion.getUserId() + " not found");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with ID " + diaryEmotionDTO.getUserId() + " not found");
             }
 
             // 接着，验证 diaryId 是否存在
-            int diaryId = diaryEmotion.getDiaryId();
+            int diaryId = diaryEmotionDTO.getDiaryId();
             ResponseEntity<?> diaryResponse = diaryServiceClient.getDiaryById(diaryId);
             if (diaryResponse.getStatusCode() != HttpStatus.OK) {
                 // 如果日记不存在
@@ -63,7 +64,7 @@ public class DiaryEmotionController {
             }
 
             // 如果 userId 和 diaryId 都存在，则保存并返回 DiaryEmotion
-            return ResponseEntity.ok(diaryEmotionService.save(diaryEmotion));
+            return ResponseEntity.ok(diaryEmotionService.save(diaryEmotionDTO));
         } catch (NumberFormatException e) {
             // 捕获格式错误异常
             return ResponseEntity.badRequest().body("Invalid ID format");
@@ -77,12 +78,12 @@ public class DiaryEmotionController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<DiaryEmotion> updateDiaryEmotion(@PathVariable String id, @RequestBody DiaryEmotion diaryEmotion) {
+    public ResponseEntity<DiaryEmotion> updateDiaryEmotion(@PathVariable String id, @RequestBody DiaryEmotionDTO diaryEmotionDTO) {
         if (!diaryEmotionService.findById(id).isPresent()) {
             return ResponseEntity.notFound().build();
         }
-        diaryEmotion.setId(id);
-        return ResponseEntity.ok(diaryEmotionService.save(diaryEmotion));
+        diaryEmotionDTO.setId(id);
+        return ResponseEntity.ok(diaryEmotionService.save(diaryEmotionDTO));
     }
 
     @DeleteMapping("/{id}")

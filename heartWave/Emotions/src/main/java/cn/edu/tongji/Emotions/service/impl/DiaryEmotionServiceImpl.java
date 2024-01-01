@@ -1,11 +1,11 @@
 package cn.edu.tongji.Emotions.service.impl;
 
 
+import cn.edu.tongji.Emotions.dto.DiaryEmotionDTO;
 import cn.edu.tongji.Emotions.model.DiaryEmotion;
 import cn.edu.tongji.Emotions.repository.DiaryEmotionRepository;
 import cn.edu.tongji.Emotions.service.DiaryEmotionService;
 import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,6 +14,20 @@ import java.util.Optional;
 
 @Service
 public class DiaryEmotionServiceImpl implements DiaryEmotionService {
+
+    // DTO转换为实体的方法
+    private DiaryEmotion convertToEntity(DiaryEmotionDTO diaryEmotionDTO) {
+        DiaryEmotion diaryEmotion = new DiaryEmotion();
+        diaryEmotion.setId(diaryEmotionDTO.getId());
+        diaryEmotion.setUserId(diaryEmotionDTO.getUserId());
+        diaryEmotion.setDiaryId(diaryEmotionDTO.getDiaryId());
+        diaryEmotion.setCreateTime(diaryEmotionDTO.getCreateTime());
+        diaryEmotion.setSentiment(diaryEmotionDTO.getSentiment());
+        diaryEmotion.setConfidence(diaryEmotionDTO.getConfidence());
+        diaryEmotion.setPositive(diaryEmotionDTO.getPositive());
+        diaryEmotion.setNegative(diaryEmotionDTO.getNegative());
+        return diaryEmotion;
+    }
 
     @Resource
     private final DiaryEmotionRepository diaryEmotionRepository;
@@ -33,7 +47,10 @@ public class DiaryEmotionServiceImpl implements DiaryEmotionService {
     }
 
     @Override
-    public DiaryEmotion save(DiaryEmotion diaryEmotion) {
+    public DiaryEmotion save(DiaryEmotionDTO diaryEmotionDTO) {
+        // 将 DTO 转换为实体
+        DiaryEmotion diaryEmotion = convertToEntity(diaryEmotionDTO);
+        // 保存实体到数据库
         return diaryEmotionRepository.save(diaryEmotion);
     }
 

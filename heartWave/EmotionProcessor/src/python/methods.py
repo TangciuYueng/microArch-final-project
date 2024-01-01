@@ -8,7 +8,7 @@ def get_music_list_by_user_id(user_id):
         filtered_data = []
         for category, items in data.items():
             for item in items:
-                if item['type'] in ['favour', 'normal']:
+                if item['type'] in ['favour', 'normal' , 'dislike']:
                     filtered_data.append(item)
         return filtered_data
     else:
@@ -41,6 +41,7 @@ def get_all_users():  #获取用户数据
         response = requests.get(url)
         response.raise_for_status()  # 检查请求是否成功
         users = response.json()
+        print(users)
         return users
     except requests.exceptions.HTTPError as errh:
         print(f"Http Error: {errh}")
@@ -87,8 +88,6 @@ def get_music_emotion_by_music_id(music_id):
             return f"Error: {response.status_code}, {response.text}"
     except requests.RequestException as e:
         return f"Request Error: {e}"
-
-import requests
 
 def download_music(local_path, cos_path):
     url = "http://localhost:8887/api/cos/download"
@@ -146,7 +145,20 @@ def get_all_musics_list() :
         # 处理错误情况
         print("Error downloading file:", response.text)
         return None
+
+
+def get_checkin_emotions_by_user_id(user_id):
+    payload = {
+        "userId" : user_id
+    }
+    url = "http://localhost:8111/api/emotions/checkin-emotions"
+    response = requests.get(url,payload)
+    if response.status_code == 200:
+        print(response.json()['content'])
+        return response.json()['content']
+    else:
+        # 处理错误情况
+        print("Error:", response.text)
+        return None
 import json
 import requests
-
-

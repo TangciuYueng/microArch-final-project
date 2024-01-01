@@ -1,7 +1,7 @@
 package cn.edu.tongji.diaryWriting.controller;
 
-import cn.edu.tongji.diaryWriting.model.DiaryEmotion;
 import cn.edu.tongji.diaryWriting.dto.AddDiaryWritingRequest;
+import cn.edu.tongji.diaryWriting.dto.DiaryEmotionDTO;
 import cn.edu.tongji.diaryWriting.dto.DiaryWritingInfo;
 import cn.edu.tongji.diaryWriting.model.Diary;
 import cn.edu.tongji.diaryWriting.service.BaiduSentimentAnalysis;
@@ -151,7 +151,7 @@ public class DiaryWritingController {
             Diary diary = diaryWritingService.getDiaryById(id);
             //获取日记的内容
             String content = diary.getContent();
-            DiaryEmotion diaryEmotion=baiduSentimentAnalysis.sentimentAnalysis(content);
+            DiaryEmotionDTO diaryEmotion=baiduSentimentAnalysis.sentimentAnalysis(content);
             // 生成当前时间的 LocalDateTime 对象
             LocalDateTime currentTime = LocalDateTime.now();
 

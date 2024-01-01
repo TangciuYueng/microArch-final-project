@@ -1,5 +1,6 @@
 package cn.edu.tongji.Emotions.controller;
 
+import cn.edu.tongji.Emotions.dto.MusicEmotionDTO;
 import cn.edu.tongji.Emotions.interfaces.MusicServiceClient;
 import cn.edu.tongji.Emotions.model.MusicEmotion;
 import cn.edu.tongji.Emotions.service.MusicEmotionService;
@@ -66,17 +67,17 @@ public class MusicEmotionController {
 
     }
     @PostMapping
-    public ResponseEntity<?> createMusicEmotion(@RequestBody MusicEmotion musicEmotion) {
+    public ResponseEntity<?> createMusicEmotion(@RequestBody MusicEmotionDTO musicEmotionDTO) {
         try {
             // 调用 musicListenService 来验证 MusicId 是否存在
-            ResponseEntity<?> MusicResponse = musicServiceClient.getMusicById(musicEmotion.getMusicId());
+            ResponseEntity<?> MusicResponse = musicServiceClient.getMusicById(musicEmotionDTO.getMusicId());
             // 检查用户是否存在
             if (MusicResponse.getStatusCode() == HttpStatus.OK) {
                 // 如果用户存在，保存并返回 CheckinEmotion
-                return ResponseEntity.ok(musicEmotionService.save(musicEmotion));
+                return ResponseEntity.ok(musicEmotionService.save(musicEmotionDTO));
             } else {
                 // 如果用户不存在（任何非200的HTTP状态码），返回适当的错误响应
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Music with ID " + musicEmotion.getMusicId() + " not found");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Music with ID " + musicEmotionDTO.getMusicId() + " not found");
             }
         } catch (NumberFormatException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Music ID format");
@@ -87,12 +88,12 @@ public class MusicEmotionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateMusicEmotion(@PathVariable String id, @RequestBody MusicEmotion musicEmotion) {
+    public ResponseEntity<?> updateMusicEmotion(@PathVariable String id, @RequestBody MusicEmotionDTO musicEmotionDTO) {
         if (!musicEmotionService.findById(id).isPresent()) {
             return ResponseEntity.notFound().build();
         }
-        musicEmotion.setId(id);
-        return ResponseEntity.ok(musicEmotionService.save(musicEmotion));
+        musicEmotionDTO.setId(id);
+        return ResponseEntity.ok(musicEmotionService.save(musicEmotionDTO));
     }
 
     @DeleteMapping("/{id}")
