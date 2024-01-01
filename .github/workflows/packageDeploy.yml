@@ -44,7 +44,7 @@ jobs:
         port: ${{ secrets.PORT }}
         user: ${{ secrets.USERNAME }}
         pass: ${{ secrets.PASSWORD }}
-        connect_timeout: 60 # optional, default is 30s
+        connect_timeout: 600 # optional, default is 30s
         scp: |
           /home/runner/work/microArch-final-project/microArch-final-project/heartWave/jars/* => ${{ secrets.DEST }}
         # last_ssh: |
