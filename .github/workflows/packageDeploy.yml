@@ -46,7 +46,7 @@ jobs:
         pass: ${{ secrets.PASSWORD }}
         connect_timeout: 60 # optional, default is 30s
         scp: |
-          /home/runner/work/microArch-final-project/microArch-final-project/heartWave/jars/* ${{ secrets.DEST }}
+          /home/runner/work/microArch-final-project/microArch-final-project/heartWave/jars/* => ${{ secrets.DEST }}
         # last_ssh: |
         #   cd /www/wwwroot
         #   ps -ef | grep *.jar | grep -v grep | awk '{print $2}' | xargs kill -9 
