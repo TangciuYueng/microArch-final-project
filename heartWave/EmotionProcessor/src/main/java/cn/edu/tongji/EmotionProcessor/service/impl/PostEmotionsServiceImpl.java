@@ -1,6 +1,6 @@
 package cn.edu.tongji.EmotionProcessor.service.impl;
 
-import cn.edu.tongji.EmotionProcessor.client.EmotionsClient;
+import cn.edu.tongji.EmotionProcessor.client.MyEmotionsClient;
 import cn.edu.tongji.EmotionProcessor.dto.MusicEmotionDTO;
 import cn.edu.tongji.EmotionProcessor.service.PostEmotionsService;
 
@@ -33,7 +33,7 @@ public class PostEmotionsServiceImpl implements PostEmotionsService {
     private ConnectionFactory connectionFactory;
 
     @Autowired
-    private EmotionsClient emotionsClient;
+    private MyEmotionsClient emotionsClient;
     private final MessagePropertiesConverter messagePropertiesConverter = new DefaultMessagePropertiesConverter();
 
     // 每小时执行一次
