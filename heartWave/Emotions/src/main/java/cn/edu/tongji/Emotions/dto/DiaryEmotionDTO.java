@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 public class DiaryEmotionDTO {
 
-    private String id;
     private int userId;
     private int diaryId;
     private LocalDateTime createTime;
@@ -18,8 +17,7 @@ public class DiaryEmotionDTO {
     }
 
     // 带所有参数的构造函数
-    public DiaryEmotionDTO(String id, int userId, int diaryId, LocalDateTime createTime, int sentiment, float confidence, float positive, float negative) {
-        this.id = id;
+    public DiaryEmotionDTO(int userId, int diaryId, LocalDateTime createTime, int sentiment, float confidence, float positive, float negative) {
         this.userId = userId;
         this.diaryId = diaryId;
         this.createTime = createTime;
@@ -30,13 +28,6 @@ public class DiaryEmotionDTO {
     }
 
     // Getter 和 Setter 方法
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public int getUserId() {
         return userId;
@@ -97,7 +88,6 @@ public class DiaryEmotionDTO {
     @Override
     public String toString() {
         return "DiaryEmotionDTO{" +
-                "id='" + id + '\'' +
                 ", userId=" + userId +
                 ", diaryId=" + diaryId +
                 ", createTime=" + createTime +

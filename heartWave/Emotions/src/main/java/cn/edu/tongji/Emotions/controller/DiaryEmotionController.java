@@ -77,21 +77,23 @@ public class DiaryEmotionController {
 
 
 
-    @PutMapping("/{id}")
-    public ResponseEntity<DiaryEmotion> updateDiaryEmotion(@PathVariable String id, @RequestBody DiaryEmotionDTO diaryEmotionDTO) {
-        if (!diaryEmotionService.findById(id).isPresent()) {
+    @PutMapping("/{diaryId}")
+    public ResponseEntity<DiaryEmotion> updateDiaryEmotion(@PathVariable int diaryId, @RequestBody DiaryEmotionDTO diaryEmotionDTO) {
+        if (!diaryEmotionService.findByDiaryId(diaryId).isPresent()) {
             return ResponseEntity.notFound().build();
         }
-        diaryEmotionDTO.setId(id);
+        diaryEmotionDTO.setDiaryId(diaryId);
         return ResponseEntity.ok(diaryEmotionService.save(diaryEmotionDTO));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDiaryEmotion(@PathVariable String id) {
-        if (!diaryEmotionService.findById(id).isPresent()) {
+
+    @DeleteMapping("/{diaryId}")
+    public ResponseEntity<Void> deleteDiaryEmotion(@PathVariable int diaryId) {
+        if (!diaryEmotionService.findByDiaryId(diaryId).isPresent()) {
             return ResponseEntity.notFound().build();
         }
-        diaryEmotionService.deleteById(id);
+        diaryEmotionService.deleteById(diaryId);
         return ResponseEntity.ok().build();
     }
+
 }

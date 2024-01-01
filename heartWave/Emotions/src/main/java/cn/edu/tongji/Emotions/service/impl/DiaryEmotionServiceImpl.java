@@ -18,7 +18,6 @@ public class DiaryEmotionServiceImpl implements DiaryEmotionService {
     // DTO转换为实体的方法
     private DiaryEmotion convertToEntity(DiaryEmotionDTO diaryEmotionDTO) {
         DiaryEmotion diaryEmotion = new DiaryEmotion();
-        diaryEmotion.setId(diaryEmotionDTO.getId());
         diaryEmotion.setUserId(diaryEmotionDTO.getUserId());
         diaryEmotion.setDiaryId(diaryEmotionDTO.getDiaryId());
         diaryEmotion.setCreateTime(diaryEmotionDTO.getCreateTime());
@@ -55,9 +54,13 @@ public class DiaryEmotionServiceImpl implements DiaryEmotionService {
     }
 
     @Override
-    public void deleteById(String id) {
-        diaryEmotionRepository.deleteById(id);
+    public void deleteById(int diaryId) {
+        diaryEmotionRepository.deleteByDiaryId(diaryId);
     }
 
     // Additional business logic methods can be added here
+
+    public Optional<Object> findByDiaryId(int diaryId){
+        return Optional.ofNullable(diaryEmotionRepository.findByDiaryId(diaryId));
+    }
 }

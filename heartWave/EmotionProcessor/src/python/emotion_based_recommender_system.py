@@ -64,7 +64,7 @@ musics = fetch_all_music()
 for user in user_list:
     user_music_list = get_music_list_by_user_id(user["id"])
     checkin_list = get_checkin_emotions_by_user_id(user["id"])
-    
+
 # 示例数据
 data = {
     # 假设的音频文件路径

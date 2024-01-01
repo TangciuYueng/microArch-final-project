@@ -18,6 +18,7 @@ public interface DiaryEmotionService {
 
     public DiaryEmotion save(DiaryEmotionDTO diaryEmotion);
 
-    public void deleteById(String id) ;
+    public void deleteById(int diaryId) ;
 
+    Optional<Object> findByDiaryId(int diaryId);
 }
