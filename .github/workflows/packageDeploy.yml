@@ -43,7 +43,7 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        source: ./jars # 本地文件夹的路径
+        source: ./jars/* # 本地文件夹的路径
         destination: ${{ secrets.DEST }} 远程服务器上的目标路径
         # script: |
         #   cd /www/wwwroot
