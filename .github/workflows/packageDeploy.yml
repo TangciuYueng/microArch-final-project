@@ -34,7 +34,7 @@ jobs:
     - name: Run the scripts
       run: |
         ./collect_jars.sh
-        ls
+        ls jars
       
     - name: Upload and deploy
       uses: ErenKrt/ssh-push@1.3
