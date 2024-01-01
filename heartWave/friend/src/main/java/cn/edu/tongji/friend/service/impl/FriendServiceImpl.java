@@ -5,7 +5,6 @@ import cn.edu.tongji.friend.dto.UpdateFriendIntimacyRequest;
 import cn.edu.tongji.friend.interfaces.LoginServiceClient;
 import cn.edu.tongji.friend.mapper.FriendMapper;
 import cn.edu.tongji.friend.model.Friend;
-import cn.edu.tongji.friend.model.User;
 import cn.edu.tongji.friend.service.FriendService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -24,21 +23,14 @@ public class FriendServiceImpl implements FriendService {
     @Override
     @Transactional
     public List<FriendInfo> getFriendsByUserId(int userId) {
-        List<FriendInfo> friendInfos = new ArrayList<>();
         List<Friend> friends = friendMapper.getByUserId(userId);
+        List<Integer> ids = new ArrayList<>();
 
         for (Friend friend: friends) {
-            //User user = (User) loginServiceClient.getUserById(friend.getFriendId()).getBody();
-            System.out.println(loginServiceClient.getUserById(friend.getFriendId()).getBody());
-            /*friendInfos.add(new FriendInfo(
-                    user.getId(),
-                    user.getName(),
-                    user.getAvatar(),
-                    friend.getIntimacy()
-            ));*/
+            ids.add(friend.getFriendId());
         }
 
-        return friendInfos;
+        return (List<FriendInfo>) loginServiceClient.getUsersByIds(ids).getBody();
     }
 
     @Override
