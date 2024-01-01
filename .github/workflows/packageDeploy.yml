@@ -37,7 +37,6 @@ jobs:
         ls /home/runner/work/microArch-final-project/microArch-final-project/heartWave/jars
         pwd
 
-    - uses: actions/checkout@v4
     - name: copy file via ssh password
       uses: appleboy/scp-action@v0.1.7
       with:
