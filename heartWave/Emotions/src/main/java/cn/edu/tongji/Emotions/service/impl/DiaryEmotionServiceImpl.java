@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -63,4 +65,15 @@ public class DiaryEmotionServiceImpl implements DiaryEmotionService {
     public Optional<Object> findByDiaryId(int diaryId){
         return Optional.ofNullable(diaryEmotionRepository.findByDiaryId(diaryId));
     }
+
+    public List<?> findByUserId(int userId) {
+        List<?> diaryEmotions = diaryEmotionRepository.findAllByUserId(userId); // 假设这是返回列表的方法
+        if (!diaryEmotions.isEmpty()) {
+            return diaryEmotions;
+        } else {
+            // 处理未找到日记的情况
+            return new ArrayList<>();
+        }
+    }
+
 }

@@ -51,11 +51,15 @@ public class CheckinEmotionController {
     }
 
     @GetMapping("/user-id/{id}")
-    public ResponseEntity<?> getCheckinEmotionByUserId(@PathVariable String UserId) {
-        return checkinEmotionService.findByUserId(UserId)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<List<CheckinEmotion>> getCheckinEmotionByUserId(@PathVariable("id") int userId) {
+        List<CheckinEmotion> checkinEmotions = checkinEmotionService.findByUserId(userId);
+        if (checkinEmotions.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(checkinEmotions);
+        }
     }
+
     // 根据日期获取情绪打卡记录的接口
     @GetMapping("/date/{date}")
     public ResponseEntity<List<?>> getCheckinEmotionByDay(@PathVariable String date) {
@@ -95,7 +99,7 @@ public class CheckinEmotionController {
     public ResponseEntity<?> createCheckinEmotion(@RequestBody CheckinEmotion checkinEmotion) {
         try {
             // 调用 LoginService 来验证 userId 是否存在
-            ResponseEntity<?> userResponse = loginServiceClient.getUserById(Integer.parseInt(checkinEmotion.getUserId()));
+            ResponseEntity<?> userResponse = loginServiceClient.getUserById(checkinEmotion.getUserId());
 
             // 检查用户是否存在
             if (userResponse.getStatusCode() == HttpStatus.OK) {

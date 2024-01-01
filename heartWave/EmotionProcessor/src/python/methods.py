@@ -1,5 +1,5 @@
 def get_music_list_by_user_id(user_id):
-    url = f"http://localhost:8888/api/music_listen/music_list/{user_id}"
+    url = f"http://localhost:8888/api/music-listen/music-list/user-id/{user_id}"
     response = requests.get(url)
 
     if response.status_code == 200:
@@ -21,7 +21,7 @@ def fetch_all_music():
     total_pages = 1  # 初始假设总页数至少为1
 
     while page <= total_pages:
-        url = f"http://localhost:8888/api/music_listen/music/by_page/{page}"
+        url = f"http://localhost:8888/api/music_listen/music/by-page/{page}"
         response = requests.get(url)
         if response.status_code == 200:
             data = response.json()
@@ -53,12 +53,13 @@ def get_all_users():  #获取用户数据
         print(f"Error: {err}")
 
 def get_listenRecord_by_user_id(user_id):
-    url = f"http://localhost:8888/api/music_listen/music_list/listen_record/{user_id}"
+    url = f"http://localhost:8888/api/music-listen/music-list/listen-record/user-id/{user_id}"
     response = requests.get(url)
 
     if response.status_code == 200:
         data = response.json()
         # 直接返回 listenRecord 中的数据
+        print(data.get('listenRecord', []))
         return data.get('listenRecord', [])  # 如果 listenRecord 不存在，则返回空列表
     else:
         print(f"Failed to fetch listen_record data: {response.status_code}")
@@ -67,7 +68,7 @@ def get_listenRecord_by_user_id(user_id):
 def post_user_preferences(user_preferences):
 
     headers = {'Content-Type': 'application/json'}
-    response = requests.post('http://localhost:8111/api/musicReferences', json=user_preferences, headers=headers)
+    response = requests.post('http://localhost:8884/api/musicReferences', json=user_preferences, headers=headers)
 
     if response.status_code == 200:
         return response.json()  # 或者根据API的实际响应返回适当的数据
@@ -90,7 +91,7 @@ def get_music_emotion_by_music_id(music_id):
         return f"Request Error: {e}"
 
 def download_music(local_path, cos_path):
-    url = "http://localhost:8887/api/cos/download"
+    url = "http://localhost:8888/api/cos/download"
     payload = {
         "localPath": local_path,
         "cosPath": cos_path
@@ -148,14 +149,24 @@ def get_all_musics_list() :
 
 
 def get_checkin_emotions_by_user_id(user_id):
-    payload = {
-        "userId" : user_id
-    }
-    url = "http://localhost:8111/api/emotions/checkin-emotions"
-    response = requests.get(url,payload)
+
+    url = f"http://localhost:8884/api/emotions/checkin-emotions/user-id/{user_id}"
+    response = requests.get(url)
     if response.status_code == 200:
-        print(response.json()['content'])
-        return response.json()['content']
+        print(response.json())
+        return response.json()
+    else:
+        # 处理错误情况
+        print("Error:", response.text)
+        return None
+
+def get_diary_emotions_by_user_id(user_id):
+
+    url = f"http://localhost:8884/api/emotions/diary-emotions/users/{user_id}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        print(response.json())
+        return response.json()
     else:
         # 处理错误情况
         print("Error:", response.text)

@@ -21,7 +21,9 @@ public interface CheckinEmotionService {
     public Page<CheckinEmotion> findByCheckinDates(LocalDate startDate, LocalDate endDate, Pageable pageable);
 
 
-    public Optional<CheckinEmotion> findByUserId(String UserId) ;
+
+    List<CheckinEmotion> findByUserId(int userId);
+
 
     public Page<CheckinEmotion> findAll(Pageable pageable);
 

@@ -40,9 +40,10 @@ public class CheckinEmotionServiceImpl implements CheckinEmotionService {
     }
 
     @Override
-    public Optional<CheckinEmotion> findByUserId(String UserId) {
-        return checkinEmotionRepository.findByUserId(UserId);
+    public List<CheckinEmotion> findByUserId(int userId) {
+        return checkinEmotionRepository.findByUserId(userId);
     }
+
 
     @Override
     public Page<CheckinEmotion> findAll(Pageable pageable) {
