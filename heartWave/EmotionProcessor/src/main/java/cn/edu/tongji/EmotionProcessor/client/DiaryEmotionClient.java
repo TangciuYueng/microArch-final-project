@@ -1,7 +1,7 @@
 package cn.edu.tongji.EmotionProcessor.client;
 
-import cn.edu.tongji.Emotions.dto.DiaryEmotionDTO;
-import cn.edu.tongji.Emotions.dto.MusicEmotionDTO;
+
+import cn.edu.tongji.EmotionProcessor.dto.DiaryEmotionDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;

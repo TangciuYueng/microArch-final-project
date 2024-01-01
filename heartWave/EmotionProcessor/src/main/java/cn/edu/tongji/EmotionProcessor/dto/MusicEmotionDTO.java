@@ -1,4 +1,4 @@
-package cn.edu.tongji.Emotions.dto;
+package cn.edu.tongji.EmotionProcessor.dto;
 
 public class MusicEmotionDTO {
 

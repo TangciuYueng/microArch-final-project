@@ -2,8 +2,9 @@ package cn.edu.tongji.EmotionProcessor.service.impl;
 import cn.edu.tongji.EmotionProcessor.client.DiaryEmotionClient;
 import cn.edu.tongji.EmotionProcessor.client.DiaryWritingClient;
 import cn.edu.tongji.EmotionProcessor.dto.DiaryDTO;
+import cn.edu.tongji.EmotionProcessor.dto.DiaryEmotionDTO;
 import cn.edu.tongji.EmotionProcessor.model.SentimentResult;
-import cn.edu.tongji.Emotions.dto.DiaryEmotionDTO;
+
 import jakarta.annotation.Resource;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;

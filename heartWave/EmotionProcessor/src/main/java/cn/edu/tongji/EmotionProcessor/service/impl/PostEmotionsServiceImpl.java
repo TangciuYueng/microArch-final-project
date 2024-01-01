@@ -1,8 +1,9 @@
 package cn.edu.tongji.EmotionProcessor.service.impl;
 
 import cn.edu.tongji.EmotionProcessor.client.EmotionsClient;
+import cn.edu.tongji.EmotionProcessor.dto.MusicEmotionDTO;
 import cn.edu.tongji.EmotionProcessor.service.PostEmotionsService;
-import cn.edu.tongji.Emotions.dto.MusicEmotionDTO;
+
 import com.rabbitmq.client.Channel;
 
 import org.springframework.amqp.core.Message;
