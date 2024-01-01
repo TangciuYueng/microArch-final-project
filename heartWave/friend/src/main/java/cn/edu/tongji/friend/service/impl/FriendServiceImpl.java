@@ -28,14 +28,14 @@ public class FriendServiceImpl implements FriendService {
         List<Friend> friends = friendMapper.getByUserId(userId);
 
         for (Friend friend: friends) {
-            User user = (User) loginServiceClient.getUserById(friend.getFriendId()).getBody();
-
-            friendInfos.add(new FriendInfo(
+            //User user = (User) loginServiceClient.getUserById(friend.getFriendId()).getBody();
+            System.out.println(loginServiceClient.getUserById(friend.getFriendId()).getBody());
+            /*friendInfos.add(new FriendInfo(
                     user.getId(),
                     user.getName(),
                     user.getAvatar(),
                     friend.getIntimacy()
-            ));
+            ));*/
         }
 
         return friendInfos;
