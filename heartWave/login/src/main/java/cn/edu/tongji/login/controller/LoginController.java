@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
     @Resource
     private LoginService loginService;
-    @Resource
-    private SmsService smsService;
 
     @GetMapping("/user")
     public ResponseEntity<?> userLogin(@RequestBody UserLoginRequest userLoginRequest) {

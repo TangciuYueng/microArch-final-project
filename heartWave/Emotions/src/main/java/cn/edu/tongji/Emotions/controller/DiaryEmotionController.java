@@ -38,11 +38,21 @@ public class DiaryEmotionController {
         return ResponseEntity.ok(diaryEmotionService.findAll(pageable));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getDiaryEmotionById(@PathVariable String id) {
-        return diaryEmotionService.findById(id)
+    @GetMapping("/diaries/{diaryId}")
+    public ResponseEntity<?> getDiaryEmotionByDiaryId(@PathVariable int diaryId) {
+        return diaryEmotionService.findByDiaryId(diaryId)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<List<?>> getDiaryEmotionByUserId(@PathVariable int userId) {
+        List<?> diaryEmotions = diaryEmotionService.findByUserId(userId);
+        if (diaryEmotions.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(diaryEmotions);
+        }
     }
 
     @PostMapping

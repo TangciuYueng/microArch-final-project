@@ -12,6 +12,6 @@ import java.util.Optional;
 public interface CheckinEmotionRepository extends MongoRepository<CheckinEmotion, String> {
     // 定义特定于CheckinEmotion的方法
     Page<CheckinEmotion> findByCheckinTimeBetween(LocalDateTime startOfDay, LocalDateTime endOfDay, Pageable pageable);
-    Optional<CheckinEmotion> findByUserId(String userId);
+    List<CheckinEmotion> findByUserId(int userId);
     List<CheckinEmotion> findByCheckinTime(LocalDateTime startOfDay);
 }

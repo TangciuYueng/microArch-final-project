@@ -1,9 +1,6 @@
 package cn.edu.tongji.login.controller;
 
-import cn.edu.tongji.login.dto.AddUserRequest;
-import cn.edu.tongji.login.dto.SmsInfo;
-import cn.edu.tongji.login.dto.UpdateUserRequest;
-import cn.edu.tongji.login.dto.UserInfo;
+import cn.edu.tongji.login.dto.*;
 import cn.edu.tongji.login.model.User;
 import cn.edu.tongji.login.service.UserService;
 import jakarta.annotation.Resource;
@@ -41,7 +38,18 @@ public class UserController {
         }
     }
 
-    @GetMapping("info/{id}")
+    @GetMapping("/many")
+    public ResponseEntity<?> getUsersByIds(@RequestParam("ids") List<Integer> ids) {
+        try {
+            List<UserFriendInfo> userFriendInfos = userService.getUsersByIds(ids);
+            return new ResponseEntity<>(userFriendInfos, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("get users by ids failed", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/info/{id}")
     public ResponseEntity<?> getUserInfoById(@PathVariable("id") int id) {
         try {
             UserInfo userInfo = userService.getUserInfoById(id);

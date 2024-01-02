@@ -12,7 +12,7 @@
             MUSIC
             <v-spacer></v-spacer>
 
-            <v-text-field
+            <!-- <v-text-field
                 v-model="search"
                 prepend-inner-icon="mdi-magnify"
                 density="compact"
@@ -21,7 +21,7 @@
                 flat
                 hide-details
                 variant="solo-filled"
-            ></v-text-field>
+            ></v-text-field> -->
             </v-card-title>
             <v-divider></v-divider>
             <v-btn @click="getAllMusic">获取所有音乐</v-btn>
@@ -33,6 +33,10 @@
         <v-text-field v-model="music_id" label="输入音乐ID播放音乐" outlined solo prepend-icon="mdi-music"></v-text-field>
         {{ music_id }}
         <v-btn @click="playMusicById">播放音乐</v-btn>
+        <v-app>
+
+            <MusicPlayer />
+        </v-app>
         
         <!-- <v-btn @click="downloadAndPlayAudio">Download and Play Audio</v-btn> -->
     </div>
@@ -41,6 +45,7 @@
 <script>
 // import HelloWorld from '@/components/HelloWorld.vue'
 import DefaultBar from '@/layouts/default/AppBar.vue'
+import MusicPlayer from '@/components/MusicPlayer.vue';
 import axios from 'axios'
 export default {
     
@@ -52,6 +57,7 @@ export default {
     }),
     components:{
         DefaultBar,
+        MusicPlayer,
     },
     mounted() {
 
@@ -88,7 +94,7 @@ export default {
 				this.error = error;
 			}
         },
-        playMusicById2(){
+        playLocalMusic(){
 
         },
         downloadAndPlayAudio() {
@@ -119,6 +125,7 @@ export default {
         return this.$vuetify.display
       },
     },
+
 
 }
 </script>

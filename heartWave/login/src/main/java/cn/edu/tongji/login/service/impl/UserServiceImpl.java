@@ -1,9 +1,6 @@
 package cn.edu.tongji.login.service.impl;
 
-import cn.edu.tongji.login.dto.AddUserRequest;
-import cn.edu.tongji.login.dto.SmsInfo;
-import cn.edu.tongji.login.dto.UpdateUserRequest;
-import cn.edu.tongji.login.dto.UserInfo;
+import cn.edu.tongji.login.dto.*;
 import cn.edu.tongji.login.mapper.UserMapper;
 import cn.edu.tongji.login.model.User;
 import cn.edu.tongji.login.service.EncryptService;
@@ -14,6 +11,7 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,6 +26,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers() {
         return userMapper.getAll();
+    }
+
+    @Override
+    public List<UserFriendInfo> getUsersByIds(List<Integer> ids) {
+        List<UserFriendInfo> userFriendInfos = new ArrayList<>();
+
+        for (int id : ids) {
+            User user = userMapper.getById(id);
+
+            userFriendInfos.add(new UserFriendInfo(
+                    user.getId(),
+                    user.getName(),
+                    user.getAvatar()
+            ));
+        }
+
+        return userFriendInfos;
     }
 
     @Override

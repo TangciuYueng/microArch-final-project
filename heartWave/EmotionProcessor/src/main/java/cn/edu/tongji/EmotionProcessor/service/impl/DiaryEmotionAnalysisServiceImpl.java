@@ -137,12 +137,19 @@ public class DiaryEmotionAnalysisServiceImpl implements DiaryEmotionAnalysisServ
                     );
 
                     emotionClient.createDiaryEmotion(diaryEmotionDTO);
+
+                    // 休息1秒钟
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+
+                    }
                 }
             }
         }
     }
 
 
-    // 你可能需要定义一个Diary类来表示日记数据
 
 }
