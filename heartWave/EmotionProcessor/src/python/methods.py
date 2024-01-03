@@ -155,5 +155,32 @@ def get_diary_emotions_by_user_id(user_id):
         # 处理错误情况
         print("Error:", response.text)
         return None
+
+def get_all_music_emotion():
+    all_data = []
+    url = f"http://localhost:8884/api/emotions/music-emotions"
+    page = 0
+    page_size = 10
+    while True:
+        params = {'page': page, 'size': page_size}
+        response = requests.get(url, params=params)
+
+        if response.status_code != 200:
+            print("请求失败，状态码：", response.status_code)
+            break
+
+        data = response.json()
+        all_data.extend(data['content'])  # 假设数据在 'content' 键下
+
+        # 检查是否还有更多的页面
+        if data['last'] == True:  # 假设 'last' 键标识是否为最后一页
+            break
+        page += 1
+
+    return all_data
+
+
 import json
 import requests
+
+print(get_all_music_emotion())

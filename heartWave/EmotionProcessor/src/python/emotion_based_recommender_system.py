@@ -107,7 +107,7 @@ all_data = []
 
 
 all_data_combined = []
-
+music_emotion = get_all_music_emotion()
 for user in user_list:
     user_id = user["id"]
 
@@ -133,7 +133,7 @@ for user in user_list:
                 "user_id": user_id,
                 "user_gender" :user['gender'],
                 "musicId": music['musicId'],
-                "music_path" :"C:\\Users\\86181\\Desktop\\MicroServices\\microArch-final-project\\heartWave\\EmotionProcessor\\src\\python\\emotion_based_recommender_system.py\\"+
+                "music_path" :"C:\\Users\\86181\\Desktop\\MicroServices\\microArch-final-project\\heartWave\\EmotionProcessor\\src\\python\\"+
                               str(music['musicId'])+".wav",
                 "music_create_date": music['createDate'],
                 "music_attitude": music['type'],
@@ -151,27 +151,28 @@ for user in user_list:
 print(all_data_combined)
 df_data =pd.DataFrame(all_data_combined)
 df_musics = pd.DataFrame(musics)
+df_emotion =pd.DataFrame(music_emotion)
 # 重命名列 'id' 为 'musicID'
 df_musics = df_musics.rename(columns={'id': 'musicId'})
 # 根据 music_id 合并两个 DataFrame
 df_data = pd.merge(df_data, df_musics, on='musicId', how='inner')
+df_data = pd.merge(df_data, df_emotion, on='musicId', how='inner')
 
 
-
-for index, row in df_data.iterrows():
-    print(row['src'], row['music_path'])
-    music_info = {
-        "localPath": row['src'],
-        "cosPath": row['music_path']
-    }
-    download_music_from_cos(music_info)
+# for index, row in df_data.iterrows():
+#     print(row['src'], row['music_path'])
+#     music_info = {
+#         "localPath": row['music_path'],
+#         "cosPath": row['src']
+#     }
+#     download_music_from_cos(music_info)
 
 # 提取音频特征并添加到DataFrame
 df_data['audio_features'] = df_data['music_path'].apply(feature_extractor)
 
 # 将音频特征拆分为多个列
-audio_feature_columns = ['feature{}'.format(i) for i in range(len(all_data_combined['audio_features'].iloc[0]))]
-df_data[audio_feature_columns] = pd.DataFrame(df_data['audio_features'].tolist(), index=all_data_combined.index)
+audio_feature_columns = ['feature{}'.format(i) for i in range(len(df_data['audio_features'].iloc[0]))]
+df_data[audio_feature_columns] = pd.DataFrame(df_data['audio_features'].tolist(), index=df_data.index)
 
 
 # 删除原始的音频特征列和音频路径列
@@ -179,7 +180,7 @@ df_data.drop(['music_path', 'audio_features'], axis=1, inplace=True)
 
 
 # 对类别型特征进行编码
-categorical_cols = ['genre']  # 更新这个列表为您的类别型特征列
+categorical_cols = ['genre','positive','negative','checkin_emotion_value','dramatic','aggressive','romantic','happy','sad']  # 更新这个列表为您的类别型特征列
 df = pd.get_dummies(df_data, columns=categorical_cols)
 
 # 编码目标变量
@@ -187,9 +188,14 @@ le = LabelEncoder()
 df['music_attitude'] = le.fit_transform(df['music_attitude'])
 y = to_categorical(df['music_attitude'])
 
+# 移除非数值型列
+numeric_cols = df.select_dtypes(include=['int64', 'float64']).columns
+df_numeric = df[numeric_cols]
+
 # 特征缩放
 scaler = StandardScaler()
-X = scaler.fit_transform(df.drop('attitude', axis=1))
+X = scaler.fit_transform(df_numeric)
+
 # 分割数据集
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
@@ -224,6 +230,9 @@ model.fit(X_train, y_train, epochs=100, batch_size=10)
 scores = model.evaluate(X_test, y_test)
 print("\n%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
 
+# 保存模型
+model_save_path = "musicmodel.h5"  # 选择一个路径来保存模型
+model.save(model_save_path)
 
 
 
@@ -233,75 +242,3 @@ print("\n%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
 
 
 
-# # 示例数据
-# data = {
-#     # 假设的音频文件路径
-#     'file_path': ['dramatic.wav', 'dramatic.wav', 'dramatic.wav', 'dramatic.wav'],
-#
-#     # 音乐其他特征
-#     'genre': ['pop', 'rock', 'jazz', 'classical'],
-#     'duration': [210, 180, 300, 250],
-#     'artist': ['Artist1', 'Artist2', 'Artist3', 'Artist4'],
-#     'musicType': ['Type1', 'Type2', 'Type3', 'Type4'],
-#     'language': ['English', 'Spanish', 'French', 'German'],
-#
-#     # 用户情绪数据
-#     'mood_score': [75, 50, 30, 90],
-#     'sentiment': [1, 0, 0, 1],
-#     'confidence': [0.9, 0.6, 0.7, 0.8],
-#     'positive': [0.7, 0.2, 0.3, 0.9],
-#     'negative': [0.3, 0.8, 0.7, 0.1],
-#
-#     # 用户对音乐的情感反应
-#     'dramatic': [0.6, 0.4, 0.7, 0.5],
-#     'aggressive': [0.3, 0.7, 0.4, 0.6],
-#
-#
-#     # 目标变量
-#     'attitude': ['favour', 'normal', 'dislike', 'listenRecord']
-# }
-#
-# # 创建DataFrame
-# df = pd.DataFrame(data)
-#
-# # 提取音频特征并添加到DataFrame
-# df['audio_features'] = df['file_path'].apply(feature_extractor)
-#
-# # 将音频特征拆分为多个列
-# audio_feature_columns = ['feature{}'.format(i) for i in range(len(df['audio_features'].iloc[0]))]
-# df[audio_feature_columns] = pd.DataFrame(df['audio_features'].tolist(), index=df.index)
-#
-# # 删除原始的音频特征列和音频路径列
-# df.drop(['file_path', 'audio_features'], axis=1, inplace=True)
-#
-#
-# # 对类别型特征进行编码
-# categorical_cols = ['genre', 'artist', 'musicType', 'language']  # 更新这个列表为您的类别型特征列
-# df = pd.get_dummies(df, columns=categorical_cols)
-#
-# # 编码目标变量
-# le = LabelEncoder()
-# df['attitude'] = le.fit_transform(df['attitude'])
-# y = to_categorical(df['attitude'])
-#
-# # 特征缩放
-# scaler = StandardScaler()
-# X = scaler.fit_transform(df.drop('attitude', axis=1))
-# # 分割数据集
-# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-#
-# # 构建神经网络模型
-# model = Sequential()
-# model.add(Dense(128, input_dim=X_train.shape[1], activation='relu'))
-# model.add(Dense(64, activation='relu'))
-# model.add(Dense(y_train.shape[1], activation='softmax'))
-#
-# # 编译模型
-# model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-#
-# # 训练模型
-# model.fit(X_train, y_train, epochs=100, batch_size=10)
-#
-# # 评估模型
-# scores = model.evaluate(X_test, y_test)
-# print("\n%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
