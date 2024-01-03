@@ -10,6 +10,7 @@ def get_music_list_by_user_id(user_id):
             for item in items:
                 if item['type'] in ['favour', 'normal' , 'dislike']:
                     filtered_data.append(item)
+        print(filtered_data)
         return filtered_data
     else:
         print(f"Failed to fetch music_list data: {response.status_code}")
@@ -21,7 +22,7 @@ def fetch_all_music():
     total_pages = 1  # 初始假设总页数至少为1
 
     while page <= total_pages:
-        url = f"http://localhost:8888/api/music_listen/music/by-page/{page}"
+        url = f"http://localhost:8888/api/music-listen/music/by-page/{page}"
         response = requests.get(url)
         if response.status_code == 200:
             data = response.json()
@@ -90,23 +91,6 @@ def get_music_emotion_by_music_id(music_id):
     except requests.RequestException as e:
         return f"Request Error: {e}"
 
-def download_music(local_path, cos_path):
-    url = "http://localhost:8888/api/cos/download"
-    payload = {
-        "localPath": local_path,
-        "cosPath": cos_path
-    }
-
-    try:
-        # 发送 POST 请求
-        response = requests.post(url, json=payload)
-        response.raise_for_status()  # 确保请求成功
-
-        return f"请求成功，文件应该已下载到 {local_path}"
-    except requests.exceptions.RequestException as e:
-        return f"下载错误: {e}"
-
-
 
 def download_music_from_cos(music_info):
 
@@ -117,7 +101,7 @@ def download_music_from_cos(music_info):
     }
 
     # 发送请求到COS下载API
-    url = "http://localhost:8888/api/cos/file"
+    url = "http://localhost:8888/api/cos/files"
     response = requests.get(url, json=payload)
 
     # 检查响应状态
