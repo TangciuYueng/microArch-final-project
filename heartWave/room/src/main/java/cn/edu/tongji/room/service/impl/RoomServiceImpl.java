@@ -66,6 +66,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    @Transactional
     public void closeChatRoom(CloseRequest request) {
         int roomPort = request.getPort();
         int musicRoomId = request.getMusicRoomId();

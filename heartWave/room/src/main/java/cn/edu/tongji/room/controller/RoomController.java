@@ -5,6 +5,7 @@ import cn.edu.tongji.room.dto.MusicRoomDTO;
 import cn.edu.tongji.room.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,6 +20,7 @@ public class RoomController {
             int port = roomService.createRoom(musicRoomDTO);
             return ResponseEntity.ok(port);
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().body(-1);
         }
     }

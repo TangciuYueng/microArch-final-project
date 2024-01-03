@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "music-room-service", path = "/api/music_room")
+@FeignClient(name = "music-room-service", path = "/api/music-room")
 public interface MusicRoomClient {
     @PostMapping
     ResponseEntity<?> createMusicRoom(@RequestBody MusicRoomDTO musicRoomDTO);
-    @PutMapping("/close")
+    @PutMapping
     ResponseEntity<?> closeMusicRoom(@RequestParam("musicRoomId") int musicRoomId, @RequestParam("operatorId") int operatorId);
 }
