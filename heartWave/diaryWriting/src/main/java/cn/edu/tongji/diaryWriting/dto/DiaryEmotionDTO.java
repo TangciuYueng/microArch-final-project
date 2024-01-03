@@ -1,9 +1,13 @@
 package cn.edu.tongji.diaryWriting.dto;
 
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 
+@Getter
 public class DiaryEmotionDTO {
 
+    // Getter 和 Setter 方法
     private String id;
     private int userId;
     private int diaryId;
@@ -29,65 +33,32 @@ public class DiaryEmotionDTO {
         this.negative = negative;
     }
 
-    // Getter 和 Setter 方法
-    public String getId() {
-        return id;
-    }
-
     public void setId(String id) {
         this.id = id;
-    }
-
-    public int getUserId() {
-        return userId;
     }
 
     public void setUserId(int userId) {
         this.userId = userId;
     }
 
-    public int getDiaryId() {
-        return diaryId;
-    }
-
     public void setDiaryId(int diaryId) {
         this.diaryId = diaryId;
-    }
-
-    public LocalDateTime getCreateTime() {
-        return createTime;
     }
 
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
-    public int getSentiment() {
-        return sentiment;
-    }
-
     public void setSentiment(int sentiment) {
         this.sentiment = sentiment;
-    }
-
-    public float getConfidence() {
-        return confidence;
     }
 
     public void setConfidence(float confidence) {
         this.confidence = confidence;
     }
 
-    public float getPositive() {
-        return positive;
-    }
-
     public void setPositive(float positive) {
         this.positive = positive;
-    }
-
-    public float getNegative() {
-        return negative;
     }
 
     public void setNegative(float negative) {
