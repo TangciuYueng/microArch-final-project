@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import cn.edu.tongji.EmotionProcessor.service.DiaryEmotionAnalysisService;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -108,6 +109,7 @@ public class DiaryEmotionAnalysisServiceImpl implements DiaryEmotionAnalysisServ
         return null;
     }
 
+    @Transactional
     @Scheduled(fixedRate = 3600000)
     public void getDiaryEmotion() {
         ResponseEntity<?> diaryListResponse = diaryWritingClient.getRecentDiaries();

@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.amqp.rabbit.connection.Connection;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.Map;
@@ -40,6 +41,7 @@ public class PostEmotionsServiceImpl implements PostEmotionsService {
     private final MessagePropertiesConverter messagePropertiesConverter = new DefaultMessagePropertiesConverter();
 
     // 每小时执行一次
+    @Transactional
     @Scheduled(fixedRate = 3600000)
     public void receiveMessages() {
         // 尝试从队列中获取消息
