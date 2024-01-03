@@ -64,7 +64,7 @@ public class DiaryWritingServiceImpl implements DiaryWritingService {
 
     @Override
     public List<Diary> getRecentDiaries(){
-        LocalDateTime oneHourAgo = LocalDateTime.now().minusHours(10000000);
+        LocalDateTime oneHourAgo = LocalDateTime.now().minusHours(1);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String oneHourAgoStr = oneHourAgo.format(formatter);
 
