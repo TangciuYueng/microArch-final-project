@@ -46,6 +46,11 @@ export default {
       musicProgress: 0,
     };
   },
+  computed: {
+    audioPlayer() {
+      return this.$refs.audioPlayer;
+    },
+  },
   methods: {
     togglePlay() {
       const audioPlayer = this.$refs.audioPlayer;
@@ -57,17 +62,13 @@ export default {
       this.isPlaying = !this.isPlaying;
     },
     updateMusicProgress() {
-      // console.log(1);
       const audioPlayer = this.$refs.audioPlayer;
       this.musicProgress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
     },
     changeMusicProgress(newMusicProgress, oldValue) {
-      // newMusicProgress 是 v-slider 的 change 事件提供的参数
-      console.log(1);
       const audioPlayer = this.$refs.audioPlayer;
       const newTime = (newMusicProgress / 100) * audioPlayer.duration;
       audioPlayer.currentTime = newTime;
-      console.log(audioPlayer.currentTime)
     },
   },
 };
