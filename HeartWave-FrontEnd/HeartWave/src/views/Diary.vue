@@ -1,6 +1,6 @@
 <template>
     <!-- 顶部的导航栏 -->
-    <DefaultBar />
+    <!-- <DefaultBar /> -->
     <v-container fluid>
         <v-row>
             <v-col v-for="day in days" :key="day" class="text-center">
@@ -53,8 +53,5 @@ export default {
 
     },
 }
-
-
-
 </script>
-  
+

@@ -1,8 +1,7 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <div>
         <div>
-            <DefaultBar />
+            <!-- <DefaultBar /> -->
             音乐收听
         </div>
         <!-- 把所有音乐展示 -->
@@ -48,86 +47,87 @@ import DefaultBar from '@/layouts/default/AppBar.vue'
 import MusicPlayer from '@/components/MusicPlayer.vue';
 import axios from 'axios'
 export default {
-    
-    data: () => ({
-        search:"",
-        allMusic: '',
-        music_id: null,
+  components:{
+      DefaultBar,
+      MusicPlayer,
+  },
 
-    }),
-    components:{
-        DefaultBar,
-        MusicPlayer,
+  data: () => ({
+      search:"",
+      allMusic: '',
+      music_id: null,
+
+  }),
+
+  computed: {
+    display () {
+      return this.$vuetify.display
     },
-    mounted() {
+  },
 
-    },
-    methods: {
-        playMusicById(){
-            try {
-				axios.get(`http://localhost:8888/api/music_listen/music/play/${this.music_id}`)
-				.then((response) => {
-					// 请求成功时的处理
-					console.log(response)
-				})
-				.catch((error) => {
-				// 请求失败时的处理
-				console.error('Error:', error);
-				});
-			} catch (error) {
-				this.error = error;
-			}
-        },
-        getAllMusic(){
-            try {
-				axios.get(`http://localhost:8888/api/music_listen/music/by_page/1`)
-				.then((response) => {
-					// 请求成功时的处理
-                    this.allMusic = response.data.musics
-					console.log(response)
-				})
-				.catch((error) => {
-				// 请求失败时的处理
-				console.error('Error:', error);
-				});
-			} catch (error) {
-				this.error = error;
-			}
-        },
-        playLocalMusic(){
+  mounted() {
 
-        },
-        downloadAndPlayAudio() {
-            const backendUrl = 'http://localhost:8888/api/music_listen/music/download_music'; // 替换成你的后端服务地址
-            const fileName = 'abc.wav'; // 替换成实际的音频文件名
+  },
 
-            axios({
-                url: backendUrl,
-                method: 'GET',
-                responseType: 'arraybuffer',
-                params: {
-                    filePath: fileName,
-                },
-            }).then(response => {
-                this.playAudio(response.data);
-            }).catch(error => {
-                console.error('Error downloading audio:', error);
-            });
-        },
-        playAudio (audioBlob) {
-            const audioUrl = URL.createObjectURL(audioBlob);
-            const audioElement = new Audio(audioUrl);
-            audioElement.play();
-        },
-    },
-    computed: {
-      display () {
-        return this.$vuetify.display
+  methods: {
+      playMusicById(){
+          try {
+              axios.get(`http://localhost:8888/api/music_listen/music/play/${this.music_id}`)
+              .then((response) => {
+                  // 请求成功时的处理
+                  console.log(response)
+              })
+              .catch((error) => {
+              // 请求失败时的处理
+              console.error('Error:', error);
+              });
+          } catch (error) {
+              this.error = error;
+          }
       },
-    },
+      getAllMusic(){
+          try {
+              axios.get(`http://localhost:8888/api/music_listen/music/by_page/1`)
+              .then((response) => {
+                  // 请求成功时的处理
+                  this.allMusic = response.data.musics
+                  console.log(response)
+              })
+              .catch((error) => {
+              // 请求失败时的处理
+              console.error('Error:', error);
+              });
+          } catch (error) {
+              this.error = error;
+          }
+      },
+      playLocalMusic(){
 
+      },
+      downloadAndPlayAudio() {
+          const backendUrl = 'http://localhost:8888/api/music_listen/music/download_music'; // 替换成你的后端服务地址
+          const fileName = 'abc.wav'; // 替换成实际的音频文件名
 
-}
+          axios({
+              url: backendUrl,
+              method: 'GET',
+              responseType: 'arraybuffer',
+              params: {
+                  filePath: fileName,
+              },
+          }).then(response => {
+              this.playAudio(response.data);
+          }).catch(error => {
+              console.error('Error downloading audio:', error);
+          });
+      },
+      playAudio (audioBlob) {
+          const audioUrl = URL.createObjectURL(audioBlob);
+          const audioElement = new Audio(audioUrl);
+          audioElement.play();
+      },
+  }
+};
 </script>
 
 <style>

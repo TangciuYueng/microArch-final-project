@@ -1,6 +1,6 @@
 <template>
     <!-- 顶部的导航栏 -->
-    <DefaultBar />
+    <!-- <DefaultBar /> -->
     音乐室
 </template>
   
@@ -22,8 +22,5 @@ export default {
 
     },
 }
-
-
-
 </script>
-  
+
