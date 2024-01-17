@@ -1,6 +1,6 @@
 <template>
     <!-- 专门用来写左边的导航栏 -->
-    <v-navigation-drawer expand-on-hover rail>
+    <v-navigation-drawer expand-on-hover rail color="#F4FFFC">
         <!-- 头像 -->
         <v-list>
             <v-list-item prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg" title="Sandra Adams"

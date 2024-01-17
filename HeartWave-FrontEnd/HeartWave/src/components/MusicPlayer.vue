@@ -80,7 +80,7 @@ export default {
 /* 根据需求添加样式 */
 /* 添加淡绿色背景和阴影 */
 .green-background {
-  background-color: #c8e6c9; /* 你想要的淡绿色背景颜色 */
+  background-color: #DCE8E3; /* 你想要的淡绿色背景颜色 */
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2); /* 阴影效果 */
 }
 </style>
