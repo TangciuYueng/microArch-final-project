@@ -22,7 +22,7 @@
 
             <v-col>
               <!-- 音乐控制条 -->
-              <v-slider v-model="musicProgress" max="100" @change="changeMusicProgress" thumb-label></v-slider>
+              <v-slider v-model="musicProgress" max="100" thumb-label @click="changeMusicProgress"></v-slider>
             </v-col>
           </v-row>
         </v-col>
@@ -60,14 +60,16 @@ export default {
         audioPlayer.play();
       }
       this.isPlaying = !this.isPlaying;
+      
     },
     updateMusicProgress() {
       const audioPlayer = this.$refs.audioPlayer;
       this.musicProgress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+      console.log(this.musicProgress)
     },
-    changeMusicProgress(newMusicProgress, oldValue) {
+    changeMusicProgress() {
       const audioPlayer = this.$refs.audioPlayer;
-      const newTime = (newMusicProgress / 100) * audioPlayer.duration;
+      const newTime = (this.musicProgress / 100) * audioPlayer.duration;
       audioPlayer.currentTime = newTime;
     },
   },
