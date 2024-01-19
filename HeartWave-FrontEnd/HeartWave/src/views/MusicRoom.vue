@@ -1,17 +1,14 @@
 <template>
     <!-- 顶部的导航栏 -->
-    <!-- <DefaultBar /> -->
-    音乐室
+    <!-- 用于写主页面的内容 -->
+    <v-main class="full-height">
+        音乐室
+    </v-main>
 </template>
   
 <script>
-import DefaultBar from '@/layouts/default/AppBar.vue'
-// import DefaultView from '@/layouts/default/View.vue'
 export default {
     //导出组件
-    components: {
-        DefaultBar
-    },
     data: () => ({
         form: false,
         userAccount: null,
@@ -24,3 +21,9 @@ export default {
 }
 </script>
 
+<style scoped>
+.full-height {
+    min-height: 100vh;
+    /* 设置最小高度为视口高度的100% */
+}
+</style>

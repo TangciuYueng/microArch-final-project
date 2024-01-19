@@ -60,6 +60,11 @@ const routes = [
         path:'/personal-center',
         name:'PersonalCenter',
         component: () => import('@/views/PersonalCenter.vue'),
+      },
+      {
+        path:'/MainView',
+        name:'MainView',
+        component:()=> import('@/views/MainView.vue')
       }
     ],
   },
