@@ -78,7 +78,7 @@ export default {
             setTimeout(() => {
                 this.loading = false
                 //重定向到主页
-                this.$router.push('/MainView')
+                this.$router.push('/main-view')
             }, 2000)
         },
         //处理注册逻辑
