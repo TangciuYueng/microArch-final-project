@@ -3,26 +3,19 @@
       class="mx-auto"
       min-height="90%"
       min-width="90%"
-      
       hover
     >
       <v-card-item>
         <v-card-title>
-          天气组件
+          推荐歌单卡
         </v-card-title>
         <v-card-subtitle>
-          天气组件子标题
+          recomend playlists卡
         </v-card-subtitle>
       </v-card-item>
   
       <v-card-text>
-        天气信息展示
+        一些信息
       </v-card-text>
     </v-card>
   </template>
-  
-<script>
-
-</script>
-
-<style scoped></style>
