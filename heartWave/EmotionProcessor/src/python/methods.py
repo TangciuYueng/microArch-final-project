@@ -182,5 +182,3 @@ def get_all_music_emotion():
 
 import json
 import requests
-
-print(get_all_music_emotion())
