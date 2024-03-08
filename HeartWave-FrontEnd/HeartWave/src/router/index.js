@@ -62,7 +62,7 @@ const routes = [
         component: () => import('@/views/PersonalCenter.vue'),
       },
       {
-        path:'/MainView',
+        path:'/main-view',
         name:'MainView',
         component:()=> import('@/views/MainView.vue')
       }
