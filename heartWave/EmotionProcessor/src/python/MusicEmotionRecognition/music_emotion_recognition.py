@@ -154,63 +154,81 @@ if __name__ == "__main__":
     connection, channel = connect_to_rabbitmq()
     music_list = []
 
-    while True:
-        music_info = fetch_music_info(channel)
-        print(music_info)
-        if music_info:
-
-            try:
-                music_info = json.loads(music_info)
-            except json.JSONDecodeError as e:
-                print("JSON 解析错误:", e)
-                continue
-
-            # 从COS服务器下载音乐
-            filename = os.path.basename(music_info["cosPath"])
-            local_path_with_filename = os.path.join("C:/Users/86181/Desktop/MicroServices/downloadMusic", filename) #先使用绝对路径
-            download_music_info = {
-                "localPath": local_path_with_filename,
-                "cosPath": music_info["cosPath"]
-            }
-            music_path = download_music_from_cos(download_music_info)
-            music_list.append(music_path)
-
-            if len(music_list) >= 1:
-                analyze_and_publish_results(music_info['id'], music_list, channel)
-                music_list.clear()
-
-        time.sleep(1)  # 每隔一段时间运行一次
-    # example_data_list = get_all_musics_list()  # 假设数据是一个列表，里面包含多个类似的字典
+    # while True:
+    #     music_info = fetch_music_info(channel)
+    #     print(music_info)
+    #     if music_info:
     #
-    # # 提取所有 "key" 值
-    # keys = [item["key"] for item in example_data_list]
+    #         try:
+    #             music_info = json.loads(music_info)
+    #         except json.JSONDecodeError as e:
+    #             print("JSON 解析错误:", e)
+    #             continue
     #
-    # all_music = fetch_all_music()
-    # id_key_map = [(item['id'], item['src']) for item in all_music]
-    # src_to_id_map = {src: id for id, src in id_key_map}
+    #         # 从COS服务器下载音乐
+    #         filename = os.path.basename(music_info["cosPath"])
+    #         local_path_with_filename = os.path.join("/root/musics", filename) #先使用绝对路径
+    #         download_music_info = {
+    #             "localPath": local_path_with_filename,
+    #             "cosPath": music_info["cosPath"]
+    #         }
+    #         music_path = download_music_from_cos(download_music_info)
+    #         music_list.append(music_path)
     #
-    # for key in keys:
-    # # 从COS服务器下载音乐
-    #     filename = os.path.basename(key)
-    #     local_path_with_filename = os.path.join("C:/Users/86181/Desktop/MicroServices/downloadMusic", filename) #先使用绝对路径
-    #     download_music_info = {
-    #         "localPath": local_path_with_filename,
-    #         "cosPath": key
-    #     }
-    #     music_path = download_music_from_cos(download_music_info)
-    #     music_list.append(music_path)
-    #
-    #     try:
-    #         music_id = src_to_id_map[key]
-    #         print(music_id)
-    #         # 如果 music_id 不是 None 并且 music_list 长度至少为 1，则继续处理
-    #         if music_id is not None and len(music_list) >= 1:
-    #             analyze_and_publish_results(music_id, music_list, channel)
+    #         if len(music_list) >= 1:
+    #             analyze_and_publish_results(music_info['id'], music_list, channel)
     #             music_list.clear()
-    #     except KeyError as e:
-    #         print(f"The key {e} was not found in the map.")
     #
     #     time.sleep(1)  # 每隔一段时间运行一次
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    example_data_list = get_all_musics_list()  # 假设数据是一个列表，里面包含多个类似的字典
+
+    # 提取所有 "key" 值
+    keys = [item["key"] for item in example_data_list]
+
+    all_music = fetch_all_music()
+    id_key_map = [(item['id'], item['src']) for item in all_music]
+    src_to_id_map = {src: id for id, src in id_key_map}
+
+    for key in keys:
+    # 从COS服务器下载音乐
+        filename = os.path.basename(key)
+        local_path_with_filename = os.path.join("C:/Users/86181/Desktop/MicroServices/downloadMusic", filename) #先使用绝对路径
+        download_music_info = {
+            "localPath": local_path_with_filename,
+            "cosPath": key
+        }
+        music_path = download_music_from_cos(download_music_info)
+        music_list.append(music_path)
+
+        try:
+            music_id = src_to_id_map[key]
+            print(music_id)
+            # 如果 music_id 不是 None 并且 music_list 长度至少为 1，则继续处理
+            if music_id is not None and len(music_list) >= 1:
+                analyze_and_publish_results(music_id, music_list, channel)
+                music_list.clear()
+        except KeyError as e:
+            print(f"The key {e} was not found in the map.")
+
+        time.sleep(1)  # 每隔一段时间运行一次
 
 
     connection.close()

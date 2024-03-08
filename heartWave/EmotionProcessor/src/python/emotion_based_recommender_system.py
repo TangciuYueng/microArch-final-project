@@ -5,6 +5,7 @@ import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.src.layers import BatchNormalization, Dropout
+from keras.src.saving import saving_api
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from keras.utils import to_categorical
 import pandas as pd
@@ -67,44 +68,6 @@ musics = fetch_all_music()
 
 all_data = []
 
-# for user in user_list:
-#     user_id = user["id"]
-#
-#     print(1)
-#     # 获取用户相关的所有列表
-#     user_music_list = get_music_list_by_user_id(user_id)
-#     print(2)
-#     checkin_emotion_list = get_checkin_emotions_by_user_id(user_id)
-#     print(3)
-#     diary_emotion_list = get_diary_emotions_by_user_id(user_id)
-#     print(4)
-#     user_listen_record = get_listenRecord_by_user_id(user_id)
-#     print(5)
-
-    # 处理 user_music_list 和 user_listen_record
-    # for music_list in [user_music_list, user_listen_record]:
-    #     for record in music_list:
-    #         record_time = datetime.fromisoformat(record['createDate'] if 'createDate' in record else record['createTime'])
-    #         closest_checkin = find_closest_record(record_time, checkin_emotion_list, 'checkinTime')
-    #         closest_diary = find_closest_record(record_time, diary_emotion_list, 'createTime')
-    #
-    #         # 添加数据到 all_data
-    #         if closest_checkin and closest_diary:
-    #             data_entry = {
-    #                 "user_id": user_id,
-    #                 "music_id": record['musicId'],
-    #                 "music_create_date": record.get('createDate', ''),
-    #                 "music_attitute": record.get('type', ''),
-    #                 "checkin_time": closest_checkin['checkinTime'],
-    #                 "checkin_emotion_value": closest_checkin['emotionValue'],
-    #                 "diary_create_time": closest_diary['createTime'],
-    #                 "positive": closest_diary['positive'],
-    #                 "negative": closest_diary['negative'],
-    #                 "play_count": record.get('playCount', 0)
-    #             }
-    #             all_data.append(data_entry)
-    #             print(all_data)
-
 
 all_data_combined = []
 music_emotion = get_all_music_emotion()
@@ -131,15 +94,12 @@ for user in user_list:
             # 合并数据
             combined_record = {
                 "user_id": user_id,
-                "user_gender" :user['gender'],
                 "musicId": music['musicId'],
                 "music_path" :"C:\\Users\\86181\\Desktop\\MicroServices\\microArch-final-project\\heartWave\\EmotionProcessor\\src\\python\\"+
                               str(music['musicId'])+".wav",
                 "music_create_date": music['createDate'],
                 "music_attitude": music['type'],
-                "checkin_time": closest_checkin['checkinTime'],
                 "checkin_emotion_value": closest_checkin['emotionValue'],
-                "diary_create_time": closest_diary['createTime'],
                 "positive": closest_diary['positive'],
                 "negative": closest_diary['negative'],
                 "play_count": next((record['playCount'] for record in user_listen_record if record['userId'] == user_id and pd.to_datetime(record['createDate']) == music_create_date), 0)
@@ -180,7 +140,7 @@ df_data.drop(['music_path', 'audio_features'], axis=1, inplace=True)
 
 
 # 对类别型特征进行编码
-categorical_cols = ['genre','positive','negative','checkin_emotion_value','dramatic','aggressive','romantic','happy','sad']  # 更新这个列表为您的类别型特征列
+categorical_cols = ['genre']  # 更新这个列表为您的类别型特征列
 df = pd.get_dummies(df_data, columns=categorical_cols)
 
 # 编码目标变量
@@ -192,9 +152,13 @@ y = to_categorical(df['music_attitude'])
 numeric_cols = df.select_dtypes(include=['int64', 'float64']).columns
 df_numeric = df[numeric_cols]
 
+
+
 # 特征缩放
 scaler = StandardScaler()
 X = scaler.fit_transform(df_numeric)
+
+print(X)
 
 # 分割数据集
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -232,7 +196,7 @@ print("\n%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
 
 # 保存模型
 model_save_path = "musicmodel.h5"  # 选择一个路径来保存模型
-model.save(model_save_path)
+saving_api.save_model(model_save_path)
 
 
 
