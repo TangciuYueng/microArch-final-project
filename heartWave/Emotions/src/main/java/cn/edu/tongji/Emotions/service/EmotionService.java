@@ -14,12 +14,8 @@ public interface EmotionService {
 
 
     Page<Emotion> findAll(Pageable pageable);
-
     Optional<Emotion> findById(String id);
-
     Emotion save(Emotion emotion) ;
-
     void deleteById(String id);
-
     // Additional business logic methods can be added here
 }

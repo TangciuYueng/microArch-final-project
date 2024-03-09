@@ -11,15 +11,10 @@ import java.util.Optional;
 @Service
 public interface MusicEmotionService {
 
-    public Page<MusicEmotion> findAll(Pageable pageable);
-
+    Page<MusicEmotion> findAll(Pageable pageable);
     Optional<MusicEmotion> findById(String id);
-
-
     MusicEmotion save(MusicEmotionDTO musicEmotion);
-
     void deleteById(String id) ;
-
     Optional<MusicEmotion> findByMusicId(int id);
     // Additional business logic methods can be added here
 }

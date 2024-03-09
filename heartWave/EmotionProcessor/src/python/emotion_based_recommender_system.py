@@ -14,7 +14,7 @@ from sklearn.model_selection import train_test_split
 from datetime import datetime
 from heartWave.EmotionProcessor.src.python.methods import *
 
-
+#从给定目录中读取音频文件和目标标签，然后创建一个包含音频文件路径和对应目标标签的数据框（DataFrame）
 def create_dataframe(dir):
     target = []
     audio = []
@@ -52,7 +52,7 @@ def extract_features(data, sample_rate):
     print(len(result))
     return result
 
-
+#提取单个音频文件的特征
 def feature_extractor(file_path):
     data, sample_rate = librosa.load(file_path)
     res1 = extract_features(data, sample_rate)
@@ -108,7 +108,7 @@ for user in user_list:
             all_data_combined.append(combined_record)
 
 # 打印或处理 all_data_combined
-print(all_data_combined)
+
 df_data =pd.DataFrame(all_data_combined)
 df_musics = pd.DataFrame(musics)
 df_emotion =pd.DataFrame(music_emotion)
@@ -118,7 +118,12 @@ df_musics = df_musics.rename(columns={'id': 'musicId'})
 df_data = pd.merge(df_data, df_musics, on='musicId', how='inner')
 df_data = pd.merge(df_data, df_emotion, on='musicId', how='inner')
 
+print(df_data)
+# 定义输出文件路径
+output_file_path = 'combined_data.csv'
 
+# 将DataFrame输出到CSV文件
+df_data.to_csv(output_file_path, index=False)
 # for index, row in df_data.iterrows():
 #     print(row['src'], row['music_path'])
 #     music_info = {
@@ -135,12 +140,12 @@ audio_feature_columns = ['feature{}'.format(i) for i in range(len(df_data['audio
 df_data[audio_feature_columns] = pd.DataFrame(df_data['audio_features'].tolist(), index=df_data.index)
 
 
-# 删除原始的音频特征列和音频路径列
-df_data.drop(['music_path', 'audio_features'], axis=1, inplace=True)
+# 删除一些不需要的列
+df_data.drop(['music_path', 'audio_features','music_create_date','src'], axis=1, inplace=True)
 
 
 # 对类别型特征进行编码
-categorical_cols = ['genre']  # 更新这个列表为您的类别型特征列
+categorical_cols = ['genre']
 df = pd.get_dummies(df_data, columns=categorical_cols)
 
 # 编码目标变量

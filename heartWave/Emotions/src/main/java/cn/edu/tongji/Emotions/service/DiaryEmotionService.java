@@ -14,14 +14,9 @@ public interface DiaryEmotionService {
 
 
     Page<DiaryEmotion> findAll(Pageable pageable) ;
-
     Optional<DiaryEmotion> findById(String id) ;
-
-    public DiaryEmotion save(DiaryEmotionDTO diaryEmotion);
-
-    public void deleteById(int diaryId) ;
-
+    DiaryEmotion save(DiaryEmotionDTO diaryEmotion);
+    void deleteById(int diaryId) ;
     Optional<Object> findByDiaryId(int diaryId);
-
     List<?> findByUserId(int userId);
 }

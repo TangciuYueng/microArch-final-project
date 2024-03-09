@@ -13,12 +13,10 @@ import java.util.Optional;
 @Service
 public interface UserSongEmotionService {
 
-    public Page<UserSongEmotion> findAll(Pageable pageable) ;
-    public Optional<UserSongEmotion> findById(String id) ;
-
-    public UserSongEmotion save(UserSongEmotion userSongEmotion) ;
-
-    public void deleteById(String id);
+    Page<UserSongEmotion> findAll(Pageable pageable) ;
+    Optional<UserSongEmotion> findById(String id) ;
+    UserSongEmotion save(UserSongEmotion userSongEmotion) ;
+    void deleteById(String id);
 
     // Additional business logic methods can be added here
 }
