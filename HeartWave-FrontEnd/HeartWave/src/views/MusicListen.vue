@@ -17,7 +17,7 @@
                                         <v-row>
                                             <v-col cols="5">
                                                 <v-img src="@/assets/imgs/ruler.svg" contain></v-img>
-                                                <div class="tick">
+                                                <div class="tick" :style="{ top: tickerTop }">
                                                     <div class="tick-line"></div>
                                                     <div class="tick-circle"></div>
                                                 </div>
@@ -58,21 +58,20 @@
                                 </v-card>
                             </v-col>
                             <v-col cols="6">
-                                <v-card style="background-color: rgba(107, 196, 174, 0.3098); height: 150px;" hover>
-                                    <div class="mt-5 ml-5">
-                                        <v-row>
-                                            <v-col v-for="(item, index) in items.slice(0, 4)" :key="index" cols="3">
-                                                <v-icon>{{ item.icon }}</v-icon>
-                                                <div>{{ item.text }}</div>
-                                            </v-col>
-                                        </v-row>
-                                        <v-row>
-                                            <v-col v-for="(item, index) in items.slice(4, 8)" :key="index" cols="3">
-                                                <v-icon>{{ item.icon }}</v-icon>
-                                                <div>{{ item.text }}</div>
-                                            </v-col>
-                                        </v-row>
-                                    </div>
+                                <v-card style="background-color: rgba(107, 196, 174, 0.3098); height: 150px;">
+                                    <v-row dense>
+                                        <v-col v-for="(item, index) in items" :key="index" cols="3">
+                                            <v-card hover color="transparent">
+                                                <v-card-text>
+                                                    <div
+                                                        style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                                                        <v-icon>{{ item.icon }}</v-icon>
+                                                        <span>{{ item.text }}</span>
+                                                    </div>
+                                                </v-card-text>
+                                            </v-card>
+                                        </v-col>
+                                    </v-row>
                                 </v-card>
                             </v-col>
                         </v-row>
@@ -99,7 +98,7 @@
                                                     </v-icon>
                                                 </div>
                                             </div>
-                                            <div class="text-center">
+                                            <div>
                                                 {{ item.text }}
                                             </div>
                                         </v-col>
@@ -119,7 +118,8 @@
                                         <v-col cols="6" v-for="music in singleMusics">
                                             <v-card class="d-flex align-center" color="transparent">
                                                 <!-- Left side (image) -->
-                                                <v-img :src=music.src cover style="max-width: 100px; max-height: 100px;"></v-img>
+                                                <v-img :src=music.src cover
+                                                    style="max-width: 100px; max-height: 100px;"></v-img>
                                                 <!-- Center content (title and description) -->
                                                 <v-card-text>
                                                     <div>
@@ -144,8 +144,71 @@
                             </v-col>
                         </v-row>
                     </v-col>
-                    <v-col cols="4">
-                        bbbb
+                    <v-col cols="4" style="background-color: #D5F0EA;">
+                        <v-card class="profile-card" :style="{ backgroundImage: 'url(' + profileImgSrc + ')' }">
+                            <v-card-text>
+                                <v-avatar size="100">
+                                    <img :src="avatarSrc" alt="avatar" />
+                                </v-avatar>
+                                <div style="font-size: 20px;" class="mt-2">{{ username }}</div>
+                                <div style="font-size: 12px;">
+                                    <v-icon color="red">mdi-heart</v-icon>
+                                    IP属地: {{ ipLocation }}
+                                </div>
+                                <div style="font-size: larger;" class="mt-5">
+                                    <v-row>
+                                        <v-col cols="4">
+                                            <div>好友</div>
+                                            <div>{{ friendNum }}</div>
+                                        </v-col>
+                                        <v-col cols="4">
+                                            <div>心情值</div>
+                                            <div>{{ emotionValue }}</div>
+                                        </v-col>
+                                        <v-col cols="4">
+                                            <div>访客</div>
+                                            <div>{{ visitorNum }}</div>
+                                        </v-col>
+                                    </v-row>
+                                </div>
+                            </v-card-text>
+                        </v-card>
+                        <v-card class="mt-10" style="background-color: rgba(255, 255, 255, 0.5); padding: 5%;">
+                            <v-row dense>
+                                <v-col cols="3" v-for="icon in profileIcons" style="text-align: center;">
+                                    <v-icon color="red" size="40">{{ icon.icon }}</v-icon>
+                                    <div>{{ icon.text }}</div>
+                                </v-col>
+                            </v-row>
+                        </v-card>
+                        <div style="font-size: 20px;" class="mt-3">我创建的歌单></div>
+                        <v-row dense>
+                            <v-col cols="4" v-for="music in selfCreatedMusicList">
+                                <v-card style="text-align: center;" color="transparent">
+                                    <v-img :src="music.src" cover></v-img>
+                                    <v-card-text style="display: flex; justify-content: space-between; align-items: center;">
+                                        <span style="font-size: larger;">{{ music.text }}</span>
+                                        <v-icon color="white" size="30">
+                                            mdi-play-circle
+                                        </v-icon>
+                                    </v-card-text>
+                                </v-card>
+                            </v-col>
+                        </v-row>
+                        <div style="font-size: 20px;" class="mt-3">我管理的歌单></div>
+                        <v-row dense>
+                            <v-col cols="4" v-for="music in selfCreatedMusicList">
+                                <v-card style="text-align: center;" color="transparent">
+                                    <v-img :src="music.src" cover></v-img>
+                                    <v-card-text style="display: flex; justify-content: space-between; align-items: center;">
+                                        <span style="font-size: larger;">{{ music.text }}</span>
+                                        <v-icon color="white" size="30">
+                                            mdi-play-circle
+                                        </v-icon>
+                                    </v-card-text>
+                                </v-card>
+                            </v-col>
+                        </v-row>
                     </v-col>
                 </v-row>
             </v-container>
@@ -161,6 +224,7 @@ export default {
         userAccount: null,
         password: null,
         loading: false,
+        tickerTop: '20%',
         items: [
             { icon: 'mdi-star', text: 'Star' },
             { icon: 'mdi-heart', text: 'Heart' },
@@ -183,7 +247,30 @@ export default {
             { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', title: 'Tieaa', text: 'aaa' },
             { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', title: 'Tieaa', text: 'aaa' },
             { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', title: 'Tieaa', text: 'aaa' },
-        ]
+        ],
+        profileIcons: [
+            { icon: 'mdi-download', text: '本地/下载' },
+            { icon: 'mdi-account', text: '关注' },
+            { icon: 'mdi-heart', text: '我喜欢' },
+            { icon: 'mdi-radio', text: '最近收听' },
+        ],
+        selfCreatedMusicList: [
+            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
+            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
+            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
+        ],
+        selfCollectedMusicList: [
+            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
+            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
+            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
+        ],
+        profileImgSrc: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg',
+        avatarSrc: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg',
+        username: 'deidei',
+        ipLocation: '上海',
+        friendNum: 24,
+        emotionValue: 78,
+        visitorNum: 234,
     }),
     methods: {
 
@@ -225,7 +312,7 @@ export default {
 
 .tick {
     position: absolute;
-    top: 20%;
+    /* top: 20%; */
     /* 调整垂直居中位置 */
     left: 10%;
     /* 调整水平居中位置 */
@@ -252,5 +339,15 @@ export default {
     border-radius: 50%;
     /* 将div设置为圆形 */
     background-color: #45CE9A;
+}
+
+.profile-card {
+    background-size: cover;
+    box-shadow: 0 5px 6px rgba(0, 0, 0, 0.5);
+    /* 下面两个圆角 */
+    border-radius: 0 0 50px 50px;
+    min-height: 300px;
+    text-align: center;
+    color: white;
 }
 </style>
