@@ -7,7 +7,7 @@
                         <div style="display: flex; align-items: center;">
                             <v-toolbar-title>情绪FM></v-toolbar-title>
                             <v-text-field v-model="search" prepend-icon="mdi-magnify" label="搜索"
-                                placeholder="请输入心情/歌曲名称进行搜索" outlined rounded></v-text-field>
+                                placeholder="请输入心情/歌曲名称进行搜索" outlined rounded @click="searchEvent"></v-text-field>
                         </div>
 
                         <v-row>
@@ -273,7 +273,10 @@ export default {
         visitorNum: 234,
     }),
     methods: {
-
+        searchEvent() {
+            console.log('searchEvent');
+            this.$emit('searchEvent');
+        },
     },
 }
 </script>
