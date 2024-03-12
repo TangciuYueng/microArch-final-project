@@ -22,11 +22,12 @@
             <!-- 显示主页 -->
             <home-page v-if="page==1"></home-page>
             <!-- 显示音乐广场 -->
-            <music-listen v-if="page==2"></music-listen>
+            <music-listen v-if="page==2" @searchEvent="handleSearchEvent"></music-listen>
             <!-- 显示音乐室 -->
             <music-room v-if="page==3"></music-room>
             <!-- 显示随笔中心 -->
             <diary v-if="page==4"></diary>
+            <music-search v-if="page==5"></music-search>
 
 
             <!-- 音乐播放器 -->
@@ -40,6 +41,7 @@ import HomePage from '@/views/HomePage.vue'
 import MusicListen from '@/views/MusicListen.vue'
 import MusicRoom from '@/views/MusicRoom.vue'
 import diary from '@/views/Diary.vue'
+import MusicSearch from '@/views/MusicSearch.vue'
 export default {
     //导出组件
     components: {
@@ -47,7 +49,8 @@ export default {
         diary,
         HomePage,
         MusicListen,
-        MusicRoom
+        MusicRoom,
+        MusicSearch,
     },
     data: () => ({
         page: 1,
@@ -75,6 +78,10 @@ export default {
             }
             console.log(this.page);
         },
+        handleSearchEvent() {
+            this.page = 5;
+            console.log(this.page);
+        }
     },
 };
 </script>
