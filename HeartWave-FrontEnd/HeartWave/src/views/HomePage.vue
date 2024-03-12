@@ -4,7 +4,7 @@
         <v-container fluid>
             <v-row style="min-height:88vh;">
                 <!-- 第一列，宽度为第二列的3倍，背景颜色为白色 -->
-                <v-col cols="9" class="white-background scrollable-column">
+                <v-col cols="8" class="white-background scrollable-column">
                     <v-row style="min-height:10%;">
                         <v-responsive max-width="350" max-height="50">
                             <v-spacer></v-spacer>
@@ -14,32 +14,43 @@
                     <v-spacer></v-spacer>
                     <!-- 第一行，显示今日天气、天气小贴士、以及需要关心的朋友 -->
                     <v-row style="min-height:40%;">
-                        <v-col cols="5">
-                            <!-- 天气卡片 -->
-                            <v-row><weather-card></weather-card></v-row>
-                            <!-- 需要关心的人 -->
-                            <v-row><friend-card></friend-card></v-row>
-                        </v-col>
-
-                        <!-- 天气小贴士 -->
-                        <v-col cols="7">
-                            <tips-card></tips-card>
-                        </v-col>
-                    </v-row>
+                            <v-col cols="4">
+                                <v-row>
+                                    <v-col>
+                                        <weather-card>123</weather-card>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col>
+                                        <friend-card :friends="friends"></friend-card>
+                                    </v-col>
+                                </v-row>
+                                
+                            </v-col>
+                            <v-col cols="8">
+                                <tips-card :music="recommendMusic"></tips-card>
+                            </v-col>
+                        </v-row>
 
                     <!-- 第二行，推荐的歌单 -->
-                    <v-row style="min-height:25%;">
-                        <recommend-playlists-card></recommend-playlists-card>
+                    <v-row style="min-height:25%;" class="">
+                        <v-col cols="12">
+                        <v-card style="background-color: rgba(107, 196, 174, 0.3098); height: 150px;">
+                                推荐歌单
+                            </v-card></v-col>
                     </v-row>
 
                     <!-- 第三行推荐的音乐室 -->
-                    <v-row style="min-height:25%;">
-                        <recommend-music-room-card></recommend-music-room-card>
+                    <v-row style="min-height:25%;" class="">
+                        <v-col>
+                            <v-card style="background-color: rgba(107, 196, 174, 0.3098); height: 150px;">推荐的音乐室</v-card>
+                        </v-col>
+                        
                     </v-row>
 
                 </v-col>
                 <!-- 第二列，背景颜色为绿色 -->
-                <v-col cols="3" class="green-background scrollable-column">
+                <v-col cols="4" class="green-background scrollable-column">
                     <!-- 这里放置第二列的内容 -->
                 </v-col>
             </v-row>
@@ -67,7 +78,51 @@ export default {
         userAccount: null,
         password: null,
         loading: false,
-        testWord: 'test'
+        testWord: 'test',
+        friends: [
+        {
+          id: 1,
+          avatar: 'https://cdn.vuetifyjs.com/images/john.png',
+          mood: 123,
+          music: '歌曲1',
+        },
+        {
+          id: 2,
+          avatar: 'https://cdn.vuetifyjs.com/images/john.png',
+          mood: 34,
+          music: '歌曲2',
+        },
+        {
+          id: 3,
+          avatar: 'https://cdn.vuetifyjs.com/images/john.png',
+          mood: 345,
+          music: '歌曲4',
+        },        
+        // Add more friends as needed
+        ],
+        recommendMusic: [
+            {
+                id: 1,
+                cover: "https://cdn.vuetifyjs.com/images/cards/docks.jpg",
+                title: 'love story'
+            },
+            {
+                id: 2,
+                cover: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
+                title: '时间煮雨'
+            },
+            {
+                id: 3,
+                cover: "https://cdn.vuetifyjs.com/images/cards/sunshine.jpg",
+                title: '陌路飞雪'
+            },
+            {
+                id: 4,
+                cover: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
+                title: 'S+M'
+            },
+        ]
+
     }),
     methods: {
 
@@ -80,7 +135,10 @@ export default {
     min-height: 100vh;
     /* 设置最小高度为视口高度的100% */
 }
-
+.custom-card {
+    justify-content: space-between;
+    height: 150px;
+}
 .white-background {
     background: linear-gradient(to bottom, rgba(232, 249, 245, 1), white);
 }

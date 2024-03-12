@@ -2,7 +2,7 @@
     <v-card
       class="mx-auto"
       min-height="90%"
-      min-width="90%"
+      min-width="96%"
       hover
     >
       <v-card-item>
