@@ -1,8 +1,8 @@
 <template>
     <v-card
       class="mx-auto"
-      max-width="344"
-      min-width="80%"
+      height="90%"
+      width="100%"
       hover
     >
       <v-card-item>
