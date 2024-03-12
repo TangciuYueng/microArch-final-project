@@ -5,7 +5,6 @@
 </template>
   
 <script>
-import DefaultBar from '@/layouts/default/AppBar.vue'
 // import DefaultView from '@/layouts/default/View.vue'
 export default {
     //导出组件
