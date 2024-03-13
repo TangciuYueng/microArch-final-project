@@ -5,9 +5,11 @@
                 <v-col cols="10">
                     <v-row style="text-align: center; background-color: rgba(17, 141, 110, 0.55); height: 8vh;">
                         <v-col cols="12">
-                            <v-icon size="xx-large" color="white" class="mb-3" style="cursor: pointer;">mdi-menu-left-outline</v-icon>
+                            <v-icon size="xx-large" color="white" class="mb-3" @click="yearDecrement"
+                                style="cursor: pointer;">mdi-menu-left-outline</v-icon>
                             <span style="color: white; font-size: xx-large;">{{ currentYear }}</span>
-                            <v-icon size="xx-large" color="white" class="mb-3" style="cursor: pointer;">mdi-menu-right-outline</v-icon>
+                            <v-icon size="xx-large" color="white" class="mb-3" @click="yearIncrement"
+                                style="cursor: pointer;">mdi-menu-right-outline</v-icon>
                         </v-col>
                     </v-row>
                     <v-row justify="space-around" align="center"
@@ -16,11 +18,39 @@
                             {{ day }}
                         </v-col>
                     </v-row>
+
+                    <v-row>
+                        <v-col cols="12"
+                            style="text-align: center; color: black; font-size: xx-large; font-weight: bolder;">
+                            <v-icon xx-large color="black" class="mb-1" @click="monthDecrement"
+                                style="cursor: pointer;">mdi-menu-left-outline</v-icon>
+                            {{ monthEnglish[month] }}
+                            <v-icon xx-large color="black" class="mb-1" @click="monthIncrement"
+                                style="cursor: pointer;">mdi-menu-right-outline</v-icon>
+                        </v-col>
+                    </v-row>
+
+                    <v-row v-for="week in weeksInMonth" :key="week" class="d-flex justify-center">
+                        <div v-for="(day, index) in getDaysInWeek(week)" :key="index" style="width: 180px;">
+                            <v-card v-if="day !== null" class="text-center" hover
+                                style="height: 100px; margin-top: 5px; margin-left: 3px; margin-right: 3px;">
+                                <v-img src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" cover
+                                    style="display: flex; justify-content: center; align-items: center;">
+                                    <div
+                                        style="font-size: xx-large; font-weight: 700; color: rgba(255, 255, 255, 0.9);">
+                                        {{ day }}
+                                    </div>
+                                </v-img>
+
+                            </v-card>
+                        </div>
+                    </v-row>
                 </v-col>
 
                 <v-col cols="2" style="margin: 0; padding: 0;">
                     <div style="background-color: rgba(17, 141, 110, 0.55); height: 14vh; padding: 0;"></div>
-                    <div style="text-align: center; padding-left: 10px; box-shadow: -5px 0 0 rgba(0, 0, 0, 0.1); height: 86vh;">
+                    <div
+                        style="text-align: center; padding-left: 10px; box-shadow: -5px 0 0 rgba(0, 0, 0, 0.1); height: 86vh;">
                         <v-btn size="x-large" color="#99E7D6" style="margin-top: 5vh; ">
                             记录生活
                         </v-btn>
@@ -61,6 +91,7 @@ export default {
 
         currentYear: new Date().getFullYear(),
         weekDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        month: new Date().getMonth(),
 
         updatedFriends: [
             { avatarSrc: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'sjm大帅哥', emotionValue: 55 },
@@ -68,9 +99,75 @@ export default {
             { avatarSrc: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'sjm大帅哥', emotionValue: 55 },
             { avatarSrc: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'sjm大帅哥', emotionValue: 55 },
             { avatarSrc: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'sjm大帅哥', emotionValue: 55 },
-        ]
+        ],
+        monthEnglish: [
+            'Jan', // January
+            'Feb', // February
+            'Mar', // March
+            'Apr', // April
+            'May', // May
+            'Jun', // June
+            'Jul', // July
+            'Aug', // August
+            'Sep', // September
+            'Oct', // October
+            'Nov', // November
+            'Dec' // December
+        ],
+        weeksInMonth: null,
     }),
     methods: {
+        getDaysInWeek(week) {
+            const firstDay = new Date(this.currentYear, this.month, 1).getDay();
+            const totalDays = new Date(this.currentYear, this.month + 1, 0).getDate();
+
+            const start = 7 * week - firstDay + 1;
+            const end = start + 7;
+
+            const days = [];
+            for (let day = start; day < end; day++) {
+                if (day > 0 && day <= totalDays) {
+                    days.push(day);
+                } else {
+                    days.push(null);
+                }
+            }
+
+            return days;
+        },
+        getWeeksInMonth() {
+            const firstDay = new Date(this.currentYear, this.month, 1).getDay();
+            const totalDays = new Date(this.currentYear, this.month + 1, 0).getDate();
+            const weeks = Math.ceil((totalDays + firstDay) / 7);
+            return Array.from({ length: weeks }, (v, i) => i);
+        },
+        yearDecrement() {
+            this.currentYear -= 1;
+            this.weeksInMonth = this.getWeeksInMonth();
+        },
+        yearIncrement() {
+            this.currentYear += 1;
+            this.weeksInMonth = this.getWeeksInMonth();
+        },
+        monthDecrement() {
+            this.month -= 1;
+            if (this.month < 0) {
+                this.month = 11;
+                this.currentYear -= 1;
+            }
+            this.weeksInMonth = this.getWeeksInMonth()
+        },
+        monthIncrement() {
+            this.month += 1;
+            if (this.month > 11) {
+                this.month = 0;
+                this.currentYear += 1;
+            }
+            this.weeksInMonth = this.getWeeksInMonth()
+        },
+    },
+    mounted() {
+        this.weeksInMonth = this.getWeeksInMonth()
     },
 }
 </script>
