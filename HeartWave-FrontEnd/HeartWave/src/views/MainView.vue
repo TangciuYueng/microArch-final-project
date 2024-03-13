@@ -26,8 +26,9 @@
             <!-- 显示音乐室 -->
             <music-room v-if="page==3"></music-room>
             <!-- 显示随笔中心 -->
-            <diary v-if="page==4"></diary>
+            <diary v-if="page==4" @addDiaryEvent="handleAddDiary"></diary>
             <music-search v-if="page==5"></music-search>
+            <add-diary v-if="page==6"></add-diary>
 
 
             <!-- 音乐播放器 -->
@@ -42,6 +43,7 @@ import MusicListen from '@/views/MusicListen.vue'
 import MusicRoom from '@/views/MusicRoom.vue'
 import diary from '@/views/Diary.vue'
 import MusicSearch from '@/views/MusicSearch.vue'
+import AddDiary from '@/views/AddDiary.vue'
 export default {
     //导出组件
     components: {
@@ -51,6 +53,7 @@ export default {
         MusicListen,
         MusicRoom,
         MusicSearch,
+        AddDiary,
     },
     data: () => ({
         page: 1,
@@ -81,7 +84,11 @@ export default {
         handleSearchEvent() {
             this.page = 5;
             console.log(this.page);
-        }
+        },
+        handleAddDiary() {
+            this.page = 6;
+            console.log(this.page);
+        },
     },
 };
 </script>

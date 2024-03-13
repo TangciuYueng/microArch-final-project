@@ -31,18 +31,17 @@
                     </v-row>
 
                     <v-row v-for="week in weeksInMonth" :key="week" class="d-flex justify-center">
-                        <div v-for="(day, index) in getDaysInWeek(week)" :key="index" style="width: 180px;">
-                            <v-card v-if="day !== null" class="text-center" hover
-                                style="height: 100px; margin-top: 5px; margin-left: 3px; margin-right: 3px;">
-                                <v-img src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" cover
-                                    style="display: flex; justify-content: center; align-items: center;">
-                                    <div
-                                        style="font-size: xx-large; font-weight: 700; color: rgba(255, 255, 255, 0.9);">
-                                        {{ day }}
-                                    </div>
-                                </v-img>
+                        <div v-for="(day, index) in getDaysInWeek(week)" :key="index" style="width: 14%;">
+                            <!-- <v-card v-if="day !== null" class="text-center" hover -->
+                            <!-- style="height: 100px; margin-top: 5px; margin-left: 3px; margin-right: 3px;"> -->
+                            <v-img src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" cover
+                                v-if="day !== null" class="diary-date">
+                                <div style="font-size: xx-large; font-weight: 700; color: rgba(255, 255, 255, 0.9);">
+                                    {{ day }}
+                                </div>
+                            </v-img>
 
-                            </v-card>
+                            <!-- </v-card> -->
                         </div>
                     </v-row>
                 </v-col>
@@ -51,7 +50,7 @@
                     <div style="background-color: rgba(17, 141, 110, 0.55); height: 14vh; padding: 0;"></div>
                     <div
                         style="text-align: center; padding-left: 10px; box-shadow: -5px 0 0 rgba(0, 0, 0, 0.1); height: 86vh;">
-                        <v-btn size="x-large" color="#99E7D6" style="margin-top: 5vh; ">
+                        <v-btn size="x-large" color="#99E7D6" style="margin-top: 5vh;" @click="this.$emit('addDiaryEvent')">
                             记录生活
                         </v-btn>
                         <div class="mt-10" style="font-size: large;">
@@ -81,6 +80,7 @@
 </template>
 
 <script>
+
 export default {
     //导出组件
     data: () => ({
@@ -173,8 +173,20 @@ export default {
 </script>
 
 <style scoped>
-.full-height {
-    min-height: 100vh;
-    /* 设置最小高度为视口高度的100% */
+.diary-date {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    margin-top: 5px;
+    margin-left: 3px;
+    margin-right: 3px;
+    cursor: pointer;
+    transition: box-shadow 0.3s;
+}
+
+.diary-date:hover {
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
 }
 </style>
