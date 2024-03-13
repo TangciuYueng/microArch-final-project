@@ -11,14 +11,19 @@
   "dependencies": {
     "@mdi/font": "7.0.96",
     "@mdi/js": "^7.3.67",
+    "@rollup/plugin-inject": "^5.0.5",
+    "@tinymce/tinymce-vue": "^5.1.1",
     "axios": "^1.6.2",
     "core-js": "^3.29.0",
     "cos-js-sdk-v5": "^1.4.22",
+    "jquery": "^3.7.1",
     "pinia": "^2.0.0",
     "roboto-fontface": "*",
+    "tinymce": "^6.8.3",
     "vue": "^3.2.0",
     "vue-particles": "^1.0.9",
     "vue-router": "^4.0.0",
+    "vue-trumbowyg": "^4.0.0",
     "vuetify": "^3.0.0"
   },
   "devDependencies": {

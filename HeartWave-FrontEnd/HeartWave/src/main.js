@@ -10,7 +10,7 @@ import { registerPlugins } from '@/plugins'
 
 // Components
 import App from './App.vue'
-
+import jQuery from 'jquery'
 // Composables
 import { createApp } from 'vue'
 
@@ -18,4 +18,5 @@ const app = createApp(App)
 
 registerPlugins(app)
 
+window.$ = jQuery
 app.mount('#app')
