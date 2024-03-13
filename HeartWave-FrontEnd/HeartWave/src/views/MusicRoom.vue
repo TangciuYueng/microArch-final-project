@@ -1,7 +1,6 @@
 <template>
-    <!-- 顶部的导航栏 -->
-    <!-- 用于写主页面的内容 -->
     <v-main class="full-height">
+        <!-- 顶部的导航栏 -->
         <div class="music-room-top">
             <button
                 :class="menu != 'users' ? 'music-room-menu' : 'music-room-menu-clicked'"
@@ -22,6 +21,15 @@
                 音乐室广场
             </button>
             <label v-if="menu != 'square' && isChatShow" class="music-room-title"> {{ getTitle() }} </label>
+            <img
+                v-if="isCreateMusicRoomShow"
+                :src="getImgSrc(backButtonImgSrc)"
+                class="back-button"
+                @click="isCreateMusicRoomShow = false"
+                @mouseover="backButtonImgSrc = '../assets/back-active.svg'"
+                @mouseout="backButtonImgSrc = '../assets/back.svg'"
+            >
+            <label v-if="isCreateMusicRoomShow" class="music-room-create-title"> 音乐室创建 </label>
         </div>
         
         <div class="flex-container">
@@ -106,8 +114,8 @@
             </div>
 
             <!-- 音乐室推荐区 -->
-            <div v-if="menu =='square'" class="music-room-recommend-container">
-                <v-btn class="music-room-create-button"> 一键创建我的音乐室 </v-btn>
+            <div v-if="menu =='square' && !isCreateMusicRoomShow" class="music-room-recommend-container">
+                <v-btn class="music-room-create-button" @click="isCreateMusicRoomShow = true"> 一键创建我的音乐室 </v-btn>
 
                 <div class="emotion-recommend">
                     <label class="emotion-recommend-header"> 根据您最近的情绪我们给您推荐以下音乐室 > </label>
@@ -193,6 +201,56 @@
                     ></music-room-rec>
                 </div>
             </div>
+
+            <!-- 创建音乐室表单 -->
+            <div v-if="isCreateMusicRoomShow" class="music-room-create-container">
+                <v-form>
+                    <label class="form-label"> 音乐室名称 </label>
+                    <input
+                        type="text"
+                        placeholder="请输入音乐室的名字"
+                        class="form-input"
+                        v-model="newMusicRoom.name">
+
+                    <label class="form-label"> 音乐室简介 </label>
+                    <textarea
+                        placeholder="请输入音乐室的简介"
+                        class="form-input"
+                        style="height: 80px;"
+                        v-model="newMusicRoom.intro"></textarea>
+                    
+                    <label class="form-label"> 音乐室进入权限 </label>
+                    <v-radio-group v-model="newMusicRoom.auth" class="form-radio">
+                        <v-radio label="公开可见" value="public"></v-radio>
+                        <v-radio label="私有仅通过管理员邀请可进" value="private"></v-radio>
+                    </v-radio-group>
+
+                    <label class="form-label"> 音乐室头像 </label>
+                    <button
+                        v-if="newMusicRoom.avatar == ''"
+                        type="button"
+                        @click="openFilePicker()"
+                        class="form-avatar">
+                        选择文件
+                    </button>
+                    <img
+                        v-else
+                        :src="newMusicRoom.avatar"
+                        @click="newMusicRoom.avatar = ''"
+                        class="form-avatar-img"
+                    >
+                    <input type="file" ref="fileInput" style="display: none;" @change="handleImgSelected">
+
+                    <label class="form-label"> 音乐室初始歌单 </label>
+                    <v-btn class="form-button"> 从我的歌单中选择 </v-btn>
+
+                    <label class="form-label"> 邀请好友 </label>
+                    <v-btn class="form-button"> 点击选择好友 </v-btn>
+                    
+                    <br>
+                    <v-btn class="submit-button"> 提交审核 </v-btn>
+                </v-form>
+            </div>
         </div>
     </v-main>
     
@@ -217,6 +275,8 @@ export default {
         loading: false,
         menu: "",
         isChatShow: false,
+        isCreateMusicRoomShow: false,
+        backButtonImgSrc: "../assets/back.svg",
         keyword: "",
         users: [
             {
@@ -417,6 +477,12 @@ export default {
         current: {
             username: "",
             size: 0
+        },
+        newMusicRoom: {
+            name: "",
+            intro: "",
+            auth: "",
+            avatar: ""
         }
     }),
     methods: {
@@ -433,6 +499,18 @@ export default {
         },
         getImgSrc: function(url) {
             return new URL(url, import.meta.url).href;
+        },
+        openFilePicker() {
+            this.$refs.fileInput.click();
+        },
+        handleImgSelected: function(event) {
+            const selectedFile = event.target.files[0];
+
+            if (selectedFile.type.startsWith('image/')) {
+                this.newMusicRoom.avatar = URL.createObjectURL(selectedFile);
+            } else {
+                alert('请选择图片文件');
+            }
         }
     },
 }
@@ -444,6 +522,7 @@ export default {
     /* 设置最小高度为视口高度的100% */
 }
 .music-room-menu {
+    display: inline-block;
     height: 63px;
     width: 8%;
     background: #E3F1EC;
@@ -472,6 +551,21 @@ export default {
     left: 3%;
     font-weight: 500;
     font-size: 21px;
+}
+.back-button {
+    position: absolute;
+    height: 40px;
+    top: 13px;
+    left: 25%;
+    cursor: pointer;
+}
+.music-room-create-title {
+    position: absolute;
+    display: inline-block;
+    top: 12px;
+    left: 55%;
+    font-weight: bold;
+    font-size: 28px;
 }
 .flex-container {
     display: flex;  /* 确保三个部分横向排列 */
@@ -750,5 +844,66 @@ export default {
     font-weight: 500;
     font-size: 19px;
     color: #646464;
+}
+.music-room-create-container {
+    overflow-y: scroll;
+    width: 76%;
+    height: 80vh;
+    background: linear-gradient(180deg, rgba(153, 231, 214, 0.26) 0%, rgba(216, 216, 216, 0) 100%);
+}
+.form-label {
+    display: inline-block;
+    position: relative;
+    margin-left: 25%;
+    font-weight: lighter;
+    font-size: 23px;
+    width: 20%;
+    text-align: right;
+    margin-right: 5%;
+}
+.form-input {
+    margin-top: 30px;
+    padding: 15px;
+    padding-left: 20px;
+    width: 40%;
+    height: 25px;
+    border: 2px solid #BFBFBF;
+    border-radius: 5px;
+}
+.form-radio {
+    position: relative;
+    display: inline-block;
+    top: 50px;
+}
+.form-avatar {
+    margin-top: 50px;
+    height: 100px;
+    width: 100px;
+    border: 2px solid black;
+}
+.form-avatar-img {
+    margin-top: 50px;
+    height: 100px;
+    width: 100px;
+}
+.form-button {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-weight: 500;
+    font-size: 16px;
+    border-radius: 8px;
+    background-color: #3C99829A;
+}
+.submit-button {
+    position: relative;
+    top: 10px;
+    left: 37.5%;
+    width: 25%;
+    height: 58px;
+    color: #FFFFFF;
+    font-weight: 500;
+    font-size: 28px;
+    border-radius: 12px;
+    background-color: #3C7C99DC;
 }
 </style>
