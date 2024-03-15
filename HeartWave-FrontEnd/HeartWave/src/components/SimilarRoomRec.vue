@@ -1,10 +1,8 @@
 <template>
     <div class="container">
         <img :src="getImgSrc(avatarUrl)" class="rec-avatar">
-        <label class="priority"> {{ priority }} </label>
         <label class="room-name" :title="roomName"> {{ roomName }} </label>
         <label class="leader-name" :title="leaderName"> 群主：{{ leaderName }} </label>
-        <v-btn class="join-button"> 加入 </v-btn>
     </div>
 </template>
 
@@ -12,7 +10,6 @@
 export default {
     props: {
         avatarUrl: String,
-        priority: Number,
         roomName: String,
         leaderName: String
     },
@@ -32,59 +29,49 @@ export default {
 <style scoped>
 .container {
     display: inline-block;
-    width: 50%;
-    height: 93px;
+    width: 100%;
+    height: 140px;
     padding: 10px;
-    padding-left: 20px;
+    padding-top: 5px;
 }
 .rec-avatar {
     position: relative;
-    height: 72px;
-    width: 72px;
+    top: 4px;
+    left: 5%;
+    height: 110px;
+    width: 110px;
     border-radius: 9px;
+    cursor: pointer;
+    transition: 0.3s;
 }
-.priority {
-    position: relative;
-    top: -27px;
-    left: 3.5%;
-    font-weight: bold;
-    font-size: 24px;
+.rec-avatar:hover {
+    opacity: 0.7;
 }
 .room-name {
     position: relative;
     display: inline-block;
-    top: -40px;
-    left: 7%;
-    width: 50%;
-    height: 24px;
+    top: -60px;
+    left: 12%;
+    width: 60%;
+    height: 36px;
     white-space: nowrap;
     overflow-x: hidden;
     text-overflow: ellipsis;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 24px;
+    caption-side: bottom;
 }
 .leader-name {
     position: relative;
     display: inline-block;
-    top: -40px;
-    left: 26%;
-    width: 50%;
-    height: 24px;
+    top: -48px;
+    left: 35%;
+    width: 60%;
+    height: 36px;
     white-space: nowrap;
     overflow-x: hidden;
     text-overflow: ellipsis;
     font-weight: lighter;
-    font-size: 16px;
-}
-.join-button {
-    position: relative;
-    top: -65px;
-    left: 30%;
-    font-weight: 500;
-    font-size: 18px;
-    background-color: #6EB1C4;
-    width: 71px;
-    height: 38px;
-    border-radius: 10px;
+    font-size: 24px;
 }
 </style>

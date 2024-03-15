@@ -107,9 +107,9 @@
                 <label class="side-info-button"> 当前播放 > </label>
                 <div class="playing-container">
                     <img :src="getImgSrc('../assets/playing.png')" class="playing-img">
-                    <label class="playing-song"> Nevada </label>
-                    <label class="playing-artist"> Vicetone </label>
-                    <label class="playing-time"> 00:20 / 03:28 </label>
+                    <label class="playing-song" :title="currentSong.name"> {{ currentSong.name }} </label>
+                    <label class="playing-artist" :title="currentSong.artist"> {{ currentSong.artist }} </label>
+                    <label class="playing-time"> {{ currentSong.time }} / {{ currentSong.total }} </label>
                 </div>
             </div>
 
@@ -485,9 +485,15 @@ export default {
                 leaderName: "杨滕超"
             },
         ],
-        current: {
+        currentUser: {
             username: "",
             size: 0
+        },
+        currentSong: {
+            name: "Nevada",
+            artist: "Vicetone",
+            time: "00:20",
+            total: "03:28"
         },
         newMusicRoom: {
             name: "",
@@ -498,15 +504,15 @@ export default {
     }),
     methods: {
         clickListItem: function(item) {
-            this.current.username = item.username;
-            this.current.size = (this.menu == 'musicRooms') ? item.size : 0;
+            this.currentUser.username = item.username;
+            this.currentUser.size = (this.menu == 'musicRooms') ? item.size : 0;
             this.isChatShow = true;
         },
         getTitle: function() {
             if (this.menu == 'musicRooms')
-                return this.current.username + '(' + this.current.size + "人)";
+                return this.currentUser.username + '(' + this.currentUser.size + "人)";
             else
-                return this.current.username;
+                return this.currentUser.username;
         },
         getImgSrc: function(url) {
             return new URL(url, import.meta.url).href;
@@ -657,10 +663,10 @@ export default {
     margin-left: 4%;
     margin-top: 10px;
     padding: 1%;
+    cursor: pointer;
     transition: 0.3s;
 }
 .side-info-member:hover {
-    cursor: pointer;
     opacity: 0.7;
 }
 .side-info-album {
@@ -669,6 +675,7 @@ export default {
     border-radius: 10px;
     margin-left: 4%;
     margin-top: 10px;
+    cursor: pointer;
     transition: 0.3s;
 }
 .side-info-album:hover {
@@ -690,24 +697,34 @@ export default {
 }
 .playing-song {
     position: relative;
-    top: -50px;
+    display: inline-block;
+    top: -42px;
     left: 3%;
+    width: 70%;
+    color: #3D3D3D;
     font-weight: 500;
     font-size: 19px;
-    color: #3D3D3D;
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
 }
 .playing-artist {
     position: relative;
-    top: -28px;
-    left: -21%;
+    display: inline-block;
+    top: -50px;
+    left: 28%;
+    width: 70%;
+    color: #3D3D3D;
     font-weight: lighter;
     font-size: 15px;
-    color: #3D3D3D;
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
 }
 .playing-time {
     position: relative;
-    left: 29%;
-    top: -30px;
+    left: 28%;
+    top: -58px;
     text-wrap: nowrap;
 }
 .search-input {

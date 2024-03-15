@@ -1,11 +1,11 @@
 <template>
     <span class="music-room-item">
         <img :src="getImgSrc(avatarUrl)" alt="image src invalid" class="item-avatar">
-        <label class="item-username"> {{ username }} </label>
+        <label class="item-username" :title="username"> {{ username }} </label>
         <label class="item-time"> {{ time }} </label>
         <div class="item-div">
             <img :src="getStatusImgSrc()" alt="image src invalid" class="item-status">
-            <label class="item-song"> {{ formatStatus() }} </label>
+            <label class="item-song" :title="song"> {{ formatStatus() }} </label>
         </div>
     </span>
 </template>
@@ -82,7 +82,9 @@ export default {
     left: 10%;
     width: 55%;
     height: 30px;
-    overflow: hidden;
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
     font-weight: 500;
     font-size: 20px;
 }
@@ -113,7 +115,9 @@ export default {
     left: 8%;
     width: 60%;
     height: 26px;
-    overflow: hidden;
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
     font-weight: 500;
     font-size: 16px;
 }

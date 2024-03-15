@@ -30,9 +30,15 @@
             <music-search v-if="page==5"></music-search>
             <add-diary v-if="page==6"></add-diary>
 
+            <img
+                v-if="page == 7"
+                :src="getImgSrc('../assets/retract.svg')"
+                class="retract-button"
+                @click="page = lastPage;"
+                title="getback">
             <music-playing-view v-if="page==7"></music-playing-view>
             <!-- 音乐播放器 -->
-            <music-player @click="page = 7"></music-player>
+            <music-player @click="lastPage = page; page = 7;"></music-player>
         </v-layout>
     </v-card>
 </template>
@@ -59,6 +65,7 @@ export default {
     },
     data: () => ({
         page: 1,
+        lastPage: 1,
         userAccount: null,
         password: null,
         loading: false,
@@ -91,8 +98,25 @@ export default {
             this.page = 6;
             console.log(this.page);
         },
+        getImgSrc: function(url) {
+            return new URL(url, import.meta.url).href;
+        }
     },
 };
 </script>
   
-  
+<style scoped>
+.retract-button {
+    position: fixed;
+    top: 30px;
+    left: 5%;
+    height: 72px;
+    opacity: 1;
+    z-index: 1;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.retract-button:hover {
+    opacity: 0.5;
+}
+</style>
