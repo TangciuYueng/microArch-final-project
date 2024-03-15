@@ -16,6 +16,7 @@
     "axios": "^1.6.2",
     "core-js": "^3.29.0",
     "cos-js-sdk-v5": "^1.4.22",
+    "element-plus": "^2.6.1",
     "jquery": "^3.7.1",
     "pinia": "^2.0.0",
     "roboto-fontface": "*",

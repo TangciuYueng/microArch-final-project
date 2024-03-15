@@ -18,7 +18,7 @@
                 :src="song.cover"
                 class="align-end"
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                height="120px"
+                height="141px"
                 cover
                 >
                 <div class="d-flex">
