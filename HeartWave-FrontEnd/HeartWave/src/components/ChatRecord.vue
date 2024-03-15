@@ -34,7 +34,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .container-left {
     margin-top: 15px;
     margin-left: 3%;

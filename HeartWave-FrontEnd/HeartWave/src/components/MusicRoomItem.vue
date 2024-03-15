@@ -56,7 +56,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .music-room-item {
     display: block;
     height: 108px;

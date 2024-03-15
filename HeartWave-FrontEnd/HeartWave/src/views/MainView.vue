@@ -30,9 +30,9 @@
             <music-search v-if="page==5"></music-search>
             <add-diary v-if="page==6"></add-diary>
 
-
+            <music-playing-view v-if="page==7"></music-playing-view>
             <!-- 音乐播放器 -->
-            <music-player></music-player>
+            <music-player @click="page = 7"></music-player>
         </v-layout>
     </v-card>
 </template>
@@ -44,6 +44,7 @@ import MusicRoom from '@/views/MusicRoom.vue'
 import diary from '@/views/Diary.vue'
 import MusicSearch from '@/views/MusicSearch.vue'
 import AddDiary from '@/views/AddDiary.vue'
+import MusicPlayingView from './MusicPlayingView.vue'
 export default {
     //导出组件
     components: {
@@ -54,6 +55,7 @@ export default {
         MusicRoom,
         MusicSearch,
         AddDiary,
+        MusicPlayingView
     },
     data: () => ({
         page: 1,

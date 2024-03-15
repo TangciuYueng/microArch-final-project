@@ -248,9 +248,19 @@
                     <v-btn class="form-button"> 点击选择好友 </v-btn>
                     
                     <br>
-                    <v-btn class="submit-button"> 提交审核 </v-btn>
+                    <v-btn class="submit-button" @click="newMusicRoomDialog = true"> 提交审核 </v-btn>
                 </v-form>
             </div>
+
+            <v-dialog v-model="newMusicRoomDialog" max-width="500px">
+                <v-card class="new-music-room-dialog" align="center">
+                    <v-card-title class="dialog-title"> 提交成功！ </v-card-title>
+                    <v-card-text class="dialog-content"> 审核结果将在一个工作日内通知！ </v-card-text>
+                    <v-card-actions>
+                        <v-btn class="dialog-button" @click="newMusicRoomDialog = false"> 确定 </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
         </div>
     </v-main>
     
@@ -278,30 +288,31 @@ export default {
         isCreateMusicRoomShow: false,
         backButtonImgSrc: "../assets/back.svg",
         keyword: "",
+        newMusicRoomDialog: false,
         users: [
             {
-                avatarUrl: "../assets/USR1.jpg",
+                avatarUrl: "../assets/user/USR1.jpg",
                 username: "无聊的人",
                 time: "21:13",
                 status: 1,
                 song: "Hello central! Give me heaven——The Carter Family"
             },
             {
-                avatarUrl: "../assets/USR5.jpg",
+                avatarUrl: "../assets/user/USR5.jpg",
                 username: "David Wang",
                 time: "12:55",
                 status: 1,
                 song: "Price Tag——Jessie J、B.o.B"
             },
             {
-                avatarUrl: "../assets/USR3.jpg",
+                avatarUrl: "../assets/user/USR3.jpg",
                 username: "陌路飞雪+梦溪凤翔",
                 time: "昨天",
                 status: 1,
                 song: "消愁——毛不易"
             },
             {
-                avatarUrl: "../assets/USR4.jpg",
+                avatarUrl: "../assets/user/USR4.jpg",
                 username: "精神测绘人",
                 time: "21:13",
                 status: 2,
@@ -310,7 +321,7 @@ export default {
         ],
         musicRooms: [
             {
-                avatarUrl: "../assets/GRP1.png",
+                avatarUrl: "../assets/room/ROOM1.png",
                 username: "考研闲聊音乐室",
                 time: "12:00",
                 status: 1,
@@ -318,7 +329,7 @@ export default {
                 size: 100
             },
             {
-                avatarUrl: "../assets/GRP2.png",
+                avatarUrl: "../assets/room/ROOM2.png",
                 username: "阳光总在风雨后",
                 time: "12:00",
                 status: 1,
@@ -326,7 +337,7 @@ export default {
                 size: 65
             },
             {
-                avatarUrl: "../assets/GRP3.png",
+                avatarUrl: "../assets/room/ROOM3.png",
                 username: "乌云背后有蓝天",
                 time: "12:00",
                 status: 2,
@@ -334,7 +345,7 @@ export default {
                 size: 33
             },
             {
-                avatarUrl: "../assets/GRP4.png",
+                avatarUrl: "../assets/room/ROOM4.png",
                 username: "喵星人交流音乐室",
                 time: "12:00",
                 status: 1,
@@ -344,131 +355,131 @@ export default {
         ],
         chatRecords: [
             {
-                avatarUrl: "../assets/USR1.jpg",
+                avatarUrl: "../assets/user/USR1.jpg",
                 text: "hello",
                 ifSender: true
             },
             {
-                avatarUrl: "../assets/USR2.png",
+                avatarUrl: "../assets/user/USR2.png",
                 text: "你好！",
                 ifSender: false
             },
             {
-                avatarUrl: "../assets/USR1.jpg",
+                avatarUrl: "../assets/user/USR1.jpg",
                 text: "晚上来不来",
                 ifSender: true
             },
             {
-                avatarUrl: "../assets/USR2.png",
+                avatarUrl: "../assets/user/USR2.png",
                 text: "爽唱！",
                 ifSender: false
             },
             {
-                avatarUrl: "../assets/USR1.jpg",
+                avatarUrl: "../assets/user/USR1.jpg",
                 text: "去哪里搞，几点",
                 ifSender: true
             },
             {
-                avatarUrl: "../assets/USR2.png",
+                avatarUrl: "../assets/user/USR2.png",
                 text: "6点吃完饭呗，我开房",
                 ifSender: false
             },
             {
-                avatarUrl: "../assets/USR1.jpg",
+                avatarUrl: "../assets/user/USR1.jpg",
                 text: "造！",
                 ifSender: true
             },
             {
-                avatarUrl: "../assets/USR2.png",
+                avatarUrl: "../assets/user/USR2.png",
                 text: "okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！",
                 ifSender: false
             },
             {
-                avatarUrl: "../assets/USR1.jpg",
+                avatarUrl: "../assets/user/USR1.jpg",
                 text: "你干嘛！",
                 ifSender: true
             },
         ],
         musicRoomMembers: [
-            "../assets/MEM1.png",
-            "../assets/MEM2.png",
-            "../assets/MEM3.png",
-            "../assets/MEM4.png",
-            "../assets/MEM5.png",
+            "../assets/member/MEM1.png",
+            "../assets/member/MEM2.png",
+            "../assets/member/MEM3.png",
+            "../assets/member/MEM4.png",
+            "../assets/member/MEM5.png",
         ],
         albums: [
-            "../assets/ALBUM1.png",
-            "../assets/ALBUM2.png"
+            "../assets/album/ALBUM1.png",
+            "../assets/album/ALBUM2.png"
         ],
         musicRoomRecs: [
             {
-                avatarUrl: "../assets/REC1.png",
+                avatarUrl: "../assets/recommend/REC1.png",
                 priority: 1,
                 roomName: "考研党看过来~",
                 leaderName: "deidei"
             },
             {
-                avatarUrl: "../assets/REC2.png",
+                avatarUrl: "../assets/recommend/REC2.png",
                 priority: 4,
                 roomName: "一起自习一起加油！",
                 leaderName: "莫益萌"
             },
             {
-                avatarUrl: "../assets/REC3.png",
+                avatarUrl: "../assets/recommend/REC3.png",
                 priority: 2,
                 roomName: "哥哥的小屋",
                 leaderName: "王大卫"
             },
             {
-                avatarUrl: "../assets/REC4.png",
+                avatarUrl: "../assets/recommend/REC4.png",
                 priority: 5,
                 roomName: "春天的草丛有只羊",
                 leaderName: "苏家铭"
             },
             {
-                avatarUrl: "../assets/REC5.png",
+                avatarUrl: "../assets/recommend/REC5.png",
                 priority: 6,
                 roomName: "一起K歌！",
                 leaderName: "储岱泽"
             },
             {
-                avatarUrl: "../assets/REC6.png",
+                avatarUrl: "../assets/recommend/REC6.png",
                 priority: 7,
                 roomName: "二次元交流音乐室",
                 leaderName: "杨滕超"
             },
             {
-                avatarUrl: "../assets/REC7.png",
+                avatarUrl: "../assets/recommend/REC7.png",
                 priority: 1,
                 roomName: "唯有爱和美食不可辜负",
                 leaderName: "deidei"
             },
             {
-                avatarUrl: "../assets/REC8.png",
+                avatarUrl: "../assets/recommend/REC8.png",
                 priority: 4,
                 roomName: "兔兔有什么坏心思呢",
                 leaderName: "莫益萌"
             },
             {
-                avatarUrl: "../assets/REC9.png",
+                avatarUrl: "../assets/recommend/REC9.png",
                 priority: 2,
                 roomName: "千里之行始于足下",
                 leaderName: "王大卫"
             },
             {
-                avatarUrl: "../assets/REC10.png",
+                avatarUrl: "../assets/recommend/REC10.png",
                 priority: 5,
                 roomName: "失恋解救药丸",
                 leaderName: "苏家铭"
             },
             {
-                avatarUrl: "../assets/REC11.png",
+                avatarUrl: "../assets/recommend/REC11.png",
                 priority: 6,
                 roomName: "二次元最大",
                 leaderName: "储岱泽"
             },
             {
-                avatarUrl: "../assets/REC12.png",
+                avatarUrl: "../assets/recommend/REC12.png",
                 priority: 7,
                 roomName: "音游人基地",
                 leaderName: "杨滕超"
@@ -904,6 +915,39 @@ export default {
     font-weight: 500;
     font-size: 28px;
     border-radius: 12px;
+    background-color: #3C7C99DC;
+}
+.new-music-room-dialog {
+    margin-left: 60%;
+    width: 65%;
+    height: 194px;
+    border-radius: 6px;
+
+    background: linear-gradient(180deg, #FFFEFE 0%, #C6CBCA 100%);
+}
+.dialog-title {
+    margin-left: 5%;
+    margin-top: 25px;
+    font-weight: 500;
+    font-size: 34px;
+    color: #41504DB8;
+}
+.dialog-content {
+    margin-left: 3%;
+    font-weight: 500;
+    font-size: 17px;
+    color: #41504DB8;
+}
+.dialog-button {
+    position: relative;
+    top: -10px;
+    left: 33.5%;
+    width: 33%;
+    height: 46px;
+    border-radius: 12px;
+    color: #FFFFFF;
+    font-weight: 400;
+    font-size: 24px;
     background-color: #3C7C99DC;
 }
 </style>
