@@ -22,11 +22,11 @@
             <!-- 显示主页 -->
             <home-page v-if="page==1"></home-page>
             <!-- 显示音乐广场 -->
-            <music-listen v-if="page==2" @searchEvent="handleSearchEvent"></music-listen>
+            <music-listen v-if="page==2" @searchEvent="handleSearchEvent" ></music-listen>
             <!-- 显示音乐室 -->
             <music-room v-if="page==3"></music-room>
             <!-- 显示随笔中心 -->
-            <diary v-if="page==4" @addDiaryEvent="handleAddDiary"></diary>
+            <diary v-if="page==4" @addDiaryEvent="handleAddDiary" @BrowsingPersonalHomepage="handleBrowsingEvent"></diary>
             <music-search v-if="page==5"></music-search>
             <add-diary v-if="page==6"></add-diary>
 
@@ -39,6 +39,8 @@
             <music-playing-view v-if="page==7"></music-playing-view>
             <!-- 音乐播放器 -->
             <music-player @click="lastPage = page; page = 7;"></music-player>
+
+            <personal-homepage v-if="page==8" ></personal-homepage>
         </v-layout>
     </v-card>
 </template>
@@ -51,6 +53,7 @@ import diary from '@/views/Diary.vue'
 import MusicSearch from '@/views/MusicSearch.vue'
 import AddDiary from '@/views/AddDiary.vue'
 import MusicPlayingView from './MusicPlayingView.vue'
+import PersonalHomepage from './PersonalHomepage.vue'
 export default {
     //导出组件
     components: {
@@ -61,7 +64,8 @@ export default {
         MusicRoom,
         MusicSearch,
         AddDiary,
-        MusicPlayingView
+        MusicPlayingView,
+        PersonalHomepage
     },
     data: () => ({
         page: 1,
@@ -100,6 +104,10 @@ export default {
         },
         getImgSrc: function(url) {
             return new URL(url, import.meta.url).href;
+        },
+        handleBrowsingEvent(username){
+            this.page = 8;
+            console.log(this.page)
         }
     },
 };

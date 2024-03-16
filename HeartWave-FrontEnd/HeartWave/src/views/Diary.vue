@@ -60,7 +60,7 @@
                             <v-row dense>
                                 <v-col cols="4">
                                     <v-avatar size="60">
-                                        <img :src="friend.avatarSrc" alt="avatar" />
+                                        <img :src="friend.avatarSrc" alt="avatar" @click="this.$emit('BrowsingPersonalHomepage',username)"/>
                                     </v-avatar>
                                 </v-col>
                                 <v-col cols="8">

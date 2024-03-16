@@ -22,6 +22,7 @@
       </div>
     </v-card-text>
   </v-card>
+
   <el-dialog
     v-model="centerDialogVisible"
     width="700"
@@ -128,11 +129,14 @@
       <div class="clock-in-text-2" style="margin-top: 3%">
         请调节各个情绪的占比（%）：
       </div>
-      <el-slider v-for="buttonId in selectedButtons"
-          :key="buttonId" show-input v-model="sliderValues[buttonId]"
-          style="margin-top: 5%;"
-          :style="{ '--el-slider-main-bg-color': getButtonColor(buttonId) }"></el-slider>
-      
+      <el-slider
+        v-for="buttonId in selectedButtons"
+        :key="buttonId"
+        show-input
+        v-model="sliderValues[buttonId]"
+        style="margin-top: 5%"
+        :style="{ '--el-slider-main-bg-color': getButtonColor(buttonId) }"
+      ></el-slider>
     </div>
 
     <el-button
@@ -141,11 +145,13 @@
       v-if="Step1Flag == false"
       >完成</el-button
     >
-    <el-button @click="test">123</el-button>
+    
   </el-dialog>
 </template>
 
 <script>
+import { ElMessage } from "element-plus";
+
 export default {
   props: {
     profileImgSrc: {
@@ -169,12 +175,11 @@ export default {
     centerDialogVisible: false,
     selectedButtons: [], // 跟踪用户选择的按钮
     Step1Flag: true,
-    sliderValues: {} // 存储滑块的值
+    sliderValues: {}, // 存储滑块的值，情绪百分比分配
   }),
   methods: {
     test() {
       console.log(this.sliderValues);
-      
     },
     toggleButton(buttonId) {
       if (this.selectedButtons.includes(buttonId)) {
@@ -194,10 +199,22 @@ export default {
       this.Step1Flag = false;
     },
     FinishClockIn() {
-      this.Step1Flag = true;
-      
-      this.centerDialogVisible = false;
+      const sum = Object.values(this.sliderValues).reduce(
+        (accumulator, currentValue) => accumulator + currentValue,
+        0
+      );
+      if (sum === 100) {
+        this.Step1Flag = true;
 
+        this.centerDialogVisible = false;
+      } else {
+        ElMessage({
+          showClose: true,
+          message: "各情绪值之和请调整为100%",
+          center: true,
+          type: "warning",
+        });
+      }
     },
     getButtonColor(buttonId) {
       // 根据按钮ID返回对应的颜色
@@ -377,8 +394,6 @@ export default {
   align-items: center;
 }
 
-
-.el-slider{
-  
+.el-slider {
 }
 </style>

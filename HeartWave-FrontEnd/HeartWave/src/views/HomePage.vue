@@ -66,7 +66,9 @@
             :username="username"
             :ipLocation="ipLocation"
           ></profile-card>
-          <emotions-card></emotions-card>
+          <emotions-card class="mt-10"></emotions-card>
+          <span class="text-title">您近一周的心情主基调为：</span>
+          <div class="text-mood">想死</div>
         </v-col>
       </v-row>
     </v-container>
@@ -200,5 +202,29 @@ export default {
   /* 在垂直方向上溢出时显示垂直滚动条 */
   max-height: 88vh;
   /* 设置最大高度为88vh，超出部分将显示滚动条 */
+}
+
+.text-title{
+    
+    font-size: 22.37px;
+    font-weight: normal;
+    line-height: 19.3px;
+    letter-spacing: 1.93px;
+
+    color: #3D3D3D;
+}
+.text-mood{
+    opacity: 1;
+
+    font-family: HelloFont WenYiHei;
+    font-size: 40.37px;
+    font-weight: normal;
+    line-height: 19.3px;
+    letter-spacing: 1.93px;
+
+    color: #105645;
+
+    margin-top: 10%;
+    text-align: center; /* 文字水平居中 */
 }
 </style>
