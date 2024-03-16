@@ -29,7 +29,7 @@
           <v-row>
             <v-col>
               <v-btn class="btn" x-large>关注</v-btn>
-              <v-btn class="btn" x-large>写留言</v-btn>
+              <v-btn class="btn" x-large @click="leaveMessage">写留言</v-btn>
             </v-col>
           </v-row>
 
@@ -62,7 +62,7 @@
         </v-col>
       </v-row>
       <!-- 一周心情和歌单 -->
-      <v-row style="height: 50%;">
+      <v-row style="height: 50%">
         <v-col cols="5">
           <v-card
             style="
@@ -87,43 +87,58 @@
             "
           >
             <v-card-title>TA的歌单</v-card-title>
-            <v-row style="margin: 0% 2% 0% 2%;">
-          <v-col
-            v-for="song in playlists"
-            :key="song.title"
-            >
-            <v-card >
-                <v-img
-                :src="song.cover"
-                class="align-end"
-                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                height="270px"
-                
-                
-                cover
-                >
-                <!-- 名字和播放按钮 -->
-                <div class="d-flex">
-                    <v-card-title class="text-white max-text-length" v-text="song.title" style="font-size:x-large;"></v-card-title>
-                    <v-btn
+            <v-row style="margin: 0% 2% 0% 2%">
+              <v-col v-for="song in playlists" :key="song.title">
+                <v-card>
+                  <v-img
+                    :src="song.cover"
+                    class="align-end"
+                    gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                    height="270px"
+                    cover
+                  >
+                    <!-- 名字和播放按钮 -->
+                    <div class="d-flex">
+                      <v-card-title
+                        class="text-white max-text-length"
+                        v-text="song.title"
+                        style="font-size: x-large"
+                      ></v-card-title>
+                      <v-btn
                         class="ms-2"
                         icon="mdi-play-circle-outline"
                         variant="text"
-                        style="font-size: 30px;color: white;"
-                    ></v-btn>
-                </div>
-                
-                </v-img>
-
-                
-            </v-card>
-            </v-col>
-        </v-row>
+                        style="font-size: 30px; color: white"
+                      ></v-btn>
+                    </div>
+                  </v-img>
+                </v-card>
+              </v-col>
+            </v-row>
           </v-card>
         </v-col>
       </v-row>
     </v-container>
   </v-main>
+
+  <el-dialog
+    v-model="leaveMessageDialog"
+    width="700"
+    align-center
+    class="clock-in-dialog"
+    
+  >
+    <div class="dialog-title">写下想对他说的话吧～😍</div>
+    <v-textarea
+      clear-icon="mdi-close-circle"
+      label="写下留言内容..."
+      model-value=""
+      clearable
+    ></v-textarea>
+    <div class="dialog-title">请选择便签形状</div>
+    <div class="dialog-title">请选择便签颜色</div>
+    <v-btn class="btn">发布</v-btn>
+  </el-dialog>
 </template>
 
 <script>
@@ -145,8 +160,9 @@ export default {
     visitorCount: 0,
     diaryCount: 0,
     playlistCount: 0,
-    playlists:[
-    {
+    leaveMessageDialog: false,
+    playlists: [
+      {
         id: 1,
         cover: "https://cdn.vuetifyjs.com/images/cards/plane.jpg",
         title: "love story歌单",
@@ -161,10 +177,13 @@ export default {
         cover: "https://cdn.vuetifyjs.com/images/cards/cooking.png",
         title: "陌路飞雪葛丹",
       },
-      
-    ]
+    ],
   }),
-  methods: {},
+  methods: {
+    leaveMessage() {
+      this.leaveMessageDialog = true;
+    },
+  },
 };
 </script>
 
@@ -234,5 +253,16 @@ export default {
 
   text-align: center;
   margin: 0% 2% 1% 2%;
+}
+
+.dialog-title{
+    font-family: 思源黑体;
+font-size: 16px;
+font-weight: bold;
+line-height: normal;
+letter-spacing: 0px;
+
+/* 正文色/正文色 */
+color: #1A1A1A;
 }
 </style>
