@@ -38,7 +38,7 @@
                 title="getback">
             <music-playing-view v-if="page==7"></music-playing-view>
             <!-- 音乐播放器 -->
-            <music-player @click="lastPage = page; page = 7;"></music-player>
+            <music-player @click="lastPage = (page == 7 ? lastPage : page); page = 7;"></music-player>
 
             <personal-homepage v-if="page==8" ></personal-homepage>
         </v-layout>

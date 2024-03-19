@@ -43,7 +43,7 @@
                     :time="item.time"
                     :status="item.status"
                     :song="item.song"
-                    @click="clickListItem(item)"
+                    @click="clickListItem(item); "
                 ></music-room-item>
 
                 <div v-else>
@@ -104,13 +104,17 @@
                 <img :src="getImgSrc('../assets/addAlbum.svg')" class="side-info-album" style="padding: 2%;">
                 <br>
 
-                <label class="side-info-button"> 当前播放 > </label>
-                <div class="playing-container">
-                    <img :src="getImgSrc('../assets/playing.png')" class="playing-img">
-                    <label class="playing-song" :title="currentSong.name"> {{ currentSong.name }} </label>
-                    <label class="playing-artist" :title="currentSong.artist"> {{ currentSong.artist }} </label>
-                    <label class="playing-time"> {{ currentSong.time }} / {{ currentSong.total }} </label>
-                </div>
+                <label class="side-info-button"> 当前{{ currentUser.status == 1 ? '播放' : '在唱' }} > </label>
+                <v-btn @click="lyricFlip()"> flip </v-btn>
+                <music-room-current
+                    :cover="currentSong.cover"
+                    :active="currentSong.name != ''"
+                    :song="currentSong.name"
+                    :artist="currentSong.artist"
+                    :time="currentSong.time"
+                    :total="currentSong.total"
+                    :lyric="currentSong.currentLyrics">
+                </music-room-current>
             </div>
 
             <!-- 音乐室推荐区 -->
@@ -270,20 +274,21 @@
 import MusicRoomItem from '../components/MusicRoomItem.vue';
 import ChatRecord from '../components/ChatRecord.vue';
 import MusicRoomRec from '../components/MusicRoomRec.vue';
-
+import MusicRoomCurrent from '../components/MusicRoomCurrent.vue';
 export default {
     //导出组件
     components: {
         MusicRoomItem,
         ChatRecord,
-        MusicRoomRec
+        MusicRoomRec,
+        MusicRoomCurrent
     },
     data: () => ({
         form: false,
         userAccount: null,
         password: null,
         loading: false,
-        menu: "",
+        menu: "users",
         isChatShow: false,
         isCreateMusicRoomShow: false,
         backButtonImgSrc: "../assets/back.svg",
@@ -487,13 +492,38 @@ export default {
         ],
         currentUser: {
             username: "",
+            status: 1,
             size: 0
         },
         currentSong: {
-            name: "Nevada",
-            artist: "Vicetone",
+            cover: "../assets/current.png",
+            name: "戒烟",
+            artist: "李荣浩",
             time: "00:20",
-            total: "03:28"
+            total: "04:53",
+            line: 1,
+            lyric: [
+                "TEST1",
+                "TEST2",
+                "TEST3",
+                "TEST4",
+                "已经为了变得更好去掉锋芒",
+                "一不小心成了你的倾诉对象",
+                "电话约在从前约会的地方",
+                "要陪你唱歌吃饭我结账",
+                "保持优良习惯",
+                "TEST5",
+                "TEST6",
+                "TEST7",
+                "TEST8"
+            ],
+            currentLyrics: [
+                ".",
+                ".",
+                ".",
+                ".",
+                "."
+            ],
         },
         newMusicRoom: {
             name: "",
@@ -506,6 +536,7 @@ export default {
         clickListItem: function(item) {
             this.currentUser.username = item.username;
             this.currentUser.size = (this.menu == 'musicRooms') ? item.size : 0;
+            this.currentUser.status = item.status;
             this.isChatShow = true;
         },
         getTitle: function() {
@@ -516,6 +547,22 @@ export default {
         },
         getImgSrc: function(url) {
             return new URL(url, import.meta.url).href;
+        },
+        lyricSetDefault: function() {
+            for (let i = 0; i < Math.min(3, this.currentSong.lyric.length); i++) {
+                this.currentSong.currentLyrics[i + 2] = this.currentSong.lyric[i];
+            }
+        },
+        lyricFlip: function() {
+            if (this.currentSong.line == this.currentSong.lyric.length)
+                return;
+
+            for (let i = 0; i < 4; i++) {
+                this.currentSong.currentLyrics[i] = this.currentSong.currentLyrics[i + 1];
+            }
+
+            this.currentSong.currentLyrics[4] = this.currentSong.lyric.length - this.currentSong.line <= 2 ? "." : this.currentSong.lyric[this.currentSong.line + 2];
+            this.currentSong.line++;
         },
         openFilePicker() {
             this.$refs.fileInput.click();
@@ -530,6 +577,9 @@ export default {
             }
         }
     },
+    mounted() {
+        this.lyricSetDefault();
+    }
 }
 </script>
 
@@ -646,7 +696,7 @@ export default {
 .side-info-button {
     display: inline-block;
     margin-left: 10%;
-    margin-top: 20px;
+    margin-top: 10px;
     font-weight: 500;
     font-size: 21px;
     color: #3D3D3D;
@@ -680,52 +730,6 @@ export default {
 }
 .side-info-album:hover {
     opacity: 0.7;
-}
-.playing-container {
-    margin-top: 10px;
-    margin-left: 4%;
-    margin-right: 4%;
-    padding: 12px;
-    border-radius: 7px;
-    background-color: #D8D8D8;
-    height: 94px;
-}
-.playing-img {
-    width: 68px;
-    height: 68px;
-    border-radius: 7px;
-}
-.playing-song {
-    position: relative;
-    display: inline-block;
-    top: -42px;
-    left: 3%;
-    width: 70%;
-    color: #3D3D3D;
-    font-weight: 500;
-    font-size: 19px;
-    white-space: nowrap;
-    overflow-x: hidden;
-    text-overflow: ellipsis;
-}
-.playing-artist {
-    position: relative;
-    display: inline-block;
-    top: -50px;
-    left: 28%;
-    width: 70%;
-    color: #3D3D3D;
-    font-weight: lighter;
-    font-size: 15px;
-    white-space: nowrap;
-    overflow-x: hidden;
-    text-overflow: ellipsis;
-}
-.playing-time {
-    position: relative;
-    left: 28%;
-    top: -58px;
-    text-wrap: nowrap;
 }
 .search-input {
     margin-top: 30px;
