@@ -13,9 +13,11 @@
                             </span>
                         </v-col>
                         <v-col col="6">
-                            <v-text-field v-model="search" prepend-icon="mdi-magnify" label="搜索"
-                                placeholder="请输入心情/歌曲名称进行搜索" outlined rounded></v-text-field>
-
+                            <div style="display: flex; align-items: center;">
+                                <v-text-field v-model="search" label="搜索" placeholder="请输入心情/歌曲名称进行搜索" outlined
+                                    rounded></v-text-field>
+                                <v-icon class="ml-3 mb-5" size="x-large" style="cursor: pointer;">mdi-magnify</v-icon>
+                            </div>
                         </v-col>
                     </v-row>
 
@@ -26,9 +28,10 @@
                         </div>
                     </div>
 
-                    <v-data-table :items="selectedList">
-
-                    </v-data-table>
+                    <v-container style="height: 700px; overflow-y: auto;">
+                        <v-data-table-virtual :items="selectedList">
+                        </v-data-table-virtual>
+                    </v-container>
                 </v-col>
                 <v-col cols="4" style="background-color: #D5F0EA;">
                     <v-card class="profile-card" :style="{ backgroundImage: 'url(' + profileImgSrc + ')' }">
@@ -125,6 +128,15 @@ export default {
                 { '音乐名称': '最冷一天', '歌手': '张国荣', '专辑': 'bb', '时长': 37 },
                 { '音乐名称': '負けないで', '歌手': 'ZARD', '专辑': 'cc', '时长': 24 },
                 { '音乐名称': '愛の雫', '歌手': '忘了', '专辑': 'dd', '时长': 67 },
+                { '音乐名称': '冬の花', '歌手': '中森明菜', '专辑': 'ff', '时长': 49 },
+                { '音乐名称': 'キミがいれば', '歌手': '中森明菜', '专辑': 'ff', '时长': 49 },
+                { '音乐名称': '花舞う街', '歌手': '中森明菜', '专辑': 'ff', '时长': 49 },
+                { '音乐名称': '北酒場', '歌手': '中森明菜', '专辑': 'ff', '时长': 49 },
+                { '音乐名称': '北酒場', '歌手': '中森明菜', '专辑': 'ff', '时长': 49 },
+                { '音乐名称': '北酒場', '歌手': '中森明菜', '专辑': 'ff', '时长': 49 },
+                { '音乐名称': '北酒場', '歌手': '中森明菜', '专辑': 'ff', '时长': 49 },
+                { '音乐名称': '北酒場', '歌手': '中森明菜', '专辑': 'ff', '时长': 49 },
+                { '音乐名称': '北酒場', '歌手': '中森明菜', '专辑': 'ff', '时长': 49 },
                 { '音乐名称': '北酒場', '歌手': '中森明菜', '专辑': 'ff', '时长': 49 },
             ],
             [
