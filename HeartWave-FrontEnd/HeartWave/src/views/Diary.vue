@@ -35,7 +35,7 @@
                             <!-- <v-card v-if="day !== null" class="text-center" hover -->
                             <!-- style="height: 100px; margin-top: 5px; margin-left: 3px; margin-right: 3px;"> -->
                             <v-img src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" cover
-                                v-if="day !== null" class="diary-date">
+                                v-if="day !== null" class="diary-date" @click="dialog = true">
                                 <div style="font-size: xx-large; font-weight: 700; color: rgba(255, 255, 255, 0.9);">
                                     {{ day }}
                                 </div>
@@ -57,10 +57,10 @@
                             这些好友最近更新了随笔，快去ta的主页看看吧～
                         </div>
                         <div v-for="friend in updatedFriends" class="mt-5" style="text-align: left;">
-                            <v-row dense>
+                            <v-row dense style="cursor: pointer;"  @click="this.$emit('BrowsingPersonalHomepage', username)">
                                 <v-col cols="4">
                                     <v-avatar size="60">
-                                        <img :src="friend.avatarSrc" alt="avatar" @click="this.$emit('BrowsingPersonalHomepage',username)"/>
+                                        <img :src="friend.avatarSrc" alt="avatar"/>
                                     </v-avatar>
                                 </v-col>
                                 <v-col cols="8">
@@ -77,6 +77,21 @@
             </v-row>
         </v-container>
     </v-app>
+    <v-dialog v-model="dialog" max-width="600">
+      <template v-slot:activator="{ on }"></template>
+
+      <v-card>
+        <v-card-title>心情随笔</v-card-title>
+        <v-card-text>
+          <p>今天的心情真好！😊</p>
+          <p>分享一下今天的快乐！🎉</p>
+          <p>希望明天也能继续保持好心情！🌈</p>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="red" text @click="dialog = false">关闭</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 </template>
 
 <script>
@@ -115,6 +130,9 @@ export default {
             'Dec' // December
         ],
         weeksInMonth: null,
+
+        dialog: false,
+        diaryContent: '今天的心情真好！😊\n分享一下今天的快乐！🎉\n希望明天也能继续保持好心情！🌈',
     }),
     methods: {
         getDaysInWeek(week) {

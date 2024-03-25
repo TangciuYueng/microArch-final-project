@@ -41,13 +41,13 @@
                             </v-row>
                         </v-container>
                         <v-container v-else-if="activeTab === 1" style="height: 700px; overflow-y: auto;">
-                            <v-data-table-virtual :items="items" :search="search" :items-per-page="8 ">
+                            <v-data-table-virtual :items="items" :search="search" :items-per-page="8">
                                 <template v-slot:top>
                                     <v-toolbar flat color="white">
                                         <v-toolbar-title>歌曲</v-toolbar-title>
                                         <v-spacer></v-spacer>
-                                        <v-text-field v-model="search" label="搜索" single-line
-                                            rounded hide-details></v-text-field>
+                                        <v-text-field v-model="search" label="搜索" single-line rounded
+                                            hide-details></v-text-field>
                                         <v-icon class="ml-3" style="cursor: pointer;">mdi-magnify</v-icon>
                                     </v-toolbar>
                                 </template>
@@ -74,12 +74,17 @@
                                     </v-col>
                                 </v-row>
                                 <v-row>
-                                    <v-col cols="12">
+                                    <v-col cols="12" class="d-flex align-center">
                                         <v-radio-group v-model="selectedItem" inline>
                                             <v-radio label="仅自己可见" value="0"></v-radio>
                                             <v-radio label="所有人可见" value="1"></v-radio>
                                             <v-radio label="指定好友可见" value="2"></v-radio>
                                         </v-radio-group>
+                                        <v-spacer></v-spacer>
+                                        <v-btn color="rgba(60, 153, 130, 0.6)" style="font-weight: 500;" class="mb-5"
+                                            @click="handleAddDiary">
+                                            保存
+                                        </v-btn>
                                     </v-col>
                                 </v-row>
                             </v-col>
@@ -99,6 +104,20 @@
             </v-main>
         </v-container>
     </v-app>
+
+    <v-dialog v-model="dialog" max-width="600">
+        <v-card>
+            <v-card-title>
+                <span>随笔</span>
+            </v-card-title>
+            <v-card-text>
+                随笔保存成功
+            </v-card-text>
+            <v-card-actions>
+                <v-btn color="primary" text @click="handleConfirmAddDiary">确认</v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
 </template>
 
 <script>
@@ -120,17 +139,17 @@ export default {
             { text: '年龄', value: 'age' },
         ],
         items: [
-            { '歌曲名称': '最冷一天'},
-            { '歌曲名称': '行かないで'},
-            { '歌曲名称': '愛の雫'},
-            { '歌曲名称': '桃色吐息'},
-            { '歌曲名称': 'アイドル'},
-            { '歌曲名称': '銀の龍の背に乗って'},
-            { '歌曲名称': '北酒場'},
-            { '歌曲名称': '星空のディスタンス'},
-            { '歌曲名称': 'キミがいれば'},
-            { '歌曲名称': 'キンク'},
-            { '歌曲名称': '水色'},
+            { '歌曲名称': '最冷一天' },
+            { '歌曲名称': '行かないで' },
+            { '歌曲名称': '愛の雫' },
+            { '歌曲名称': '桃色吐息' },
+            { '歌曲名称': 'アイドル' },
+            { '歌曲名称': '銀の龍の背に乗って' },
+            { '歌曲名称': '北酒場' },
+            { '歌曲名称': '星空のディスタンス' },
+            { '歌曲名称': 'キミがいれば' },
+            { '歌曲名称': 'キンク' },
+            { '歌曲名称': '水色' },
         ],
 
         diaryTitle: '',
@@ -168,12 +187,22 @@ export default {
             { cols: 9 },
             { cols: 4 },
             { cols: 8 },
-        ]
+        ],
+
+        dialog: false,
     }),
     methods: {
         handleActiveTab(index) {
             this.activeTab = index;
             this.selectedList = this.totalList[index];
+        },
+        handleAddDiary() {
+            this.dialog = true;
+
+        },
+        handleConfirmAddDiary() {
+            this.dialog = false;
+            this.$emit('addDiaryEvent');
         }
     },
 }
@@ -206,5 +235,4 @@ export default {
     color: white;
     /* 悬停时的字体颜色 */
 }
-
 </style>
