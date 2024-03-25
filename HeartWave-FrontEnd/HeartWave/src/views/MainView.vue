@@ -22,13 +22,19 @@
             <!-- 显示主页 -->
             <home-page v-if="page==1"></home-page>
             <!-- 显示音乐广场 -->
-            <music-listen v-if="page==2" @searchEvent="handleSearchEvent" ></music-listen>
+            <music-listen 
+                v-if="page==2" 
+                @searchEvent="handleSearchEvent" 
+                @playMusicEvent="handlePlayMusicEvent" 
+                @BrowsingPersonalHomepage="handleBrowsingEvent" 
+                @detialPlayListEvent="handleDetailPlayList"
+            ></music-listen>
             <!-- 显示音乐室 -->
             <music-room v-if="page==3"></music-room>
             <!-- 显示随笔中心 -->
             <diary v-if="page==4" @addDiaryEvent="handleAddDiary" @BrowsingPersonalHomepage="handleBrowsingEvent"></diary>
             <music-search v-if="page==5"></music-search>
-            <add-diary v-if="page==6"></add-diary>
+            <add-diary v-if="page==6" @addDiaryEvent="handleAddDiarySuccessfully"></add-diary>
 
             <img
                 v-if="page == 7"
@@ -36,11 +42,12 @@
                 class="retract-button"
                 @click="page = lastPage;"
                 title="getback">
-            <music-playing-view v-if="page==7"></music-playing-view>
+            <music-playing-view v-if="page == 7"></music-playing-view>
             <!-- 音乐播放器 -->
             <music-player @click="lastPage = (page == 7 ? lastPage : page); page = 7;"></music-player>
 
             <personal-homepage v-if="page==8" ></personal-homepage>
+            <play-list v-if="page == 9" @BrowsingPersonalHomepage="handleBrowsingEvent"></play-list>
         </v-layout>
     </v-card>
 </template>
@@ -54,6 +61,7 @@ import MusicSearch from '@/views/MusicSearch.vue'
 import AddDiary from '@/views/AddDiary.vue'
 import MusicPlayingView from './MusicPlayingView.vue'
 import PersonalHomepage from './PersonalHomepage.vue'
+import PlayList from '@/views/PlayList.vue'
 export default {
     //导出组件
     components: {
@@ -65,7 +73,8 @@ export default {
         MusicSearch,
         AddDiary,
         MusicPlayingView,
-        PersonalHomepage
+        PersonalHomepage,
+        PlayList,
     },
     data: () => ({
         page: 1,
@@ -108,6 +117,18 @@ export default {
         handleBrowsingEvent(username){
             this.page = 8;
             console.log(this.page)
+        },
+        handleAddDiarySuccessfully() {
+            this.page = 4;
+            console.log(this.page);
+        },
+        handlePlayMusicEvent() {
+            this.page = 7;
+            console.log(this.page);
+        },
+        handleDetailPlayList() {
+            this.page = 9;
+            console.log(this.page);
         }
     },
 };
