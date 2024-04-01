@@ -13,10 +13,9 @@ import java.util.Optional;
 @Service
 public interface MusicReferenceService {
 
-    public Page<MusicReference> findAll(Pageable pageable) ;
-
-    public Optional<MusicReference> findById(String id);
-    public MusicReference save(MusicReference musicReference);
-    public void deleteById(String id);
+    Page<MusicReference> findAll(Pageable pageable) ;
+    Optional<MusicReference> findById(String id);
+    MusicReference save(MusicReference musicReference);
+    void deleteById(String id);
 
 }

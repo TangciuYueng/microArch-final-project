@@ -58,5 +58,4 @@ public class MusicReferenceController {
         return ResponseEntity.ok().build();
     }
 
-    // Additional endpoints can be added here
 }
