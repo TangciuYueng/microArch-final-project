@@ -2,6 +2,7 @@
 import vue from '@vitejs/plugin-vue'
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 import ViteFonts from 'unplugin-fonts/vite'
+import inject from '@rollup/plugin-inject'
 
 // Utilities
 import { defineConfig } from 'vite'
@@ -28,6 +29,11 @@ export default defineConfig({
         }],
       },
     }),
+    inject({
+      $: "jquery",  // 这里会自动载入 node_modules 中的 jquery
+      jQuery: "jquery",
+      "windows.jQuery": "jquery"
+    })
   ],
   define: { 'process.env': {} },
   resolve: {

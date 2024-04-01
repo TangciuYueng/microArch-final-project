@@ -22,15 +22,32 @@
             <!-- 显示主页 -->
             <home-page v-if="page==1"></home-page>
             <!-- 显示音乐广场 -->
-            <music-listen v-if="page==2"></music-listen>
+            <music-listen 
+                v-if="page==2" 
+                @searchEvent="handleSearchEvent" 
+                @playMusicEvent="handlePlayMusicEvent" 
+                @BrowsingPersonalHomepage="handleBrowsingEvent" 
+                @detialPlayListEvent="handleDetailPlayList"
+            ></music-listen>
             <!-- 显示音乐室 -->
             <music-room v-if="page==3"></music-room>
             <!-- 显示随笔中心 -->
-            <diary v-if="page==4"></diary>
+            <diary v-if="page==4" @addDiaryEvent="handleAddDiary" @BrowsingPersonalHomepage="handleBrowsingEvent"></diary>
+            <music-search v-if="page==5"></music-search>
+            <add-diary v-if="page==6" @addDiaryEvent="handleAddDiarySuccessfully"></add-diary>
 
-
+            <img
+                v-if="page == 7"
+                :src="getImgSrc('../assets/retract.svg')"
+                class="retract-button"
+                @click="page = lastPage;"
+                title="getback">
+            <music-playing-view v-if="page == 7"></music-playing-view>
             <!-- 音乐播放器 -->
-            <music-player></music-player>
+            <music-player @click="lastPage = (page == 7 ? lastPage : page); page = 7;"></music-player>
+
+            <personal-homepage v-if="page==8" ></personal-homepage>
+            <play-list v-if="page == 9" @BrowsingPersonalHomepage="handleBrowsingEvent"></play-list>
         </v-layout>
     </v-card>
 </template>
@@ -40,6 +57,11 @@ import HomePage from '@/views/HomePage.vue'
 import MusicListen from '@/views/MusicListen.vue'
 import MusicRoom from '@/views/MusicRoom.vue'
 import diary from '@/views/Diary.vue'
+import MusicSearch from '@/views/MusicSearch.vue'
+import AddDiary from '@/views/AddDiary.vue'
+import MusicPlayingView from './MusicPlayingView.vue'
+import PersonalHomepage from './PersonalHomepage.vue'
+import PlayList from '@/views/PlayList.vue'
 export default {
     //导出组件
     components: {
@@ -47,10 +69,16 @@ export default {
         diary,
         HomePage,
         MusicListen,
-        MusicRoom
+        MusicRoom,
+        MusicSearch,
+        AddDiary,
+        MusicPlayingView,
+        PersonalHomepage,
+        PlayList,
     },
     data: () => ({
         page: 1,
+        lastPage: 1,
         userAccount: null,
         password: null,
         loading: false,
@@ -75,8 +103,49 @@ export default {
             }
             console.log(this.page);
         },
+        handleSearchEvent() {
+            this.page = 5;
+            console.log(this.page);
+        },
+        handleAddDiary() {
+            this.page = 6;
+            console.log(this.page);
+        },
+        getImgSrc: function(url) {
+            return new URL(url, import.meta.url).href;
+        },
+        handleBrowsingEvent(username){
+            this.page = 8;
+            console.log(this.page)
+        },
+        handleAddDiarySuccessfully() {
+            this.page = 4;
+            console.log(this.page);
+        },
+        handlePlayMusicEvent() {
+            this.page = 7;
+            console.log(this.page);
+        },
+        handleDetailPlayList() {
+            this.page = 9;
+            console.log(this.page);
+        }
     },
 };
 </script>
   
-  
+<style scoped>
+.retract-button {
+    position: fixed;
+    top: 30px;
+    left: 5%;
+    height: 72px;
+    opacity: 1;
+    z-index: 1;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.retract-button:hover {
+    opacity: 0.5;
+}
+</style>

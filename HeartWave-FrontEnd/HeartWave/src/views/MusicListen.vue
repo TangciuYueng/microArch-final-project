@@ -1,155 +1,232 @@
 <template>
     <v-app>
-        <v-content>
-            <v-container fluid>
-                <v-row>
-                    <v-col cols="8">
-                        <div style="display: flex; align-items: center;">
-                            <v-toolbar-title>情绪FM></v-toolbar-title>
-                            <v-text-field v-model="search" prepend-icon="mdi-magnify" label="搜索"
-                                placeholder="请输入心情/歌曲名称进行搜索" outlined rounded></v-text-field>
-                        </div>
+        <v-container fluid>
+            <v-row>
+                <v-col cols="8">
+                    <div style="display: flex; align-items: center;">
+                        <v-toolbar-title>情绪FM></v-toolbar-title>
+                        <v-text-field v-model="search" label="搜索" placeholder="请输入心情/歌曲名称进行搜索" outlined
+                            rounded></v-text-field>
+                        <v-icon class="ml-3 mb-5" size="x-large" style="cursor: pointer;"
+                            @click="searchEvent">mdi-magnify</v-icon>
+                    </div>
 
-                        <v-row>
-                            <v-col cols="6">
-                                <v-card class="custom-card" rounded hover>
-                                    <div class="left-side" rounded style="position: relative;">
-                                        <v-row>
-                                            <v-col cols="5">
-                                                <v-img src="@/assets/imgs/ruler.svg" contain></v-img>
-                                                <div class="tick">
-                                                    <div class="tick-line"></div>
-                                                    <div class="tick-circle"></div>
-                                                </div>
-                                            </v-col>
-                                            <v-col cols="7" class="four-line-container">
-                                                <div class="text-block">快乐</div>
-                                                <div class="text-block">平静</div>
-                                                <div class="text-block">忧愁</div>
-                                                <div class="text-block">悲伤</div>
-                                            </v-col>
-                                        </v-row>
-                                    </div>
-                                    <div class="right-side">
-                                        <v-row>
-                                            <v-col cols="6">
-                                                <!-- 右侧内容 -->
-                                                <v-card-title primary-title>
-                                                    <span class="headline">Card Title</span>
-                                                </v-card-title>
-                                                <v-card-text>
-                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                </v-card-text>
-                                            </v-col>
-
-                                            <v-col cols="6" style="position: relative;">
-                                                <v-img :aspect-ratio="1" class="bg-white"
-                                                    src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
-                                                    style="margin: 10%;" cover></v-img>
-                                                <div
-                                                    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                                                    <v-icon color="white" x-large>
-                                                        mdi-play-circle
-                                                    </v-icon>
-                                                </div>
-                                            </v-col>
-                                        </v-row>
-                                    </div>
-                                </v-card>
-                            </v-col>
-                            <v-col cols="6">
-                                <v-card style="background-color: rgba(107, 196, 174, 0.3098); height: 150px;" hover>
-                                    <div class="mt-5 ml-5">
-                                        <v-row>
-                                            <v-col v-for="(item, index) in items.slice(0, 4)" :key="index" cols="3">
-                                                <v-icon>{{ item.icon }}</v-icon>
-                                                <div>{{ item.text }}</div>
-                                            </v-col>
-                                        </v-row>
-                                        <v-row>
-                                            <v-col v-for="(item, index) in items.slice(4, 8)" :key="index" cols="3">
-                                                <v-icon>{{ item.icon }}</v-icon>
-                                                <div>{{ item.text }}</div>
-                                            </v-col>
-                                        </v-row>
-                                    </div>
-                                </v-card>
-                            </v-col>
-                        </v-row>
-                        <v-row>
-                            <v-col cols="12">
-
-                                <v-card hover :style="{
-                                background: 'linear-gradient(103deg, #D2F1FC 0%, #D8F0F1 9%, #D5F0EA 24%, rgba(213, 240, 234, 0.9901) 75%, rgba(201, 222, 247, 0.7905) 97%, rgba(221, 202, 237, 0.3098) 102%)',
-                                height: '250px'
-                            }">
-                                    <v-card-title>
-                                        根据您最近的情绪我们给您推荐以下歌单>
-                                    </v-card-title>
+                    <v-row>
+                        <v-col cols="6">
+                            <v-card class="custom-card" rounded hover>
+                                <div class="left-side" rounded style="position: relative;">
                                     <v-row>
-                                        <v-col cols="2" v-for="item in musics">
-                                            <div style="position: relative;">
-                                                <v-img :aspect-ratio="1" class="bg-white" :src="item.src"
-                                                    style="margin: 10%; max-height: 140px; max-width: 140px;"
-                                                    cover></v-img>
-                                                <div
-                                                    style="position: absolute; top: 80%; left: 70%; transform: translate(-50%, -50%);">
-                                                    <v-icon color="white" x-large>
-                                                        mdi-play-circle
-                                                    </v-icon>
-                                                </div>
+                                        <v-col cols="5">
+                                            <v-img src="@/assets/imgs/ruler.svg" contain></v-img>
+                                            <div class="tick" :style="{ top: tickerTop }">
+                                                <div class="tick-line"></div>
+                                                <div class="tick-circle"></div>
                                             </div>
-                                            <div class="text-center">
-                                                {{ item.text }}
-                                            </div>
+                                        </v-col>
+                                        <v-col cols="7" class="four-line-container">
+                                            <div class="text-block">快乐</div>
+                                            <div class="text-block">平静</div>
+                                            <div class="text-block">忧愁</div>
+                                            <div class="text-block">悲伤</div>
                                         </v-col>
                                     </v-row>
-                                </v-card>
-                            </v-col>
-                        </v-row>
-                        <v-row>
-                            <v-col cols="12">
-                                <v-card hover :style="{
-                                background: 'linear-gradient(103deg, #D2F1FC 0%, #D8F0F1 9%, #D5F0EA 24%, rgba(213, 240, 234, 0.9901) 75%, rgba(201, 222, 247, 0.7905) 97%, rgba(221, 202, 237, 0.3098) 102%)',
-                            }">
-                                    <v-card-title>
-                                        根据您最近的情绪我们给您推荐以下单曲>
-                                    </v-card-title>
-                                    <v-row dense>
-                                        <v-col cols="6" v-for="music in singleMusics">
-                                            <v-card class="d-flex align-center" color="transparent">
-                                                <!-- Left side (image) -->
-                                                <v-img :src=music.src cover style="max-width: 100px; max-height: 100px;"></v-img>
-                                                <!-- Center content (title and description) -->
-                                                <v-card-text>
-                                                    <div>
-                                                        <h3>{{ music.title }}</h3>
-                                                        <p>{{ music.text }}</p>
-                                                    </div>
-                                                </v-card-text>
-
-                                                <!-- Right side (play icon) -->
-                                                <v-card-actions>
-                                                    <v-icon color="white" size="50">
-                                                        mdi-play-circle
-                                                    </v-icon>
-                                                </v-card-actions>
-                                            </v-card>
-                                        </v-col>
+                                </div>
+                                <div class="right-side">
+                                    <v-row>
                                         <v-col cols="6">
+                                            <!-- 右侧内容 -->
+                                            <v-card-title primary-title>
+                                                <span class="headline">Card Title</span>
+                                            </v-card-title>
+                                            <v-card-text>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                            </v-card-text>
+                                        </v-col>
 
+                                        <v-col cols="6" style="position: relative;">
+                                            <v-img :aspect-ratio="1" class="bg-white"
+                                                src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+                                                style="margin: 10%;" @click="this.$emit('playMusicEvent')" cover>
+                                            </v-img>
+                                            <div @click="this.$emit('playMusicEvent')"
+                                                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                                                <v-icon color="white" x-large>
+                                                    mdi-play-circle
+                                                </v-icon>
+                                            </div>
                                         </v-col>
                                     </v-row>
-                                </v-card>
+                                </div>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="6">
+                            <v-card style="background-color: rgba(107, 196, 174, 0.3098); height: 150px;">
+                                <v-row dense>
+                                    <v-col v-for="(item, index) in items" :key="index" cols="3">
+                                        <v-card hover color="transparent">
+                                            <v-card-text>
+                                                <div
+                                                    style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                                                    <v-icon>{{ item.icon }}</v-icon>
+                                                    <span>{{ item.text }}</span>
+                                                </div>
+                                            </v-card-text>
+                                        </v-card>
+                                    </v-col>
+                                </v-row>
+                            </v-card>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col cols="12">
+
+                            <v-card hover :style="{
+                            background: 'linear-gradient(103deg, #D2F1FC 0%, #D8F0F1 9%, #D5F0EA 24%, rgba(213, 240, 234, 0.9901) 75%, rgba(201, 222, 247, 0.7905) 97%, rgba(221, 202, 237, 0.3098) 102%)',
+                            height: '250px'
+                        }">
+                                <v-card-title>
+                                    根据您最近的情绪我们给您推荐以下歌单>
+                                </v-card-title>
+                                <v-row style="padding: 15px;">
+                                    <v-col cols="2" v-for="item in musics">
+                                        <v-card hover class="mt-5" @click="this.$emit('detialPlayListEvent')">
+                                            <v-img :src="item.src" class="align-end"
+                                                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="140px"
+                                                cover>
+                                                <!-- 名字和播放按钮 -->
+                                                <div class="d-flex">
+                                                    <v-card-title class="text-white max-text-length" v-text="item.text"
+                                                        style="font-size: medium;"></v-card-title>
+                                                    <v-spacer></v-spacer>
+                                                    <v-btn icon="mdi-play-circle-outline" variant="text"
+                                                        style="font-size: 20px; color: white;"></v-btn>
+                                                </div>
+                                            </v-img>
+                                        </v-card>
+                                    </v-col>
+                                </v-row>
+                            </v-card>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col cols="12">
+                            <v-card hover :style="{
+                            background: 'linear-gradient(103deg, #D2F1FC 0%, #D8F0F1 9%, #D5F0EA 24%, rgba(213, 240, 234, 0.9901) 75%, rgba(201, 222, 247, 0.7905) 97%, rgba(221, 202, 237, 0.3098) 102%)',
+                        }">
+                                <v-card-title>
+                                    根据您最近的情绪我们给您推荐以下单曲>
+                                </v-card-title>
+                                <v-row dense>
+                                    <v-col cols="6" v-for="music in singleMusics">
+                                        <v-card class="d-flex align-center" color="transparent"
+                                            @click="this.$emit('playMusicEvent')">
+                                            <!-- Left side (image) -->
+                                            <v-img :src=music.src cover
+                                                style="max-width: 100px; max-height: 100px;"></v-img>
+                                            <!-- Center content (title and description) -->
+                                            <v-card-text>
+                                                <div>
+                                                    <h3>{{ music.title }}</h3>
+                                                    <p>{{ music.text }}</p>
+                                                </div>
+                                            </v-card-text>
+
+                                            <!-- Right side (play icon) -->
+                                            <v-card-actions>
+                                                <v-btn icon="mdi-play-circle-outline" variant="text"
+                                                    style="font-size: 20px; color: #4D6A65;"></v-btn>
+                                            </v-card-actions>
+                                        </v-card>
+                                    </v-col>
+                                    <v-col cols="6">
+
+                                    </v-col>
+                                </v-row>
+                            </v-card>
+                        </v-col>
+                    </v-row>
+                </v-col>
+                <v-col cols="4" style="background-color: #D5F0EA;">
+                    <v-card class="profile-card" :style="{ backgroundImage: 'url(' + profileImgSrc + ')' }">
+                        <v-card-text>
+                            <v-avatar size="100" style="cursor: pointer;"
+                                @click="this.$emit('BrowsingPersonalHomepage')">
+                                <img :src="avatarSrc" alt="avatar" />
+                            </v-avatar>
+                            <div style="font-size: 20px;" class="mt-2">{{ username }}</div>
+                            <div style="font-size: 12px;">
+                                <v-icon color="red">mdi-heart</v-icon>
+                                IP属地: {{ ipLocation }}
+                            </div>
+                            <div style="font-size: larger;" class="mt-5">
+                                <v-row>
+                                    <v-col cols="4">
+                                        <div>好友</div>
+                                        <div>{{ friendNum }}</div>
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <div>心情值</div>
+                                        <div>{{ emotionValue }}</div>
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <div>访客</div>
+                                        <div>{{ visitorNum }}</div>
+                                    </v-col>
+                                </v-row>
+                            </div>
+                        </v-card-text>
+                    </v-card>
+                    <v-card class="mt-10" style="background-color: rgba(255, 255, 255, 0.5); padding: 5%;">
+                        <v-row dense>
+                            <v-col cols="3" v-for="icon in profileIcons" style="text-align: center;">
+                                <v-icon color="red" size="40" style="cursor: pointer;"
+                                    @click="this.$emit('detialPlayListEvent')">{{ icon.icon }}</v-icon>
+                                <div style="cursor: pointer;" @click="this.$emit('detialPlayListEvent')">{{ icon.text }}
+                                </div>
                             </v-col>
                         </v-row>
-                    </v-col>
-                    <v-col cols="4">
-                        bbbb
-                    </v-col>
-                </v-row>
-            </v-container>
-        </v-content>
+                    </v-card>
+                    <div style="font-size: 20px;" class="mt-3">我创建的歌单></div>
+                    <v-row dense>
+                        <v-col cols="4" v-for="music in selfCreatedMusicList">
+                            <v-card style="text-align: center;" color="transparent"
+                                @click="this.$emit('detialPlayListEvent')" hover>
+                                <v-img :src="music.src" class="align-end"
+                                    gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="140px" cover>
+                                    <!-- 名字和播放按钮 -->
+                                    <div class="d-flex">
+                                        <v-card-title class="text-white max-text-length" v-text="music.text"
+                                            style="font-size: medium;"></v-card-title>
+                                        <v-spacer></v-spacer>
+                                        <v-btn icon="mdi-play-circle-outline" variant="text"
+                                            style="font-size: 20px; color: white;"></v-btn>
+                                    </div>
+                                </v-img>
+                            </v-card>
+                        </v-col>
+                    </v-row>
+                    <div style="font-size: 20px;" class="mt-3">我管理的歌单></div>
+                    <v-row dense>
+                        <v-col cols="4" v-for="music in selfCreatedMusicList">
+                            <v-card style="text-align: center;" color="transparent"
+                                @click="this.$emit('detialPlayListEvent')" hover>
+                                <v-img :src="music.src" class="align-end"
+                                    gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="140px" cover>
+                                    <!-- 名字和播放按钮 -->
+                                    <div class="d-flex">
+                                        <v-card-title class="text-white max-text-length" v-text="music.text"
+                                            style="font-size: medium;"></v-card-title>
+                                        <v-spacer></v-spacer>
+                                        <v-btn icon="mdi-play-circle-outline" variant="text"
+                                            style="font-size: 20px; color: white;"></v-btn>
+                                    </div>
+                                </v-img>
+                            </v-card>
+                        </v-col>
+                    </v-row>
+                </v-col>
+            </v-row>
+        </v-container>
     </v-app>
 </template>
 
@@ -161,6 +238,7 @@ export default {
         userAccount: null,
         password: null,
         loading: false,
+        tickerTop: '20%',
         items: [
             { icon: 'mdi-star', text: 'Star' },
             { icon: 'mdi-heart', text: 'Heart' },
@@ -172,10 +250,12 @@ export default {
             { icon: 'mdi-car', text: 'Car' }
         ],
         musics: [
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
+            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'THE KEY' },
+            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'アイドル' },
+            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: '张国荣金曲' },
+            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: '香港の夜' },
+            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: '宇宙戦艦' },
+            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: '星空のディスタンス' },
         ],
         singleMusics: [
             { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', title: 'Tieaa', text: 'aaa' },
@@ -183,10 +263,36 @@ export default {
             { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', title: 'Tieaa', text: 'aaa' },
             { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', title: 'Tieaa', text: 'aaa' },
             { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', title: 'Tieaa', text: 'aaa' },
-        ]
+        ],
+        profileIcons: [
+            { icon: 'mdi-download', text: '本地/下载' },
+            { icon: 'mdi-account', text: '关注' },
+            { icon: 'mdi-heart', text: '我喜欢' },
+            { icon: 'mdi-radio', text: '最近收听' },
+        ],
+        selfCreatedMusicList: [
+            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
+            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
+            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
+        ],
+        selfCollectedMusicList: [
+            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
+            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
+            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
+        ],
+        profileImgSrc: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg',
+        avatarSrc: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg',
+        username: 'deidei',
+        ipLocation: '上海',
+        friendNum: 24,
+        emotionValue: 78,
+        visitorNum: 234,
     }),
     methods: {
-
+        searchEvent() {
+            console.log('searchEvent');
+            this.$emit('searchEvent');
+        },
     },
 }
 </script>
@@ -225,7 +331,7 @@ export default {
 
 .tick {
     position: absolute;
-    top: 20%;
+    /* top: 20%; */
     /* 调整垂直居中位置 */
     left: 10%;
     /* 调整水平居中位置 */
@@ -252,5 +358,26 @@ export default {
     border-radius: 50%;
     /* 将div设置为圆形 */
     background-color: #45CE9A;
+}
+
+.profile-card {
+    background-size: cover;
+    box-shadow: 0 5px 6px rgba(0, 0, 0, 0.5);
+    /* 下面两个圆角 */
+    border-radius: 0 0 50px 50px;
+    min-height: 300px;
+    text-align: center;
+    color: white;
+}
+
+.max-text-length {
+    max-width: 100px;
+    /* 设置最大宽度，根据需要进行调整 */
+    white-space: nowrap;
+    /* 防止文本换行 */
+    overflow: hidden;
+    /* 隐藏超出最大宽度的文本 */
+    text-overflow: ellipsis;
+    /* 使用省略号表示被隐藏的文本 */
 }
 </style>

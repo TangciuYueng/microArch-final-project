@@ -52,9 +52,19 @@ const routes = [
         component: () => import('@/views/Diary.vue'),
       },
       {
+        path:'/add-diary',
+        name:'AddDiary',
+        component: () => import('@/views/AddDiary.vue'),
+      },
+      {
         path:'/music-listen',
         name:'MusicListen',
         component: () => import('@/views/MusicListen.vue'),
+      },
+      {
+        path:'/music-search',
+        name:'MusicSearch',
+        component: () => import('@/views/MusicSearch.vue'),
       },
       {
         path:'/personal-center',
