@@ -184,6 +184,14 @@ export default {
       this.leaveMessageDialog = true;
     },
   },
+  props: {
+    userId: {
+      default: 1,
+    }
+  },
+  mounted() {
+    console.log('userid', this.userId);
+  }
 };
 </script>
 

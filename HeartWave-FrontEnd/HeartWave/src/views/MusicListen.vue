@@ -89,7 +89,7 @@
                                 </v-card-title>
                                 <v-row style="padding: 15px;">
                                     <v-col cols="2" v-for="item in musics">
-                                        <v-card hover class="mt-5" @click="this.$emit('detialPlayListEvent')">
+                                        <v-card hover class="mt-5" @click="this.$emit('detialPlayListEvent', 'recommend')">
                                             <v-img :src="item.src" class="align-end"
                                                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="140px"
                                                 cover>
@@ -150,7 +150,7 @@
                     <v-card class="profile-card" :style="{ backgroundImage: 'url(' + profileImgSrc + ')' }">
                         <v-card-text>
                             <v-avatar size="100" style="cursor: pointer;"
-                                @click="this.$emit('BrowsingPersonalHomepage')">
+                                @click="this.$emit('BrowsingPersonalHomepage', userId)">
                                 <img :src="avatarSrc" alt="avatar" />
                             </v-avatar>
                             <div style="font-size: 20px;" class="mt-2">{{ username }}</div>
@@ -180,8 +180,8 @@
                         <v-row dense>
                             <v-col cols="3" v-for="icon in profileIcons" style="text-align: center;">
                                 <v-icon color="red" size="40" style="cursor: pointer;"
-                                    @click="this.$emit('detialPlayListEvent')">{{ icon.icon }}</v-icon>
-                                <div style="cursor: pointer;" @click="this.$emit('detialPlayListEvent')">{{ icon.text }}
+                                    @click="this.$emit('detialPlayListEvent', icon.value)">{{ icon.icon }}</v-icon>
+                                <div style="cursor: pointer;" @click="this.$emit('detialPlayListEvent', icon.value)">{{ icon.text }}
                                 </div>
                             </v-col>
                         </v-row>
@@ -190,7 +190,7 @@
                     <v-row dense>
                         <v-col cols="4" v-for="music in selfCreatedMusicList">
                             <v-card style="text-align: center;" color="transparent"
-                                @click="this.$emit('detialPlayListEvent')" hover>
+                                @click="this.$emit('detialPlayListEvent', 'created')" hover>
                                 <v-img :src="music.src" class="align-end"
                                     gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="140px" cover>
                                     <!-- 名字和播放按钮 -->
@@ -209,7 +209,7 @@
                     <v-row dense>
                         <v-col cols="4" v-for="music in selfCreatedMusicList">
                             <v-card style="text-align: center;" color="transparent"
-                                @click="this.$emit('detialPlayListEvent')" hover>
+                                @click="this.$emit('detialPlayListEvent', 'admin')" hover>
                                 <v-img :src="music.src" class="align-end"
                                     gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="140px" cover>
                                     <!-- 名字和播放按钮 -->
@@ -265,10 +265,10 @@ export default {
             { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', title: 'Tieaa', text: 'aaa' },
         ],
         profileIcons: [
-            { icon: 'mdi-download', text: '本地/下载' },
-            { icon: 'mdi-account', text: '关注' },
-            { icon: 'mdi-heart', text: '我喜欢' },
-            { icon: 'mdi-radio', text: '最近收听' },
+            { icon: 'mdi-download', text: '本地/下载', value: 'download' },
+            { icon: 'mdi-account', text: '关注', value: 'favor' },
+            { icon: 'mdi-heart', text: '我喜欢', value: 'like'},
+            { icon: 'mdi-radio', text: '最近收听', value: 'recent' },
         ],
         selfCreatedMusicList: [
             { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
@@ -283,6 +283,7 @@ export default {
         profileImgSrc: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg',
         avatarSrc: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg',
         username: 'deidei',
+        userId: 1,
         ipLocation: '上海',
         friendNum: 24,
         emotionValue: 78,

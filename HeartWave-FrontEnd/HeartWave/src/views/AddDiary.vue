@@ -59,9 +59,16 @@
                         <v-row>
                             <v-col cols="2"></v-col>
                             <v-col cols="2">
-                                <v-img src="@/assets/imgs/defaultDiaryCover.svg" aspect-ratio="1" height="120"
+                                <!-- <v-img src="@/assets/imgs/defaultDiaryCover.svg" aspect-ratio="1" height="120"
                                     width="120" class="ml-5 mt-3">
-                                </v-img>
+                                </v-img> -->
+                                <button v-if="diaryCover == ''" type="button" @click="openFilePicker()"
+                                    class="form-avatar">
+                                    选择封面
+                                </button>
+                                <img v-else :src="diaryCover" @click="diaryCover = ''" class="form-avatar-img" />
+                                <input type="file" ref="fileInput" style="display: none;" @change="handleImgSelected">
+
                             </v-col>
                             <v-col cols="6">
                                 <v-row>
@@ -153,6 +160,7 @@ export default {
         ],
 
         diaryTitle: '',
+        diaryCover: '',
         selectedItem: '',
 
         content: '',
@@ -203,7 +211,19 @@ export default {
         handleConfirmAddDiary() {
             this.dialog = false;
             this.$emit('addDiaryEvent');
-        }
+        },
+        openFilePicker() {
+            this.$refs.fileInput.click();
+        },
+        handleImgSelected: function (event) {
+            const selectedFile = event.target.files[0];
+
+            if (selectedFile.type.startsWith('image/')) {
+                this.diaryCover = URL.createObjectURL(selectedFile);
+            } else {
+                alert('请选择图片文件');
+            }
+        },
     },
 }
 </script>
@@ -234,5 +254,18 @@ export default {
     /* 悬停时的背景颜色 */
     color: white;
     /* 悬停时的字体颜色 */
+}
+
+.form-avatar {
+    margin-top: 20px;
+    height: 100px;
+    width: 100px;
+    border: 2px solid black;
+}
+
+.form-avatar-img {
+    margin-top: 20px;
+    height: 100px;
+    width: 100px;
 }
 </style>

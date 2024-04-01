@@ -46,8 +46,8 @@
             <!-- 音乐播放器 -->
             <music-player @click="lastPage = (page == 7 ? lastPage : page); page = 7;"></music-player>
 
-            <personal-homepage v-if="page==8" ></personal-homepage>
-            <play-list v-if="page == 9" @BrowsingPersonalHomepage="handleBrowsingEvent"></play-list>
+            <personal-homepage v-if="page==8" :userId="userId"></personal-homepage>
+            <play-list v-if="page == 9" @BrowsingPersonalHomepage="handleBrowsingEvent" :playListType="playListType" :playListId="playListId"></play-list>
         </v-layout>
     </v-card>
 </template>
@@ -82,6 +82,9 @@ export default {
         userAccount: null,
         password: null,
         loading: false,
+        playListType: null,
+        playListId: 1,
+        userId: 1,
     }),
     methods: {
         navigateTo(routeName) {
@@ -114,9 +117,11 @@ export default {
         getImgSrc: function(url) {
             return new URL(url, import.meta.url).href;
         },
-        handleBrowsingEvent(username){
+        handleBrowsingEvent(userId){
             this.page = 8;
             console.log(this.page)
+            // console.log(this.userId);
+            this.userId = userId;
         },
         handleAddDiarySuccessfully() {
             this.page = 4;
@@ -124,11 +129,25 @@ export default {
         },
         handlePlayMusicEvent() {
             this.page = 7;
+            // record last page for page back
+            this.lastPage = 2;
             console.log(this.page);
         },
-        handleDetailPlayList() {
+        handleDetailPlayList(value, id) {
             this.page = 9;
             console.log(this.page);
+            const valueMapper = {
+                'created': '创建歌单',
+                'favor': '关注歌单',
+                'admin': '管理歌单',
+                'recommend': '推荐歌单',
+                'download': '下载歌单',
+                'like': '收藏歌单',
+                'recent': '最近收听',
+            }
+            this.playListType = valueMapper[value];
+            this.playListId = id;
+            // console.log(this.playListType)
         }
     },
 };
