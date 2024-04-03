@@ -29,7 +29,7 @@
           <v-row>
             <v-col>
               <v-btn class="btn" x-large>关注</v-btn>
-              <v-btn class="btn" x-large @click="leaveMessage">写留言</v-btn>
+              <!-- <v-btn class="btn" x-large @click="leaveMessage">写留言</v-btn> -->
             </v-col>
           </v-row>
 

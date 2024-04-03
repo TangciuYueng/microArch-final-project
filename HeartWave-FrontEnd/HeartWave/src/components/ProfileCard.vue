@@ -5,11 +5,12 @@
     style="max-width: 100%; max-height: 100%; object-fit: cover"
   >
     <v-card-text>
-      <v-avatar size="100">
+      <v-avatar size="100"  @click="this.$emit('BrowsingPersonalHomepage', username)">
         <img
           :src="avatarSrc"
           alt="avatar"
           style="max-width: 100%; max-height: 100%; object-fit: cover"
+          
         />
       </v-avatar>
       <div style="font-size: 20px" class="mt-2">{{ username }}</div>
