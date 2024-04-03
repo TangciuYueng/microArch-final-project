@@ -20,7 +20,7 @@
     <v-card>
         <v-layout>
             <!-- 显示主页 -->
-            <home-page v-if="page == 1"></home-page>
+            <home-page v-if="page == 1" @BrowsingPersonalHomepage="handleBrowsingEvent"></home-page>
             <!-- 显示音乐广场 -->
             <music-listen v-if="page == 2" @searchEvent="handleSearchEvent" @playMusicEvent="handlePlayMusicEvent"
                 @BrowsingPersonalHomepage="handleBrowsingEvent"
