@@ -37,7 +37,8 @@
                     <v-card class="profile-card" :style="{ backgroundImage: 'url(' + profileImgSrc + ')' }">
                         <v-card-text>
                             <v-avatar size="100">
-                                <img :src="avatarSrc" alt="avatar" />
+                                <img :src="avatarSrc" alt="avatar" style="cursor: pointer;"
+                                    @click="this.$emit('BrowsingPersonalHomepage', userId)" />
                             </v-avatar>
                             <div style="font-size: 20px;" class="mt-2">{{ username }}</div>
                             <div style="font-size: 12px;">
@@ -65,15 +66,18 @@
                     <v-card class="mt-10" style="background-color: rgba(255, 255, 255, 0.5); padding: 5%;">
                         <v-row dense>
                             <v-col cols="3" v-for="icon in profileIcons" style="text-align: center;">
-                                <v-icon color="red" size="40">{{ icon.icon }}</v-icon>
-                                <div>{{ icon.text }}</div>
+                                <v-icon color="red" size="40" style="cursor: pointer"
+                                    @click="this.$emit('detialPlayListEvent', icon.value)">{{ icon.icon }}</v-icon>
+                                <div style="cursor: pointer;" @click="this.$emit('detialPlayListEvent', icon.value)">{{
+                                    icon.text }}</div>
                             </v-col>
                         </v-row>
                     </v-card>
                     <div style="font-size: 20px;" class="mt-3">我创建的歌单></div>
                     <v-row dense>
                         <v-col cols="4" v-for="music in selfCreatedMusicList">
-                            <v-card style="text-align: center;" color="transparent">
+                            <v-card style="text-align: center;" color="transparent"
+                                @click="this.$emit('detialPlayListEvent', 'created')" hover>
                                 <v-img :src="music.src" cover></v-img>
                                 <v-card-text
                                     style="display: flex; justify-content: space-between; align-items: center;">
@@ -88,7 +92,8 @@
                     <div style="font-size: 20px;" class="mt-3">我管理的歌单></div>
                     <v-row dense>
                         <v-col cols="4" v-for="music in selfCreatedMusicList">
-                            <v-card style="text-align: center;" color="transparent">
+                            <v-card style="text-align: center;" color="transparent"
+                                @click="this.$emit('detialPlayListEvent', 'admin')" hover>
                                 <v-img :src="music.src" cover></v-img>
                                 <v-card-text
                                     style="display: flex; justify-content: space-between; align-items: center;">
@@ -110,11 +115,7 @@
 export default {
     //导出组件
     data: () => ({
-        form: false,
-        userAccount: null,
-        password: null,
-        loading: false,
-
+        userId: 1,
         keyWord: '欢快',
         singleMusicNum: 166,
         musicListNum: 80,
@@ -158,10 +159,10 @@ export default {
         ],
 
         profileIcons: [
-            { icon: 'mdi-download', text: '本地/下载' },
-            { icon: 'mdi-account', text: '关注' },
-            { icon: 'mdi-heart', text: '我喜欢' },
-            { icon: 'mdi-radio', text: '最近收听' },
+            { icon: 'mdi-download', text: '本地/下载', value: 'download' },
+            { icon: 'mdi-account', text: '关注', value: 'favor' },
+            { icon: 'mdi-heart', text: '我喜欢', value: 'like' },
+            { icon: 'mdi-radio', text: '最近收听', value: 'recent' },
         ],
         selfCreatedMusicList: [
             { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },

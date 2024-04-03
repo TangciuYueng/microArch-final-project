@@ -234,10 +234,6 @@
 export default {
     //导出组件
     data: () => ({
-        form: false,
-        userAccount: null,
-        password: null,
-        loading: false,
         tickerTop: '20%',
         items: [
             { icon: 'mdi-star', text: 'Star' },
