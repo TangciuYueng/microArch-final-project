@@ -78,14 +78,15 @@
                     ></chat-record>
                 </div>
                 <div style="height: 0.25%; background-color: #0000003D;"></div>
-                <div class="chat-tools-area">
-                    <img src="../assets/chat-sing.svg">
-                    <img src="../assets/chat-emoji.svg">
-                    <img src="../assets/chat-music.svg">
-                    <img src="../assets/chat-picture.svg">
-                    <img src="../assets/chat-gift.svg">
-                    <v-btn class="send-button"> 发送 </v-btn>
-                    <br>
+                <div class="chat-input-area">
+                    <div class="tool-bar">
+                        <img src="../assets/chat-sing.svg">
+                        <img src="../assets/chat-emoji.svg">
+                        <img src="../assets/chat-music.svg">
+                        <img src="../assets/chat-picture.svg">
+                        <img src="../assets/chat-gift.svg">
+                        <v-btn class="send-button"> 发送 </v-btn>
+                    </div>
 
                     <textarea class="chat-input"></textarea>
                 </div>
@@ -105,7 +106,6 @@
                 <br>
 
                 <label class="side-info-button"> 当前{{ currentUser.status == 1 ? '播放' : '在唱' }} > </label>
-                <v-btn @click="lyricFlip()"> flip </v-btn>
                 <music-room-current
                     :cover="currentSong.cover"
                     :active="currentSong.name != ''"
@@ -113,7 +113,7 @@
                     :artist="currentSong.artist"
                     :time="currentSong.time"
                     :total="currentSong.total"
-                    :lyric="currentSong.currentLyrics">
+                    :lyric="currentSong.lyric">
                 </music-room-current>
             </div>
 
@@ -501,8 +501,9 @@ export default {
             artist: "李荣浩",
             time: "00:20",
             total: "04:53",
-            line: 1,
             lyric: [
+                "",
+                "",
                 "TEST1",
                 "TEST2",
                 "TEST3",
@@ -515,14 +516,9 @@ export default {
                 "TEST5",
                 "TEST6",
                 "TEST7",
-                "TEST8"
-            ],
-            currentLyrics: [
-                ".",
-                ".",
-                ".",
-                ".",
-                "."
+                "TEST8",
+                "",
+                ""
             ],
         },
         newMusicRoom: {
@@ -548,22 +544,6 @@ export default {
         getImgSrc: function(url) {
             return new URL(url, import.meta.url).href;
         },
-        lyricSetDefault: function() {
-            for (let i = 0; i < Math.min(3, this.currentSong.lyric.length); i++) {
-                this.currentSong.currentLyrics[i + 2] = this.currentSong.lyric[i];
-            }
-        },
-        lyricFlip: function() {
-            if (this.currentSong.line == this.currentSong.lyric.length)
-                return;
-
-            for (let i = 0; i < 4; i++) {
-                this.currentSong.currentLyrics[i] = this.currentSong.currentLyrics[i + 1];
-            }
-
-            this.currentSong.currentLyrics[4] = this.currentSong.lyric.length - this.currentSong.line <= 2 ? "." : this.currentSong.lyric[this.currentSong.line + 2];
-            this.currentSong.line++;
-        },
         openFilePicker() {
             this.$refs.fileInput.click();
         },
@@ -576,9 +556,6 @@ export default {
                 alert('请选择图片文件');
             }
         }
-    },
-    mounted() {
-        this.lyricSetDefault();
     }
 }
 </script>
@@ -655,37 +632,40 @@ export default {
     overflow-x: hidden;
     overflow-y: auto;
 }
-.chat-tools-area {
+.chat-input-area {
     width: 100%;
-    height: 29.875%;
-    overflow-y: auto;
 }
-.chat-tools-area > img {
+.tool-bar {
+    height: 48px;
+}
+.chat-input-area img {
     position: relative;
     top: 5px;
-    left: 1%;
-    height: 17%;
+    left: 0.5%;
+    height: 80%;
     padding: 0.8%;
     margin-right: 0.5%;
     border-radius: 10px;
     cursor: pointer;
     transition: 0.3s;
 }
-.chat-tools-area > img:hover {
+.chat-input-area img:hover {
     background-color: #DCE8E3;
 }
 .send-button {
     position: relative;
     top: -10px;
-    left: 67%;
+    left: 66%;
     background-color: #DCE8E3;
 }
 .chat-input {
+    display: block;
     padding: 10px;
     width: 100%;
-    height: 25vh;
+    height: 170px;
     font-size: 20px;
     color: #0000009F;
+    overflow-y: auto;
 }
 .side-info-container {
     display: inline-block;
