@@ -57,7 +57,7 @@
                             这些好友最近更新了随笔，快去ta的主页看看吧～
                         </div>
                         <div v-for="friend in updatedFriends" class="mt-5" style="text-align: left;">
-                            <v-row dense style="cursor: pointer;"  @click="this.$emit('BrowsingPersonalHomepage', username)">
+                            <v-row dense style="cursor: pointer;"  @click="this.$emit('BrowsingPersonalHomepage', friend.id)">
                                 <v-col cols="4">
                                     <v-avatar size="60">
                                         <img :src="friend.avatarSrc" alt="avatar"/>
@@ -109,11 +109,11 @@ export default {
         month: new Date().getMonth(),
 
         updatedFriends: [
-            { avatarSrc: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'sjm大帅哥', emotionValue: 55 },
-            { avatarSrc: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'sjm大帅哥', emotionValue: 55 },
-            { avatarSrc: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'sjm大帅哥', emotionValue: 55 },
-            { avatarSrc: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'sjm大帅哥', emotionValue: 55 },
-            { avatarSrc: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'sjm大帅哥', emotionValue: 55 },
+            {id: 1, avatarSrc: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'sjm大帅哥', emotionValue: 55 },
+            {id: 2, avatarSrc: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'sjm大帅哥', emotionValue: 55 },
+            {id: 3, avatarSrc: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'sjm大帅哥', emotionValue: 55 },
+            {id: 4, avatarSrc: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'sjm大帅哥', emotionValue: 55 },
+            {id: 5, avatarSrc: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'sjm大帅哥', emotionValue: 55 },
         ],
         monthEnglish: [
             'Jan', // January

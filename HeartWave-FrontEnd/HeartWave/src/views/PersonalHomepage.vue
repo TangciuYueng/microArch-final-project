@@ -29,7 +29,7 @@
           <v-row>
             <v-col>
               <v-btn class="btn" x-large>关注</v-btn>
-              <v-btn class="btn" x-large @click="leaveMessage">写留言</v-btn>
+              <!-- <v-btn class="btn" x-large @click="leaveMessage">写留言</v-btn> -->
             </v-col>
           </v-row>
 
@@ -184,6 +184,14 @@ export default {
       this.leaveMessageDialog = true;
     },
   },
+  props: {
+    userId: {
+      default: 1,
+    }
+  },
+  mounted() {
+    console.log('userid', this.userId);
+  }
 };
 </script>
 

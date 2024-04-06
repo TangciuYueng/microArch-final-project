@@ -20,19 +20,18 @@
                 </div>
                 <div style="display: inline; width: 6%;"></div>
                 <div class="lyric-container" align="center">
-                    <label class="pre-1"> {{ currentLyrics[0] }} </label>
-                    <br>
-                    <label class="pre-2"> {{ currentLyrics[1] }} </label>
-                    <br>
-                    <label class="pre-3"> {{ currentLyrics[2] }} </label>
-                    <br>
-                    <label class="current"> {{ currentLyrics[3] }} </label>
-                    <br>
-                    <label class="forward-1"> {{ currentLyrics[4] }} </label>
-                    <br>
-                    <label class="forward-2"> {{ currentLyrics[5] }} </label>
-                    <br>
-                    <label class="forward-3"> {{ currentLyrics[6] }} </label>
+                    <div style="height: 20px;"></div>
+                    <div v-for="(item, index) in lyric">
+                        <label
+                            :class="getLyricStyle(index)"
+                            :style="{
+                                opacity: index >= currentLine - 4 && index <= currentLine + 2 ? '100%' : '0%',
+                                transform: 'translateY(' + lyricDist + 'px)'
+                            }">
+                            {{ item }}
+                        </label>
+                        <br>
+                    </div>
                 </div>
 
                 <v-btn @click="lyricFlip()"> flip </v-btn>
@@ -111,8 +110,12 @@ export default {
         album: "Laura Pausini & Dearst yangsk",
         artist: "Laura Pausini",
         isLiked: true,
-        currentLine: 1,
+        currentLine: 4,  //默认第一句歌词前有三行空行占位，从4开始
+        lyricDist: 0,
         lyric: [
+            "",
+            "",
+            "",
             "TEST1",
             "TEST2",
             "TEST3",
@@ -127,16 +130,10 @@ export default {
             "TEST5",
             "TEST6",
             "TEST7",
-            "TEST8"
-        ],
-        currentLyrics: [
-            ".",
-            ".",
-            ".",
-            ".",
-            ".",
-            ".",
-            "."
+            "TEST8",
+            "",
+            "",
+            ""
         ],
         emotionKeywords: [
             "忧伤",
@@ -169,22 +166,28 @@ export default {
         getImgSrc: function(url) {
             return new URL(url, import.meta.url).href;
         },
-        lyricSetDefault: function() {
-            for (let i = 0; i < Math.min(4, this.lyric.length); i++) {
-                console.log(this.lyric[i]);
-                this.currentLyrics[i + 3] = this.lyric[i];
-            }
+        getLyricStyle: function(index) {
+            if (index + 1 == this.currentLine)
+                return 'current';
+            else if (index == this.currentLine)
+                return 'forward-1';
+            else if (index - 1 == this.currentLine)
+                return 'forward-2';
+            else if (index - 2 == this.currentLine)
+                return 'forward-3';
+            else if (index + 2 == this.currentLine)
+                return 'pre-1';
+            else if (index + 3 == this.currentLine)
+                return 'pre-2';
+            else if (index + 4 == this.currentLine)
+                return 'pre-3';
         },
         lyricFlip: function() {
-            if (this.currentLine == this.lyric.length)
+            if (this.currentLine == this.lyric.length - 3)
                 return;
 
-            for (let i = 0; i < 6; i++) {
-                this.currentLyrics[i] = this.currentLyrics[i + 1];
-            }
-
-            this.currentLyrics[6] = this.lyric.length - this.currentLine <= 3 ? "." : this.lyric[this.currentLine + 3];
             this.currentLine++;
+            this.lyricDist -= 25;
         },
         getEmotionKeywords: function() {
             var ret = "";
@@ -201,9 +204,6 @@ export default {
         handleSongLiked: function() {
             this.isLiked = !this.isLiked;
         }
-    },
-    mounted() {
-        this.lyricSetDefault();
     }
 }
 </script>
@@ -321,53 +321,81 @@ export default {
     margin-top: 36px;
 }
 .lyric-container .pre-1 {
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-family: 思源黑体;
     font-weight: 500;
-    font-size: 19px;
+    font-size: 21px;
     color: rgb(255, 255, 255, 0.3);
+    transition: 0.3s;
+    height: 50px;
 }
 .lyric-container .pre-2 {
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-family: 思源黑体;
     font-weight: 500;
     font-size: 19px;
     color: rgb(255, 255, 255, 0.5);
+    transition: 0.3s;
+    height: 50px;
 }
 .lyric-container .pre-3 {
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-family: 思源黑体;
     font-weight: 500;
-    font-size: 21px;
+    font-size: 19px;
     color: rgb(255, 255, 255, 0.6);
+    transition: 0.3s;
+    height: 50px;
 }
 .lyric-container .current {
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-family: 思源黑体;
     font-weight: 500;
     font-size: 25px;
     color: white;
+    transition: 0.3s;
+    height: 50px;
 }
 .lyric-container .forward-1 {
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-family: 思源黑体;
     font-weight: 500;
-    font-size: 19px;
+    font-size: 21px;
     color: rgb(255, 255, 255, 0.6);
+    transition: 0.3s;
+    height: 50px;
 }
 .lyric-container .forward-2 {
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-family: 思源黑体;
     font-weight: 500;
     font-size: 19px;
     color: rgb(255, 255, 255, 0.5);
+    transition: 0.3s;
+    height: 50px;
 }
 .lyric-container .forward-3 {
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-family: 思源黑体;
     font-weight: 500;
-    font-size: 21px;
+    font-size: 19px;
     color: rgb(255, 255, 255, 0.3);
+    transition: 0.3s;
+    height: 50px;
 }
 .tool-bar {
     margin-top: 20px;

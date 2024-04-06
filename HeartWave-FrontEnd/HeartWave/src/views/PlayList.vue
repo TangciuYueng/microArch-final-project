@@ -72,7 +72,8 @@
                     <hr>
                     <v-row dense class="mt-3 mb-3">
                         <v-col cols="3" v-for="user in userCollectedPlayList">
-                            <v-img cover aspect-ratio="1/1" max-width="50" height="50" :src="user.avatar" style="cursor: pointer;" @click="this.$emit('BrowsingPersonalHomepage')"></v-img>
+                            <v-img cover aspect-ratio="1/1" max-width="50" height="50" :src="user.avatar"
+                                style="cursor: pointer;" @click="this.$emit('BrowsingPersonalHomepage', user.id)"></v-img>
                         </v-col>
 
                     </v-row>
@@ -193,12 +194,12 @@ export default {
             snackbarText: "收藏成功",
             snackbarColor: "success",
             userCollectedPlayList: [
-                {id: 1, avatar: "https://cdn.vuetifyjs.com/images/parallax/material.jpg", username: 's+m' },
-                {id: 2, avatar: "https://cdn.vuetifyjs.com/images/parallax/material.jpg", username: 's+m' },
-                {id: 3, avatar: "https://cdn.vuetifyjs.com/images/parallax/material.jpg", username: 's+m' },
-                {id: 4, avatar: "https://cdn.vuetifyjs.com/images/parallax/material.jpg", username: 's+m' },
-                {id: 5, avatar: "https://cdn.vuetifyjs.com/images/parallax/material.jpg", username: 's+m' },
-                {id: 6, avatar: "https://cdn.vuetifyjs.com/images/parallax/material.jpg", username: 's+m' },
+                { id: 1, avatar: "https://cdn.vuetifyjs.com/images/parallax/material.jpg", username: 's+m' },
+                { id: 2, avatar: "https://cdn.vuetifyjs.com/images/parallax/material.jpg", username: 's+m' },
+                { id: 3, avatar: "https://cdn.vuetifyjs.com/images/parallax/material.jpg", username: 's+m' },
+                { id: 4, avatar: "https://cdn.vuetifyjs.com/images/parallax/material.jpg", username: 's+m' },
+                { id: 5, avatar: "https://cdn.vuetifyjs.com/images/parallax/material.jpg", username: 's+m' },
+                { id: 6, avatar: "https://cdn.vuetifyjs.com/images/parallax/material.jpg", username: 's+m' },
             ],
             playListsRecommended: [
                 { cover: "https://cdn.vuetifyjs.com/images/parallax/material.jpg", name: 'lonely Me', creator: "mvv" },
@@ -235,8 +236,14 @@ export default {
         cover: {
             type: String,
             default: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg',
+        },
+        playListId: {
+            default: 3,
         }
     },
+    mounted() {
+        console.log('id', this.playListId)
+    }
 };
 </script>
 
@@ -297,5 +304,4 @@ export default {
     text-decoration: underline;
     cursor: pointer;
 }
-
 </style>

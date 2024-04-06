@@ -65,6 +65,7 @@
             :avatarSrc="avatarSrc"
             :username="username"
             :ipLocation="ipLocation"
+            @BrowsingPersonalHomepage="preHandleBrowsingEvent"
           ></profile-card>
           <emotions-card class="mt-10"></emotions-card>
           <span class="text-title">您近一周的心情主基调为：</span>
@@ -174,9 +175,19 @@ export default {
     profileImgSrc: "https://cdn.vuetifyjs.com/images/cards/sunshine.jpg",
     avatarSrc: "https://cdn.vuetifyjs.com/images/profiles/marcus.jpg",
     username: "S+M",
+    userId: null,
     ipLocation: "New York",
+    
   }),
-  methods: {},
+  methods: {
+    preHandleBrowsingEvent(username){
+            // console.log(this.userId);
+            this.username = username;
+            console.log("username:" , this.username);
+            // 通过username找userId,待完成
+            this.$emit('BrowsingPersonalHomepage', this.userId);
+        },
+  },
 };
 </script>
 

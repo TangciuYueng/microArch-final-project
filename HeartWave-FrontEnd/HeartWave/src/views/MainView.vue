@@ -20,34 +20,29 @@
     <v-card>
         <v-layout>
             <!-- 显示主页 -->
-            <home-page v-if="page==1"></home-page>
+            <home-page v-if="page == 1" @BrowsingPersonalHomepage="handleBrowsingEvent"></home-page>
             <!-- 显示音乐广场 -->
-            <music-listen 
-                v-if="page==2" 
-                @searchEvent="handleSearchEvent" 
-                @playMusicEvent="handlePlayMusicEvent" 
-                @BrowsingPersonalHomepage="handleBrowsingEvent" 
-                @detialPlayListEvent="handleDetailPlayList"
-            ></music-listen>
+            <music-listen v-if="page == 2" @searchEvent="handleSearchEvent" @playMusicEvent="handlePlayMusicEvent"
+                @BrowsingPersonalHomepage="handleBrowsingEvent"
+                @detialPlayListEvent="handleDetailPlayList"></music-listen>
             <!-- 显示音乐室 -->
-            <music-room v-if="page==3"></music-room>
+            <music-room v-if="page == 3"></music-room>
             <!-- 显示随笔中心 -->
-            <diary v-if="page==4" @addDiaryEvent="handleAddDiary" @BrowsingPersonalHomepage="handleBrowsingEvent"></diary>
-            <music-search v-if="page==5"></music-search>
-            <add-diary v-if="page==6" @addDiaryEvent="handleAddDiarySuccessfully"></add-diary>
+            <diary v-if="page == 4" @addDiaryEvent="handleAddDiary" @BrowsingPersonalHomepage="handleBrowsingEvent">
+            </diary>
+            <music-search v-if="page == 5" @BrowsingPersonalHomepage="handleBrowsingEvent"
+                @detialPlayListEvent="handleDetailPlayList"></music-search>
+            <add-diary v-if="page == 6" @addDiaryEvent="handleAddDiarySuccessfully"></add-diary>
 
-            <img
-                v-if="page == 7"
-                :src="getImgSrc('../assets/retract.svg')"
-                class="retract-button"
-                @click="page = lastPage;"
-                title="getback">
+            <img v-if="page == 7" :src="getImgSrc('../assets/retract.svg')" class="retract-button"
+                @click="page = lastPage;" title="getback">
             <music-playing-view v-if="page == 7"></music-playing-view>
             <!-- 音乐播放器 -->
             <music-player @click="lastPage = (page == 7 ? lastPage : page); page = 7;"></music-player>
 
-            <personal-homepage v-if="page==8" ></personal-homepage>
-            <play-list v-if="page == 9" @BrowsingPersonalHomepage="handleBrowsingEvent"></play-list>
+            <personal-homepage v-if="page == 8" :userId="userId"></personal-homepage>
+            <play-list v-if="page == 9" @BrowsingPersonalHomepage="handleBrowsingEvent" :playListType="playListType"
+                :playListId="playListId"></play-list>
         </v-layout>
     </v-card>
 </template>
@@ -82,6 +77,9 @@ export default {
         userAccount: null,
         password: null,
         loading: false,
+        playListType: null,
+        playListId: 1,
+        userId: 1,
     }),
     methods: {
         navigateTo(routeName) {
@@ -111,12 +109,14 @@ export default {
             this.page = 6;
             console.log(this.page);
         },
-        getImgSrc: function(url) {
+        getImgSrc: function (url) {
             return new URL(url, import.meta.url).href;
         },
-        handleBrowsingEvent(username){
+        handleBrowsingEvent(userId) {
             this.page = 8;
             console.log(this.page)
+            // console.log(this.userId);
+            this.userId = userId;
         },
         handleAddDiarySuccessfully() {
             this.page = 4;
@@ -124,16 +124,30 @@ export default {
         },
         handlePlayMusicEvent() {
             this.page = 7;
+            // record last page for page back
+            this.lastPage = 2;
             console.log(this.page);
         },
-        handleDetailPlayList() {
+        handleDetailPlayList(value, id) {
             this.page = 9;
             console.log(this.page);
+            const valueMapper = {
+                'created': '创建歌单',
+                'favor': '关注歌单',
+                'admin': '管理歌单',
+                'recommend': '推荐歌单',
+                'download': '下载歌单',
+                'like': '收藏歌单',
+                'recent': '最近收听',
+            }
+            this.playListType = valueMapper[value];
+            this.playListId = id;
+            // console.log(this.playListType)
         }
     },
 };
 </script>
-  
+
 <style scoped>
 .retract-button {
     position: fixed;
@@ -145,6 +159,7 @@ export default {
     cursor: pointer;
     transition: 0.3s;
 }
+
 .retract-button:hover {
     opacity: 0.5;
 }
