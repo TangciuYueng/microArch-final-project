@@ -16,6 +16,7 @@
                             <v-card class="custom-card" rounded hover>
                                 <div class="left-side" rounded style="position: relative;">
                                     <v-row>
+                                        <!-- 需要求改为二维 向后端传四个 0-1 的值 -->
                                         <v-col cols="5">
                                             <v-img src="@/assets/imgs/ruler.svg" contain></v-img>
                                             <div class="tick" :style="{ top: tickerTop }">

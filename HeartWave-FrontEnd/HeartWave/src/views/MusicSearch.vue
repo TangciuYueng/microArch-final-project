@@ -68,7 +68,7 @@
                             <v-col cols="3" v-for="icon in profileIcons" style="text-align: center;">
                                 <v-icon color="red" size="40" style="cursor: pointer"
                                     @click="this.$emit('detialPlayListEvent', icon.value)">{{ icon.icon }}</v-icon>
-                                <div style="cursor: pointer;" @click="this.$emit('detialPlayListEvent', icon.value)">{{
+                                <div style="cursor: pointer;" @click="this.$emit('detialPlayListEvent', icon.value, userId)">{{
                                     icon.text }}</div>
                             </v-col>
                         </v-row>

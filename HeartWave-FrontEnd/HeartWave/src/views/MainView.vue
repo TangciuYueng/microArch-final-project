@@ -129,20 +129,24 @@ export default {
             console.log(this.page);
         },
         handleDetailPlayList(value, id) {
-            this.page = 9;
-            console.log(this.page);
-            const valueMapper = {
-                'created': '创建歌单',
-                'favor': '关注歌单',
-                'admin': '管理歌单',
-                'recommend': '推荐歌单',
-                'download': '下载歌单',
-                'like': '收藏歌单',
-                'recent': '最近收听',
+            if (value == 'favor') {
+                // 跳转去关注的人的列表
+                this.page = 110;
+            } else {
+                this.page = 9;
+                console.log(this.page);
+                const valueMapper = {
+                    'created': '创建歌单',
+                    'admin': '管理歌单',
+                    'recommend': '推荐歌单',
+                    'download': '下载歌单',
+                    'like': '收藏歌单',
+                    'recent': '最近收听',
+                }
+                this.playListType = valueMapper[value];
+                this.playListId = id;
+                // console.log(this.playListType)
             }
-            this.playListType = valueMapper[value];
-            this.playListId = id;
-            // console.log(this.playListType)
         }
     },
 };
