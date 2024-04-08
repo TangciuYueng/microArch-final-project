@@ -90,7 +90,8 @@
                                 </v-card-title>
                                 <v-row style="padding: 15px;">
                                     <v-col cols="2" v-for="item in musics">
-                                        <v-card hover class="mt-5" @click="this.$emit('detialPlayListEvent', 'recommend')">
+                                        <v-card hover class="mt-5"
+                                            @click="this.$emit('detialPlayListEvent', 'recommend')">
                                             <v-img :src="item.src" class="align-end"
                                                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="140px"
                                                 cover>
@@ -180,9 +181,16 @@
                     <v-card class="mt-10" style="background-color: rgba(255, 255, 255, 0.5); padding: 5%;">
                         <v-row dense>
                             <v-col cols="3" v-for="icon in profileIcons" style="text-align: center;">
-                                <v-icon color="red" size="40" style="cursor: pointer;"
-                                    @click="this.$emit('detialPlayListEvent', icon.value)">{{ icon.icon }}</v-icon>
-                                <div style="cursor: pointer;" @click="this.$emit('detialPlayListEvent', icon.value)">{{ icon.text }}
+                                <div v-if="icon.value !== 'favor'"
+                                    @click="this.$emit('detialPlayListEvent', icon.value)">
+                                    <v-icon color="red" size="40" style="cursor: pointer;">{{ icon.icon }}</v-icon>
+                                    <div style="cursor: pointer;">{{ icon.text }}
+                                    </div>
+                                </div>
+                                <div v-else @click="favorDialog = true">
+                                    <v-icon color="red" size="40" style="cursor: pointer;">{{ icon.icon }}</v-icon>
+                                    <div style="cursor: pointer;">{{ icon.text }}
+                                    </div>
                                 </div>
                             </v-col>
                         </v-row>
@@ -228,6 +236,23 @@
                 </v-col>
             </v-row>
         </v-container>
+        <v-dialog v-model="favorDialog" max-width="800">
+            <v-card>
+                <v-card-title>关心好友</v-card-title>
+                <v-card-text>
+                    <v-data-table :items="friends" :items-per-page="5" class="elevation-1">
+                        <template v-slot:item.avatar="{ item }">
+                            <v-avatar size="32">
+                                <img :src="item.avatar" />
+                            </v-avatar>
+                        </template>
+                        <template v-slot:item.mood="{ item }">
+                            {{ item.mood }}
+                        </template>
+                    </v-data-table>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
     </v-app>
 </template>
 
@@ -264,7 +289,7 @@ export default {
         profileIcons: [
             { icon: 'mdi-download', text: '本地/下载', value: 'download' },
             { icon: 'mdi-account', text: '关注', value: 'favor' },
-            { icon: 'mdi-heart', text: '我喜欢', value: 'like'},
+            { icon: 'mdi-heart', text: '我喜欢', value: 'like' },
             { icon: 'mdi-radio', text: '最近收听', value: 'recent' },
         ],
         selfCreatedMusicList: [
@@ -285,6 +310,14 @@ export default {
         friendNum: 24,
         emotionValue: 78,
         visitorNum: 234,
+
+        favorDialog: false,
+        
+        friends: [
+            { avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Alice', emotionValue: '😊' },
+            { avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            // 添加更多好友数据
+        ],
     }),
     methods: {
         searchEvent() {
