@@ -11,6 +11,7 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class LoginServiceImpl implements LoginService {
@@ -20,11 +21,11 @@ public class LoginServiceImpl implements LoginService {
     private UserMapper userMapper;
 
     @Override
-    public User checkUserLogin(UserLoginRequest userLoginRequest) {
+    public User checkUserLogin(String phone, String name, String password) {
         try {
-            List<User> users = userMapper.getByPhone(userLoginRequest.getPhone());
+            List<User> users = userMapper.getByPhone(phone);
 
-            if (encryptService.passwordCmp(users.get(0).getPassword(), userLoginRequest.getPassword()))
+            if (Objects.equals(users.get(0).getName(), name) && encryptService.passwordCmp(users.get(0).getPassword(), password))
                 return users.get(0);
             else
                 return null;

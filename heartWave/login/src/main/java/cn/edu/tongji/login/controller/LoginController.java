@@ -1,6 +1,5 @@
 package cn.edu.tongji.login.controller;
 
-import cn.edu.tongji.login.dto.UserLoginRequest;
 import cn.edu.tongji.login.dto.VerifyInfo;
 import cn.edu.tongji.login.model.User;
 import cn.edu.tongji.login.service.LoginService;
@@ -16,10 +15,14 @@ public class LoginController {
     @Resource
     private LoginService loginService;
 
+    /*已使用*/
     @GetMapping("/user")
-    public ResponseEntity<?> userLogin(@RequestBody UserLoginRequest userLoginRequest) {
+    public ResponseEntity<?> userLogin(
+            @RequestParam("phone") String phone,
+            @RequestParam("name") String name,
+            @RequestParam("password") String password) {
         try {
-            User user = loginService.checkUserLogin(userLoginRequest);
+            User user = loginService.checkUserLogin(phone, name, password);
 
             if (user != null)
                 return new ResponseEntity<>(user, HttpStatus.OK);
@@ -31,6 +34,7 @@ public class LoginController {
         }
     }
 
+    /*已使用*/
     @GetMapping("/verify-info")
     public ResponseEntity<?> getVerifyInfo() {
         try {

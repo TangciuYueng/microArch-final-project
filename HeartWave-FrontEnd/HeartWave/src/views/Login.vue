@@ -7,13 +7,20 @@
             <v-card class="mx-auto px-6 py-8 login-card" max-width="400">
                 <!-- 使用了 @submit.prevent 监听表单的提交事件，并调用 onSubmit 方法进行处理。.prevent 修饰符阻止了表单的默认提交行为，从而可以使用自定义的提交方法进行处理。 -->
                 <v-form v-model="form" @submit.prevent="onSubmit">
+                    <!-- 输入手机号 -->
+                    <v-text-field v-model="phone" :readonly="loading" :rules="[required]" clearable
+                        label="Phone" prepend-icon="mdi-phone"></v-text-field>
                     <!-- 输入账号 -->
                     <v-text-field v-model="userAccount" :readonly="loading" :rules="[required]" class="mb-2" clearable
                         label="Account" prepend-icon="mdi-account"></v-text-field>
                     <!-- 输入密码 -->
                     <v-text-field v-model="password" :readonly="loading" :rules="[required]" clearable label="Password"
                         placeholder="Enter your password" prepend-icon="mdi-lock" type="password"></v-text-field>
-
+                    <!-- 输入验证码 -->
+                    <v-text-field v-model="verifyCode" :readonly="loading" :rules="[required]" clearable
+                        label="VerifyCode" prepend-icon="mdi-image-check"></v-text-field>
+                    <img :src="verifyInfo.img" alt="verify image missing" class="verify-image">
+                        
                     <br>
                     <v-container>
                         <v-row justify="center">
@@ -33,6 +40,8 @@
                             </v-btn>
                         </v-row>
                     </v-container>
+
+                    <v-btn @click="this.$router.push('/main-view')"> 系统入口 </v-btn>
                 </v-form>
             </v-card>
         </div>
@@ -41,16 +50,21 @@
   
 <script>
 // import HelloWorld from '@/components/HelloWorld.vue'
-import {
-    mdiAccount,
-} from '@mdi/js'
+import { mdiAccount, } from '@mdi/js'
+import { login, getVerifyInfo } from '../axios/login.js'
 export default {
     data: () => ({
         mdiAccount,
 
         form: false,
+        phone: null,
         userAccount: null,
         password: null,
+        verifyCode: null,
+        verifyInfo: {
+            code: "",
+            img: ""
+        },
         loading: false,
     }),
     methods: {
@@ -72,14 +86,29 @@ export default {
             if (!this.form) return
 
             //执行登录逻辑，成功后重定向到主页
-            this.loading = true
-            console.log(this.userAccount)
-            console.log(this.password)
-            setTimeout(() => {
-                this.loading = false
-                //重定向到主页
-                this.$router.push('/main-view')
-            }, 2000)
+            //this.loading = true
+
+            //检查验证码是否正确
+            if (this.verifyCode != this.verifyInfo.code) {
+                console.log("验证码不正确！")
+                return;
+            }
+
+            login({
+                name: this.userAccount,
+                password: this.password,
+                phone: this.phone
+            }).then((res) => {
+                console.log(res);
+            }, (err) => {
+                console.log(err);
+            });
+
+            // setTimeout(() => {
+            //     this.loading = false
+            //     //重定向到主页
+            //     this.$router.push('/main-view')
+            // }, 2000)
         },
         //处理注册逻辑
         registerHandler() {
@@ -93,10 +122,19 @@ export default {
 
         },
     },
+    mounted() {
+        getVerifyInfo().then((res) => {
+            console.log(res);
+            this.verifyInfo.code = res.token;
+            this.verifyInfo.img = res.image;
+        }, (err) => {
+            console.log(err);
+        });
+    }
 }
 </script>
 
-<style>
+<style scoped>
 .Screen {
     position: relative;
     width: 100%;
@@ -116,7 +154,7 @@ export default {
 .login {
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: 35%;
     width: 400px;
     margin: -190px 0 0 -175px;
     border-radius: 5px;
@@ -133,5 +171,12 @@ export default {
 
 .login-card {
     margin: 30px;
+}
+.verify-image {
+    margin-left: 24%;
+    margin-bottom: 10px;
+    width: 200px;
+    height: 100px;
+    border-radius: 10px;
 }
 </style>

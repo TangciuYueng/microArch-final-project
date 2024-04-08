@@ -16,8 +16,8 @@
     </select>
 
     <insert id="add" parameterType="user" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO user(name, password, email, age, region, avatar, phone, gender)
-        VALUES (#{name}, #{password}, #{email}, #{age}, #{region}, #{avatar}, #{phone}, #{gender})
+        INSERT INTO user(name, password, email, create_time, age, region, avatar, phone, gender)
+        VALUES (#{name}, #{password}, #{email}, #{createTime}, #{age}, #{region}, #{avatar}, #{phone}, #{gender})
     </insert>
 
     <update id="update" parameterType="user">
