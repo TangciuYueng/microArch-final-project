@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: diary-writing-service
+  cloud:
+    nacos:
+      server-addr: 120.26.0.232:8848  # nacos地址
+      config:
+        file-extension: yaml            # 文件后缀
+        namespace: 2023                 # 命名空间ID
+        group: DEFAULT_GROUP            # 群组名称（自己设定，将服务进行逻辑分组）
+        username: nacos                 # 用户名
+        password: microArch2023         # 密码
+        shared-configs:
+          - data-id: shared-nacos-discover.yaml
+#          - data-id: shared-mysql.yaml
+          - data-id: shared-management.yaml
