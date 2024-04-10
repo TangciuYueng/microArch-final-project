@@ -27,4 +27,9 @@ public class MusicServiceImpl implements MusicService {
     public Page<Music> findAllByPage(PageRequest pageRequest) {
         return musicRepository.findAll(pageRequest);
     }
+
+    @Override
+    public Page<Music> findMusicByTitle(PageRequest pageRequest, String title) {
+        return musicRepository.findByTitleContaining(pageRequest, title);
+    }
 }

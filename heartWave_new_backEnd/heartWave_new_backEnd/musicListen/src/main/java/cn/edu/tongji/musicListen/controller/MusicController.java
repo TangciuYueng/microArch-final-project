@@ -74,4 +74,30 @@ public class MusicController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);
         }
     }
+
+    @GetMapping("/title")
+    public ResponseEntity<Result<?>> searchMusicByTitle(@RequestParam String title,
+                                                           @RequestParam(defaultValue = "0") int page,
+                                                           @RequestParam(defaultValue = "15") int size) {
+        Result<Page<Music>> result;
+        try {
+            if (page < 0 || size <= 0) {
+                throw new IllegalArgumentException("Invalid page or size parameters");
+            }
+
+            PageRequest pageRequest;
+            pageRequest = PageRequest.of(page, size);
+            Page<Music> musicPage = musicService.findMusicByTitle(pageRequest, title);
+
+            result = new Result<>(200, "Success", musicPage);
+            return ResponseEntity.ok(result);
+        } catch (IllegalArgumentException e) {
+            result = new Result<>(400, "Bad Request", null);
+            return ResponseEntity.badRequest().body(result);
+        } catch (Exception e) {
+            logger.error("Failed to get music", e);
+            result = new Result<>(500, "Internal Server Error", null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);
+        }
+    }
 }

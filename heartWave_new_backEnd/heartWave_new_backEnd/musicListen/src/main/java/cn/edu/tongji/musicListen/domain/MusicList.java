@@ -16,19 +16,37 @@ import java.util.List;
 public class MusicList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
+
+    @Column(name = "name")
     private String name;
-    private String type; //  歌单类型，如：normal, like, dislike, listenRecord, singRecord, recommend, created, admin, download, album专辑
+
+    @Column(name = "type")
+    private String type; // 歌单类型，如：normal, like, dislike, listenRecord, singRecord, recommend, created, admin, download, album专辑
+
     @Column(name = "create_date")
     private LocalDate createDate; // 创建日期
-    private String description; // 歌单描述
-    private String src; // 封面图片源
-    private Integer playCount; // 播放次数
+
+    // 歌单描述
+    @Column(name = "description")
+    private String description;
+
+    // 封面图片源
+    @Column(name = "src")
+    private String src;
+
+    // 播放次数
+    @Column(name = "play_count")
+    private Integer playCount;
+
     @Column(name = "is_deleted")
     private Boolean isDeleted; // 标记是否被删除
+
     @Column(name = "is_opened")
     private Boolean isOpened; // 标记是否公开（个人主页）
 
     @OneToMany(mappedBy = "musicList", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TrackEntry> entries; // 歌单中的音乐列表条目
 }
+
