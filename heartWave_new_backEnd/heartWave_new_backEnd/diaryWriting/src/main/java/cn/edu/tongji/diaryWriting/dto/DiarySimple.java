@@ -5,14 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class DiarySimple {
     private Integer id;
-    private String createDate;
-    private String updateTime;
+    private LocalDate createDate;
+    private LocalDate updateTime;
     private Integer currentStatus;
     private String title;
     private String cover;

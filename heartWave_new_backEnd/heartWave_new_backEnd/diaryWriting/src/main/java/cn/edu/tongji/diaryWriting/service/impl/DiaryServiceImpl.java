@@ -31,6 +31,8 @@ public class DiaryServiceImpl implements DiaryService {
         return DiarySimple.builder()
                 .id(diary.getId())
                 .currentStatus(diary.getCurrentStatus())
+                .createDate(diary.getCreateDate())
+                .updateTime(diary.getUpdateTime())
                 .title(diary.getTitle())
                 .cover(diary.getCover())
                 .permission(diary.getPermission())
