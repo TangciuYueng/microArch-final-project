@@ -18,11 +18,12 @@
                                 type="file"
                                 ref="fileInput"
                                 style="display: none;"
+                                @input="laybackCheck"
                                 @change="handleFileChange"
                             >
                             <v-btn
                                 v-if="avatar == ''"
-                                @click="openFilePicker(); checkRegisterInput()"
+                                @click="openFilePicker();"
                                 class="avatar-button"
                                 height="160">
                                 选择头像
@@ -56,6 +57,7 @@
                                     variant="outlined"
                                     density="compact"
                                     color="#105645"
+                                    size="40"
                                     :rules="[required]"
                                     @input="checkRegisterInput()">
                                 </v-text-field>
@@ -205,7 +207,7 @@ export default {
         avatar: "",
         username: "",
         phone: "",
-        smsInfo: "123456",
+        smsInfo: "",
         smsCode: "",
         password: "",
         passwordCertain: "",
@@ -285,6 +287,9 @@ export default {
 
             this.inputErrorInfo = "";
             this.inputPass = true;
+        },
+        laybackCheck: function() {
+            setTimeout(this.checkRegisterInput, 100);
         },
         //用户填完所有的表单项目，进行注册提交
         submitRegisterForm() {
@@ -417,5 +422,10 @@ export default {
     color: white;
     font-size: 20px;
     font-weight: 300;
+}
+:deep(.v-field__input) {
+    margin-top: 4px;
+    font-size: 20px;
+    color: #105645;
 }
 </style>

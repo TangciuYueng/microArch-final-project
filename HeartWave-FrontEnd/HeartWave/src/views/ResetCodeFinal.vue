@@ -158,7 +158,7 @@ export default {
                 setTimeout(() => {
                     this.loading = false;
                     this.$router.push('/');
-                }, 2000);
+                }, 5000);
             }, err => {
                 this.resetSuccess = false;
                 console.log(err);

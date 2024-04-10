@@ -9,17 +9,17 @@
                 <v-form v-model="form" @submit.prevent="onSubmit">
                     <!-- 输入手机号 -->
                     <v-text-field v-model="phone" :readonly="loading" :rules="[required]" clearable
-                        label="Phone" prepend-icon="mdi-phone"></v-text-field>
+                        label="Phone" prepend-icon="mdi-phone" color="#105645"></v-text-field>
                     <!-- 输入账号 -->
                     <v-text-field v-model="userAccount" :readonly="loading" :rules="[required]" class="mb-2" clearable
-                        label="Account" prepend-icon="mdi-account"></v-text-field>
+                        label="Account" prepend-icon="mdi-account" color="#105645"></v-text-field>
                     <!-- 输入密码 -->
                     <v-text-field v-model="password" :readonly="loading" :rules="[required]" clearable label="Password"
-                        placeholder="Enter your password" prepend-icon="mdi-lock" type="password"></v-text-field>
+                        placeholder="Enter your password" prepend-icon="mdi-lock" type="password" color="#105645"></v-text-field>
                     <!-- 输入验证码 -->
                     <v-text-field v-model="verifyCode" :readonly="loading" :rules="[required]" clearable
-                        label="VerifyCode" prepend-icon="mdi-image-check"></v-text-field>
-                    <img :src="verifyInfo.img" alt="verify image missing" class="verify-image">
+                        label="VerifyCode" prepend-icon="mdi-image-check" color="#105645"></v-text-field>
+                    <img :src="verifyInfo.img" alt="verify image missing" class="verify-image" @click="fetchVerifyInfo">
                         
                     <br>
                     <v-container>
@@ -62,12 +62,30 @@ export default {
         password: null,
         verifyCode: null,
         verifyInfo: {
-            code: "",
+            code: "ABCD",
             img: ""
         },
         loading: false,
+        canFetchNewInfo: true,
     }),
     methods: {
+        fetchVerifyInfo: function() {
+            if (!this.canFetchNewInfo)
+                return;
+
+            getVerifyInfo().then(res => {
+                console.log(res);
+                this.verifyInfo.code = res.token;
+                this.verifyInfo.img = "data:image/jpg;base64," + res.image;
+                this.canFetchNewInfo = false;
+
+                setTimeout(() => {
+                    this.canFetchNewInfo = true;
+                }, 5000);
+            }, err => {
+                console.log(err);
+            });
+        },
         onSubmit() {
             //表单不合法，不提交
             if (!this.form) return
@@ -89,7 +107,7 @@ export default {
             //this.loading = true
 
             //检查验证码是否正确
-            if (this.verifyCode != this.verifyInfo.code) {
+            if (this.verifyCode.toUpperCase() != this.verifyInfo.code.toUpperCase()) {
                 console.log("验证码不正确！")
                 return;
             }
@@ -123,13 +141,7 @@ export default {
         },
     },
     mounted() {
-        getVerifyInfo().then((res) => {
-            console.log(res);
-            this.verifyInfo.code = res.token;
-            this.verifyInfo.img = res.image;
-        }, (err) => {
-            console.log(err);
-        });
+        this.fetchVerifyInfo();
     }
 }
 </script>
@@ -178,5 +190,6 @@ export default {
     width: 200px;
     height: 100px;
     border-radius: 10px;
+    cursor: pointer;
 }
 </style>
