@@ -26,7 +26,7 @@ loginInstance.interceptors.response.use(
 );
 
 export function login(params) {
-    return loginInstance.get("/login/user", {
+    return loginInstance.get("/login", {
         params: params
     });
 }

@@ -15,3 +15,4 @@ spring:
           - data-id: shared-mysql.yaml
           - data-id: shared-management.yaml
           - data-id: shared-redis.yaml
+          - data-id: shared-jpa.yaml
