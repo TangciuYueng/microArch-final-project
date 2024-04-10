@@ -38,12 +38,8 @@ public class MusicController {
                 return ResponseEntity.badRequest().body(new Result<>(400, "ID必须大于0", null));
             }
             Optional<Music> optionalMusic = musicService.getMusicById(id);
-            if (optionalMusic.isPresent()) {
-                return ResponseEntity.ok(new Result<>(200, "成功", optionalMusic.get()));
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(new Result<>(404, "未找到ID为 " + id + " 的音乐", null));
-            }
+            return optionalMusic.<ResponseEntity<Result<?>>>map(music -> ResponseEntity.ok(new Result<>(200, "成功", music))).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new Result<>(404, "未找到ID为 " + id + " 的音乐", null)));
         } catch (Exception e) {
             logger.error("获取音乐失败，ID：" + id, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Result<>(500, "获取音乐信息失败", null));
