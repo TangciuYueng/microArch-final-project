@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -42,6 +44,7 @@ public class MusicListController {
     @GetMapping("/{type}/{limited}")
     public ResponseEntity<Result<?>> getMusicList(@PathVariable("type") String type,
                                                   @PathVariable("limited") Boolean limited,
+                                                  @RequestParam(defaultValue = "-1") Integer userId,
                                                   @RequestParam(defaultValue = "0") int page,
                                                   @RequestParam(defaultValue = "3") int size) {
         Result<Page<MusicListSimple>> result;
@@ -57,7 +60,7 @@ public class MusicListController {
             } else {
                 pageRequest = PageRequest.of(page, size);
             }
-            Page<MusicListSimple> musicListSimplePage = musicListService.findMusicListSimple(pageRequest, type);
+            Page<MusicListSimple> musicListSimplePage = musicListService.findMusicListSimple(pageRequest, type, userId);
 
             result = new Result<>(200, "Success", musicListSimplePage);
             return ResponseEntity.ok(result);
@@ -95,5 +98,30 @@ public class MusicListController {
             result = new Result<>(500, "Internal Server Error", null);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);
         }
+    }
+
+    @PostMapping
+    public ResponseEntity<Result<String>> addMusicListToUser(@RequestParam Integer musicListId,
+                                                             @RequestParam Integer userId,
+                                                             @RequestParam String type) {
+        try {
+            if (!isValidType(type)) {
+                return ResponseEntity.badRequest().body(new Result<>(400, "Bad Request", "Invalid 'type' parameter."));
+            }
+
+            musicListService.addMusicListToUser(musicListId, userId, type);
+
+            Result<String> result = new Result<>(200, "Success", "MusicList added to user successfully!");
+            return ResponseEntity.ok(result);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new Result<>(400, "Bad Request", "Bad request: " + e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Result<>(500, "Internal Server Error", "Failed to add MusicList to user: " + e.getMessage()));
+        }
+    }
+
+    private boolean isValidType(String type) {
+        List<String> validTypes = Arrays.asList("normal", "like", "dislike", "listenRecord", "singRecord", "recommend", "created", "admin", "download", "album");
+        return validTypes.contains(type);
     }
 }

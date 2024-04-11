@@ -48,5 +48,7 @@ public class MusicList {
 
     @OneToMany(mappedBy = "musicList", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TrackEntry> entries; // 歌单中的音乐列表条目
-}
 
+    @OneToMany(mappedBy = "musicList", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MusicListUserRelationship> musicListUserRelationshipList;
+}

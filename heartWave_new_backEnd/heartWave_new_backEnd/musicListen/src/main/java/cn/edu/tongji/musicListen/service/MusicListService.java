@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public interface MusicListService {
     Optional<MusicList> getMusicListById(Integer id);
-    Page<MusicListSimple> findMusicListSimple(PageRequest pageRequest, String type);
+    Page<MusicListSimple> findMusicListSimple(PageRequest pageRequest, String type, Integer userId);
     Page<MusicListMedium> findMusicListByName(PageRequest pageRequest, String name);
+    void addMusicListToUser(Integer musicListId, Integer userId, String type);
 }
