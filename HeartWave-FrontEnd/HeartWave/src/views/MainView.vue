@@ -3,8 +3,7 @@
     <v-navigation-drawer expand-on-hover rail color="#F4FFFC">
         <!-- 头像 -->
         <v-list>
-            <v-list-item prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg" title="Sandra Adams"
-                subtitle="sandra_a88@gmailcom"></v-list-item>
+            <v-list-item :prepend-avatar="'data:image/jpg;base64,' + userAvatar" :title="username" :subtitle="userEmail"></v-list-item>
         </v-list>
 
         <v-divider></v-divider>
@@ -84,12 +83,13 @@ export default {
     data: () => ({
         page: 1,
         lastPage: 1,
-        userAccount: null,
-        password: null,
+        username: null,
+        userId: 1,
+        userAvatar: "",
+        userEmail: "",
         loading: false,
         playListType: null,
         playListId: 1,
-        userId: 1,
     }),
     methods: {
         navigateTo(routeName) {
@@ -162,6 +162,12 @@ export default {
             }
         }
     },
+    mounted() {
+        this.userId = parseInt(localStorage.getItem("userId"));
+        this.username = localStorage.getItem("username");
+        this.userAvatar = localStorage.getItem("userAvatar");
+        this.userEmail = localStorage.getItem("userEmail");
+    }
 };
 </script>
 
