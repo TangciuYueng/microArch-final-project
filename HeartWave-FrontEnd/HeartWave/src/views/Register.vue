@@ -12,7 +12,7 @@
                 <v-form v-if="!registerSuccess" v-model="form" @submit.prevent="onSubmit">
                     <!-- 左边那一块表单，包括校区，姓名，学号等 -->
                     <v-container style="position:relative;left:200px;top:170px;margin-left: 48px;">
-                        <!-- 选择校区 -->
+                        <!-- 选择头像 -->
                         <v-row justify="start">
                             <input
                                 type="file"
@@ -36,6 +36,7 @@
                                 class="avatar-img"
                             >
                             <v-col>
+                                <!-- 设置用户名 -->
                                 <v-text-field
                                     v-model="username"
                                     style="margin-left: 20px; max-width: 30%; height: 85px;"
@@ -48,6 +49,7 @@
                                     :rules="[required]"
                                     @input="checkRegisterInput()">
                                 </v-text-field>
+                                <!-- 电话号码 -->
                                 <v-text-field
                                     v-model="phone"
                                     style="margin-left: 20px; max-width: 30%; height: 85px;"
@@ -63,7 +65,7 @@
                                 </v-text-field>
                             </v-col>
                         </v-row>
-                        <!-- 输入姓名和学号 -->
+                        <!-- 输入验证码 -->
                         <v-row justify="start">
                             <v-text-field
                                 v-model="smsCode"
@@ -79,7 +81,7 @@
                             </v-text-field>
                             <v-btn class="sms-button" width="150" height="49" @click="getSmsCode(phone)"> 获取验证码 </v-btn>
                         </v-row>
-                        <!-- 输入性别 -->
+                        <!-- 输入密码 -->
                         <v-row justify="start">
                             <v-text-field
                                 v-model="password"
@@ -115,7 +117,7 @@
                                 v-model="email"
                                 style="max-width: 25.5%; height: 80px;"
                                 label="邮箱"
-                                placeholder="请输入密码"
+                                placeholder="请输入邮箱"
                                 prepend-inner-icon="mdi-email"
                                 variant="outlined"
                                 density="compact"

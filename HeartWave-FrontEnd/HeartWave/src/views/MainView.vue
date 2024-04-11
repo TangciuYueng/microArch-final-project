@@ -14,7 +14,7 @@
             <v-list-item @click="navigateTo('音乐广场')" prepend-icon="mdi-music" title="音 乐 广 场" value="2"></v-list-item>
             <v-list-item @click="navigateTo('音乐室')" prepend-icon="mdi-chat" title="音 乐 室" value="3"></v-list-item>
             <v-list-item @click="navigateTo('随笔中心')" prepend-icon="mdi-pen" title="随 笔 中 心" value="4"></v-list-item>
-            <v-list-item @click="navigateTo('设置')" prepend-icon="mdi-cog" title="设 置" value="10"></v-list-item>
+            <v-list-item @click="navigateTo('设置')" prepend-icon="mdi-cog" title="个 人 设 置" value="10"></v-list-item>
         </v-list>
 
 
