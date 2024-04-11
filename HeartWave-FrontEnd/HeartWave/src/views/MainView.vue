@@ -14,7 +14,10 @@
             <v-list-item @click="navigateTo('音乐广场')" prepend-icon="mdi-music" title="音 乐 广 场" value="2"></v-list-item>
             <v-list-item @click="navigateTo('音乐室')" prepend-icon="mdi-chat" title="音 乐 室" value="3"></v-list-item>
             <v-list-item @click="navigateTo('随笔中心')" prepend-icon="mdi-pen" title="随 笔 中 心" value="4"></v-list-item>
+            <v-list-item @click="navigateTo('设置')" prepend-icon="mdi-cog" title="设 置" value="10"></v-list-item>
         </v-list>
+
+
     </v-navigation-drawer>
 
     <v-card>
@@ -30,6 +33,11 @@
             <!-- 显示随笔中心 -->
             <diary v-if="page == 4" @addDiaryEvent="handleAddDiary" @BrowsingPersonalHomepage="handleBrowsingEvent">
             </diary>
+            <!-- 显示随笔中心 -->
+            <setting v-if="page == 10"  @BrowsingPersonalHomepage="handleBrowsingEvent">
+            </setting>
+
+
             <music-search v-if="page == 5" @BrowsingPersonalHomepage="handleBrowsingEvent"
                 @detialPlayListEvent="handleDetailPlayList"></music-search>
             <add-diary v-if="page == 6" @addDiaryEvent="handleAddDiarySuccessfully"></add-diary>
@@ -57,6 +65,7 @@ import AddDiary from '@/views/AddDiary.vue'
 import MusicPlayingView from './MusicPlayingView.vue'
 import PersonalHomepage from './PersonalHomepage.vue'
 import PlayList from '@/views/PlayList.vue'
+import setting from '@/views/Settings.vue'
 export default {
     //导出组件
     components: {
@@ -70,6 +79,7 @@ export default {
         MusicPlayingView,
         PersonalHomepage,
         PlayList,
+        setting
     },
     data: () => ({
         page: 1,
@@ -96,6 +106,9 @@ export default {
                     break;
                 case '随笔中心':
                     this.page = 4;
+                    break;
+                case '设置':
+                    this.page = 10;
                     break;
                 // 添加其他路由的处理
             }
