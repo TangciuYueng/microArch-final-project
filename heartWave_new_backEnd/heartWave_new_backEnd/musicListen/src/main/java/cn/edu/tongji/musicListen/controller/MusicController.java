@@ -27,9 +27,10 @@ public class MusicController {
     }
 
     /**
-     * @return Music
-     * @功能描述：根据id查询 music
-     * @author TangciuYueng
+     * 根据音乐ID获取音乐信息
+     *
+     * @param id 音乐ID
+     * @return 包含音乐信息的 ResponseEntity
      */
     @GetMapping("/{id}")
     public ResponseEntity<Result<?>> getMusicById(@PathVariable("id") Integer id) {
@@ -46,6 +47,13 @@ public class MusicController {
         }
     }
 
+    /**
+     * 获取所有音乐信息
+     *
+     * @param page 分页页码
+     * @param size 每页大小
+     * @return 包含音乐分页信息的 ResponseEntity
+     */
     @GetMapping
     public ResponseEntity<Result<Page<Music>>> getAllMusics(@RequestParam(defaultValue = "0") int page,
                                                             @RequestParam(defaultValue = "10") int size) {
@@ -71,10 +79,18 @@ public class MusicController {
         }
     }
 
+    /**
+     * 根据标题模糊搜索音乐信息
+     *
+     * @param title 标题关键词
+     * @param page  分页页码
+     * @param size  每页大小
+     * @return 包含搜索结果的 ResponseEntity
+     */
     @GetMapping("/title")
     public ResponseEntity<Result<?>> searchMusicByTitle(@RequestParam String title,
-                                                           @RequestParam(defaultValue = "0") int page,
-                                                           @RequestParam(defaultValue = "15") int size) {
+                                                        @RequestParam(defaultValue = "0") int page,
+                                                        @RequestParam(defaultValue = "15") int size) {
         Result<Page<Music>> result;
         try {
             if (page < 0 || size <= 0) {

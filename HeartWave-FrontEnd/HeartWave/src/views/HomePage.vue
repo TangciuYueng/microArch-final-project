@@ -62,7 +62,7 @@
           <!-- 这里放置第二列的内容 -->
           <profile-card
             :profileImgSrc="profileImgSrc"
-            :avatarSrc="avatarSrc"
+            :avatarSrc="'data:image/jpg;base64,' + avatarSrc"
             :username="username"
             :ipLocation="ipLocation"
             @BrowsingPersonalHomepage="preHandleBrowsingEvent"
@@ -173,8 +173,8 @@ export default {
       },
     ],
     profileImgSrc: "https://cdn.vuetifyjs.com/images/cards/sunshine.jpg",
-    avatarSrc: "https://cdn.vuetifyjs.com/images/profiles/marcus.jpg",
-    username: "S+M",
+    avatarSrc: "",
+    username: "",
     userId: null,
     ipLocation: "New York",
     
@@ -188,6 +188,11 @@ export default {
             this.$emit('BrowsingPersonalHomepage', this.userId);
         },
   },
+  mounted() {
+    this.avatarSrc = localStorage.getItem("userAvatar");
+    this.userId = localStorage.getItem("userId");
+    this.username = localStorage.getItem("username");
+  }
 };
 </script>
 

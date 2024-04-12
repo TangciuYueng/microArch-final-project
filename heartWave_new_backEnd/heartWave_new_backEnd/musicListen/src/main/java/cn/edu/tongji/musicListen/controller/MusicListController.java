@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -23,6 +25,12 @@ public class MusicListController {
     @Autowired
     private MusicListService musicListService;
 
+    /**
+     * 根据音乐列表ID获取音乐列表所有信息
+     *
+     * @param id 音乐列表ID
+     * @return 包含音乐列表信息的响应实体
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Result<?>> getMusicListById(@PathVariable("id") Integer id) {
         try {
@@ -39,9 +47,20 @@ public class MusicListController {
         }
     }
 
+    /**
+     * 获取多个音乐列表的简单信息
+     *
+     * @param type    音乐列表类型
+     * @param limited 是否限制数量
+     * @param userId  用户ID
+     * @param page    分页页码
+     * @param size    每页大小
+     * @return 包含音乐列表的响应实体
+     */
     @GetMapping("/{type}/{limited}")
     public ResponseEntity<Result<?>> getMusicList(@PathVariable("type") String type,
                                                   @PathVariable("limited") Boolean limited,
+                                                  @RequestParam(defaultValue = "-1") Integer userId,
                                                   @RequestParam(defaultValue = "0") int page,
                                                   @RequestParam(defaultValue = "3") int size) {
         Result<Page<MusicListSimple>> result;
@@ -57,7 +76,7 @@ public class MusicListController {
             } else {
                 pageRequest = PageRequest.of(page, size);
             }
-            Page<MusicListSimple> musicListSimplePage = musicListService.findMusicListSimple(pageRequest, type);
+            Page<MusicListSimple> musicListSimplePage = musicListService.findMusicListSimple(pageRequest, type, userId);
 
             result = new Result<>(200, "Success", musicListSimplePage);
             return ResponseEntity.ok(result);
@@ -71,6 +90,14 @@ public class MusicListController {
         }
     }
 
+    /**
+     * 根据名称模糊搜索音乐列表较多信息
+     *
+     * @param name 音乐列表名称
+     * @param page 分页页码
+     * @param size 每页大小
+     * @return 包含音乐列表信息的响应实体
+     */
     @GetMapping("/name")
     public ResponseEntity<Result<?>> searchMusicListByName(@RequestParam String name,
                                                            @RequestParam(defaultValue = "0") int page,
@@ -94,6 +121,79 @@ public class MusicListController {
             logger.error("Failed to get music list", e);
             result = new Result<>(500, "Internal Server Error", null);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);
+        }
+    }
+
+    /**
+     * 将音乐列表添加到用户 联系集
+     * 多对多关系 like/dislike/download
+     * 添加 联系集 确保 musicListId 存在
+     * 一对多关系 listenRecord/singRecord/recommend/created/admin
+     *
+     * @param musicListId 音乐列表ID
+     * @param userId      用户ID
+     * @param type        用户类型
+     * @return 包含操作结果的响应实体
+     */
+    @PostMapping
+    public ResponseEntity<Result<String>> addMusicListToUser(@RequestParam Integer musicListId,
+                                                             @RequestParam Integer userId,
+                                                             @RequestParam String type) {
+        try {
+            if (!isValidType(type)) {
+                return ResponseEntity.badRequest().body(new Result<>(400, "Bad Request", "Invalid 'type' parameter."));
+            }
+
+            musicListService.addMusicListToUser(musicListId, userId, type);
+
+            Result<String> result = new Result<>(200, "Success", "MusicList added to user successfully!");
+            return ResponseEntity.ok(result);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new Result<>(400, "Bad Request", "Bad request: " + e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Result<>(500, "Internal Server Error", "Failed to add MusicList to user: " + e.getMessage()));
+        }
+    }
+
+    private boolean isValidType(String type) {
+        List<String> validTypes = Arrays.asList("normal", "like", "dislike", "listenRecord", "singRecord", "recommend", "created", "admin", "download", "album");
+        return validTypes.contains(type);
+    }
+
+    /**
+     * 获取对应类型音乐列表的用户
+     * 多对多关系 like/dislike/download
+     * 一对多关系 listenRecord/singRecord/recommend/created/admin
+     *
+     * @param musicListId 音乐列表ID
+     * @param type        用户类型
+     * @param page        分页页码
+     * @param size        每页大小
+     * @return 包含用户信息的响应实体
+     */
+    @GetMapping("/who-type")
+    public ResponseEntity<Result<?>> getUserWhoTypeMusicList(@RequestParam Integer musicListId,
+                                                             @RequestParam(defaultValue = "like") String type,
+                                                             @RequestParam(defaultValue = "0") int page,
+                                                             @RequestParam(defaultValue = "8") int size) {
+        // 校验输入参数
+        if (musicListId == null || musicListId <= 0) {
+            return ResponseEntity.badRequest().body(new Result<>(400, "Invalid musicListId", null));
+        }
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        try {
+            Page<Integer> userIdPage = musicListService.getUserWhoTypeMusicList(musicListId, type, pageRequest);
+
+            if (userIdPage != null && !userIdPage.isEmpty()) {
+                Result<Page<Integer>> result = new Result<>(200, "Success", userIdPage);
+                return ResponseEntity.ok(result);
+            } else {
+                return ResponseEntity.ok(new Result<>(404, "No users found for the specified criteria", null));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(new Result<>(500, "An error occurred while processing the request", null));
         }
     }
 }

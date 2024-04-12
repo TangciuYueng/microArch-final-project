@@ -7,6 +7,7 @@ import cn.edu.tongji.diaryWriting.service.DiaryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,12 @@ public class DiaryController {
 
     private static final Logger logger = LoggerFactory.getLogger(DiaryController.class);
 
+    /**
+     * 根据日记ID获取日记信息
+     *
+     * @param id 日记ID
+     * @return 包含日记信息的 ResponseEntity
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Result<?>> getDiaryById(@PathVariable("id") Integer id) {
         try {
@@ -37,6 +44,14 @@ public class DiaryController {
         }
     }
 
+    /**
+     * 获取某用户某年某月的日记列表
+     *
+     * @param userId 用户ID
+     * @param year   年份
+     * @param month  月份
+     * @return 包含日记列表的 ResponseEntity
+     */
     @GetMapping("/monthly")
     public ResponseEntity<Result<?>> getDiaryMonthly(@RequestParam("usrId") Integer userId,
                                                      @RequestParam("year") int year,
@@ -59,5 +74,21 @@ public class DiaryController {
             result = new Result<>(500, "Internal Server Error", null);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);
         }
+    }
+
+    /**
+     * 获取好友最近更新的日记列表
+     *
+     * @param userId 用户ID
+     * @param page   页码
+     * @param size   每页大小
+     * @return 包含好友最近更新的日记列表的 ResponseEntity
+     */
+    @GetMapping("/friend/update-recently")
+    public ResponseEntity<Result<?>> getFriendUpdateRecently(@RequestParam Integer userId,
+                                                             @RequestParam(defaultValue = "0") int page,
+                                                             @RequestParam(defaultValue = "5") int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return ResponseEntity.ok(new Result<>(200, "Success", diaryService.getFriendUpdateRecently(userId, pageRequest)));
     }
 }
