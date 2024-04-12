@@ -25,6 +25,12 @@ public class MusicListController {
     @Autowired
     private MusicListService musicListService;
 
+    /**
+     * 根据音乐列表ID获取音乐列表所有信息
+     *
+     * @param id 音乐列表ID
+     * @return 包含音乐列表信息的响应实体
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Result<?>> getMusicListById(@PathVariable("id") Integer id) {
         try {
@@ -41,6 +47,16 @@ public class MusicListController {
         }
     }
 
+    /**
+     * 获取多个音乐列表的简单信息
+     *
+     * @param type    音乐列表类型
+     * @param limited 是否限制数量
+     * @param userId  用户ID
+     * @param page    分页页码
+     * @param size    每页大小
+     * @return 包含音乐列表的响应实体
+     */
     @GetMapping("/{type}/{limited}")
     public ResponseEntity<Result<?>> getMusicList(@PathVariable("type") String type,
                                                   @PathVariable("limited") Boolean limited,
@@ -74,6 +90,14 @@ public class MusicListController {
         }
     }
 
+    /**
+     * 根据名称模糊搜索音乐列表较多信息
+     *
+     * @param name 音乐列表名称
+     * @param page 分页页码
+     * @param size 每页大小
+     * @return 包含音乐列表信息的响应实体
+     */
     @GetMapping("/name")
     public ResponseEntity<Result<?>> searchMusicListByName(@RequestParam String name,
                                                            @RequestParam(defaultValue = "0") int page,
@@ -100,6 +124,17 @@ public class MusicListController {
         }
     }
 
+    /**
+     * 将音乐列表添加到用户 联系集
+     * 多对多关系 like/dislike/download
+     * 添加 联系集 确保 musicListId 存在
+     * 一对多关系 listenRecord/singRecord/recommend/created/admin
+     *
+     * @param musicListId 音乐列表ID
+     * @param userId      用户ID
+     * @param type        用户类型
+     * @return 包含操作结果的响应实体
+     */
     @PostMapping
     public ResponseEntity<Result<String>> addMusicListToUser(@RequestParam Integer musicListId,
                                                              @RequestParam Integer userId,
@@ -125,7 +160,18 @@ public class MusicListController {
         return validTypes.contains(type);
     }
 
-    @GetMapping("/who-like")
+    /**
+     * 获取对应类型音乐列表的用户
+     * 多对多关系 like/dislike/download
+     * 一对多关系 listenRecord/singRecord/recommend/created/admin
+     *
+     * @param musicListId 音乐列表ID
+     * @param type        用户类型
+     * @param page        分页页码
+     * @param size        每页大小
+     * @return 包含用户信息的响应实体
+     */
+    @GetMapping("/who-type")
     public ResponseEntity<Result<?>> getUserWhoTypeMusicList(@RequestParam Integer musicListId,
                                                              @RequestParam(defaultValue = "like") String type,
                                                              @RequestParam(defaultValue = "0") int page,
