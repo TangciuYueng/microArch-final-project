@@ -7,6 +7,7 @@ import cn.edu.tongji.diaryWriting.service.DiaryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -59,5 +60,13 @@ public class DiaryController {
             result = new Result<>(500, "Internal Server Error", null);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);
         }
+    }
+
+    @GetMapping("/friend/update-recently")
+    public ResponseEntity<Result<?>> getFriendUpdateRecently(@RequestParam Integer userId,
+                                                             @RequestParam(defaultValue = "0") int page,
+                                                             @RequestParam(defaultValue = "5") int size) {
+        PageRequest pageRequest = PageRequest.of(page,size);
+        return ResponseEntity.ok(new Result<>(200, "Success", diaryService.getFriendUpdateRecently(userId, pageRequest)));
     }
 }
