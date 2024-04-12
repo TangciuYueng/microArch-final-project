@@ -19,6 +19,15 @@ import java.util.Optional;
 public class DiaryServiceImpl implements DiaryService {
     @Autowired
     private DiaryRepository diaryRepository;
+
+    /**
+     * 根据用户ID、年份和月份获取当月的日记列表
+     *
+     * @param userId 用户ID
+     * @param year   年份
+     * @param month  月份
+     * @return 当月的日记简要信息列表
+     */
     @Override
     public List<DiarySimple> getDiaryMonthly(Integer userId, int year, int month) {
         LocalDate startDate = LocalDate.of(year, month, 1);
@@ -26,11 +35,24 @@ public class DiaryServiceImpl implements DiaryService {
         return diaryRepository.findByUserIdAndCreateDateBetween(userId, startDate, endDate).stream().map(this::convertToDiarySimple).toList();
     }
 
+    /**
+     * 根据日记ID获取日记信息
+     *
+     * @param id 日记ID
+     * @return 包含日记信息的 Optional
+     */
     @Override
     public Optional<Diary> getDiaryById(Integer id) {
         return diaryRepository.findById(id);
     }
 
+    /**
+     * 获取好友最近更新的日记列表
+     *
+     * @param userId      用户ID
+     * @param pageRequest 分页请求参数
+     * @return 包含好友最近更新的日记信息的分页数据
+     */
     @Override
     public Page<FriendDiaryDTO> getFriendUpdateRecently(Integer userId, PageRequest pageRequest) {
         List<Integer> friendIds = new ArrayList<>();
@@ -40,6 +62,12 @@ public class DiaryServiceImpl implements DiaryService {
         return diaryRepository.findFriendsRecentUpdatedDiaries(friendIds, pageRequest);
     }
 
+    /**
+     * 将 Diary 对象转换为 DiarySimple 对象
+     *
+     * @param diary 原始 Diary 对象
+     * @return 转换后的 DiarySimple 对象
+     */
     private DiarySimple convertToDiarySimple(Diary diary) {
         return DiarySimple.builder()
                 .id(diary.getId())
