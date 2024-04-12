@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -56,6 +53,11 @@ public class MusicListServiceImpl implements MusicListService {
             musicList.getMusicListUserRelationshipList().add(relationship);
             musicListRepository.save(musicList);
         }
+    }
+
+    @Override
+    public Page<Integer> getUserWhoTypeMusicList(Integer musicListId, String type, PageRequest pageRequest) {
+        return musicListUserRelationshipRepository.findUserIdsByTypeAndMusicListId(type, musicListId, pageRequest);
     }
 
     @Override

@@ -124,4 +124,30 @@ public class MusicListController {
         List<String> validTypes = Arrays.asList("normal", "like", "dislike", "listenRecord", "singRecord", "recommend", "created", "admin", "download", "album");
         return validTypes.contains(type);
     }
+
+    @GetMapping("/who-like")
+    public ResponseEntity<Result<?>> getUserWhoTypeMusicList(@RequestParam Integer musicListId,
+                                                             @RequestParam(defaultValue = "like") String type,
+                                                             @RequestParam(defaultValue = "0") int page,
+                                                             @RequestParam(defaultValue = "8") int size) {
+        // 校验输入参数
+        if (musicListId == null || musicListId <= 0) {
+            return ResponseEntity.badRequest().body(new Result<>(400, "Invalid musicListId", null));
+        }
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        try {
+            Page<Integer> userIdPage = musicListService.getUserWhoTypeMusicList(musicListId, type, pageRequest);
+
+            if (userIdPage != null && !userIdPage.isEmpty()) {
+                Result<Page<Integer>> result = new Result<>(200, "Success", userIdPage);
+                return ResponseEntity.ok(result);
+            } else {
+                return ResponseEntity.ok(new Result<>(404, "No users found for the specified criteria", null));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(new Result<>(500, "An error occurred while processing the request", null));
+        }
+    }
 }

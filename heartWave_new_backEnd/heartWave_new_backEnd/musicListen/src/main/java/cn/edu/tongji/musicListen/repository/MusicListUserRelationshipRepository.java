@@ -18,4 +18,7 @@ public interface MusicListUserRelationshipRepository extends JpaRepository<Music
     Page<MusicListSimple> findMusicListSimplesByTypeAndUserId(PageRequest pageRequest, @Param("type") String type, @Param("userId") Integer userId);
 
     Optional<MusicListUserRelationship> findByUserIdAndType(Integer userId, String type);
+
+    @Query("SELECT m.userId FROM MusicListUserRelationship m WHERE m.type = :type AND m.musicList.id = :musicListId")
+    Page<Integer> findUserIdsByTypeAndMusicListId(@Param("type") String type, @Param("musicListId") Integer musicListId, PageRequest pageRequest);
 }
