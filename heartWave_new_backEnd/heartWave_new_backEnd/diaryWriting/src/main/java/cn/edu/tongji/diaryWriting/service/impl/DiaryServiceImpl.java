@@ -63,6 +63,28 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     /**
+     * 查询给定用户的日记数量
+     *
+     * @param userId 用户ID
+     * @return 日记数量
+     */
+    @Override
+    public Integer getDiaryCount(Integer userId) {
+        return diaryRepository.getDiaryCount(userId);
+    }
+
+    /**
+     * 保存日记到数据库
+     *
+     * @param diary 要保存的日记对象
+     * @return 成功保存的日记对象
+     */
+    @Override
+    public Diary saveDiary(Diary diary) {
+        return diaryRepository.save(diary);
+    }
+
+    /**
      * 将 Diary 对象转换为 DiarySimple 对象
      *
      * @param diary 原始 Diary 对象

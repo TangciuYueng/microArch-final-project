@@ -36,4 +36,20 @@ public interface DiaryService {
      * @return 包含好友更新信息（好友ID和日记ID）的分页结果
      */
     Page<FriendDiaryDTO> getFriendUpdateRecently(Integer userId, PageRequest pageRequest);
+
+    /**
+     * 查询给定用户的日记数量
+     *
+     * @param userId 用户ID
+     * @return 日记数量
+     */
+    Integer getDiaryCount(Integer userId);
+
+    /**
+     * 保存日记到数据库
+     *
+     * @param diary 要保存的日记对象
+     * @return 成功保存的日记对象
+     */
+    Diary saveDiary(Diary diary);
 }
