@@ -54,4 +54,7 @@ public interface MusicListUserRelationshipRepository extends JpaRepository<Music
      */
     @Query("SELECT m.id FROM MusicListUserRelationship r JOIN r.musicList m WHERE r.userId = :userId AND r.type = :type ORDER BY m.createDate DESC limit 1")
     Integer findLatestMusicListIdByUserIdAndType(@Param("userId") Integer userId, @Param("type") String type);
+
+    @Query("SELECT count(*) FROM MusicListUserRelationship r WHERE r.userId = :userId AND r.type = :type")
+    Integer getTypeMusicListCount(@Param("userId") Integer userId, @Param("type") String type);
 }

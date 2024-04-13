@@ -90,6 +90,18 @@ public class MusicListServiceImpl implements MusicListService {
     }
 
     /**
+     * 根据 type 获取给用户拥有的 MusicList 数量
+     *
+     * @param userId 用户ID
+     * @param type   MusicList 类型
+     * @return 用户拥有的 MusicList 数量
+     */
+    @Override
+    public Integer getTypeMusicListCount(Integer userId, String type) {
+        return musicListUserRelationshipRepository.getTypeMusicListCount(userId, type);
+    }
+
+    /**
      * 根据名称分页模糊查询音乐列表信息
      *
      * @param pageRequest 分页请求对象
