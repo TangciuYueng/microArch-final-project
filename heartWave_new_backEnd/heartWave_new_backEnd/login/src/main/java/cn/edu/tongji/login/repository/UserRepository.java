@@ -9,7 +9,8 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecificationExecutor<User> {
+public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
+    User findFirstById(Long id);
     List<User> findAllByPhone(String phone);
 
     @Modifying

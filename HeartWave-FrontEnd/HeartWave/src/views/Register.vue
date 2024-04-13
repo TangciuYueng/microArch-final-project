@@ -161,8 +161,8 @@
                                 density="compact"
                                 style="display: inline-block; position:relative; top: 8px; left: 5%;"
                                 @input="checkRegisterInput()">
-                                <v-radio label="男" value="male" color="#105645" style="margin-left: 2%;"></v-radio>
-                                <v-radio label="女" value="female" color="#105645" style="margin-left: 2%;"></v-radio>
+                                <v-radio label="男" value="MALE" color="#105645" style="margin-left: 2%;"></v-radio>
+                                <v-radio label="女" value="FEMALE" color="#105645" style="margin-left: 2%;"></v-radio>
                             </v-radio-group>
                             
                         </v-row>

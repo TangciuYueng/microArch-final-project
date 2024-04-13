@@ -38,7 +38,7 @@
                 <music-room-item
                     v-if="menu != 'square'"
                     v-for="item in (menu == 'users' ? users : musicRooms)"
-                    :avatar-url="item.avatarUrl"
+                    :avatar="'data:image/jpg;base64,' + item.avatar"
                     :username="item.username"
                     :time="item.time"
                     :status="item.status"
@@ -72,7 +72,7 @@
                 <div class="chat-record-area">
                     <chat-record
                         v-for="item in chatRecords"
-                        :avatar-url="item.avatarUrl"
+                        :avatar="getChatAvatar(item.ifSender)"
                         :text="item.text"
                         :if-sender="item.ifSender"
                     ></chat-record>
@@ -275,6 +275,7 @@ import MusicRoomItem from '../components/MusicRoomItem.vue';
 import ChatRecord from '../components/ChatRecord.vue';
 import MusicRoomRec from '../components/MusicRoomRec.vue';
 import MusicRoomCurrent from '../components/MusicRoomCurrent.vue';
+import { updateChatTime, addFriend, getFriends } from '../axios/friend.js';
 export default {
     //导出组件
     components: {
@@ -294,36 +295,7 @@ export default {
         backButtonImgSrc: "../assets/back.svg",
         keyword: "",
         newMusicRoomDialog: false,
-        users: [
-            {
-                avatarUrl: "../assets/user/USR1.jpg",
-                username: "无聊的人",
-                time: "21:13",
-                status: 1,
-                song: "Hello central! Give me heaven——The Carter Family"
-            },
-            {
-                avatarUrl: "../assets/user/USR5.jpg",
-                username: "David Wang",
-                time: "12:55",
-                status: 1,
-                song: "Price Tag——Jessie J、B.o.B"
-            },
-            {
-                avatarUrl: "../assets/user/USR3.jpg",
-                username: "陌路飞雪+梦溪凤翔",
-                time: "昨天",
-                status: 1,
-                song: "消愁——毛不易"
-            },
-            {
-                avatarUrl: "../assets/user/USR4.jpg",
-                username: "精神测绘人",
-                time: "21:13",
-                status: 2,
-                song: "讲不出再见——谭咏麟"
-            }
-        ],
+        users: [],
         musicRooms: [
             {
                 avatarUrl: "../assets/room/ROOM1.png",
@@ -360,47 +332,38 @@ export default {
         ],
         chatRecords: [
             {
-                avatarUrl: "../assets/user/USR1.jpg",
                 text: "hello",
                 ifSender: true
             },
             {
-                avatarUrl: "../assets/user/USR2.png",
                 text: "你好！",
                 ifSender: false
             },
             {
-                avatarUrl: "../assets/user/USR1.jpg",
                 text: "晚上来不来",
                 ifSender: true
             },
             {
-                avatarUrl: "../assets/user/USR2.png",
                 text: "爽唱！",
                 ifSender: false
             },
             {
-                avatarUrl: "../assets/user/USR1.jpg",
                 text: "去哪里搞，几点",
                 ifSender: true
             },
             {
-                avatarUrl: "../assets/user/USR2.png",
                 text: "6点吃完饭呗，我开房",
                 ifSender: false
             },
             {
-                avatarUrl: "../assets/user/USR1.jpg",
                 text: "造！",
                 ifSender: true
             },
             {
-                avatarUrl: "../assets/user/USR2.png",
                 text: "okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！",
                 ifSender: false
             },
             {
-                avatarUrl: "../assets/user/USR1.jpg",
                 text: "你干嘛！",
                 ifSender: true
             },
@@ -491,6 +454,7 @@ export default {
             },
         ],
         currentUser: {
+            id: 0,
             username: "",
             status: 1,
             size: 0
@@ -530,6 +494,7 @@ export default {
     }),
     methods: {
         clickListItem: function(item) {
+            this.currentUser.id = item.id;
             this.currentUser.username = item.username;
             this.currentUser.size = (this.menu == 'musicRooms') ? item.size : 0;
             this.currentUser.status = item.status;
@@ -555,7 +520,35 @@ export default {
             } else {
                 alert('请选择图片文件');
             }
+        },
+        getCurrentFriendAvatar: function() {
+            var filteredUsers = this.users.filter(user => user.id == this.currentUser.id);
+            return filteredUsers[0].avatar;
+        },
+        getChatAvatar: function(ifSender) {
+            return ifSender ? localStorage.getItem("userAvatar") : this.getCurrentFriendAvatar();
         }
+    },
+    mounted() {
+        var that = this;
+
+        getFriends({
+            userId: parseInt(localStorage.getItem("userId"))
+        }).then(res => {
+            for (var i = 0; i < res.length; i++) {
+                that.users.push({
+                    id: res[i].friendId,
+                    avatar: res[i].avatar,
+                    username: res[i].name,
+                    time: res[i].chatTime,
+                    intimacy: res[i].intimacy,
+                    status: 1,
+                    song: ""
+                });
+            }
+        }, err => {
+            console.log(err);
+        });
     }
 }
 </script>

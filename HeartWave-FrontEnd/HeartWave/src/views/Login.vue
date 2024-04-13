@@ -146,6 +146,7 @@ export default {
     },
     mounted() {
         this.fetchVerifyInfo();
+        localStorage.clear();
     }
 }
 </script>

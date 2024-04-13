@@ -1,15 +1,14 @@
 package cn.edu.tongji.login.controller;
 
-import cn.edu.tongji.login.dto.RegisterRequest;
-import cn.edu.tongji.login.dto.ResetPasswordRequest;
-import cn.edu.tongji.login.dto.SmsInfo;
-import cn.edu.tongji.login.dto.SmsInfoReset;
+import cn.edu.tongji.login.dto.*;
 import cn.edu.tongji.login.model.User;
 import cn.edu.tongji.login.service.UserService;
 import jakarta.annotation.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
@@ -72,6 +71,17 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("reset password failed", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/multi")
+    public ResponseEntity<?> getMultipleUsers(@RequestParam("ids") List<Long> ids) {
+        try {
+            List<UserFriendInfo> userFriendInfos = userService.getMultipleUsers(ids);
+            return new ResponseEntity<>(userFriendInfos, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("get multiple users failed", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

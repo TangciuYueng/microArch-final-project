@@ -1,4 +1,4 @@
-package cn.edu.tongji.login.config;
+package cn.edu.tongji.friend.config;
 
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
@@ -10,7 +10,6 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 /**
  * 腾讯云COS配置

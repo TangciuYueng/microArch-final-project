@@ -1,6 +1,6 @@
 <template>
     <div v-if="!ifSender" class="container-left">
-        <img class="avatar" :src="getImgSrc()">
+        <img class="avatar" :src="'data:image/jpg;base64,' + avatar">
         <div class="text-container-left">
             <p :style="getTextStyle()" class="text"> {{ text }} </p>
         </div>
@@ -10,14 +10,14 @@
         <div class="text-container-right">
             <p :style="getTextStyle()" class="text"> {{ text }} </p>
         </div>
-        <img class="avatar" :src="getImgSrc()">
+        <img class="avatar" :src="'data:image/jpg;base64,' + avatar">
     </div>
 </template>
 
 <script>
 export default {
     props: {
-        avatarUrl: "",
+        avatar: "",
         text: "",
         ifSender: true
     },
@@ -26,9 +26,6 @@ export default {
             return {
                 backgroundColor: this.ifSender ? "#45CE9A" : "#6BC4AE4F"
             }
-        },
-        getImgSrc: function() {
-            return new URL(this.avatarUrl, import.meta.url).href;
         }
     }
 }
@@ -45,6 +42,7 @@ export default {
 }
 .avatar {
     display: inline-block;
+    width: 42px;
     height: 42px;
     border-radius: 21px;
 }
