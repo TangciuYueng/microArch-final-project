@@ -48,6 +48,39 @@ public class MusicController {
     }
 
     /**
+     * 获取对应用户对应类型的多个音乐单曲
+     *
+     * @param userId 用户ID
+     * @param type   音乐类型
+     * @param page   分页页码
+     * @param size   每页大小
+     * @return 包含音乐单曲信息的响应实体
+     */
+    @GetMapping("/type")
+    public ResponseEntity<Result<?>> getTypeMusics(@RequestParam Integer userId,
+                                                   @RequestParam(defaultValue = "recommend") String type,
+                                                   @RequestParam(defaultValue = "0") int page,
+                                                   @RequestParam(defaultValue = "5") int size) {
+        if (page < 0 || size <= 0) {
+            return ResponseEntity.badRequest().body(new Result<>(400, "Invalid page or size value", null));
+        }
+
+        try {
+            PageRequest pageRequest = PageRequest.of(page, size);
+            Page<Music> musicPage = musicService.getTypeMusics(userId, type, pageRequest);
+
+            if (musicPage != null) {
+                Result<Page<Music>> result = new Result<>(200, "Success", musicPage);
+                return ResponseEntity.ok(result);
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Result<>(500, "Failed to retrieve music data", null));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Result<>(500, "An error occurred", null));
+        }
+    }
+
+    /**
      * 获取所有音乐信息
      *
      * @param page 分页页码

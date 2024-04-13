@@ -32,5 +32,15 @@ public interface MusicService {
      * @return 包含搜索结果的Page对象
      */
     Page<Music> findMusicByTitle(PageRequest pageRequest, String title);
+
+    /**
+     * 根据用户ID和音乐类型获取用户收藏的对应类型音乐列表并进行分页返回
+     *
+     * @param userId      用户ID
+     * @param type        音乐类型
+     * @param pageRequest 分页请求对象
+     * @return 包含对应类型音乐列表的分页对象
+     */
+    Page<Music> getTypeMusics(Integer userId, String type, PageRequest pageRequest);
 }
 

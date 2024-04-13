@@ -44,4 +44,14 @@ public interface MusicListUserRelationshipRepository extends JpaRepository<Music
      */
     @Query("SELECT m.userId FROM MusicListUserRelationship m WHERE m.type = :type AND m.musicList.id = :musicListId")
     Page<Integer> findUserIdsByTypeAndMusicListId(@Param("type") String type, @Param("musicListId") Integer musicListId, PageRequest pageRequest);
+
+    /**
+     * 根据用户ID和类型查询最新的MusicList中的Music信息，并返回分页结果
+     *
+     * @param userId   用户ID
+     * @param type     类型
+     * @return 包含最新MusicList中的Music信息的分页对象
+     */
+    @Query("SELECT m.id FROM MusicListUserRelationship r JOIN r.musicList m WHERE r.userId = :userId AND r.type = :type ORDER BY m.createDate DESC limit 1")
+    Integer findLatestMusicListIdByUserIdAndType(@Param("userId") Integer userId, @Param("type") String type);
 }
