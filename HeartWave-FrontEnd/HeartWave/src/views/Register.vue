@@ -2,7 +2,7 @@
     <!-- 注册界面 -->
     <div class="Screen">
         <div class="Register">
-            <div class="title text-h3 font-weight-bold"> 注 册</div>
+            <div class="title"> Register </div>
             <!-- 显示机票背景图片 -->
             <v-img
                 cover
@@ -353,19 +353,24 @@ export default {
 </script>
 
 <style scoped>
+@font-face {
+    font-family: Poppins-Medium; /* 自定义字体名称 */
+    src: url('../assets/fonts/Poppins/Poppins-Medium.ttf') format('truetype'); /* 字体文件的路径 */
+}
 .Screen {
     position: relative;
     width: 100vw;
     height: 100vh;
-    background-image: url(../assets/loginBackgroundImage.png);
+    background-color: #10564510;
     background-size: 100%;
 }
 .title {
+    font-family: "Poppins-Medium";
     width: 100%;
     line-height: 50px;
     text-align: center;
-    font-size: 20px;
-    color: #105644;
+    font-size: 40px;
+    color: #105645;
 }
 .Register {
     position: absolute;
