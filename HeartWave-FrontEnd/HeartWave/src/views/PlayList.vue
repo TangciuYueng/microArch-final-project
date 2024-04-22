@@ -3,9 +3,12 @@
         {{ snackbarText }}
     </v-snackbar>
     <v-app>
-        <v-container>
-            <v-row>
-                <v-col cols="8" style="box-shadow: 5px 0 5px -5px rgba(0, 0, 0, 0.5),
+        <v-container fluid>
+            <v-row style="padding-left: 16%; padding-right: 15%; background-color: #eefffb; min-width: 1600px;">
+                <v-col cols="1">
+                    <v-icon class="hover-enlarge" @click="this.$emit('lastPageEvent', lastPage)">mdi-arrow-left</v-icon>
+                </v-col>
+                <v-col cols="8" style="background-color: white; box-shadow: 5px 0 5px -5px rgba(0, 0, 0, 0.5),
                 -5px 0 5px -5px rgba(0, 0, 0, 0.5);">
                     <v-row>
                         <v-col cols="3">
@@ -64,7 +67,7 @@
                         </v-col>
                     </v-row>
                 </v-col>
-                <v-col cols="3" style="box-shadow: 5px 0 5px -5px rgba(0, 0, 0, 0.5),
+                <v-col cols="3" style="background-color: white; box-shadow: 5px 0 5px -5px rgba(0, 0, 0, 0.5),
                 -5px 0 5px -5px rgba(0, 0, 0, 0.5);">
                     <div style="font-size: large; font-weight: bold;">
                         收藏这个歌单的人
@@ -84,7 +87,7 @@
                     <hr>
                     <div v-for="playList in playListsRecommended">
                         <v-card style="text-align: center;" color="transparent" class="mt-3"
-                            @click="this.$emit('detialPlayListEvent')" hover>
+                            @click="this.$emit('detialPlayListEvent', 'recommend', playList.id)" hover>
                             <v-img :src="playList.cover" class="align-end"
                                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="110px" cover>
                                 <!-- 名字和播放按钮 -->
@@ -202,11 +205,11 @@ export default {
                 { id: 6, avatar: "https://cdn.vuetifyjs.com/images/parallax/material.jpg", username: 's+m' },
             ],
             playListsRecommended: [
-                { cover: "https://cdn.vuetifyjs.com/images/parallax/material.jpg", name: 'lonely Me', creator: "mvv" },
-                { cover: "https://cdn.vuetifyjs.com/images/parallax/material.jpg", name: 'lonely Me', creator: "mvv" },
-                { cover: "https://cdn.vuetifyjs.com/images/parallax/material.jpg", name: 'lonely Me', creator: "mvv" },
-                { cover: "https://cdn.vuetifyjs.com/images/parallax/material.jpg", name: 'lonely Me', creator: "mvv" },
-                { cover: "https://cdn.vuetifyjs.com/images/parallax/material.jpg", name: 'lonely Me', creator: "mvv" },
+                { id: 1, cover: "https://cdn.vuetifyjs.com/images/parallax/material.jpg", name: 'lonely Me', creator: "mvv" },
+                { id: 2, cover: "https://cdn.vuetifyjs.com/images/parallax/material.jpg", name: 'lonely Me', creator: "mvv" },
+                { id: 3, cover: "https://cdn.vuetifyjs.com/images/parallax/material.jpg", name: 'lonely Me', creator: "mvv" },
+                { id: 5, cover: "https://cdn.vuetifyjs.com/images/parallax/material.jpg", name: 'lonely Me', creator: "mvv" },
+                { id: 6, cover: "https://cdn.vuetifyjs.com/images/parallax/material.jpg", name: 'lonely Me', creator: "mvv" },
             ],
         };
     },
@@ -239,7 +242,10 @@ export default {
         },
         playListId: {
             default: 3,
-        }
+        },
+        lastPage: {
+            default: 1,
+        },
     },
     mounted() {
         console.log('id', this.playListId)
@@ -304,4 +310,16 @@ export default {
     text-decoration: underline;
     cursor: pointer;
 }
+
+.hover-enlarge {
+    transition: transform 0.3s ease;
+    color: gray;
+}
+
+.hover-enlarge:hover {
+    transform: scale(1.5);
+    color: black;
+    cursor: pointer;
+}
+
 </style>
