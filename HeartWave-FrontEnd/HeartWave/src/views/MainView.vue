@@ -146,7 +146,7 @@ export default {
         },
         handleDetailPlayList(value, id) {
             // record last page for page back
-            this.lastPage = 2;
+            this.lastPage = this.page;
             if (value == 'favor') {
                 // 跳转去关注的人的列表
                 this.page = 110;

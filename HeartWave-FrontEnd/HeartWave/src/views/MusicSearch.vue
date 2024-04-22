@@ -29,8 +29,8 @@
                     </div>
 
                     <v-container style="height: 700px; overflow-y: auto;">
-                        <v-data-table-virtual :items="selectedList">
-                        </v-data-table-virtual>
+                        <v-data-table :items="selectedList">
+                        </v-data-table>
                     </v-container>
                 </v-col>
                 <v-col cols="4" style="background-color: #D5F0EA;">
@@ -66,10 +66,17 @@
                     <v-card class="mt-10" style="background-color: rgba(255, 255, 255, 0.5); padding: 5%;">
                         <v-row dense>
                             <v-col cols="3" v-for="icon in profileIcons" style="text-align: center;">
-                                <v-icon color="red" size="40" style="cursor: pointer"
-                                    @click="this.$emit('detialPlayListEvent', icon.value)">{{ icon.icon }}</v-icon>
-                                <div style="cursor: pointer;" @click="this.$emit('detialPlayListEvent', icon.value, userId)">{{
-                                    icon.text }}</div>
+                                <div v-if="icon.value !== 'favor'"
+                                    @click="this.$emit('detialPlayListEvent', icon.value)">
+                                    <v-icon color="red" size="40" style="cursor: pointer;">{{ icon.icon }}</v-icon>
+                                    <div style="cursor: pointer;">{{ icon.text }}
+                                    </div>
+                                </div>
+                                <div v-else @click="favorDialog = true">
+                                    <v-icon color="red" size="40" style="cursor: pointer;">{{ icon.icon }}</v-icon>
+                                    <div style="cursor: pointer;">{{ icon.text }}
+                                    </div>
+                                </div>
                             </v-col>
                         </v-row>
                     </v-card>
@@ -108,6 +115,23 @@
                 </v-col>
             </v-row>
         </v-container>
+        <v-dialog v-model="favorDialog" max-width="800">
+            <v-card>
+                <v-card-title>关心好友</v-card-title>
+                <v-card-text>
+                    <v-data-table :items="friends" :items-per-page="5" class="elevation-1">
+                        <template v-slot:item.avatar="{ item }">
+                            <v-avatar size="32">
+                                <img :src="item.avatar" />
+                            </v-avatar>
+                        </template>
+                        <template v-slot:item.mood="{ item }">
+                            {{ item.mood }}
+                        </template>
+                    </v-data-table>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
     </v-app>
 </template>
 
@@ -125,20 +149,17 @@ export default {
 
         totalList: [
             [
-                { '音乐名称': '快乐崇拜', '歌手': '潘玮柏/张韶涵', '专辑': 'aa', '时长': 24 },
-                { '音乐名称': '最冷一天', '歌手': '张国荣', '专辑': 'bb', '时长': 37 },
-                { '音乐名称': '負けないで', '歌手': 'ZARD', '专辑': 'cc', '时长': 24 },
-                { '音乐名称': '愛の雫', '歌手': '忘了', '专辑': 'dd', '时长': 67 },
-                { '音乐名称': '冬の花', '歌手': '中森明菜', '专辑': 'ff', '时长': 49 },
-                { '音乐名称': 'キミがいれば', '歌手': '中森明菜', '专辑': 'ff', '时长': 49 },
-                { '音乐名称': '花舞う街', '歌手': '中森明菜', '专辑': 'ff', '时长': 49 },
-                { '音乐名称': '北酒場', '歌手': '中森明菜', '专辑': 'ff', '时长': 49 },
-                { '音乐名称': '北酒場', '歌手': '中森明菜', '专辑': 'ff', '时长': 49 },
-                { '音乐名称': '北酒場', '歌手': '中森明菜', '专辑': 'ff', '时长': 49 },
-                { '音乐名称': '北酒場', '歌手': '中森明菜', '专辑': 'ff', '时长': 49 },
-                { '音乐名称': '北酒場', '歌手': '中森明菜', '专辑': 'ff', '时长': 49 },
-                { '音乐名称': '北酒場', '歌手': '中森明菜', '专辑': 'ff', '时长': 49 },
-                { '音乐名称': '北酒場', '歌手': '中森明菜', '专辑': 'ff', '时长': 49 },
+                { "音乐名称": "快乐崇拜", "歌手": "潘玮柏/张韶涵", "专辑": "aa", "时长": 24 },
+                { "音乐名称": "欢乐颂", "歌手": "未知歌手", "专辑": "未知专辑", "时长": 0 },
+                { "音乐名称": "欢乐之歌", "歌手": "未知歌手", "专辑": "未知专辑", "时长": 0 },
+                { "音乐名称": "欢乐时光", "歌手": "Joy Artist", "专辑": "Joyful Album", "时长": 30 },
+                { "音乐名称": "欢乐节日", "歌手": "Happy Band", "专辑": "Festive Collection", "时长": 28 },
+                { "音乐名称": "开心欢乐", "歌手": "Smiley Singer", "专辑": "Cheerful Hits", "时长": 33 },
+                { "音乐名称": "欢乐万岁", "歌手": "Joyful Singers", "专辑": "Eternal Happiness", "时长": 26 },
+                { "音乐名称": "欢乐之夜", "歌手": "Happiness Ensemble", "专辑": "Night of Joy", "时长": 31 },
+                { "音乐名称": "欢乐星期天", "歌手": "Joyful Voices", "专辑": "Sunny Day Sounds", "时长": 29 },
+                { "音乐名称": "欢乐气氛", "歌手": "Merry Melodies", "专辑": "Happy Vibes", "时长": 27 },
+                { "音乐名称": "欢乐时刻", "歌手": "Lively Artist", "专辑": "Joyful Moments", "时长": 32 }
             ],
             [
                 { id: 1, name: "Relaxing Vibes", owner: "John Doe", tracks: 15 },
@@ -184,6 +205,13 @@ export default {
 
         tabs: ['单曲', '歌单', '音乐室', '专辑', '用户'],
         activeTab: 0,
+
+        favorDialog: false,
+        friends: [
+            { avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Alice', emotionValue: '😊' },
+            { avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            // 添加更多好友数据
+        ],
     }),
     methods: {
         handleActiveTab(index) {
