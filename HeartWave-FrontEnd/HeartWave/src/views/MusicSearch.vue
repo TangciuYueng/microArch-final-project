@@ -29,7 +29,135 @@
                     </div>
 
                     <v-container style="height: 700px; overflow-y: auto;">
-                        <v-data-table :items="selectedList">
+                        <v-data-table v-if="activeTab === 0" :items="musics" :headers="totalHeaders[activeTab]"
+                            v-model:page="musicPage">
+                            <template v-slot:headers="{ columns, isSorted, getSortIcon, toggleSort }">
+                                <tr>
+                                    <template v-for="column in columns" :key="column.key">
+                                        <td>
+                                            <span class="table-header" @click="() => toggleSort(column)">{{
+                                    column.title }}</span>
+                                            <template v-if="isSorted(column)">
+                                                <v-icon :icon="getSortIcon(column)"></v-icon>
+                                            </template>
+                                        </td>
+                                    </template>
+                                </tr>
+                            </template>
+                            <template v-slot:item.actions="{ item }">
+                                <v-icon style="cursor: pointer;" size="large">
+                                    mdi-play
+                                </v-icon>
+                            </template>
+                            <template v-slot:bottom>
+                                <div class="text-center pt-2">
+                                    <v-pagination v-model="musicPage" :length="musicPageCount"
+                                        :total-visible="musicPageVisible" @input="onMusicPageChange"></v-pagination>
+                                </div>
+                            </template>
+                            <template v-slot:no-data>
+                                <div>暂无数据~</div>
+                            </template>
+                        </v-data-table>
+                        <v-data-table v-else-if="activeTab === 1" :items="playLists" :headers="totalHeaders[activeTab]"
+                            v-model:page="playListPage">
+                            <template v-slot:headers="{ columns, isSorted, getSortIcon, toggleSort }">
+                                <tr>
+                                    <template v-for="column in columns" :key="column.key">
+                                        <td>
+                                            <span class="table-header" @click="() => toggleSort(column)">{{
+                                    column.title }}</span>
+                                            <template v-if="isSorted(column)">
+                                                <v-icon :icon="getSortIcon(column)"></v-icon>
+                                            </template>
+                                        </td>
+                                    </template>
+                                </tr>
+                            </template>
+                            <template v-slot:bottom>
+                                <div class="text-center pt-2">
+                                    <v-pagination v-model="playListPage" :length="playListPageCount"
+                                        :total-visible="playListPageVisible" @input="onPlayListPageChange"></v-pagination>
+                                </div>
+                            </template>
+                            <template v-slot:no-data>
+                                <div>暂无数据~</div>
+                            </template>
+                        </v-data-table>
+                        <v-data-table v-else-if="activeTab === 2" :items="musicRooms" :headers="totalHeaders[activeTab]"
+                            v-model:page="musicRoomPage">
+                            <template v-slot:headers="{ columns, isSorted, getSortIcon, toggleSort }">
+                                <tr>
+                                    <template v-for="column in columns" :key="column.key">
+                                        <td>
+                                            <span class="table-header" @click="() => toggleSort(column)">{{
+                                    column.title }}</span>
+                                            <template v-if="isSorted(column)">
+                                                <v-icon :icon="getSortIcon(column)"></v-icon>
+                                            </template>
+                                        </td>
+                                    </template>
+                                </tr>
+                            </template>
+                            <template v-slot:bottom>
+                                <div class="text-center pt-2">
+                                    <v-pagination v-model="musicRoomPage" :length="musicRoomPageCount"
+                                        :total-visible="musicRoomPageVisible" @input="onMusicRoomPageChange"></v-pagination>
+                                </div>
+                            </template>
+                            <template v-slot:no-data>
+                                <div>暂无数据~</div>
+                            </template>
+                        </v-data-table>
+                        <v-data-table v-else-if="activeTab === 3" :items="albums" :headers="totalHeaders[activeTab]"
+                            v-model:page="albumPage">
+                            <template v-slot:headers="{ columns, isSorted, getSortIcon, toggleSort }">
+                                <tr>
+                                    <template v-for="column in columns" :key="column.key">
+                                        <td>
+                                            <span class="table-header" @click="() => toggleSort(column)">{{
+                                    column.title }}</span>
+                                            <template v-if="isSorted(column)">
+                                                <v-icon :icon="getSortIcon(column)"></v-icon>
+                                            </template>
+                                        </td>
+                                    </template>
+                                </tr>
+                            </template>
+                            <template v-slot:bottom>
+                                <div class="text-center pt-2">
+                                    <v-pagination v-model="albumPage" :length="albumPageCount"
+                                        :total-visible="albumPageVisible" @input="onAlbumPageChange"></v-pagination>
+                                </div>
+                            </template>
+                            <template v-slot:no-data>
+                                <div>暂无数据~</div>
+                            </template>
+                        </v-data-table>
+                        <v-data-table v-else-if="activeTab === 4" :items="users" :headers="totalHeaders[activeTab]"
+                            v-model:page="userPage">
+                            <template v-slot:headers="{ columns, isSorted, getSortIcon, toggleSort }">
+                                <tr>
+                                    <template v-for="column in columns" :key="column.key">
+                                        <td>
+                                            <span class="table-header" @click="() => toggleSort(column)">{{
+                                    column.title }}</span>
+                                            <template v-if="isSorted(column)">
+                                                <v-icon :icon="getSortIcon(column)"></v-icon>
+                                            </template>
+                                        </td>
+                                    </template>
+                                </tr>
+                            </template>
+                            <template v-slot:bottom>
+                                <div class="text-center pt-2">
+                                    <v-pagination v-model="userPage" :length="userPageCount"
+                                        :total-visible="userPageVisible" @input="onUserPageChange"></v-pagination>
+                                </div>
+                            </template>
+                            <template v-slot:no-data>
+                                <div>暂无数据~</div>
+                            </template>
                         </v-data-table>
                     </v-container>
                 </v-col>
@@ -119,7 +247,21 @@
             <v-card>
                 <v-card-title>关心好友</v-card-title>
                 <v-card-text>
-                    <v-data-table :items="friends" :items-per-page="5" class="elevation-1">
+                    <v-data-table :items="friends" :items-per-page="5" v-model:page="friendPage" class="elevation-1"
+                        :headers="friendHeaders">
+                        <template v-slot:headers="{ columns, isSorted, getSortIcon, toggleSort }">
+                            <tr>
+                                <template v-for="column in columns" :key="column.key">
+                                    <td>
+                                        <span class="table-header" @click="() => toggleSort(column)">{{
+                                    column.title }}</span>
+                                        <template v-if="isSorted(column)">
+                                            <v-icon :icon="getSortIcon(column)"></v-icon>
+                                        </template>
+                                    </td>
+                                </template>
+                            </tr>
+                        </template>
                         <template v-slot:item.avatar="{ item }">
                             <v-avatar size="32">
                                 <img :src="item.avatar" />
@@ -127,6 +269,15 @@
                         </template>
                         <template v-slot:item.mood="{ item }">
                             {{ item.mood }}
+                        </template>
+                        <template v-slot:bottom>
+                            <div class="text-center pt-2">
+                                <v-pagination v-model="friendPage" :length="friendPageCount"
+                                    :total-visible="friendPageVisible" @input="onFriendPageChange"></v-pagination>
+                            </div>
+                        </template>
+                        <template v-slot:no-data>
+                            <div>暂无数据~</div>
                         </template>
                     </v-data-table>
                 </v-card-text>
@@ -145,38 +296,80 @@ export default {
         musicListNum: 80,
         musicRoomNum: 33,
 
-        selectedList: [],
+        musics: [
+            { id: 1, name: "快乐崇拜", singer: "潘玮柏/张韶涵", album: "aa", duration: 24 },
+            { id: 2, name: "欢乐颂", singer: "未知歌手", album: "未知专辑", duration: 0 },
+            { id: 3, name: "欢乐之歌", singer: "未知歌手", album: "未知专辑", duration: 0 },
+            { id: 4, name: "欢乐时光", singer: "Joy Artist", album: "Joyful Album", duration: 30 },
+            { id: 5, name: "欢乐节日", singer: "Happy Band", album: "Festive Collection", duration: 28 },
+            { id: 6, name: "开心欢乐", singer: "Smiley Singer", album: "Cheerful Hits", duration: 33 },
+            { id: 7, name: "欢乐万岁", singer: "Joyful Singers", album: "Eternal Happiness", duration: 26 },
+            { id: 8, name: "欢乐之夜", singer: "Happiness Ensemble", album: "Night of Joy", duration: 31 },
+            { id: 9, name: "欢乐星期天", singer: "Joyful Voices", album: "Sunny Day Sounds", duration: 29 },
+            { id: 10, name: "欢乐气氛", singer: "Merry Melodies", album: "Happy Vibes", duration: 27 },
+            { id: 11, name: "欢乐时刻", singer: "Lively Artist", album: "Joyful Moments", duration: 32 }
+        ],
+        musicPage: 1,
+        musicPageCount: 3,
+        musicPageVisible: 3,
 
-        totalList: [
+        playLists: [
+            { id: 1, name: "Relaxing Vibes", creator: "John Doe", tracks: 15 },
+            { id: 2, name: "Workout Hits", creator: "Jane Smith", tracks: 10 },
+        ],
+        playListPage: 1,
+        playListPageCount: 3,
+        playListPageVisible: 3,
+
+        musicRooms: [
+            { id: 1, name: "Chill Zone", members: 20, },
+            { id: 2, name: "Jam Session", members: 15, },
+        ],
+        musicRoomPage: 1,
+        musicRoomPageCount: 3,
+        musicRoomPageVisible: 3,
+
+        albums: [
+            { id: 1, title: "Golden Melodies", artist: "Alicia Keys", year: 2022 },
+            { id: 2, title: "Summer Breeze", artist: "Maroon 5", year: 2021 },
+        ],
+        albumPage: 1,
+        albumPageCount: 3,
+        albumPageVisible: 3,
+
+        users: [
+            { id: 1, username: "musiclover123", },
+            { id: 2, username: "rockstar22", },
+        ],
+        userPage: 1,
+        userPageCount: 3,
+        userPageVisible: 3,
+
+        totalHeaders: [
             [
-                { "音乐名称": "快乐崇拜", "歌手": "潘玮柏/张韶涵", "专辑": "aa", "时长": 24 },
-                { "音乐名称": "欢乐颂", "歌手": "未知歌手", "专辑": "未知专辑", "时长": 0 },
-                { "音乐名称": "欢乐之歌", "歌手": "未知歌手", "专辑": "未知专辑", "时长": 0 },
-                { "音乐名称": "欢乐时光", "歌手": "Joy Artist", "专辑": "Joyful Album", "时长": 30 },
-                { "音乐名称": "欢乐节日", "歌手": "Happy Band", "专辑": "Festive Collection", "时长": 28 },
-                { "音乐名称": "开心欢乐", "歌手": "Smiley Singer", "专辑": "Cheerful Hits", "时长": 33 },
-                { "音乐名称": "欢乐万岁", "歌手": "Joyful Singers", "专辑": "Eternal Happiness", "时长": 26 },
-                { "音乐名称": "欢乐之夜", "歌手": "Happiness Ensemble", "专辑": "Night of Joy", "时长": 31 },
-                { "音乐名称": "欢乐星期天", "歌手": "Joyful Voices", "专辑": "Sunny Day Sounds", "时长": 29 },
-                { "音乐名称": "欢乐气氛", "歌手": "Merry Melodies", "专辑": "Happy Vibes", "时长": 27 },
-                { "音乐名称": "欢乐时刻", "歌手": "Lively Artist", "专辑": "Joyful Moments", "时长": 32 }
+                { title: "音乐名称", value: "name", },
+                { title: "歌手", value: "singer", },
+                { title: "专辑", value: "album", },
+                { title: "时长", value: "duration", },
+                { title: "操作", value: "actions", },
             ],
             [
-                { id: 1, name: "Relaxing Vibes", owner: "John Doe", tracks: 15 },
-                { id: 2, name: "Workout Hits", owner: "Jane Smith", tracks: 10 },
+                { title: "歌单名称", value: "name", },
+                { title: "创作者", value: "creator", },
+                { title: "歌曲数量", value: "tracks", },
             ],
             [
-                { id: 1, name: "Chill Zone", members: 20, privacy: "public" },
-                { id: 2, name: "Jam Session", members: 15, privacy: "private" },
+                { title: '音乐室名称', value: 'name', },
+                { title: '成员数量', value: 'members', },
             ],
             [
-                { id: 1, title: "Golden Melodies", artist: "Alicia Keys", year: 2022 },
-                { id: 2, title: "Summer Breeze", artist: "Maroon 5", year: 2021 },
+                { title: '专辑名称', value: 'title', },
+                { title: '作者', value: 'artist', },
+                { title: '创作时间', value: 'year', },
             ],
             [
-                { id: 1, username: "musiclover123", followers: 500, following: 300 },
-                { id: 2, username: "rockstar22", followers: 1000, following: 800 },
-            ]
+                { title: '用户名称', value: 'username', },
+            ],
         ],
 
         profileIcons: [
@@ -207,20 +400,61 @@ export default {
         activeTab: 0,
 
         favorDialog: false,
-        friends: [
-            { avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Alice', emotionValue: '😊' },
-            { avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
-            // 添加更多好友数据
+        friendHeaders: [
+            { title: '头像', value: "avatar", },
+            { title: '用户名', value: "username", },
+            { title: '心情值', value: "emotionValue", },
         ],
+        friends: [
+            { id: 1, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Alice', emotionValue: '😊' },
+            { id: 2, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            { id: 3, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            { id: 4, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            { id: 5, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            { id: 6, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            { id: 7, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            { id: 9, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            { id: 10, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            { id: 11, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            { id: 12, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            { id: 13, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            { id: 14, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            { id: 15, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+        ],
+        friendPage: 1,
+        friendPageCount: 3,
+        friendPageVisible: 3,
     }),
     methods: {
         handleActiveTab(index) {
             this.activeTab = index;
-            this.selectedList = this.totalList[index];
-        }
+        },
+        onFriendPageChange(page) {
+            // wait for append data to the friend list
+            this.friendPage = page;
+        },
+        onMusicPageChange(page) {
+            // wait for append data to the music list
+            this.friendPage = page;
+        },
+        onPlayListPageChange(page) {
+            // wait for append data to the play list list
+            this.friendPage = page;
+        },
+        onMusicRoomPageChange(page) {
+            // wait for append data to the music room list
+            this.friendPage = page;
+        },
+        onAlbumPageChange(page) {
+            // wait for append data to the album list
+            this.friendPage = page;
+        },
+        onUserPageChange(page) {
+            // wait for append data to the user list
+            this.friendPage = page;
+        },
     },
     mounted() {
-        this.selectedList = this.totalList[0];
     }
 }
 </script>
@@ -261,5 +495,11 @@ export default {
     /* 悬停时的背景颜色 */
     color: white;
     /* 悬停时的字体颜色 */
+}
+
+.table-header {
+    cursor: pointer;
+    font-size: large;
+    font-weight: 600;
 }
 </style>

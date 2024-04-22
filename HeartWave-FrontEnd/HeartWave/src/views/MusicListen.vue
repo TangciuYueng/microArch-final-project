@@ -240,7 +240,21 @@
             <v-card>
                 <v-card-title>关心好友</v-card-title>
                 <v-card-text>
-                    <v-data-table :items="friends" :items-per-page="5" class="elevation-1">
+                    <v-data-table :items="friends" :items-per-page="5" v-model:page="friendPage" class="elevation-1"
+                        :headers="friendHeaders">
+                        <template v-slot:headers="{ columns, isSorted, getSortIcon, toggleSort }">
+                            <tr>
+                                <template v-for="column in columns" :key="column.key">
+                                    <td>
+                                        <span class="table-header" @click="() => toggleSort(column)">{{
+                                    column.title }}</span>
+                                        <template v-if="isSorted(column)">
+                                            <v-icon :icon="getSortIcon(column)"></v-icon>
+                                        </template>
+                                    </td>
+                                </template>
+                            </tr>
+                        </template>
                         <template v-slot:item.avatar="{ item }">
                             <v-avatar size="32">
                                 <img :src="item.avatar" />
@@ -248,6 +262,12 @@
                         </template>
                         <template v-slot:item.mood="{ item }">
                             {{ item.mood }}
+                        </template>
+                        <template v-slot:bottom>
+                            <div class="text-center pt-2">
+                                <v-pagination v-model="friendPage" :length="friendPageCount"
+                                    :total-visible="friendPageVisible" @input="onFriendPageChange"></v-pagination>
+                            </div>
                         </template>
                     </v-data-table>
                 </v-card-text>
@@ -312,12 +332,30 @@ export default {
         visitorNum: 234,
 
         favorDialog: false,
-        
-        friends: [
-            { avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Alice', emotionValue: '😊' },
-            { avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
-            // 添加更多好友数据
+        friendHeaders: [
+            { title: '头像', value: "avatar", },
+            { title: '用户名', value: "username", },
+            { title: '心情值', value: "emotionValue", },
         ],
+        friends: [
+            { id: 1, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Alice', emotionValue: '😊' },
+            { id: 2, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            { id: 3, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            { id: 4, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            { id: 5, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            { id: 6, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            { id: 7, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            { id: 9, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            { id: 10, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            { id: 11, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            { id: 12, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            { id: 13, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            { id: 14, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+            { id: 15, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
+        ],
+        friendPage: 1,
+        friendPageCount: 3,
+        friendPageVisible: 3,
     }),
     methods: {
         searchEvent() {

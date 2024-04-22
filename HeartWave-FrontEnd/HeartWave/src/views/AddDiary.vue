@@ -65,6 +65,9 @@
                                         </template>
                                     </tr>
                                 </template>
+                                <template v-slot:no-data>
+                                    <div>暂无数据~</div>
+                                </template>
                             </v-data-table-virtual>
                         </v-container>
                     </v-col>
