@@ -92,7 +92,8 @@
   
 <script>
 // import HelloWorld from '@/components/HelloWorld.vue'
-import { sendSmsSetPassword } from '@/axios/login'
+import { resetUser } from '../main.js';
+import { sendSmsSetPassword } from '@/axios/login';
 export default {
     data: () => ({
         form: false,
@@ -109,9 +110,9 @@ export default {
         // const script = document.createElement('script')
         // script.src = './src/snow.js'
         // document.body.appendChild(script)
-        localStorage.removeItem("resetUserId");
-        localStorage.removeItem("resetUsername");
-        localStorage.removeItem("resetPhone");
+        resetUser.id = 0;
+        resetUser.name = null;
+        resetUser.phone = null;
     },
     methods: {
         onSubmit() {
@@ -139,8 +140,8 @@ export default {
             setTimeout(() => {
                 this.loading = false;
                 this.showJumpInfo = false;
-                localStorage.setItem("resetUsername", this.username);
-                localStorage.setItem("resetPhone", this.phone);
+                resetUser.name = this.username;
+                resetUser.phone = this.phone;
                 this.$router.push('/reset-code');
             }, 2000);
         },
@@ -184,7 +185,7 @@ export default {
                     return;
                 }
 
-                localStorage.setItem("resetUserId", res.userId);
+                resetUser.id = res.userId;
                 this.verifyInfo = res.smsInfo.code;
             }, err => {
                 console.log(err);
@@ -196,6 +197,15 @@ export default {
 </script>
 
 <style scoped>
+@font-face {
+    font-family: Poppins-Regular; /* 自定义字体名称 */
+    src: url('../assets/fonts/Poppins/Poppins-Regular.ttf') format('truetype'); /* 字体文件的路径 */
+}
+@font-face {
+    font-family: Poppins-Light; /* 自定义字体名称 */
+    src: url('../assets/fonts/Poppins/Poppins-Light.ttf') format('truetype'); /* 字体文件的路径 */
+}
+
 .set-code {
     height: 100vh;
     overflow: hidden;
@@ -231,8 +241,12 @@ export default {
     margin-bottom: 25px;
 }
 :deep(.v-field__input) {  /* 输入框输入内容 */
+    font-family: "Poppins-Light";
     font-size: 20px;
     color: #105645;
+}
+:deep(.v-messages__message) {  /* 输入框提示 */
+    font-family: "Poppins-Regular";
 }
 .submit-button-pass {
     position: relative;

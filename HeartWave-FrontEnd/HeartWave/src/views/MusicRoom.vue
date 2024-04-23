@@ -69,7 +69,7 @@
 
             <!-- 中间聊天区 -->
             <div v-if="isChatShow" class="chat-container">
-                <div class="chat-record-area">
+                <div id="chat-record-area" class="chat-record-area">
                     <chat-record
                         v-for="item in chatRecords"
                         :avatar="getChatAvatar(item.ifSender)"
@@ -85,10 +85,10 @@
                         <img src="../assets/chat-music.svg">
                         <img src="../assets/chat-picture.svg">
                         <img src="../assets/chat-gift.svg">
-                        <v-btn class="send-button"> 发送 </v-btn>
+                        <v-btn class="send-button" @click="sendMessage"> 发送 </v-btn>
                     </div>
 
-                    <textarea class="chat-input"></textarea>
+                    <textarea v-model="editingMessage" class="chat-input"></textarea>
                 </div>
             </div>
 
@@ -276,6 +276,7 @@ import ChatRecord from '../components/ChatRecord.vue';
 import MusicRoomRec from '../components/MusicRoomRec.vue';
 import MusicRoomCurrent from '../components/MusicRoomCurrent.vue';
 import { updateChatTime, addFriend, getFriends } from '../axios/friend.js';
+import { user } from '@/main';
 export default {
     //导出组件
     components: {
@@ -291,6 +292,8 @@ export default {
         loading: false,
         menu: "users",
         isChatShow: false,
+        ws: null,
+        editingMessage: "",
         isCreateMusicRoomShow: false,
         backButtonImgSrc: "../assets/back.svg",
         keyword: "",
@@ -494,6 +497,38 @@ export default {
     }),
     methods: {
         clickListItem: function(item) {
+            if (this.currentUser.id != item.id) {
+                if (this.ws != null)
+                    this.ws.close();
+
+                this.ws = new WebSocket("ws://localhost:8080");
+            
+                this.ws.onopen = function(event) {
+                    console.log("connected");
+                    console.log(event);
+                }
+
+                var that = this;
+
+                this.ws.onmessage = function(event) {
+                    if (event.data instanceof Blob) {
+                        event.data.text().then(function(text) {
+                            console.log('Received message: ' + text);
+                            that.addChatRecord(text, false);
+                            // 在页面上显示消息内容，例如可以将text添加到聊天窗口中
+                        });
+                    } else {
+                        console.log('Received message: ' + event.data);
+                        // 在页面上显示消息内容，例如可以直接将event.data添加到聊天窗口中
+                    }
+                }
+
+                this.ws.onclose = function(event) {
+                    console.log("disconnected");
+                    console.log(event);
+                }
+            }
+
             this.currentUser.id = item.id;
             this.currentUser.username = item.username;
             this.currentUser.size = (this.menu == 'musicRooms') ? item.size : 0;
@@ -505,6 +540,10 @@ export default {
                 return this.currentUser.username + '(' + this.currentUser.size + "人)";
             else
                 return this.currentUser.username;
+        },
+        sendMessage: function() {
+            this.ws.send(this.editingMessage);
+            this.addChatRecord(this.editingMessage, true);
         },
         getImgSrc: function(url) {
             return new URL(url, import.meta.url).href;
@@ -526,14 +565,25 @@ export default {
             return filteredUsers[0].avatar;
         },
         getChatAvatar: function(ifSender) {
-            return ifSender ? localStorage.getItem("userAvatar") : this.getCurrentFriendAvatar();
+            return ifSender ? user.avatar : this.getCurrentFriendAvatar();
+        },
+        addChatRecord: function(text, ifSender) {
+            this.chatRecords.push({
+                text: text,
+                ifSender: ifSender
+            });
+
+            const area = document.getElementById("chat-record-area");
+            this.$nextTick(() => {
+                area.scrollTop = area.scrollHeight;
+            });
         }
     },
     mounted() {
         var that = this;
 
         getFriends({
-            userId: parseInt(localStorage.getItem("userId"))
+            userId: user.id
         }).then(res => {
             for (var i = 0; i < res.length; i++) {
                 that.users.push({

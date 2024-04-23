@@ -83,7 +83,7 @@
                 </v-row>
                 <v-row style="margin-top: 10px;">
                     <label class="refetch-info-1"> Can't see clearly? </label>
-                    <label class="refetch-info-2"> Press the picture to refresh </label>
+                    <label class="refetch-info-2"> Click the picture to refresh </label>
                     <v-btn
                         :loading="loading"
                         class="forgot-password-button"
@@ -113,8 +113,9 @@
   
 <script>
 // import HelloWorld from '@/components/HelloWorld.vue'
-import { mdiAccount, } from '@mdi/js'
-import { login, getVerifyInfo } from '../axios/login.js'
+import { user } from '../main.js';
+import { mdiAccount, } from '@mdi/js';
+import { login, getVerifyInfo } from '../axios/login.js';
 export default {
     data: () => ({
         mdiAccount,
@@ -213,10 +214,16 @@ export default {
                 phone: this.phone
             }).then((res) => {
                 console.log(res);
-                localStorage.setItem("userId", res.id);
-                localStorage.setItem("username", res.name);
-                localStorage.setItem("userAvatar", res.avatar);
-                localStorage.setItem("userEmail", res.email);
+                // localStorage.setItem("userId", res.id);
+                // localStorage.setItem("username", res.name);
+                // localStorage.setItem("userAvatar", res.avatar);
+                // localStorage.setItem("userEmail", res.email);
+                user.id = res.id;
+                user.name = res.name;
+                user.avatar = res.avatar;
+                user.email = res.email;
+
+                console.log(user);
                 
                 setTimeout(() => {
                     this.loading = false;
@@ -310,7 +317,7 @@ export default {
     font-family: "Poppins-Regular";
 }
 .refetch-info-2 {
-    font-family: "Poppins-Regular";
+    font-family: "Poppins-Medium";
     color: #105645;
 }
 .verify-image {

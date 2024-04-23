@@ -57,6 +57,7 @@
     </v-card>
 </template>
 <script>
+import { user } from '../main.js';
 import MusicPlayer from '@/components/MusicPlayer.vue'
 import HomePage from '@/views/HomePage.vue'
 import MusicListen from '@/views/MusicListen.vue'
@@ -172,10 +173,10 @@ export default {
         }
     },
     mounted() {
-        this.userId = parseInt(localStorage.getItem("userId"));
-        this.username = localStorage.getItem("username");
-        this.userAvatar = localStorage.getItem("userAvatar");
-        this.userEmail = localStorage.getItem("userEmail");
+        this.userId = user.id;
+        this.username = user.name;
+        this.userAvatar = user.avatar;
+        this.userEmail = user.email;
     }
 };
 </script>

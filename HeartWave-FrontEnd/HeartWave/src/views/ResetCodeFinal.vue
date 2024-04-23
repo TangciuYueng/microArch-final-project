@@ -93,6 +93,7 @@
   
 <script>
 // import HelloWorld from '@/components/HelloWorld.vue'
+import { resetUser } from '../main.js';
 import { resetPassword } from '@/axios/login'
 import { number } from 'echarts'
 export default {
@@ -143,7 +144,7 @@ export default {
 
             //执行登录逻辑，成功后重定向到主页
             this.loading = true;
-            const userId = parseInt(localStorage.getItem("resetUserId"));
+            const userId = resetUser.id;
             console.log(userId);
 
             resetPassword({
@@ -151,9 +152,10 @@ export default {
                 newPassword: this.newPassword
             }).then(res => {
                 console.log(res);
-                localStorage.removeItem("resetUserId");
-                localStorage.removeItem("resetUsername");
-                localStorage.removeItem("resetPhone");
+
+                resetUser.id = 0;
+                resetUser.name = null;
+                resetUser.phone = null;
                 this.resetSuccess = true;
 
                 setTimeout(() => {
@@ -167,8 +169,8 @@ export default {
         }
     },
     mounted() {
-        this.username = localStorage.getItem("resetUsername");
-        this.phone = localStorage.getItem("resetPhone");
+        this.username = resetUser.name;
+        this.phone = resetUser.phone;
     }
 }
 </script>
