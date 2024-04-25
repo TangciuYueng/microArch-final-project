@@ -14,7 +14,6 @@ import org.springframework.context.annotation.PropertySource;
  */
 @Configuration
 @ConfigurationProperties(prefix = "aliyun.sms", ignoreUnknownFields = false)
-@PropertySource("classpath:config/authentication.properties")
 @Data
 public class AliyunSmsConfig {
     private String regionId;        //地区id

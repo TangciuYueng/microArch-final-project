@@ -25,3 +25,19 @@ registerPlugins(app)
 window.$ = jQuery
 app.use(ElementPlus)
 app.mount('#app')
+
+
+export var user = {
+    id: 0,
+    name: null,
+    avatar: null,
+    email: null
+};
+
+export var resetUser = {
+    id: 0,
+    name: null,
+    phone: null
+}
+
+//export var user;

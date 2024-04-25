@@ -77,6 +77,7 @@
 </template>
   
 <script>
+import { user } from '../main.js';
 import WeatherCard from "@/components/WeatherCard.vue";
 import FriendCard from "@/components/FriendCard.vue";
 import TipsCard from "@/components/TipsCard.vue";
@@ -189,9 +190,9 @@ export default {
         },
   },
   mounted() {
-    this.avatarSrc = localStorage.getItem("userAvatar");
-    this.userId = localStorage.getItem("userId");
-    this.username = localStorage.getItem("username");
+    this.avatarSrc = user.avatar;
+    this.userId = user.id;
+    this.username = user.name;
   }
 };
 </script>

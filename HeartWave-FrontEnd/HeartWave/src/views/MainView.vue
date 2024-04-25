@@ -3,7 +3,8 @@
     <v-navigation-drawer expand-on-hover rail color="#F4FFFC">
         <!-- 头像 -->
         <v-list>
-            <v-list-item :prepend-avatar="'data:image/jpg;base64,' + userAvatar" :title="username" :subtitle="userEmail"></v-list-item>
+            <v-list-item :prepend-avatar="'data:image/jpg;base64,' + userAvatar" :title="username"
+                :subtitle="userEmail"></v-list-item>
         </v-list>
 
         <v-divider></v-divider>
@@ -33,7 +34,7 @@
             <diary v-if="page == 4" @addDiaryEvent="handleAddDiary" @BrowsingPersonalHomepage="handleBrowsingEvent">
             </diary>
             <!-- 显示随笔中心 -->
-            <setting v-if="page == 10"  @BrowsingPersonalHomepage="handleBrowsingEvent">
+            <setting v-if="page == 10" @BrowsingPersonalHomepage="handleBrowsingEvent">
             </setting>
 
 
@@ -48,12 +49,15 @@
             <music-player @click="lastPage = (page == 7 ? lastPage : page); page = 7;"></music-player>
 
             <personal-homepage v-if="page == 8" :userId="userId"></personal-homepage>
-            <play-list v-if="page == 9" @BrowsingPersonalHomepage="handleBrowsingEvent" :playListType="playListType"
-                :playListId="playListId"></play-list>
+            <play-list v-if="page == 9" @BrowsingPersonalHomepage="handleBrowsingEvent"
+            @lastPageEvent="handleLastPageEvent"
+                @detialPlayListEvent="handleDetailPlayList" :playListType="playListType" :playListId="playListId"
+                :lastPage="lastPage"></play-list>
         </v-layout>
     </v-card>
 </template>
 <script>
+import { user } from '../main.js';
 import MusicPlayer from '@/components/MusicPlayer.vue'
 import HomePage from '@/views/HomePage.vue'
 import MusicListen from '@/views/MusicListen.vue'
@@ -142,6 +146,8 @@ export default {
             console.log(this.page);
         },
         handleDetailPlayList(value, id) {
+            // record last page for page back
+            this.lastPage = this.page;
             if (value == 'favor') {
                 // 跳转去关注的人的列表
                 this.page = 110;
@@ -160,13 +166,17 @@ export default {
                 this.playListId = id;
                 // console.log(this.playListType)
             }
+        },
+        handleLastPageEvent(lastPage) {
+            this.page = lastPage;
+            console.log('back to', lastPage);
         }
     },
     mounted() {
-        this.userId = parseInt(localStorage.getItem("userId"));
-        this.username = localStorage.getItem("username");
-        this.userAvatar = localStorage.getItem("userAvatar");
-        this.userEmail = localStorage.getItem("userEmail");
+        this.userId = user.id;
+        this.username = user.name;
+        this.userAvatar = user.avatar;
+        this.userEmail = user.email;
     }
 };
 </script>

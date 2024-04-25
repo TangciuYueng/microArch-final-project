@@ -19,7 +19,7 @@
                                 {{ tab }}
                             </div>
                         </div>
-                        <v-container v-if="activeTab === 0" style="height: 700px; overflow-y: auto;">
+                        <!-- <v-container v-if="activeTab === 0" style="height: 700px; overflow-y: auto;">
                             <v-row>
                                 <template v-for="(image, imgIdx) in imageLayout" :key="imgIdx">
                                     <v-col :cols="image.cols">
@@ -38,10 +38,11 @@
                                         </v-row>
                                     </v-col>
                                 </template>
-                            </v-row>
-                        </v-container>
-                        <v-container v-else-if="activeTab === 1" style="height: 700px; overflow-y: auto;">
-                            <v-data-table-virtual :items="items" :search="search" :items-per-page="8">
+</v-row>
+</v-container> -->
+                        <v-container v-if="activeTab === 0" style="height: 700px; overflow-y: auto;">
+                            <v-data-table-virtual show-select select-strategy="single" :items="items" :search="search"
+                                :items-per-page="8" item-key="id" :headers="headers">
                                 <template v-slot:top>
                                     <v-toolbar flat color="white">
                                         <v-toolbar-title>歌曲</v-toolbar-title>
@@ -50,6 +51,22 @@
                                             hide-details></v-text-field>
                                         <v-icon class="ml-3" style="cursor: pointer;">mdi-magnify</v-icon>
                                     </v-toolbar>
+                                </template>
+                                <template v-slot:headers="{ columns, isSorted, getSortIcon, toggleSort }">
+                                    <tr>
+                                        <template v-for="column in columns" :key="column.key">
+                                            <td>
+                                                <span class="table-header" @click="() => toggleSort(column)">{{
+                                column.title }}</span>
+                                                <template v-if="isSorted(column)">
+                                                    <v-icon :icon="getSortIcon(column)"></v-icon>
+                                                </template>
+                                            </td>
+                                        </template>
+                                    </tr>
+                                </template>
+                                <template v-slot:no-data>
+                                    <div>暂无数据~</div>
                                 </template>
                             </v-data-table-virtual>
                         </v-container>
@@ -136,27 +153,26 @@ export default {
     },
     //导出组件
     data: () => ({
-        tabs: ['图片', '音乐',],
+        tabs: ['音乐',],
         activeTab: 0,
 
         search: '',
+
         headers: [
-            { text: '编号', value: 'id' },
-            { text: '姓名', value: 'name' },
-            { text: '年龄', value: 'age' },
+            { title: '歌曲名称', value: 'name', },
         ],
         items: [
-            { '歌曲名称': '最冷一天' },
-            { '歌曲名称': '行かないで' },
-            { '歌曲名称': '愛の雫' },
-            { '歌曲名称': '桃色吐息' },
-            { '歌曲名称': 'アイドル' },
-            { '歌曲名称': '銀の龍の背に乗って' },
-            { '歌曲名称': '北酒場' },
-            { '歌曲名称': '星空のディスタンス' },
-            { '歌曲名称': 'キミがいれば' },
-            { '歌曲名称': 'キンク' },
-            { '歌曲名称': '水色' },
+            { id: 1, name: '最冷一天' },
+            { id: 2, name: '行かないで' },
+            { id: 3, name: '愛の雫' },
+            { id: 4, name: '桃色吐息' },
+            { id: 5, name: 'アイドル' },
+            { id: 6, name: '銀の龍の背に乗って' },
+            { id: 7, name: '北酒場' },
+            { id: 8, name: '星空のディスタンス' },
+            { id: 9, name: 'キミがいれば' },
+            { id: 10, name: 'キンク' },
+            { id: 11, name: '水色' },
         ],
 
         diaryTitle: '',
@@ -267,5 +283,11 @@ export default {
     margin-top: 20px;
     height: 100px;
     width: 100px;
+}
+
+.table-header {
+    cursor: pointer;
+    font-size: large;
+    font-weight: 600;
 }
 </style>

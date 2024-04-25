@@ -9,5 +9,6 @@ import java.util.List;
 public interface COSService {
     List<Bucket> getCOSBuckets();
     void uploadFile(COSFileRequest cosFileRequest);
+    void uploadFileBytes(byte[] fileBytes, String cosPath);
     String getUserAvatar(Long userId) throws IOException;
 }

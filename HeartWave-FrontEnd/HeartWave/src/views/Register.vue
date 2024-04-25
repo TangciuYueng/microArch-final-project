@@ -2,7 +2,7 @@
     <!-- 注册界面 -->
     <div class="Screen">
         <div class="Register">
-            <div class="title text-h3 font-weight-bold"> 注 册</div>
+            <div class="title"> Register </div>
             <!-- 显示机票背景图片 -->
             <v-img
                 cover
@@ -161,8 +161,8 @@
                                 density="compact"
                                 style="display: inline-block; position:relative; top: 8px; left: 5%;"
                                 @input="checkRegisterInput()">
-                                <v-radio label="男" value="male" color="#105645" style="margin-left: 2%;"></v-radio>
-                                <v-radio label="女" value="female" color="#105645" style="margin-left: 2%;"></v-radio>
+                                <v-radio label="男" value="MALE" color="#105645" style="margin-left: 2%;"></v-radio>
+                                <v-radio label="女" value="FEMALE" color="#105645" style="margin-left: 2%;"></v-radio>
                             </v-radio-group>
                             
                         </v-row>
@@ -353,19 +353,24 @@ export default {
 </script>
 
 <style scoped>
+@font-face {
+    font-family: Poppins-Medium; /* 自定义字体名称 */
+    src: url('../assets/fonts/Poppins/Poppins-Medium.ttf') format('truetype'); /* 字体文件的路径 */
+}
 .Screen {
     position: relative;
     width: 100vw;
     height: 100vh;
-    background-image: url(../assets/loginBackgroundImage.png);
+    background-color: #10564510;
     background-size: 100%;
 }
 .title {
+    font-family: "Poppins-Medium";
     width: 100%;
     line-height: 50px;
     text-align: center;
-    font-size: 20px;
-    color: #105644;
+    font-size: 40px;
+    color: #105645;
 }
 .Register {
     position: absolute;

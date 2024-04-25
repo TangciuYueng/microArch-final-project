@@ -91,4 +91,45 @@ public class DiaryController {
         PageRequest pageRequest = PageRequest.of(page, size);
         return ResponseEntity.ok(new Result<>(200, "Success", diaryService.getFriendUpdateRecently(userId, pageRequest)));
     }
+
+    /**
+     * 查询给定用户的日记数量
+     *
+     * @param userId 用户ID
+     * @return 日记数量
+     */
+    @GetMapping("/count")
+    public ResponseEntity<Result<Integer>> getDiaryCount(@RequestParam Integer userId) {
+        if (userId == null || userId <= 0) {
+            return ResponseEntity.badRequest().body(new Result<>(400, "Invalid userId parameter", null));
+        }
+
+        try {
+            int diaryCount = diaryService.getDiaryCount(userId);
+            return ResponseEntity.ok(new Result<>(200, "Success", diaryCount));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Result<>(500, "Failed to retrieve diary count", null));
+        }
+    }
+
+    /**
+     * 创建新日记
+     *
+     * @param diary 要创建的日记对象
+     * @return ResponseEntity 包含创建成功的日记对象
+     */
+    @PostMapping
+    public ResponseEntity<Result<Diary>> createDiary(@RequestBody Diary diary) {
+        if (diary == null) {
+            return ResponseEntity.badRequest().body(new Result<>(400, "Diary object is required", null));
+        }
+
+        try {
+            Diary savedDiary = diaryService.saveDiary(diary);
+            return ResponseEntity.ok(new Result<>(200, "Success", savedDiary));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new Result<>(500, "Failed to create diary: " + e.getMessage(), null));
+        }
+    }
 }

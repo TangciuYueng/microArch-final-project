@@ -38,7 +38,7 @@
                 <music-room-item
                     v-if="menu != 'square'"
                     v-for="item in (menu == 'users' ? users : musicRooms)"
-                    :avatar-url="item.avatarUrl"
+                    :avatar="'data:image/jpg;base64,' + item.avatar"
                     :username="item.username"
                     :time="item.time"
                     :status="item.status"
@@ -69,10 +69,10 @@
 
             <!-- 中间聊天区 -->
             <div v-if="isChatShow" class="chat-container">
-                <div class="chat-record-area">
+                <div id="chat-record-area" class="chat-record-area">
                     <chat-record
                         v-for="item in chatRecords"
-                        :avatar-url="item.avatarUrl"
+                        :avatar="getChatAvatar(item.ifSender)"
                         :text="item.text"
                         :if-sender="item.ifSender"
                     ></chat-record>
@@ -85,10 +85,10 @@
                         <img src="../assets/chat-music.svg">
                         <img src="../assets/chat-picture.svg">
                         <img src="../assets/chat-gift.svg">
-                        <v-btn class="send-button"> 发送 </v-btn>
+                        <v-btn class="send-button" @click="sendMessage"> 发送 </v-btn>
                     </div>
 
-                    <textarea class="chat-input"></textarea>
+                    <textarea v-model="editingMessage" class="chat-input"></textarea>
                 </div>
             </div>
 
@@ -275,6 +275,8 @@ import MusicRoomItem from '../components/MusicRoomItem.vue';
 import ChatRecord from '../components/ChatRecord.vue';
 import MusicRoomRec from '../components/MusicRoomRec.vue';
 import MusicRoomCurrent from '../components/MusicRoomCurrent.vue';
+import { updateChatTime, addFriend, getFriends } from '../axios/friend.js';
+import { user } from '@/main';
 export default {
     //导出组件
     components: {
@@ -290,40 +292,13 @@ export default {
         loading: false,
         menu: "users",
         isChatShow: false,
+        ws: null,
+        editingMessage: "",
         isCreateMusicRoomShow: false,
         backButtonImgSrc: "../assets/back.svg",
         keyword: "",
         newMusicRoomDialog: false,
-        users: [
-            {
-                avatarUrl: "../assets/user/USR1.jpg",
-                username: "无聊的人",
-                time: "21:13",
-                status: 1,
-                song: "Hello central! Give me heaven——The Carter Family"
-            },
-            {
-                avatarUrl: "../assets/user/USR5.jpg",
-                username: "David Wang",
-                time: "12:55",
-                status: 1,
-                song: "Price Tag——Jessie J、B.o.B"
-            },
-            {
-                avatarUrl: "../assets/user/USR3.jpg",
-                username: "陌路飞雪+梦溪凤翔",
-                time: "昨天",
-                status: 1,
-                song: "消愁——毛不易"
-            },
-            {
-                avatarUrl: "../assets/user/USR4.jpg",
-                username: "精神测绘人",
-                time: "21:13",
-                status: 2,
-                song: "讲不出再见——谭咏麟"
-            }
-        ],
+        users: [],
         musicRooms: [
             {
                 avatarUrl: "../assets/room/ROOM1.png",
@@ -360,47 +335,38 @@ export default {
         ],
         chatRecords: [
             {
-                avatarUrl: "../assets/user/USR1.jpg",
                 text: "hello",
                 ifSender: true
             },
             {
-                avatarUrl: "../assets/user/USR2.png",
                 text: "你好！",
                 ifSender: false
             },
             {
-                avatarUrl: "../assets/user/USR1.jpg",
                 text: "晚上来不来",
                 ifSender: true
             },
             {
-                avatarUrl: "../assets/user/USR2.png",
                 text: "爽唱！",
                 ifSender: false
             },
             {
-                avatarUrl: "../assets/user/USR1.jpg",
                 text: "去哪里搞，几点",
                 ifSender: true
             },
             {
-                avatarUrl: "../assets/user/USR2.png",
                 text: "6点吃完饭呗，我开房",
                 ifSender: false
             },
             {
-                avatarUrl: "../assets/user/USR1.jpg",
                 text: "造！",
                 ifSender: true
             },
             {
-                avatarUrl: "../assets/user/USR2.png",
                 text: "okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！",
                 ifSender: false
             },
             {
-                avatarUrl: "../assets/user/USR1.jpg",
                 text: "你干嘛！",
                 ifSender: true
             },
@@ -491,6 +457,7 @@ export default {
             },
         ],
         currentUser: {
+            id: 0,
             username: "",
             status: 1,
             size: 0
@@ -530,6 +497,39 @@ export default {
     }),
     methods: {
         clickListItem: function(item) {
+            if (this.currentUser.id != item.id) {
+                if (this.ws != null)
+                    this.ws.close();
+
+                this.ws = new WebSocket("ws://localhost:8080");
+            
+                this.ws.onopen = function(event) {
+                    console.log("connected");
+                    console.log(event);
+                }
+
+                var that = this;
+
+                this.ws.onmessage = function(event) {
+                    if (event.data instanceof Blob) {
+                        event.data.text().then(function(text) {
+                            console.log('Received message: ' + text);
+                            that.addChatRecord(text, false);
+                            // 在页面上显示消息内容，例如可以将text添加到聊天窗口中
+                        });
+                    } else {
+                        console.log('Received message: ' + event.data);
+                        // 在页面上显示消息内容，例如可以直接将event.data添加到聊天窗口中
+                    }
+                }
+
+                this.ws.onclose = function(event) {
+                    console.log("disconnected");
+                    console.log(event);
+                }
+            }
+
+            this.currentUser.id = item.id;
             this.currentUser.username = item.username;
             this.currentUser.size = (this.menu == 'musicRooms') ? item.size : 0;
             this.currentUser.status = item.status;
@@ -540,6 +540,10 @@ export default {
                 return this.currentUser.username + '(' + this.currentUser.size + "人)";
             else
                 return this.currentUser.username;
+        },
+        sendMessage: function() {
+            this.ws.send(this.editingMessage);
+            this.addChatRecord(this.editingMessage, true);
         },
         getImgSrc: function(url) {
             return new URL(url, import.meta.url).href;
@@ -555,7 +559,46 @@ export default {
             } else {
                 alert('请选择图片文件');
             }
+        },
+        getCurrentFriendAvatar: function() {
+            var filteredUsers = this.users.filter(user => user.id == this.currentUser.id);
+            return filteredUsers[0].avatar;
+        },
+        getChatAvatar: function(ifSender) {
+            return ifSender ? user.avatar : this.getCurrentFriendAvatar();
+        },
+        addChatRecord: function(text, ifSender) {
+            this.chatRecords.push({
+                text: text,
+                ifSender: ifSender
+            });
+
+            const area = document.getElementById("chat-record-area");
+            this.$nextTick(() => {
+                area.scrollTop = area.scrollHeight;
+            });
         }
+    },
+    mounted() {
+        var that = this;
+
+        getFriends({
+            userId: user.id
+        }).then(res => {
+            for (var i = 0; i < res.length; i++) {
+                that.users.push({
+                    id: res[i].friendId,
+                    avatar: res[i].avatar,
+                    username: res[i].name,
+                    time: res[i].chatTime,
+                    intimacy: res[i].intimacy,
+                    status: 1,
+                    song: ""
+                });
+            }
+        }, err => {
+            console.log(err);
+        });
     }
 }
 </script>

@@ -34,4 +34,13 @@ public interface DiaryRepository extends JpaRepository<Diary, Integer>, JpaSpeci
      */
     @Query("SELECT new cn.edu.tongji.diaryWriting.dto.FriendDiaryDTO(d.userId as friendId, d.id as diaryId) FROM Diary d WHERE d.userId IN :friendIds ORDER BY d.updateTime DESC")
     Page<FriendDiaryDTO> findFriendsRecentUpdatedDiaries(@Param("friendIds") List<Integer> friendIds, PageRequest pageRequest);
+
+    /**
+     * 查询给定用户的日记数量
+     *
+     * @param userId 用户ID
+     * @return 日记数量
+     */
+    @Query("SELECT count(*) FROM Diary d WHERE d.userId = :userId")
+    Integer getDiaryCount(@Param("userId") Integer userId);
 }

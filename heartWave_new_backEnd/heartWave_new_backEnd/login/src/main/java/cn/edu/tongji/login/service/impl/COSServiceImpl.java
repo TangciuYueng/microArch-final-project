@@ -7,8 +7,10 @@ import com.qcloud.cos.model.*;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Base64;
 import java.util.List;
 
@@ -32,6 +34,12 @@ public class COSServiceImpl implements COSService {
         );
 
         cosClient.putObject(putObjectRequest);
+    }
+
+    @Override
+    public void uploadFileBytes(byte[] fileBytes, String cosPath) {
+        InputStream in = new ByteArrayInputStream(fileBytes);
+        cosClient.putObject(getCOSBuckets().get(0).getName(), cosPath, in, null);
     }
 
     @Override

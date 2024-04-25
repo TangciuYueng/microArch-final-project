@@ -17,7 +17,6 @@ import org.springframework.context.annotation.PropertySource;
  */
 @Configuration
 @ConfigurationProperties(prefix = "tengxunyun.cos", ignoreUnknownFields = false)
-@PropertySource("classpath:config/authentication.properties")
 @Data
 public class TengxunyunCOSConfig {
     private String region;

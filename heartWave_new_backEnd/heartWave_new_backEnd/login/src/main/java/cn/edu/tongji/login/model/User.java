@@ -45,7 +45,8 @@ public class User {
     private String phone; // 用户的电话号码。
 
     @Column(name = "gender")
-    private String gender; // 用户的性别。
+    @Enumerated(EnumType.STRING)
+    private GenderType gender; // 用户的性别。
 
     @Column(name = "image_list")
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)

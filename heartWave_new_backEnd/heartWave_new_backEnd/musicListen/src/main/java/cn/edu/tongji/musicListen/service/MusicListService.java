@@ -56,4 +56,13 @@ public interface MusicListService {
      * @return 包含用户信息的Page对象
      */
     Page<Integer> getUserWhoTypeMusicList(Integer musicListId, String type, PageRequest pageRequest);
+
+    /**
+     * 根据 type 获取给用户拥有的 MusicList 数量
+     *
+     * @param userId 用户ID
+     * @param type   MusicList 类型
+     * @return 用户拥有的 MusicList 数量
+     */
+    Integer getTypeMusicListCount(Integer userId, String type);
 }

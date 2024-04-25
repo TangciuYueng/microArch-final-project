@@ -1,8 +1,6 @@
 import axios from 'axios';
 
 const loginInstance = axios.create({
-    //各接口
-    //  登录：/api/login/user
     baseURL: "http://localhost:8887/api",
     timeout: 30000
 });

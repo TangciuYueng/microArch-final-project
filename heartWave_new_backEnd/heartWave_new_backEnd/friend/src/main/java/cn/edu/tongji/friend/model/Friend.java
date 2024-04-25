@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -17,12 +20,10 @@ public class Friend {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "userId", nullable = false)
-    private Long user;
+    @Column(name = "relations")
+    @OneToMany(mappedBy = "friend", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FriendRelation> relations;
 
-    @Column(name = "friendId", nullable = false)
-    private Long friendId;
-
-    @Column(name = "intimacy", nullable = false)
-    private Double intimacy;
+    @Column(name = "chat_time")
+    private LocalDateTime chatTime;
 }

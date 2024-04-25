@@ -196,4 +196,26 @@ public class MusicListController {
             return ResponseEntity.status(500).body(new Result<>(500, "An error occurred while processing the request", null));
         }
     }
+
+    /**
+     * 获取对应用户对应类型音乐列表的数量
+     *
+     * @param userId 用户ID
+     * @param type   音乐类型
+     * @return 包含音乐列表数量的响应实体
+     */
+    @GetMapping("/count")
+    public ResponseEntity<Result<Integer>> getTypeMusicListCount(@RequestParam("userId") Integer userId,
+                                                                 @RequestParam("type") String type) {
+        if (userId == null || type == null) {
+            return ResponseEntity.badRequest().body(new Result<>(400, "userId and type parameters are required", null));
+        }
+
+        try {
+            int count = musicListService.getTypeMusicListCount(userId, type);
+            return ResponseEntity.ok(new Result<>(200, "Success", count));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Result<>(500, "Failed to retrieve music list count", null));
+        }
+    }
 }

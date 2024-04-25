@@ -1,86 +1,99 @@
 <template>
     <!-- 重置密码界面 -->
-    <img src="../assets/loginBackgroundImage.png" class="background">
-
-    <div class="findCode">
-        <div class="title">找 回 密 码</div>
-        <!-- 使用了 @submit.prevent 监听表单的提交事件，并调用 onSubmit 方法进行处理。.prevent 修饰符阻止了表单的默认提交行为，从而可以使用自定义的提交方法进行处理。 -->
-        <v-form v-model="form" @submit.prevent="onSubmit">
-            <v-row>
-                <!-- 输入用户名 -->
-                <v-col cols="12" md="12">
+    <div class="set-code">
+        <div class="set-input">
+            <div class="title">找 回 密 码</div>
+            <div class="info"> 请输入您的用户名及对应的电话号码，并进行验证，以此让我们确定您的帐号 </div>
+            <!-- 使用了 @submit.prevent 监听表单的提交事件，并调用 onSubmit 方法进行处理。.prevent 修饰符阻止了表单的默认提交行为，从而可以使用自定义的提交方法进行处理。 -->
+            <v-form v-model="form" @submit.prevent="onSubmit">
+                <v-row style="margin-top: 30px;">
+                    <!-- 输入用户名 -->
                     <v-text-field
                         v-model="username"
                         :readonly="loading"
                         :rules="[required]"
-                        class="mb-2"
+                        style="max-width: 45%; margin-left: 27.5%;"
                         clearable
                         label="用户名"
                         prepend-inner-icon="mdi-account"
-                        variant="solo"
+                        variant="outlined"
                         color="#105645"
-                        @input="checkSetpwdInput"></v-text-field>
-                </v-col>
-                <!-- 输入手机号 -->
-                <v-col cols="12" md="8">
+                        @input="checkSetpwdInput">
+                    </v-text-field>
+                </v-row>
+                <v-row style="margin-top: 40px;">
+                    <!-- 输入手机号 -->
                     <v-text-field
                         v-model="phone"
                         :readonly="loading"
                         :rules="[required]"
+                        style="max-width: 28%; margin-left: 27.5%;"
                         label="手机号"
                         placeholder="输入手机号"
                         prepend-inner-icon="mdi-phone"
-                        variant="solo"
+                        variant="outlined"
                         color="#105645"
-                        @input="checkSetpwdInput"></v-text-field>
-                </v-col>
-                <!-- 获取验证码按钮 -->
-                <v-col cols="12" md="4" class="d-flex">
-                    <v-btn outlined dark color="#105645" size="large" type="submit" width="130" height="55" @click="getSmsCode(); setTimeout(() => { checkSetpwdInput(); }, 2000);">
+                        @input="checkSetpwdInput">
+                    </v-text-field>
+                    <!-- 获取验证码按钮 -->
+                    <v-btn
+                        outlined
+                        dark
+                        color="#105645"
+                        size="large"
+                        type="submit"
+                        width="130"
+                        height="62"
+                        style="margin-left: 4%;"
+                        @click="getSmsCode(); setTimeout(() => { checkSetpwdInput(); }, 2000);">
                         获取验证码
                     </v-btn>
-                </v-col>
-                <!-- 输入验证码 -->
-                <v-col cols="12" md="12">
+                </v-row>
+                <v-row style="margin-top: 40px;">
+                    <!-- 输入验证码 -->
                     <v-text-field
                         v-model="verifyCode"
                         :readonly="loading"
                         :rules="[required]"
+                        style="max-width: 45%; margin-left: 27.5%;"
                         label="验证码"
                         placeholder="输入验证码"
                         prepend-inner-icon="mdi-numeric"
-                        variant="solo"
+                        variant="outlined"
                         color="#105645"
-                        @input="checkSetpwdInput"></v-text-field>
-                </v-col>
-            </v-row>
-
-            <!-- 其他表单项和按钮 -->
-            <br>
-            <v-container>
-                <v-row justify="center">
-                    <v-btn
-                        :loading="loading"
-                        type="submit"
-                        variant="elevated"
-                        width="130"
-                        :class="'submit-button-' + (inputPass ? 'pass' : 'error')"
-                        height="55"
-                        @click="submitHandler">
-                        {{ inputPass ? '确 认' : inputErrorInfo }}
-                    </v-btn>
+                        @input="checkSetpwdInput">
+                    </v-text-field>
                 </v-row>
-                <v-row justify="center">
-                    <label v-if="showJumpInfo" class="jump-info"> 验证成功，正在跳转...... </label>
-                </v-row>
-            </v-container>
-        </v-form>
+                    
+                <!-- 其他表单项和按钮 -->
+                <br>
+                <v-container>
+                    <v-row justify="center">
+                        <v-btn
+                            :loading="loading"
+                            type="submit"
+                            variant="elevated"
+                            width="130"
+                            :class="'submit-button-' + (inputPass ? 'pass' : 'error')"
+                            height="55"
+                            @click="submitHandler">
+                            {{ inputPass ? '确 认' : inputErrorInfo }}
+                        </v-btn>
+                    </v-row>
+                    <v-row justify="center">
+                        <label v-if="showJumpInfo" class="jump-info"> 验证成功，正在跳转...... </label>
+                    </v-row>
+                </v-container>
+            </v-form>
+        </div>
+        <div class="set-image"></div>
     </div>
 </template>
   
 <script>
 // import HelloWorld from '@/components/HelloWorld.vue'
-import { sendSmsSetPassword } from '@/axios/login'
+import { resetUser } from '../main.js';
+import { sendSmsSetPassword } from '@/axios/login';
 export default {
     data: () => ({
         form: false,
@@ -97,9 +110,9 @@ export default {
         // const script = document.createElement('script')
         // script.src = './src/snow.js'
         // document.body.appendChild(script)
-        localStorage.removeItem("resetUserId");
-        localStorage.removeItem("resetUsername");
-        localStorage.removeItem("resetPhone");
+        resetUser.id = 0;
+        resetUser.name = null;
+        resetUser.phone = null;
     },
     methods: {
         onSubmit() {
@@ -127,8 +140,8 @@ export default {
             setTimeout(() => {
                 this.loading = false;
                 this.showJumpInfo = false;
-                localStorage.setItem("resetUsername", this.username);
-                localStorage.setItem("resetPhone", this.phone);
+                resetUser.name = this.username;
+                resetUser.phone = this.phone;
                 this.$router.push('/reset-code');
             }, 2000);
         },
@@ -172,7 +185,7 @@ export default {
                     return;
                 }
 
-                localStorage.setItem("resetUserId", res.userId);
+                resetUser.id = res.userId;
                 this.verifyInfo = res.smsInfo.code;
             }, err => {
                 console.log(err);
@@ -184,30 +197,56 @@ export default {
 </script>
 
 <style scoped>
-.background {
-    position: fixed;
-    top: 0px;
-    left: 0%;
-    width: 100vw;
+@font-face {
+    font-family: Poppins-Regular; /* 自定义字体名称 */
+    src: url('../assets/fonts/Poppins/Poppins-Regular.ttf') format('truetype'); /* 字体文件的路径 */
+}
+@font-face {
+    font-family: Poppins-Light; /* 自定义字体名称 */
+    src: url('../assets/fonts/Poppins/Poppins-Light.ttf') format('truetype'); /* 字体文件的路径 */
+}
+
+.set-code {
     height: 100vh;
-    opacity: 0.5;
+    overflow: hidden;
+}
+.set-input {
+    display: inline-block;
+    width: 60%;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #10564510;
+}
+.set-image {
+    display: inline-block;
+    width: 40%;
+    height: 100vh;
+    overflow: hidden;
+    background-image: url("../assets/login/heartwave.jpg");
 }
 .title {
     width: 100%;
+    margin-top: 200px;
     line-height: 50px;
     text-align: center;
-    font-size: 42px;
+    font-size: 40px;
     color: #105645;
     margin-bottom: 25px;
 }
-.findCode {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 400px;
-    margin: -190px 0 0 -175px;
-    border-radius: 5px;
-    overflow: hidden;
+.info {
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+    color: #606060;
+    margin-bottom: 25px;
+}
+:deep(.v-field__input) {  /* 输入框输入内容 */
+    font-family: "Poppins-Light";
+    font-size: 20px;
+    color: #105645;
+}
+:deep(.v-messages__message) {  /* 输入框提示 */
+    font-family: "Poppins-Regular";
 }
 .submit-button-pass {
     position: relative;
