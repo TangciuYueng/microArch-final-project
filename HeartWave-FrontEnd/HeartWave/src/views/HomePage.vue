@@ -45,17 +45,7 @@
           </v-row>
 
           <!-- 第三行推荐的音乐室 -->
-          <v-row style="min-height: 25%" class="">
-            <v-col>
-              <v-card
-                style="
-                  background-color: rgba(107, 196, 174, 0.3098);
-                  height: 150px;
-                "
-                >推荐的音乐室</v-card
-              >
-            </v-col>
-          </v-row>
+          
         </v-col>
         <!-- 第二列，背景颜色为绿色 -->
         <v-col cols="4" class="green-background scrollable-column">
@@ -67,7 +57,7 @@
             :ipLocation="ipLocation"
             @BrowsingPersonalHomepage="preHandleBrowsingEvent"
           ></profile-card>
-          <emotions-card class="mt-10"></emotions-card>
+          <emotions-card class="mt-5"></emotions-card>
           <span class="text-title">您近一周的心情主基调为：</span>
           <div class="text-mood">想死</div>
         </v-col>
@@ -107,20 +97,20 @@ export default {
       {
         id: 1,
         avatar: "https://cdn.vuetifyjs.com/images/john.png",
-        mood: 123,
-        music: "歌曲1",
+        mood: 84,
+        music: "东方红",
       },
       {
         id: 2,
-        avatar: "https://cdn.vuetifyjs.com/images/john.png",
+        avatar: "https://q4.itc.cn/q_70/images03/20240405/39ec09deda3a41d79e03897b0fdf68a0.jpeg",
         mood: 34,
-        music: "歌曲2",
+        music: "夜空...",
       },
       {
         id: 3,
-        avatar: "https://cdn.vuetifyjs.com/images/john.png",
-        mood: 345,
-        music: "歌曲4",
+        avatar: "https://q7.itc.cn/q_70/images03/20240423/6d236fae5c8f44ed9b60d977f32debb7.jpeg",
+        mood: 55,
+        music: "Lover",
       },
       // Add more friends as needed
     ],
@@ -128,22 +118,22 @@ export default {
       {
         id: 1,
         cover: "https://cdn.vuetifyjs.com/images/cards/docks.jpg",
-        title: "love story",
+        title: "向云端",
       },
       {
         id: 2,
         cover: "https://cdn.vuetifyjs.com/images/cards/foster.jpg",
-        title: "时间煮雨",
+        title: "IF YOU",
       },
       {
         id: 3,
         cover: "https://cdn.vuetifyjs.com/images/cards/road.jpg",
-        title: "陌路飞雪",
+        title: "盛夏的果实",
       },
       {
         id: 4,
         cover: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
-        title: "S+M",
+        title: "love story",
       },
     ],
     recommendPlaylists: [
@@ -223,7 +213,7 @@ export default {
 
 .text-title{
     
-    font-size: 22.37px;
+    font-size: 18px;
     font-weight: normal;
     line-height: 19.3px;
     letter-spacing: 1.93px;
@@ -234,14 +224,14 @@ export default {
     opacity: 1;
 
     font-family: HelloFont WenYiHei;
-    font-size: 40.37px;
+    font-size: 30px;
     font-weight: normal;
     line-height: 19.3px;
     letter-spacing: 1.93px;
 
     color: #105645;
 
-    margin-top: 10%;
+    margin-top: 5%;
     text-align: center; /* 文字水平居中 */
 }
 </style>

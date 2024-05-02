@@ -6,14 +6,14 @@
           <v-col v-for="friend in friends" :key="friend.id">
             <div class="friend-little-card">
               <img :src="friend.avatar" class="avatar"/>
-              <div class="mood">{{ friend.mood }}</div>
-              <div class="music">{{ friend.music }}</div>
+              <div class="mood">❤️{{ friend.mood }}</div>
+              <div class="music">♫ {{ friend.music }}</div>
               <button class="message-button">留言</button>
             </div>
           </v-col>
           <v-col>
-            <button class="more-button">cilck</button>
-            <div style="margin-top: 20%; font-size: x-small;">查看更多好友近况</div>
+            <button class="more-button">更多</button>
+            <!-- <div style="margin-top: 20%; font-size: x-small;">查看更多好友近况</div> -->
           </v-col>
         </v-row>
       </v-card-text>
@@ -63,6 +63,7 @@ export default {
   /* margin-top: 16px; */
   
 height: 30px;
+width: 60px;
 transform: rotate(0deg);
 border-radius: 5px;
 opacity: 1;
@@ -77,7 +78,7 @@ button:hover {
   color: white;
 }
 .more-button{
-    transform: rotate(90deg);
+    /* transform: rotate(90deg); */
     border-radius: 2px;
     opacity: 1;
     width: 60px;

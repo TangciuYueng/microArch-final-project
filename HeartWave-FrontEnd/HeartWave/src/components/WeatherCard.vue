@@ -2,8 +2,8 @@
     <v-card class="weather-card custom-card" rounded hover>
     <!-- 左边部分 -->
     <v-card-text class="weather-info">
-        <div class="temperature">28°C</div> <!-- 气温信息 -->
-        <div class="location">北京</div> <!-- 地点信息 -->
+        <div class="temperature">20°C</div> <!-- 气温信息 -->
+        <div class="location">上海</div> <!-- 地点信息 -->
     </v-card-text>
 
     <!-- 右边部分 -->

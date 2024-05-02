@@ -2,9 +2,9 @@
     <v-card hover class="tips-card">
         <v-card-title class="tips-title">天气心情小贴士</v-card-title>
         <v-card-text>
-            <div class="tips-text">清明节作为一个传统节日，有着悼念逝者、
-                祭扫墓地的习俗。而如果碰巧是在雨天，更能让人感受到一份悲凉的气息。
-                因此，在这样的日子里，适合听一些慢节奏、抒情的歌曲，以表达内心的感受。</div>
+            <div class="tips-text">劳动节作为一个国际节日，中国人有着以劳动为光荣的优良品质。
+                而如果碰巧是在晴天，更能让人感受到一份轻快的气息。
+                因此，在这样的日子里，适合听一些快节奏或抒情的歌曲，以表达内心的感受。</div>
         </v-card-text>
         <v-card-subtitle style="">根据今天的天气或许您适合听以下歌曲></v-card-subtitle>
         <v-container fluid>
@@ -19,7 +19,7 @@
 
                                 <v-spacer></v-spacer>
                                 <v-btn class="ms-2" icon="mdi-play-circle-outline" variant="text"
-                                    style="font-size: 20px;color: white;"></v-btn>
+                                    style="font-size: 20px;color: white;" @click="play(song.id)"></v-btn>
                             </div>
 
                         </v-img>
@@ -40,6 +40,13 @@ export default {
             required: true,
         },
     },
+    methods: {
+        play(id) {
+            console.log(id);
+            // 根据id播放音乐
+            
+        }
+    }
 };
 </script>
 
