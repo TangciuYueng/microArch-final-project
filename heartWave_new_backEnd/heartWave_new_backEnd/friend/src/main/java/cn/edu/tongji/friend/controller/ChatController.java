@@ -1,5 +1,6 @@
 package cn.edu.tongji.friend.controller;
 
+import cn.edu.tongji.friend.dto.AddChatRecordRequest;
 import cn.edu.tongji.friend.dto.UpdateChatTimeRequest;
 import cn.edu.tongji.friend.service.ChatService;
 import jakarta.annotation.Resource;
@@ -12,6 +13,17 @@ import org.springframework.web.bind.annotation.*;
 public class ChatController {
     @Resource
     private ChatService chatService;
+
+    @PostMapping
+    public ResponseEntity<?> addChatRecord(@RequestBody AddChatRecordRequest addChatRecordRequest) {
+        try {
+            chatService.addChatRecord(addChatRecordRequest);
+            return new ResponseEntity<>("successfully added chat record", HttpStatus.CREATED);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("add chat record failed", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @PostMapping("/time")
     public ResponseEntity<?> updateChatTime(@RequestBody UpdateChatTimeRequest updateChatTimeRequest) {

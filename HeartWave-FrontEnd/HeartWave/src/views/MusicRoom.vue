@@ -89,6 +89,8 @@
                     </div>
 
                     <textarea v-model="editingMessage" class="chat-input"></textarea>
+                    <v-btn @click="connectToRoom()"> create </v-btn>
+                    <v-btn @click="defaultPorts()"> default </v-btn>
                 </div>
             </div>
 
@@ -275,8 +277,9 @@ import MusicRoomItem from '../components/MusicRoomItem.vue';
 import ChatRecord from '../components/ChatRecord.vue';
 import MusicRoomRec from '../components/MusicRoomRec.vue';
 import MusicRoomCurrent from '../components/MusicRoomCurrent.vue';
-import { updateChatTime, addFriend, getFriends } from '../axios/friend.js';
-import { user } from '@/main';
+import { updateChatTime, addFriend, addChatRecord, getFriends } from '../axios/friend.js';
+import { getNewChatRoom, defaultPort } from '../axios/chat.js';
+import { user, ws, setWs } from '@/main';
 export default {
     //导出组件
     components: {
@@ -292,7 +295,6 @@ export default {
         loading: false,
         menu: "users",
         isChatShow: false,
-        ws: null,
         editingMessage: "",
         isCreateMusicRoomShow: false,
         backButtonImgSrc: "../assets/back.svg",
@@ -497,36 +499,8 @@ export default {
     }),
     methods: {
         clickListItem: function(item) {
-            if (this.currentUser.id != item.id) {
-                if (this.ws != null)
-                    this.ws.close();
-
-                this.ws = new WebSocket("ws://localhost:8080");
-            
-                this.ws.onopen = function(event) {
-                    console.log("connected");
-                    console.log(event);
-                }
-
-                var that = this;
-
-                this.ws.onmessage = function(event) {
-                    if (event.data instanceof Blob) {
-                        event.data.text().then(function(text) {
-                            console.log('Received message: ' + text);
-                            that.addChatRecord(text, false);
-                            // 在页面上显示消息内容，例如可以将text添加到聊天窗口中
-                        });
-                    } else {
-                        console.log('Received message: ' + event.data);
-                        // 在页面上显示消息内容，例如可以直接将event.data添加到聊天窗口中
-                    }
-                }
-
-                this.ws.onclose = function(event) {
-                    console.log("disconnected");
-                    console.log(event);
-                }
+            if (this.currentUser.id != item.id && ws != null && ws.readyState != ws.CLOSED) {
+                ws.close();
             }
 
             this.currentUser.id = item.id;
@@ -542,8 +516,21 @@ export default {
                 return this.currentUser.username;
         },
         sendMessage: function() {
-            this.ws.send(this.editingMessage);
-            this.addChatRecord(this.editingMessage, true);
+            var that = this;
+            
+            addChatRecord({
+                senderId: user.id,
+                receiverId: this.currentUser.id,
+                type: "TEXT",
+                content: this.editingMessage
+            }).then(res => {
+                console.log(res);
+                ws.send(that.editingMessage);
+                that.pushChatRecord(that.editingMessage, true);
+            }, err => {
+                console.log(err);
+                return;
+            });
         },
         getImgSrc: function(url) {
             return new URL(url, import.meta.url).href;
@@ -567,7 +554,7 @@ export default {
         getChatAvatar: function(ifSender) {
             return ifSender ? user.avatar : this.getCurrentFriendAvatar();
         },
-        addChatRecord: function(text, ifSender) {
+        pushChatRecord: function(text, ifSender) {
             this.chatRecords.push({
                 text: text,
                 ifSender: ifSender
@@ -577,6 +564,61 @@ export default {
             this.$nextTick(() => {
                 area.scrollTop = area.scrollHeight;
             });
+        },
+        connectToRoom: function() {
+            getNewChatRoom({
+                selfId: user.id,
+                remoteId: this.currentUser.id,
+                type: "PRIVATE",
+                groupId: null
+            }).then(res => {
+                console.log(res);
+                console.log(ws);
+
+                if (ws != null && ws.readyState != ws.CLOSED)
+                    ws.close();
+
+                if (res.success == false) {
+                    alert("连接失败！")
+                    return;
+                }
+
+                setWs(res.port);
+            
+                ws.onopen = function(event) {
+                    console.log("connected");
+                    console.log(event);
+                }
+
+                var that = this;
+
+                ws.onmessage = function(event) {
+                    if (event.data instanceof Blob) {
+                        event.data.text().then(function(text) {
+                            console.log('Received message: ' + text);
+                            that.pushChatRecord(text, false);
+                            // 在页面上显示消息内容，例如可以将text添加到聊天窗口中
+                        });
+                    } else {
+                        console.log('Received message: ' + event.data);
+                        // 在页面上显示消息内容，例如可以直接将event.data添加到聊天窗口中
+                    }
+                }
+
+                ws.onclose = function(event) {
+                    console.log("disconnected");
+                    console.log(event);
+                }
+            }, err => {
+                console.log(err);
+            });
+        },
+        defaultPorts() {
+            defaultPort().then(res => {
+                            console.log(res);
+                        }, err => {
+                            console.log(err);
+                        });
         }
     },
     mounted() {

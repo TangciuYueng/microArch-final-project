@@ -1,11 +1,15 @@
 // 服务器端
 const WebSocket = require('ws');
-const wss = new WebSocket.Server({ port: 8080 });
-console.log("Chatroom started on localhost:8080")
+const port = parseInt(process.argv[2]);
+const wss = new WebSocket.Server({ port: port });
+console.log("Chatroom started on localhost:" + port);
+
+let clientCount = 0;
 
 wss.on('connection', function connection(ws, req) {
     const ip = req.socket.remoteAddress;
-    console.log("New connection from: " + ip);
+    clientCount++;
+    console.log("New connection from: " + ip + ", Total client: " + clientCount);
 
     ws.on('message', function incoming(message) {
         console.log("Received message from " + ip + ": " + message);
@@ -17,4 +21,15 @@ wss.on('connection', function connection(ws, req) {
             }
         });
     });
+
+    ws.on("close", function close() {
+        clientCount--;
+        console.log("Client disconnected, Remain client: " + clientCount);
+
+        if (clientCount == 0) {
+            wss.close(() => {
+                console.log("Chatroom shutdown");
+            });
+        }
+    })
 });

@@ -17,7 +17,7 @@
         <module>login</module>
         <module>gateway</module>
         <module>emotionProcessor</module>
-        <module>room</module>
+        <module>chat</module>
         <module>friend</module>
     </modules>
 

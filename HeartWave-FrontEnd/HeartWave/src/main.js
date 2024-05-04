@@ -40,4 +40,12 @@ export var resetUser = {
     phone: null
 }
 
-//export var user;
+export var ws = null;
+export function setWs(port) {
+    ws = new WebSocket("ws://localhost:" + port.toString());
+}
+export function closeWs() {
+    if (ws != null && ws.readyState != ws.CLOSED) {
+        ws.close();
+    }
+}
