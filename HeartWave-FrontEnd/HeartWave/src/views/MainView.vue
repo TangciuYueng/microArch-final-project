@@ -57,7 +57,7 @@
     </v-card>
 </template>
 <script>
-import { user, ws, closeWs } from '../main.js';
+import { user, ws } from '../main.js';
 import MusicPlayer from '@/components/MusicPlayer.vue'
 import HomePage from '@/views/HomePage.vue'
 import MusicListen from '@/views/MusicListen.vue'
@@ -97,10 +97,6 @@ export default {
     }),
     methods: {
         navigateTo(routeName) {
-            if (routeName != "音乐室") {
-                closeWs();
-            }
-
             // 根据传入的 routeName 使用编程式导航进行跳转
             switch (routeName) {
                 case '主页':

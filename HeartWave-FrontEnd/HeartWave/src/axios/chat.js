@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { chatServer } from '@/main';
 
 const chatInstance = axios.create({
-    baseURL: "http://localhost:8890/api",
+    baseURL: "http://" + chatServer + ":8890/api",
     timeout: 30000
 });
 

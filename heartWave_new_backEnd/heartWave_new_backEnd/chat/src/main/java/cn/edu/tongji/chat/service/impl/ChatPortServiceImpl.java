@@ -26,15 +26,15 @@ public class ChatPortServiceImpl implements ChatPortService {
     public ChatResult enterChatRoom(EnterChatRoomRequest enterChatRoomRequest) {
         try {
             ChatPort chatPort = chatPortRepository.findFirstByHostIdAndTypeAndGroupId(
-                    enterChatRoomRequest.getRemoteId(),
+                    enterChatRoomRequest.getRemoteId(),  //私聊时，根据对方id（群聊为null）
                     enterChatRoomRequest.getType(),
-                    enterChatRoomRequest.getGroupId()  //群聊时，根据群id
+                    enterChatRoomRequest.getGroupId()    //群聊时，根据群id（私聊为null）
             );  //寻找port的host
 
             //为空，对方并未占有聊天端口，寻找一个空闲的端口，将其启动并返回信息
             if (chatPort == null) {
-                final ChatPort newChatPort = chatPortRepository.findFirstByHostId(null);
-                exec.execute(() -> runJSService.run("D:/git-repositories/microArch-final-project/chatRoom/chatroom-server.js", newChatPort.getPort()));
+                final ChatPort newChatPort = chatPortRepository.findFirstByType(null);
+                exec.execute(() -> runJSService.run("chatRoom/chatroom-server.js", newChatPort.getPort()));
                 chatPortRepository.updateHostIdAndTypeAndGroupIdByPort(
                         newChatPort.getPort(),
                         enterChatRoomRequest.getSelfId(),

@@ -4,19 +4,19 @@
         <div class="music-room-top">
             <button
                 :class="menu != 'users' ? 'music-room-menu' : 'music-room-menu-clicked'"
-                @click="menu = 'users'; isChatShow = false;"
+                @click="clickBarItem('users')"
             >
                 好友
             </button>
             <button
                 :class="menu != 'musicRooms' ? 'music-room-menu' : 'music-room-menu-clicked'"
-                @click="menu = 'musicRooms'; isChatShow = false;"
+                @click="clickBarItem('musicRooms')"
             >
                 我加入的音乐室
             </button>
             <button
                 :class="menu != 'square' ? 'music-room-menu' : 'music-room-menu-clicked'"
-                @click="menu = 'square'; isChatShow = false;"
+                @click="clickBarItem('square')"
             >
                 音乐室广场
             </button>
@@ -279,7 +279,7 @@ import MusicRoomRec from '../components/MusicRoomRec.vue';
 import MusicRoomCurrent from '../components/MusicRoomCurrent.vue';
 import { updateChatTime, addFriend, addChatRecord, getFriends } from '../axios/friend.js';
 import { getNewChatRoom, defaultPort } from '../axios/chat.js';
-import { user, ws, setWs } from '@/main';
+import { user, ws, setWs, closeWs } from '@/main';
 export default {
     //导出组件
     components: {
@@ -498,9 +498,17 @@ export default {
         }
     }),
     methods: {
+        clickBarItem: function(item) {
+            if (item != this.menu) {
+                closeWs();
+            }
+
+            this.menu = item;
+            this.isChatShow = false;
+        },
         clickListItem: function(item) {
-            if (this.currentUser.id != item.id && ws != null && ws.readyState != ws.CLOSED) {
-                ws.close();
+            if (this.currentUser.id != item.id) {
+                closeWs();
             }
 
             this.currentUser.id = item.id;
@@ -641,6 +649,9 @@ export default {
         }, err => {
             console.log(err);
         });
+    },
+    beforeUnmount() {
+        closeWs();
     }
 }
 </script>

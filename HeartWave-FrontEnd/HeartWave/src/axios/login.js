@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { loginServer } from '@/main';
 
 const loginInstance = axios.create({
-    baseURL: "http://localhost:8887/api",
+    baseURL: "http://" + loginServer + ":8887/api",
     timeout: 30000
 });
 

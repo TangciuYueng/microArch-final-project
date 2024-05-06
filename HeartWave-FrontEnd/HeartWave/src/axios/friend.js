@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { friendServer } from '@/main';
 
 const friendInstance = axios.create({
-    baseURL: "http://localhost:8885/api",
+    baseURL: "http://" + friendServer + ":8885/api",
     timeout: 30000
 });
 

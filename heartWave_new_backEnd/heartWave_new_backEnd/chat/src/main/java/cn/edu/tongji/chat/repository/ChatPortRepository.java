@@ -9,7 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 public interface ChatPortRepository extends CrudRepository<ChatPort, Long> {
-    ChatPort findFirstByHostId(Long hostId);
+    ChatPort findFirstByType(ChatPortType type);
     ChatPort findFirstByHostIdAndTypeAndGroupId(Long hostId, ChatPortType type, Long groupId);
 
     @Modifying
@@ -19,5 +19,6 @@ public interface ChatPortRepository extends CrudRepository<ChatPort, Long> {
             @Param("port") Short port,
             @Param("newHostId") Long newHostId,
             @Param("newType") ChatPortType newType,
-            @Param("newGroupId") Long newGroupId);
+            @Param("newGroupId") Long newGroupId
+    );
 }

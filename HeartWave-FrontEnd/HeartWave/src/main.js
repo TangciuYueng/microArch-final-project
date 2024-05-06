@@ -26,6 +26,9 @@ window.$ = jQuery
 app.use(ElementPlus)
 app.mount('#app')
 
+export const chatServer = "43.142.102.35";
+export const friendServer = "localhost";
+export const loginServer = "localhost";
 
 export var user = {
     id: 0,
@@ -42,7 +45,7 @@ export var resetUser = {
 
 export var ws = null;
 export function setWs(port) {
-    ws = new WebSocket("ws://localhost:" + port.toString());
+    ws = new WebSocket("ws://" + chatServer + ":" + port.toString());
 }
 export function closeWs() {
     if (ws != null && ws.readyState != ws.CLOSED) {
