@@ -25,8 +25,11 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public User checkUserLogin(String phone, String name, String password) {
         try {
-            List<User> users = userRepository.findAllByPhone(phone);
+            List<User> users = userRepository.findAllByPhone(phone);  //根据电话号码查询用户列表
 
+//            如果匹配成功，则执行以下操作：
+//            获取匹配用户的 ID，并用该 ID 调用 cosService.getUserAvatar(userId) 方法获取用户头像，并设置到匹配的用户对象中。
+//            最后，返回匹配的用户对象。
             if (Objects.equals(users.get(0).getName(), name) && encryptService.passwordCmp(users.get(0).getPassword(), password)) {
                 final long userId = users.get(0).getId();
                 users.get(0).setAvatar(cosService.getUserAvatar(userId));
@@ -39,6 +42,8 @@ public class LoginServiceImpl implements LoginService {
         }
     }
 
+
+    //获取验证码
     @Override
     public VerifyInfo getVerifyCodeInfo() {
         String verifyCode = VerifyGenerator.getVerifyCode(4);

@@ -42,7 +42,7 @@ export var resetUser = {
 
 export var ws = null;
 export function setWs(port) {
-    ws = new WebSocket("ws://localhost:" + port.toString());
+    ws = new WebSocket("ws://localhost:" + port.toString());//客户端连到给他分配的端口
 }
 export function closeWs() {
     if (ws != null && ws.readyState != ws.CLOSED) {

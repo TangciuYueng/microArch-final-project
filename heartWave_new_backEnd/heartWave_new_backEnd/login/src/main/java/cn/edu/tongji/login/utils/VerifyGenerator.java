@@ -21,6 +21,7 @@ public class VerifyGenerator {
     private static final int IMAGE_WIDTH = 400;
     private static final int IMAGE_HEIGHT = 200;
 
+    //该方法用于生成指定长度的随机验证码字符串。验证码的字符集定义在 ALPHABET 字符串中，可以自定义字符集以满足不同的需求。
     public static String getVerifyCode(final int length) {
         Random generator = new Random(System.currentTimeMillis());
         StringBuilder verifyCode = new StringBuilder();
@@ -117,6 +118,9 @@ public class VerifyGenerator {
         }
     }
 
+
+    //这是生成验证码图片的核心方法。它接受验证码字符串和输出流作为参数，在输出流中生成验证码图片。
+    // 在生成验证码图片时，会绘制背景色、验证码文字、干扰线和噪点等元素，以增加验证码的可读性和安全性。
     private static void generateVerifyImage(String verifyCode, OutputStream out) {
         try {
             BufferedImage image = new BufferedImage(IMAGE_WIDTH, IMAGE_HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -147,6 +151,7 @@ public class VerifyGenerator {
         }
     }
 
+    //这是对 generateVerifyImage 方法的封装，它将生成的验证码图片以 Base64 编码的方式返回。
     public static String generateVerifyImage(String verifyCode) {
         //image支持写入到输出流，因此写入后再转换成byte[]，最后编码成base64
         ByteArrayOutputStream outToMedium = new ByteArrayOutputStream();

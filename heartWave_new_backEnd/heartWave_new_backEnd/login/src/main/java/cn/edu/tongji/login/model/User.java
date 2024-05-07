@@ -12,15 +12,15 @@ import java.util.List;
 @Data
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "user")
+@AllArgsConstructor //
+@Entity             //这个注解指示这是一个JPA实体类，将被持久化到数据库中。
+@Table(name = "user")//这个注解指定了实体类对应的数据库表名为"user"
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id                 //这个注解指示id属性为数据库表的主键。
+    @GeneratedValue(strategy = GenerationType.IDENTITY)//这个注解指示数据库为每个新实体对象分配一个唯一标识符，并使用自增策略。
     private Long id;  // 用户的唯一标识符，通常作为数据库主键。
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false) //这个注解指定了实体属性与数据库表中的列的映射关系。
     private String name; // 用户的姓名。
 
     @Column(name = "password", nullable = false)
