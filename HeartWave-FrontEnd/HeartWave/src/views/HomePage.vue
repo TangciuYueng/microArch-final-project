@@ -59,7 +59,7 @@
           ></profile-card>
           <emotions-card class="mt-5"></emotions-card>
           <span class="text-title">您近一周的心情主基调为：</span>
-          <div class="text-mood">想死</div>
+          <div class="text-mood">快乐</div>
         </v-col>
       </v-row>
     </v-container>
