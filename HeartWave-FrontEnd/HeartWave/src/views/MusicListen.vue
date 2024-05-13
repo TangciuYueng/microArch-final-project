@@ -46,7 +46,7 @@
 
                                         <v-col cols="6" style="position: relative;">
                                             <v-img :aspect-ratio="1" class="bg-white"
-                                                src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+                                                src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
                                                 style="margin: 10%;" @click="this.$emit('playMusicEvent')" cover>
                                             </v-img>
                                             <div @click="this.$emit('playMusicEvent')"
@@ -216,7 +216,7 @@
                     </v-row>
                     <div style="font-size: 20px;" class="mt-3">我管理的歌单></div>
                     <v-row dense>
-                        <v-col cols="4" v-for="music in selfCreatedMusicList">
+                        <v-col cols="4" v-for="music in selfCollectedMusicList">
                             <v-card style="text-align: center;" color="transparent"
                                 @click="this.$emit('detialPlayListEvent', 'admin')" hover>
                                 <v-img :src="music.src" class="align-end"
@@ -292,19 +292,17 @@ export default {
             { icon: 'mdi-car', text: 'Car' }
         ],
         musics: [
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'THE KEY' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'アイドル' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: '张国荣金曲' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: '香港の夜' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: '宇宙戦艦' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: '星空のディスタンス' },
+            { src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', text: 'THE KEY' },
+            { src: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg', text: 'アイドル' },
+            { src: 'https://cdn.vuetifyjs.com/images/cards/cooking.png', text: '张国荣金曲' },
+            { src: 'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg', text: '香港の夜' },
+            { src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', text: '宇宙戦艦' },
+            { src: 'https://cdn.vuetifyjs.com/docs/images/cards/purple-flowers.jpg', text: '星空のディスタンス' },
         ],
         singleMusics: [
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', title: 'Tieaa', text: 'aaa' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', title: 'Tieaa', text: 'aaa' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', title: 'Tieaa', text: 'aaa' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', title: 'Tieaa', text: 'aaa' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', title: 'Tieaa', text: 'aaa' },
+            { src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', title: 'IF YOU', text: `If & not if` },
+            { src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg', title: '盛夏的果实', text: '你曾说过 会永远爱我...' },
+            { src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', title: 'Love Story', text: `The love story won't walk away` },
         ],
         profileIcons: [
             { icon: 'mdi-download', text: '本地/下载', value: 'download' },
@@ -313,17 +311,17 @@ export default {
             { icon: 'mdi-radio', text: '最近收听', value: 'recent' },
         ],
         selfCreatedMusicList: [
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
+            { src: 'https://picsum.photos/500/300?image=100', text: 'LOVE' },
+            { src: 'https://picsum.photos/500/300?image=200', text: 'WORKING' },
+            { src: 'https://picsum.photos/500/300?image=300', text: 'ACHIEVEMENT' },
         ],
         selfCollectedMusicList: [
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
+            { src: 'https://picsum.photos/500/300?image=400', text: 'aaa' },
+            { src: 'https://picsum.photos/500/300?image=500', text: 'aaa' },
+            { src: 'https://picsum.photos/500/300?image=600', text: 'aaa' },
         ],
-        profileImgSrc: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg',
-        avatarSrc: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg',
+        profileImgSrc: 'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg',
+        avatarSrc: 'https://cdn.vuetifyjs.com/images/john.jpg',
         username: 'deidei',
         userId: 1,
         ipLocation: '上海',
