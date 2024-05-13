@@ -12,51 +12,81 @@
           <v-row>
             <v-col>
               <v-avatar size="90">
-                <v-img alt="John" :src="avatarImg"></v-img>
+                <v-img alt="John" :src="avatarImg" />
               </v-avatar>
             </v-col>
           </v-row>
           <v-row style="margin-top: 0%">
             <v-col>
-              <div class="user-name">{{ userName }}</div>
+              <div class="user-name">
+                {{ userName }}
+              </div>
             </v-col>
           </v-row>
           <v-row>
             <v-col>
-              <div class="ip-location">ip属地：{{ ipLocation }}</div>
+              <div class="ip-location">
+                ip属地：{{ ipLocation }}
+              </div>
             </v-col>
           </v-row>
           <v-row>
             <v-col>
-              <v-btn class="btn" x-large>关注</v-btn>
+              <v-btn class="btn" x-large>
+                关注
+              </v-btn>
               <!-- <v-btn class="btn" x-large @click="leaveMessage">写留言</v-btn> -->
             </v-col>
           </v-row>
 
           <div class="variable-container info-word">
             <div class="variable-item">
-              <div class="variable-name">留言</div>
-              <div class="variable-value">{{ messageCount }}</div>
+              <div class="variable-name">
+                留言
+              </div>
+              <div class="variable-value">
+                {{ messageCount }}
+              </div>
             </div>
             <div class="variable-item">
-              <div class="variable-name">好友</div>
-              <div class="variable-value">{{ friendCount }}</div>
+              <div class="variable-name">
+                好友
+              </div>
+              <div class="variable-value">
+                {{ friendCount }}
+              </div>
             </div>
             <div class="variable-item">
-              <div class="variable-name">心情</div>
-              <div class="variable-value">{{ moodValue }}</div>
+              <div class="variable-name">
+                心情
+              </div>
+              <div class="variable-value">
+                {{ moodValue }}
+              </div>
             </div>
             <div class="variable-item">
-              <div class="variable-name">访客</div>
-              <div class="variable-value">{{ visitorCount }}</div>
+              <div class="variable-name">
+                访客
+              </div>
+              <div class="variable-value">
+                {{ visitorCount }}
+              </div>
             </div>
             <div class="variable-item">
-              <div class="variable-name">日记</div>
-              <div class="variable-value">{{ diaryCount }}</div>
+              <div class="variable-name">
+                日记
+              </div>
+              <div class="variable-value">
+                {{ diaryCount }}
+              </div>
             </div>
             <div class="variable-item">
-              <div class="variable-name">歌单</div>
-              <div class="variable-value">{{ playlistCount }}</div>
+              <div class="variable-name">
+                歌单
+              </div>
+              <div class="variable-value">
+                {{ playlistCount }}
+              </div>
             </div>
           </div>
         </v-col>
@@ -73,7 +103,7 @@
           >
             <v-card-title>TA的心情</v-card-title>
             <v-card-text>
-              <emotions-card style="margin: 0% 3% 2% 3%"></emotions-card>
+              <emotions-card style="margin: 0% 3% 2% 3%" />
             </v-card-text>
           </v-card>
         </v-col>
@@ -101,15 +131,15 @@
                     <div class="d-flex">
                       <v-card-title
                         class="text-white max-text-length"
-                        v-text="song.title"
                         style="font-size: x-large"
-                      ></v-card-title>
+                        v-text="song.title"
+                      />
                       <v-btn
                         class="ms-2"
                         icon="mdi-play-circle-outline"
                         variant="text"
                         style="font-size: 30px; color: white"
-                      ></v-btn>
+                      />
                     </div>
                   </v-img>
                 </v-card>
@@ -126,18 +156,25 @@
     width="700"
     align-center
     class="clock-in-dialog"
-    
   >
-    <div class="dialog-title">写下想对他说的话吧～😍</div>
+    <div class="dialog-title">
+      写下想对他说的话吧～😍
+    </div>
     <v-textarea
       clear-icon="mdi-close-circle"
       label="写下留言内容..."
       model-value=""
       clearable
-    ></v-textarea>
-    <div class="dialog-title">请选择便签形状</div>
-    <div class="dialog-title">请选择便签颜色</div>
-    <v-btn class="btn">发布</v-btn>
+    />
+    <div class="dialog-title">
+      请选择便签形状
+    </div>
+    <div class="dialog-title">
+      请选择便签颜色
+    </div>
+    <v-btn class="btn">
+      发布
+    </v-btn>
   </el-dialog>
 </template>
 
@@ -147,6 +184,11 @@ import EmotionsCard from "@/components/EmotionsCard.vue";
 export default {
   components: {
     EmotionsCard,
+  },
+  props: {
+    userId: {
+      default: 1,
+    }
   },
   //导出组件
   data: () => ({
@@ -161,8 +203,7 @@ export default {
     diaryCount: 0,
     playlistCount: 0,
     leaveMessageDialog: false,
-    playlists: [
-      {
+    playlists: [ {
         id: 1,
         cover: "https://cdn.vuetifyjs.com/images/cards/plane.jpg",
         title: "love story歌单",
@@ -176,21 +217,15 @@ export default {
         id: 3,
         cover: "https://cdn.vuetifyjs.com/images/cards/cooking.png",
         title: "陌路飞雪葛丹",
-      },
-    ],
+      }, ],
   }),
+  mounted() {
+    console.log('userid', this.userId);
+  },
   methods: {
     leaveMessage() {
       this.leaveMessageDialog = true;
     },
-  },
-  props: {
-    userId: {
-      default: 1,
-    }
-  },
-  mounted() {
-    console.log('userid', this.userId);
   }
 };
 </script>

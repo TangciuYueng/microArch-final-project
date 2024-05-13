@@ -1,99 +1,103 @@
 <template>
-    <v-main class="full-height">
-        <img :src="getImgSrc('../assets/music-playing.png')" class="background">
+  <v-main class="full-height">
+    <img :src="getImgSrc('../assets/music-playing.png')" class="background">
         
-        <div class="content">
-            <label class="song" :title="song"> {{ song }} </label>
-            <img :src="getImgSrc('../assets/playing-listening.svg')" class="listening-img">
-            <label class="listening"> {{ listening }}人正在听 </label>
+    <div class="content">
+      <label class="song" :title="song"> {{ song }} </label>
+      <img :src="getImgSrc('../assets/playing-listening.svg')" class="listening-img">
+      <label class="listening"> {{ listening }}人正在听 </label>
 
-            <div class="song-info">
-                <label class="album-title"> 专辑： </label>
-                <label class="album" :title="album"> {{ album }} </label>
-                <label class="artist-title"> 歌手： </label>
-                <label class="artist" :title="artist"> {{ artist }} </label>
-            </div>
+      <div class="song-info">
+        <label class="album-title"> 专辑： </label>
+        <label class="album" :title="album"> {{ album }} </label>
+        <label class="artist-title"> 歌手： </label>
+        <label class="artist" :title="artist"> {{ artist }} </label>
+      </div>
             
-            <div class="mid">
-                <div class="album-img-container">
-                    <img :src="getImgSrc('../assets/music-playing.png')" class="album-img">
-                </div>
-                <div style="display: inline; width: 6%;"></div>
-                <div class="lyric-container" align="center">
-                    <div style="height: 20px;"></div>
-                    <div v-for="(item, index) in lyric">
-                        <label
-                            :class="getLyricStyle(index)"
-                            :style="{
-                                opacity: index >= currentLine - 4 && index <= currentLine + 2 ? '100%' : '0%',
-                                transform: 'translateY(' + lyricDist + 'px)'
-                            }">
-                            {{ item }}
-                        </label>
-                        <br>
-                    </div>
-                </div>
-
-                <v-btn @click="lyricFlip()"> flip </v-btn>
-            </div>
-
-            <div class="tool-bar">
-                <img 
-                    :src="getImgSrc(isLiked ? '../assets/liked.svg' : '../assets/like.svg')"
-                    class="tool-icon"
-                    @click="handleSongLiked()"
-                    :title="isLiked ? '取消喜欢' : '喜欢'">
-                <img :src="getImgSrc('../assets/download.svg')" class="tool-icon" title="下载">
-                <img :src="getImgSrc('../assets/share.svg')" class="tool-icon" title="分享">
-                <img :src="getImgSrc('../assets/circulate.svg')" class="tool-icon" title="循环播放">
-            </div>
-            
-            <div class="similar-room-prompt">
-                <label class="emotion-keyword-title"> 情绪识别关键词： </label>
-                <label class="emotion-keyword"> {{ getEmotionKeywords() }} </label>
-                <br>
-                <label class="similar-room-title"> 这些音乐室正在播放...... </label>
-            </div>
-
-            <div class="similar-room-container">
-                <v-card class="similar-room-card">
-                    <v-card-item>
-                        <similar-room-rec
-                            :avatar-url="similarMusicRooms[0].avatarUrl"
-                            :room-name="similarMusicRooms[0].roomName"
-                            :leader-name="similarMusicRooms[0].leaderName"
-                        ></similar-room-rec>
-                    </v-card-item>
-                    <hr style="margin-top: -35px;">
-                    <v-card-item>
-                        <similar-room-rec
-                            :avatar-url="similarMusicRooms[1].avatarUrl"
-                            :room-name="similarMusicRooms[1].roomName"
-                            :leader-name="similarMusicRooms[1].leaderName"
-                        ></similar-room-rec>
-                    </v-card-item>
-                </v-card>
-                <div style="display: inline; width: 5%;"></div>
-                <v-card class="similar-room-card">
-                    <v-card-item>
-                        <similar-room-rec
-                            :avatar-url="similarMusicRooms[2].avatarUrl"
-                            :room-name="similarMusicRooms[2].roomName"
-                            :leader-name="similarMusicRooms[2].leaderName"
-                        ></similar-room-rec>
-                    </v-card-item>
-                    <hr style="margin-top: -35px;">
-                    <v-card-item>
-                        <similar-room-rec
-                            :avatar-url="similarMusicRooms[3].avatarUrl"
-                            :room-name="similarMusicRooms[3].roomName"
-                            :leader-name="similarMusicRooms[3].leaderName"
-                        ></similar-room-rec>
-                    </v-card-item>
-                </v-card>
-            </div>
+      <div class="mid">
+        <div class="album-img-container">
+          <img :src="getImgSrc('../assets/music-playing.png')" class="album-img">
         </div>
-    </v-main>
+        <div style="display: inline; width: 6%;" />
+        <div class="lyric-container" align="center">
+          <div style="height: 20px;" />
+          <div v-for="(item, index) in lyric">
+            <label
+              :class="getLyricStyle(index)"
+              :style="{
+                opacity: index >= currentLine - 4 && index <= currentLine + 2 ? '100%' : '0%',
+                transform: 'translateY(' + lyricDist + 'px)'
+              }"
+            >
+              {{ item }}
+            </label>
+            <br>
+          </div>
+        </div>
+
+        <v-btn @click="lyricFlip()">
+          flip
+        </v-btn>
+      </div>
+
+      <div class="tool-bar">
+        <img 
+          :src="getImgSrc(isLiked ? '../assets/liked.svg' : '../assets/like.svg')"
+          class="tool-icon"
+          :title="isLiked ? '取消喜欢' : '喜欢'"
+          @click="handleSongLiked()"
+        >
+        <img :src="getImgSrc('../assets/download.svg')" class="tool-icon" title="下载">
+        <img :src="getImgSrc('../assets/share.svg')" class="tool-icon" title="分享">
+        <img :src="getImgSrc('../assets/circulate.svg')" class="tool-icon" title="循环播放">
+      </div>
+            
+      <div class="similar-room-prompt">
+        <label class="emotion-keyword-title"> 情绪识别关键词： </label>
+        <label class="emotion-keyword"> {{ getEmotionKeywords() }} </label>
+        <br>
+        <label class="similar-room-title"> 这些音乐室正在播放...... </label>
+      </div>
+
+      <div class="similar-room-container">
+        <v-card class="similar-room-card">
+          <v-card-item>
+            <similar-room-rec
+              :avatar-url="similarMusicRooms[0].avatarUrl"
+              :room-name="similarMusicRooms[0].roomName"
+              :leader-name="similarMusicRooms[0].leaderName"
+            />
+          </v-card-item>
+          <hr style="margin-top: -35px;">
+          <v-card-item>
+            <similar-room-rec
+              :avatar-url="similarMusicRooms[1].avatarUrl"
+              :room-name="similarMusicRooms[1].roomName"
+              :leader-name="similarMusicRooms[1].leaderName"
+            />
+          </v-card-item>
+        </v-card>
+        <div style="display: inline; width: 5%;" />
+        <v-card class="similar-room-card">
+          <v-card-item>
+            <similar-room-rec
+              :avatar-url="similarMusicRooms[2].avatarUrl"
+              :room-name="similarMusicRooms[2].roomName"
+              :leader-name="similarMusicRooms[2].leaderName"
+            />
+          </v-card-item>
+          <hr style="margin-top: -35px;">
+          <v-card-item>
+            <similar-room-rec
+              :avatar-url="similarMusicRooms[3].avatarUrl"
+              :room-name="similarMusicRooms[3].roomName"
+              :leader-name="similarMusicRooms[3].leaderName"
+            />
+          </v-card-item>
+        </v-card>
+      </div>
+    </div>
+  </v-main>
 </template>
 
 <script>
@@ -135,12 +139,9 @@ export default {
             "",
             ""
         ],
-        emotionKeywords: [
-            "忧伤",
-            "思念"
-        ],
-        similarMusicRooms: [
-        {
+        emotionKeywords: [ "忧伤",
+            "思念" ],
+        similarMusicRooms: [ {
                 avatarUrl: "../assets/recommend/REC1.png",
                 roomName: "考研党看过来~",
                 leaderName: "deidei"
@@ -159,8 +160,7 @@ export default {
                 avatarUrl: "../assets/recommend/REC4.png",
                 roomName: "春天的草丛有只羊",
                 leaderName: "苏家铭"
-            },
-        ]
+            }, ]
     }),
     methods: {
         getImgSrc: function(url) {

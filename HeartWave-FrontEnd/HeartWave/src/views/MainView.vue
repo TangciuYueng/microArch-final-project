@@ -1,60 +1,76 @@
 <template>
-    <!-- 专门用来写左边的导航栏 -->
-    <v-navigation-drawer expand-on-hover rail color="#F4FFFC">
-        <!-- 头像 -->
-        <v-list>
-            <v-list-item :prepend-avatar="'data:image/jpg;base64,' + userAvatar" :title="username"
-                :subtitle="userEmail"></v-list-item>
-        </v-list>
+  <!-- 专门用来写左边的导航栏 -->
+  <v-navigation-drawer expand-on-hover rail color="#F4FFFC">
+    <!-- 头像 -->
+    <v-list>
+      <v-list-item
+        :prepend-avatar="'data:image/jpg;base64,' + userAvatar"
+        :title="username"
+        :subtitle="userEmail"
+      />
+    </v-list>
 
-        <v-divider></v-divider>
-        <!-- 下面的导航 -->
-        <v-list density="compact" nav>
-            <v-list-item @click="navigateTo('主页')" prepend-icon="mdi-home" title="主 页" value="1"></v-list-item>
-            <v-list-item @click="navigateTo('音乐广场')" prepend-icon="mdi-music" title="音 乐 广 场" value="2"></v-list-item>
-            <v-list-item @click="navigateTo('音乐室')" prepend-icon="mdi-chat" title="音 乐 室" value="3"></v-list-item>
-            <v-list-item @click="navigateTo('随笔中心')" prepend-icon="mdi-pen" title="随 笔 中 心" value="4"></v-list-item>
-            <v-list-item @click="navigateTo('设置')" prepend-icon="mdi-cog" title="个 人 设 置" value="10"></v-list-item>
-        </v-list>
+    <v-divider />
+    <!-- 下面的导航 -->
+    <v-list density="compact" nav>
+      <v-list-item prepend-icon="mdi-home" title="主 页" value="1" @click="navigateTo('主页')" />
+      <v-list-item prepend-icon="mdi-music" title="音 乐 广 场" value="2" @click="navigateTo('音乐广场')" />
+      <v-list-item prepend-icon="mdi-chat" title="音 乐 室" value="3" @click="navigateTo('音乐室')" />
+      <v-list-item prepend-icon="mdi-pen" title="随 笔 中 心" value="4" @click="navigateTo('随笔中心')" />
+      <v-list-item prepend-icon="mdi-cog" title="个 人 设 置" value="10" @click="navigateTo('设置')" />
+    </v-list>
+  </v-navigation-drawer>
+
+  <v-card>
+    <v-layout>
+      <!-- 显示主页 -->
+      <home-page v-if="page == 1" @browsing-personal-homepage="handleBrowsingEvent" />
+      <!-- 显示音乐广场 -->
+      <music-listen
+        v-if="page == 2"
+        @search-event="handleSearchEvent"
+        @play-music-event="handlePlayMusicEvent"
+        @browsing-personal-homepage="handleBrowsingEvent"
+        @detial-play-list-event="handleDetailPlayList"
+      />
+      <!-- 显示音乐室 -->
+      <music-room v-if="page == 3" />
+      <!-- 显示随笔中心 -->
+      <diary v-if="page == 4" @add-diary-event="handleAddDiary" @browsing-personal-homepage="handleBrowsingEvent" />
+      <!-- 显示随笔中心 -->
+      <setting v-if="page == 10" @browsing-personal-homepage="handleBrowsingEvent" />
 
 
-    </v-navigation-drawer>
+      <music-search
+        v-if="page == 5"
+        @browsing-personal-homepage="handleBrowsingEvent"
+        @detial-play-list-event="handleDetailPlayList"
+      />
+      <add-diary v-if="page == 6" @add-diary-event="handleAddDiarySuccessfully" />
 
-    <v-card>
-        <v-layout>
-            <!-- 显示主页 -->
-            <home-page v-if="page == 1" @BrowsingPersonalHomepage="handleBrowsingEvent"></home-page>
-            <!-- 显示音乐广场 -->
-            <music-listen v-if="page == 2" @searchEvent="handleSearchEvent" @playMusicEvent="handlePlayMusicEvent"
-                @BrowsingPersonalHomepage="handleBrowsingEvent"
-                @detialPlayListEvent="handleDetailPlayList"></music-listen>
-            <!-- 显示音乐室 -->
-            <music-room v-if="page == 3"></music-room>
-            <!-- 显示随笔中心 -->
-            <diary v-if="page == 4" @addDiaryEvent="handleAddDiary" @BrowsingPersonalHomepage="handleBrowsingEvent">
-            </diary>
-            <!-- 显示随笔中心 -->
-            <setting v-if="page == 10" @BrowsingPersonalHomepage="handleBrowsingEvent">
-            </setting>
+      <img
+        v-if="page == 7"
+        :src="getImgSrc('../assets/retract.svg')"
+        class="retract-button"
+        title="getback"
+        @click="page = lastPage;"
+      >
+      <music-playing-view v-if="page == 7" />
+      <!-- 音乐播放器 -->
+      <music-player @click="lastPage = (page == 7 ? lastPage : page); page = 7;" />
 
-
-            <music-search v-if="page == 5" @BrowsingPersonalHomepage="handleBrowsingEvent"
-                @detialPlayListEvent="handleDetailPlayList"></music-search>
-            <add-diary v-if="page == 6" @addDiaryEvent="handleAddDiarySuccessfully"></add-diary>
-
-            <img v-if="page == 7" :src="getImgSrc('../assets/retract.svg')" class="retract-button"
-                @click="page = lastPage;" title="getback">
-            <music-playing-view v-if="page == 7"></music-playing-view>
-            <!-- 音乐播放器 -->
-            <music-player @click="lastPage = (page == 7 ? lastPage : page); page = 7;"></music-player>
-
-            <personal-homepage v-if="page == 8" :userId="userId"></personal-homepage>
-            <play-list v-if="page == 9" @BrowsingPersonalHomepage="handleBrowsingEvent"
-            @lastPageEvent="handleLastPageEvent"
-                @detialPlayListEvent="handleDetailPlayList" :playListType="playListType" :playListId="playListId"
-                :lastPage="lastPage"></play-list>
-        </v-layout>
-    </v-card>
+      <personal-homepage v-if="page == 8" :user-id="userId" />
+      <play-list
+        v-if="page == 9"
+        :play-list-type="playListType"
+        :play-list-id="playListId"
+        :last-page="lastPage"
+        @browsing-personal-homepage="handleBrowsingEvent"
+        @last-page-event="handleLastPageEvent"
+        @detial-play-list-event="handleDetailPlayList"
+      />
+    </v-layout>
+  </v-card>
 </template>
 <script>
 import { user, ws } from '../main.js';
@@ -95,6 +111,12 @@ export default {
         playListType: null,
         playListId: 1,
     }),
+    mounted() {
+        this.userId = user.id;
+        this.username = user.name;
+        this.userAvatar = user.avatar;
+        this.userEmail = user.email;
+    },
     methods: {
         navigateTo(routeName) {
             // 根据传入的 routeName 使用编程式导航进行跳转
@@ -171,12 +193,6 @@ export default {
             this.page = lastPage;
             console.log('back to', lastPage);
         }
-    },
-    mounted() {
-        this.userId = user.id;
-        this.username = user.name;
-        this.userAvatar = user.avatar;
-        this.userEmail = user.email;
     }
 };
 </script>

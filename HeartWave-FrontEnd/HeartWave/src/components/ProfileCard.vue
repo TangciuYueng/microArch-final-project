@@ -5,21 +5,26 @@
     style="max-width: 100%; max-height: 100%; object-fit: cover"
   >
     <v-card-text>
-      <v-avatar size="100"  @click="this.$emit('BrowsingPersonalHomepage', username)">
+      <v-avatar size="100" @click="$emit('BrowsingPersonalHomepage', username)">
         <img
           :src="avatarSrc"
           alt="avatar"
           style="max-width: 100%; max-height: 100%; object-fit: cover"
-          
-        />
+        >
       </v-avatar>
-      <div style="font-size: 20px" class="mt-2">{{ username }}</div>
+      <div style="font-size: 20px" class="mt-2">
+        {{ username }}
+      </div>
       <div style="font-size: 12px">
-        <v-icon color="red">mdi-heart</v-icon>
+        <v-icon color="red">
+          mdi-heart
+        </v-icon>
         IP属地: {{ ipLocation }}
       </div>
       <div style="font-size: larger" class="mt-5">
-        <v-btn @click="centerDialogVisible = true">心情打卡</v-btn>
+        <v-btn @click="centerDialogVisible = true">
+          心情打卡
+        </v-btn>
       </div>
     </v-card-text>
   </v-card>
@@ -30,47 +35,54 @@
     align-center
     class="clock-in-dialog"
   >
-    <div class="clock-in-title">心情打卡</div>
-    <div class="clock-in-text" v-if="Step1Flag">
+    <div class="clock-in-title">
+      心情打卡
+    </div>
+    <div v-if="Step1Flag" class="clock-in-text">
       请选择以下符合你心情的标签（最多选3项）......
     </div>
-    <div class="dialog-button-content" v-if="Step1Flag">
+    <div v-if="Step1Flag" class="dialog-button-content">
       <div class="button-row">
         <v-btn
           color="#FFA0A0"
           :class="{ selected: selectedButtons.includes(1) }"
           class="custom-button text-white"
           @click="toggleButton(1)"
-          >愉悦</v-btn
         >
+          愉悦
+        </v-btn>
         <v-btn
           color="#6948BC"
           :class="{ selected: selectedButtons.includes(2) }"
           class="custom-button text-white"
           @click="toggleButton(2)"
-          >忧伤</v-btn
         >
+          忧伤
+        </v-btn>
         <v-btn
           color="#D850C5"
           :class="{ selected: selectedButtons.includes(3) }"
           class="custom-button text-white"
           @click="toggleButton(3)"
-          >兴奋</v-btn
         >
+          兴奋
+        </v-btn>
         <v-btn
           color="#69BC48"
           :class="{ selected: selectedButtons.includes(4) }"
           class="custom-button text-white"
           @click="toggleButton(4)"
-          >激动</v-btn
         >
+          激动
+        </v-btn>
         <v-btn
           color="#BCBA48"
           :class="{ selected: selectedButtons.includes(5) }"
           class="custom-button text-white"
           @click="toggleButton(5)"
-          >烦躁</v-btn
         >
+          烦躁
+        </v-btn>
       </div>
       <div class="button-row">
         <v-btn
@@ -78,45 +90,56 @@
           :class="{ selected: selectedButtons.includes(6) }"
           class="custom-button text-white"
           @click="toggleButton(6)"
-          >平静</v-btn
         >
+          平静
+        </v-btn>
         <v-btn
           color="#AD385D"
           :class="{ selected: selectedButtons.includes(7) }"
           class="custom-button text-white"
           @click="toggleButton(7)"
-          >愤怒</v-btn
         >
+          愤怒
+        </v-btn>
         <v-btn
           color="#4D5352"
           :class="{ selected: selectedButtons.includes(8) }"
           class="custom-button text-white"
           @click="toggleButton(8)"
-          >紧张</v-btn
         >
+          紧张
+        </v-btn>
         <v-btn
           color="#4873BC"
           :class="{ selected: selectedButtons.includes(9) }"
           class="custom-button text-white"
           @click="toggleButton(9)"
-          >抑郁</v-btn
         >
+          抑郁
+        </v-btn>
         <v-btn
           color="#BC6948"
           :class="{ selected: selectedButtons.includes(10) }"
           class="custom-button text-white"
           @click="toggleButton(10)"
-          >焦虑</v-btn
         >
+          焦虑
+        </v-btn>
       </div>
     </div>
-    <el-button class="clock-in-button" @click="nextStep" v-if="Step1Flag"
-      >下一步</el-button
+    <el-button
+      v-if="Step1Flag"
+      class="clock-in-button"
+      @click="nextStep"
     >
+      下一步
+    </el-button>
 
     <div v-if="Step1Flag == false">
       <div class="selected-buttons">
-        <div class="clock-in-text-2">你选择的标签是：</div>
+        <div class="clock-in-text-2">
+          你选择的标签是：
+        </div>
         <div
           v-for="buttonId in selectedButtons"
           :key="buttonId"
@@ -133,20 +156,20 @@
       <el-slider
         v-for="buttonId in selectedButtons"
         :key="buttonId"
-        show-input
         v-model="sliderValues[buttonId]"
+        show-input
         style="margin-top: 5%"
         :style="{ '--el-slider-main-bg-color': getButtonColor(buttonId) }"
-      ></el-slider>
+      />
     </div>
 
     <el-button
+      v-if="Step1Flag == false"
       class="clock-in-button"
       @click="FinishClockIn"
-      v-if="Step1Flag == false"
-      >完成</el-button
     >
-    
+      完成
+    </el-button>
   </el-dialog>
 </template>
 

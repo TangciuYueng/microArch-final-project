@@ -1,17 +1,21 @@
 <template>
-    <div v-if="!ifSender" class="container-left">
-        <img class="avatar" :src="'data:image/jpg;base64,' + avatar">
-        <div class="text-container-left">
-            <p :style="getTextStyle()" class="text"> {{ text }} </p>
-        </div>
+  <div v-if="!ifSender" class="container-left">
+    <img class="avatar" :src="'data:image/jpg;base64,' + avatar">
+    <div class="text-container-left">
+      <p :style="getTextStyle()" class="text">
+        {{ text }}
+      </p>
     </div>
+  </div>
 
-    <div v-else class="container-right">
-        <div class="text-container-right">
-            <p :style="getTextStyle()" class="text"> {{ text }} </p>
-        </div>
-        <img class="avatar" :src="'data:image/jpg;base64,' + avatar">
+  <div v-else class="container-right">
+    <div class="text-container-right">
+      <p :style="getTextStyle()" class="text">
+        {{ text }}
+      </p>
     </div>
+    <img class="avatar" :src="'data:image/jpg;base64,' + avatar">
+  </div>
 </template>
 
 <script>

@@ -1,94 +1,101 @@
 <template>
-    <!-- 重置密码界面 -->
-    <div class="reset-code-final">
-        <div class="reset-input">
-            <div class="title">找 回 密 码</div>
-                <div v-if="username != null && phone != null && resetSuccess == false">
-                    <div class="info"> 根据您输入的信息找到以下用户信息，请确认： </div>
-
-                    <div class="info-container">
-                        <label style="color: #303030; font-size: 20px;"> 用户名： </label>
-                        <label style="color: #105645; font-size: 20px; font-family: 'Poppins-Regular';"> {{ username }} </label>
-                    </div>
-
-                    <div class="info-container">
-                        <label style="color: #303030; font-size: 20px;"> 电话： </label>
-                        <label style="color: #105645; font-size: 20px; font-family: 'Poppins-Regular';"> {{ phone }} </label>
-                    </div>
-
-                    <div class="info"> 确认无误后，请设置您的新密码，并对其进行确认 </div>
-                    
-                    <!-- 使用了 @submit.prevent 监听表单的提交事件，并调用 onSubmit 方法进行处理。.prevent 修饰符阻止了表单的默认提交行为，从而可以使用自定义的提交方法进行处理。 -->
-                    <v-form v-model="form" @submit.prevent="onSubmit">
-                        <v-row style="margin-top: 20px;">
-                            <!-- 输入用户名 -->
-                            <v-text-field
-                                v-model="newPassword"
-                                :readonly="loading"
-                                :rules="[required]"
-                                style="max-width: 45%; margin-left: 27.5%;"
-                                clearable
-                                label="新密码"
-                                placeholder="请输入新密码"
-                                prepend-inner-icon="mdi-lock"
-                                variant="outlined"
-                                color="#105645"
-                                type="password"
-                                @input="checkResetInput">
-                            </v-text-field>
-                        </v-row>
-                        <v-row style="margin-top: 20px;">
-                            <!-- 输入手机号 -->
-                            <v-text-field
-                                v-model="verifyNewPassword"
-                                :readonly="loading"
-                                :rules="[required]"
-                                style="max-width: 45%; margin-left: 27.5%;"
-                                label="确认新密码"
-                                placeholder="请确认新密码"
-                                prepend-inner-icon="mdi-lock"
-                                variant="outlined"
-                                color="#105645"
-                                type="password"
-                                clearable
-                                @input="checkResetInput">
-                            </v-text-field>
-                        </v-row>
-                            
-                        <!-- 其他表单项和按钮 -->
-                        <br>
-                        <v-container>
-                            <v-row justify="center">
-                                <v-btn
-                                    :loading="loading"
-                                    :class="'submit-button-' + (inputPass ? 'pass' : 'error')"
-                                    type="submit"
-                                    variant="elevated"
-                                    width="160"
-                                    height="55"
-                                    @click="submitHandler">
-                                    {{ inputPass ? '确 认' : inputErrorInfo }}
-                                </v-btn>
-                            </v-row>
-                        </v-container>
-                    </v-form>
-                </div>
-
-                <div v-else-if="resetSuccess == true" align="center">
-                    <img src="../assets/reset-success.svg" class="reset-icon">
-                    <br>
-                    <label class="message-success"> 修改完成！正在返回登录页... </label>
-                </div>
-
-                <div v-else align="center">
-                    <img src="../assets/404.svg" class="reset-icon">
-                    <br>
-                    <label class="message-404"> 验证信息缺失， </label>
-                    <a href="/" style="font-size: 24px;"> 返回登录页 </a>
-                </div>
+  <!-- 重置密码界面 -->
+  <div class="reset-code-final">
+    <div class="reset-input">
+      <div class="title">
+        找 回 密 码
+      </div>
+      <div v-if="username != null && phone != null && resetSuccess == false">
+        <div class="info">
+          根据您输入的信息找到以下用户信息，请确认：
         </div>
-        <div class="reset-image"></div>
+
+        <div class="info-container">
+          <label style="color: #303030; font-size: 20px;"> 用户名： </label>
+          <label style="color: #105645; font-size: 20px; font-family: 'Poppins-Regular';"> {{ username }} </label>
+        </div>
+
+        <div class="info-container">
+          <label style="color: #303030; font-size: 20px;"> 电话： </label>
+          <label style="color: #105645; font-size: 20px; font-family: 'Poppins-Regular';"> {{ phone }} </label>
+        </div>
+
+        <div class="info">
+          确认无误后，请设置您的新密码，并对其进行确认
+        </div>
+                    
+        <!-- 使用了 @submit.prevent 监听表单的提交事件，并调用 onSubmit 方法进行处理。.prevent 修饰符阻止了表单的默认提交行为，从而可以使用自定义的提交方法进行处理。 -->
+        <v-form v-model="form" @submit.prevent="onSubmit">
+          <v-row style="margin-top: 20px;">
+            <!-- 输入用户名 -->
+            <v-text-field
+              v-model="newPassword"
+              :readonly="loading"
+              :rules="[required]"
+              style="max-width: 45%; margin-left: 27.5%;"
+              clearable
+              label="新密码"
+              placeholder="请输入新密码"
+              prepend-inner-icon="mdi-lock"
+              variant="outlined"
+              color="#105645"
+              type="password"
+              @input="checkResetInput"
+            />
+          </v-row>
+          <v-row style="margin-top: 20px;">
+            <!-- 输入手机号 -->
+            <v-text-field
+              v-model="verifyNewPassword"
+              :readonly="loading"
+              :rules="[required]"
+              style="max-width: 45%; margin-left: 27.5%;"
+              label="确认新密码"
+              placeholder="请确认新密码"
+              prepend-inner-icon="mdi-lock"
+              variant="outlined"
+              color="#105645"
+              type="password"
+              clearable
+              @input="checkResetInput"
+            />
+          </v-row>
+                            
+          <!-- 其他表单项和按钮 -->
+          <br>
+          <v-container>
+            <v-row justify="center">
+              <v-btn
+                :loading="loading"
+                :class="'submit-button-' + (inputPass ? 'pass' : 'error')"
+                type="submit"
+                variant="elevated"
+                width="160"
+                height="55"
+                @click="submitHandler"
+              >
+                {{ inputPass ? '确 认' : inputErrorInfo }}
+              </v-btn>
+            </v-row>
+          </v-container>
+        </v-form>
+      </div>
+
+      <div v-else-if="resetSuccess == true" align="center">
+        <img src="../assets/reset-success.svg" class="reset-icon">
+        <br>
+        <label class="message-success"> 修改完成！正在返回登录页... </label>
+      </div>
+
+      <div v-else align="center">
+        <img src="../assets/404.svg" class="reset-icon">
+        <br>
+        <label class="message-404"> 验证信息缺失， </label>
+        <a href="/" style="font-size: 24px;"> 返回登录页 </a>
+      </div>
     </div>
+    <div class="reset-image" />
+  </div>
 </template>
   
 <script>
@@ -108,6 +115,10 @@ export default {
         loading: false,
         resetSuccess: false
     }),
+    mounted() {
+        this.username = resetUser.name;
+        this.phone = resetUser.phone;
+    },
     methods: {
         onSubmit() {
             //表单不合法，不提交
@@ -167,10 +178,6 @@ export default {
                 console.log(err);
             });
         }
-    },
-    mounted() {
-        this.username = resetUser.name;
-        this.phone = resetUser.phone;
     }
 }
 </script>

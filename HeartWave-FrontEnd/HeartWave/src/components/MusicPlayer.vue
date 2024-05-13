@@ -22,13 +22,13 @@
 
             <v-col>
               <!-- 音乐控制条 -->
-              <v-slider v-model="musicProgress" max="100" thumb-label @click="changeMusicProgress"></v-slider>
+              <v-slider v-model="musicProgress" max="100" thumb-label @click="changeMusicProgress" />
             </v-col>
           </v-row>
         </v-col>
       </v-row>
       <!-- 音频元素 -->
-      <audio ref="audioPlayer" :src="currentSong.url" @timeupdate="updateMusicProgress"></audio>
+      <audio ref="audioPlayer" :src="currentSong.url" @timeupdate="updateMusicProgress" />
     </v-container>
   </v-footer>
 </template>

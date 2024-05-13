@@ -1,9 +1,9 @@
 <template>
-    <div class="container">
-        <img :src="getImgSrc(avatarUrl)" class="rec-avatar">
-        <label class="room-name" :title="roomName"> {{ roomName }} </label>
-        <label class="leader-name" :title="leaderName"> 群主：{{ leaderName }} </label>
-    </div>
+  <div class="container">
+    <img :src="getImgSrc(avatarUrl)" class="rec-avatar">
+    <label class="room-name" :title="roomName"> {{ roomName }} </label>
+    <label class="leader-name" :title="leaderName"> 群主：{{ leaderName }} </label>
+  </div>
 </template>
 
 <script>

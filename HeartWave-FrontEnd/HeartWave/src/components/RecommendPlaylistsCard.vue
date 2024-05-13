@@ -6,14 +6,26 @@
     <v-row style="margin: 0% 2% 0% 2%;">
       <v-col v-for="song in playlists" :key="song.title">
         <v-card>
-          <v-img :src="song.cover" class="align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="157px"
-            cover>
+          <v-img
+            :src="song.cover"
+            class="align-end"
+            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+            height="157px"
+            cover
+          >
             <!-- 名字和播放按钮 -->
             <div class="d-flex">
-              <v-card-title class="text-white max-text-length" v-text="song.title"
-                style="font-size: medium;"></v-card-title>
-              <v-btn class="ms-2" icon="mdi-play-circle-outline" variant="text"
-                style="font-size: 20px;color: white;"></v-btn>
+              <v-card-title
+                class="text-white max-text-length"
+                style="font-size: medium;"
+                v-text="song.title"
+              />
+              <v-btn
+                class="ms-2"
+                icon="mdi-play-circle-outline"
+                variant="text"
+                style="font-size: 20px;color: white;"
+              />
             </div>
           </v-img>
         </v-card>

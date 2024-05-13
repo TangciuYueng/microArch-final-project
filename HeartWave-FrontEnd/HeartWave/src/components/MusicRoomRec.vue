@@ -1,11 +1,13 @@
 <template>
-    <div class="container">
-        <img :src="getImgSrc(avatarUrl)" class="rec-avatar">
-        <label class="priority"> {{ priority }} </label>
-        <label class="room-name" :title="roomName"> {{ roomName }} </label>
-        <label class="leader-name" :title="leaderName"> 群主：{{ leaderName }} </label>
-        <v-btn class="join-button"> 加入 </v-btn>
-    </div>
+  <div class="container">
+    <img :src="getImgSrc(avatarUrl)" class="rec-avatar">
+    <label class="priority"> {{ priority }} </label>
+    <label class="room-name" :title="roomName"> {{ roomName }} </label>
+    <label class="leader-name" :title="leaderName"> 群主：{{ leaderName }} </label>
+    <v-btn class="join-button">
+      加入
+    </v-btn>
+  </div>
 </template>
 
 <script>

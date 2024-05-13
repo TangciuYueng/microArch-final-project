@@ -1,289 +1,379 @@
 <template>
-    <v-app>
-        <v-container fluid>
-            <v-row>
-                <v-col cols="8">
-                    <v-row>
-                        <v-col col="6">
-                            <span style="color: rgb(60, 153, 130); font-size:xx-large; font-weight: bold;">
-                                {{ keyWord }}
-                            </span>
-                            <span style="font-size: medium; font-style: oblique;">
-                                找到{{ singleMusicNum }}首单曲，{{ musicListNum }}个歌单，{{ musicRoomNum }}个音乐室
-                            </span>
-                        </v-col>
-                        <v-col col="6">
-                            <div style="display: flex; align-items: center;">
-                                <v-text-field v-model="search" label="搜索" placeholder="请输入心情/歌曲名称进行搜索" outlined
-                                    rounded></v-text-field>
-                                <v-icon class="ml-3 mb-5" size="x-large" style="cursor: pointer;">mdi-magnify</v-icon>
-                            </div>
-                        </v-col>
-                    </v-row>
+  <v-app>
+    <v-container fluid>
+      <v-row>
+        <v-col cols="8">
+          <v-row>
+            <v-col col="6">
+              <span style="color: rgb(60, 153, 130); font-size:xx-large; font-weight: bold;">
+                {{ keyWord }}
+              </span>
+              <span style="font-size: medium; font-style: oblique;">
+                找到{{ singleMusicNum }}首单曲，{{ musicListNum }}个歌单，{{ musicRoomNum }}个音乐室
+              </span>
+            </v-col>
+            <v-col col="6">
+              <div style="display: flex; align-items: center;">
+                <v-text-field
+                  v-model="search"
+                  label="搜索"
+                  placeholder="请输入心情/歌曲名称进行搜索"
+                  outlined
+                  rounded
+                />
+                <v-icon class="ml-3 mb-5" size="x-large" style="cursor: pointer;">
+                  mdi-magnify
+                </v-icon>
+              </div>
+            </v-col>
+          </v-row>
 
-                    <div class="tabs">
-                        <div v-for="(tab, index) in tabs" :key="index"
-                            :class="{ 'tab': true, 'active': activeTab === index }" @click="handleActiveTab(index)">
-                            {{ tab }}
-                        </div>
-                    </div>
+          <div class="tabs">
+            <div
+              v-for="(tab, index) in tabs"
+              :key="index"
+              :class="{ 'tab': true, 'active': activeTab === index }"
+              @click="handleActiveTab(index)"
+            >
+              {{ tab }}
+            </div>
+          </div>
 
-                    <v-container style="height: 700px; overflow-y: auto;">
-                        <v-data-table v-if="activeTab === 0" :items="musics" :headers="totalHeaders[activeTab]"
-                            v-model:page="musicPage">
-                            <template v-slot:headers="{ columns, isSorted, getSortIcon, toggleSort }">
-                                <tr>
-                                    <template v-for="column in columns" :key="column.key">
-                                        <td>
-                                            <span class="table-header" @click="() => toggleSort(column)">{{
-                                    column.title }}</span>
-                                            <template v-if="isSorted(column)">
-                                                <v-icon :icon="getSortIcon(column)"></v-icon>
-                                            </template>
-                                        </td>
-                                    </template>
-                                </tr>
-                            </template>
-                            <template v-slot:item.actions="{ item }">
-                                <v-icon style="cursor: pointer;" size="large">
-                                    mdi-play
-                                </v-icon>
-                            </template>
-                            <template v-slot:bottom>
-                                <div class="text-center pt-2">
-                                    <v-pagination v-model="musicPage" :length="musicPageCount"
-                                        :total-visible="musicPageVisible" @input="onMusicPageChange"></v-pagination>
-                                </div>
-                            </template>
-                            <template v-slot:no-data>
-                                <div>暂无数据~</div>
-                            </template>
-                        </v-data-table>
-                        <v-data-table v-else-if="activeTab === 1" :items="playLists" :headers="totalHeaders[activeTab]"
-                            v-model:page="playListPage">
-                            <template v-slot:headers="{ columns, isSorted, getSortIcon, toggleSort }">
-                                <tr>
-                                    <template v-for="column in columns" :key="column.key">
-                                        <td>
-                                            <span class="table-header" @click="() => toggleSort(column)">{{
-                                    column.title }}</span>
-                                            <template v-if="isSorted(column)">
-                                                <v-icon :icon="getSortIcon(column)"></v-icon>
-                                            </template>
-                                        </td>
-                                    </template>
-                                </tr>
-                            </template>
-                            <template v-slot:bottom>
-                                <div class="text-center pt-2">
-                                    <v-pagination v-model="playListPage" :length="playListPageCount"
-                                        :total-visible="playListPageVisible" @input="onPlayListPageChange"></v-pagination>
-                                </div>
-                            </template>
-                            <template v-slot:no-data>
-                                <div>暂无数据~</div>
-                            </template>
-                        </v-data-table>
-                        <v-data-table v-else-if="activeTab === 2" :items="musicRooms" :headers="totalHeaders[activeTab]"
-                            v-model:page="musicRoomPage">
-                            <template v-slot:headers="{ columns, isSorted, getSortIcon, toggleSort }">
-                                <tr>
-                                    <template v-for="column in columns" :key="column.key">
-                                        <td>
-                                            <span class="table-header" @click="() => toggleSort(column)">{{
-                                    column.title }}</span>
-                                            <template v-if="isSorted(column)">
-                                                <v-icon :icon="getSortIcon(column)"></v-icon>
-                                            </template>
-                                        </td>
-                                    </template>
-                                </tr>
-                            </template>
-                            <template v-slot:bottom>
-                                <div class="text-center pt-2">
-                                    <v-pagination v-model="musicRoomPage" :length="musicRoomPageCount"
-                                        :total-visible="musicRoomPageVisible" @input="onMusicRoomPageChange"></v-pagination>
-                                </div>
-                            </template>
-                            <template v-slot:no-data>
-                                <div>暂无数据~</div>
-                            </template>
-                        </v-data-table>
-                        <v-data-table v-else-if="activeTab === 3" :items="albums" :headers="totalHeaders[activeTab]"
-                            v-model:page="albumPage">
-                            <template v-slot:headers="{ columns, isSorted, getSortIcon, toggleSort }">
-                                <tr>
-                                    <template v-for="column in columns" :key="column.key">
-                                        <td>
-                                            <span class="table-header" @click="() => toggleSort(column)">{{
-                                    column.title }}</span>
-                                            <template v-if="isSorted(column)">
-                                                <v-icon :icon="getSortIcon(column)"></v-icon>
-                                            </template>
-                                        </td>
-                                    </template>
-                                </tr>
-                            </template>
-                            <template v-slot:bottom>
-                                <div class="text-center pt-2">
-                                    <v-pagination v-model="albumPage" :length="albumPageCount"
-                                        :total-visible="albumPageVisible" @input="onAlbumPageChange"></v-pagination>
-                                </div>
-                            </template>
-                            <template v-slot:no-data>
-                                <div>暂无数据~</div>
-                            </template>
-                        </v-data-table>
-                        <v-data-table v-else-if="activeTab === 4" :items="users" :headers="totalHeaders[activeTab]"
-                            v-model:page="userPage">
-                            <template v-slot:headers="{ columns, isSorted, getSortIcon, toggleSort }">
-                                <tr>
-                                    <template v-for="column in columns" :key="column.key">
-                                        <td>
-                                            <span class="table-header" @click="() => toggleSort(column)">{{
-                                    column.title }}</span>
-                                            <template v-if="isSorted(column)">
-                                                <v-icon :icon="getSortIcon(column)"></v-icon>
-                                            </template>
-                                        </td>
-                                    </template>
-                                </tr>
-                            </template>
-                            <template v-slot:bottom>
-                                <div class="text-center pt-2">
-                                    <v-pagination v-model="userPage" :length="userPageCount"
-                                        :total-visible="userPageVisible" @input="onUserPageChange"></v-pagination>
-                                </div>
-                            </template>
-                            <template v-slot:no-data>
-                                <div>暂无数据~</div>
-                            </template>
-                        </v-data-table>
-                    </v-container>
-                </v-col>
-                <v-col cols="4" style="background-color: #D5F0EA;">
-                    <v-card class="profile-card" :style="{ backgroundImage: 'url(' + profileImgSrc + ')' }">
-                        <v-card-text>
-                            <v-avatar size="100">
-                                <img :src="avatarSrc" alt="avatar" style="cursor: pointer;"
-                                    @click="this.$emit('BrowsingPersonalHomepage', userId)" />
-                            </v-avatar>
-                            <div style="font-size: 20px;" class="mt-2">{{ username }}</div>
-                            <div style="font-size: 12px;">
-                                <v-icon color="red">mdi-heart</v-icon>
-                                IP属地: {{ ipLocation }}
-                            </div>
-                            <div style="font-size: larger;" class="mt-5">
-                                <v-row>
-                                    <v-col cols="4">
-                                        <div>好友</div>
-                                        <div>{{ friendNum }}</div>
-                                    </v-col>
-                                    <v-col cols="4">
-                                        <div>心情值</div>
-                                        <div>{{ emotionValue }}</div>
-                                    </v-col>
-                                    <v-col cols="4">
-                                        <div>访客</div>
-                                        <div>{{ visitorNum }}</div>
-                                    </v-col>
-                                </v-row>
-                            </div>
-                        </v-card-text>
-                    </v-card>
-                    <v-card class="mt-10" style="background-color: rgba(255, 255, 255, 0.5); padding: 5%;">
-                        <v-row dense>
-                            <v-col cols="3" v-for="icon in profileIcons" style="text-align: center;">
-                                <div v-if="icon.value !== 'favor'"
-                                    @click="this.$emit('detialPlayListEvent', icon.value)">
-                                    <v-icon color="red" size="40" style="cursor: pointer;">{{ icon.icon }}</v-icon>
-                                    <div style="cursor: pointer;">{{ icon.text }}
-                                    </div>
-                                </div>
-                                <div v-else @click="favorDialog = true">
-                                    <v-icon color="red" size="40" style="cursor: pointer;">{{ icon.icon }}</v-icon>
-                                    <div style="cursor: pointer;">{{ icon.text }}
-                                    </div>
-                                </div>
-                            </v-col>
-                        </v-row>
-                    </v-card>
-                    <div style="font-size: 20px;" class="mt-3">我创建的歌单></div>
-                    <v-row dense>
-                        <v-col cols="4" v-for="music in selfCreatedMusicList">
-                            <v-card style="text-align: center;" color="transparent"
-                                @click="this.$emit('detialPlayListEvent', 'created')" hover>
-                                <v-img :src="music.src" cover></v-img>
-                                <v-card-text
-                                    style="display: flex; justify-content: space-between; align-items: center;">
-                                    <span style="font-size: larger;">{{ music.text }}</span>
-                                    <v-icon color="white" size="30">
-                                        mdi-play-circle
-                                    </v-icon>
-                                </v-card-text>
-                            </v-card>
-                        </v-col>
-                    </v-row>
-                    <div style="font-size: 20px;" class="mt-3">我管理的歌单></div>
-                    <v-row dense>
-                        <v-col cols="4" v-for="music in selfCreatedMusicList">
-                            <v-card style="text-align: center;" color="transparent"
-                                @click="this.$emit('detialPlayListEvent', 'admin')" hover>
-                                <v-img :src="music.src" cover></v-img>
-                                <v-card-text
-                                    style="display: flex; justify-content: space-between; align-items: center;">
-                                    <span style="font-size: larger;">{{ music.text }}</span>
-                                    <v-icon color="white" size="30">
-                                        mdi-play-circle
-                                    </v-icon>
-                                </v-card-text>
-                            </v-card>
-                        </v-col>
-                    </v-row>
-                </v-col>
+          <v-container style="height: 700px; overflow-y: auto;">
+            <v-data-table
+              v-if="activeTab === 0"
+              v-model:page="musicPage"
+              :items="musics"
+              :headers="totalHeaders[activeTab]"
+            >
+              <template #headers="{ columns, isSorted, getSortIcon, toggleSort }">
+                <tr>
+                  <template v-for="column in columns" :key="column.key">
+                    <td>
+                      <span class="table-header" @click="() => toggleSort(column)">{{
+                        column.title }}</span>
+                      <template v-if="isSorted(column)">
+                        <v-icon :icon="getSortIcon(column)" />
+                      </template>
+                    </td>
+                  </template>
+                </tr>
+              </template>
+              <template #item.actions="{ item }">
+                <v-icon style="cursor: pointer;" size="large">
+                  mdi-play
+                </v-icon>
+              </template>
+              <template #bottom>
+                <div class="text-center pt-2">
+                  <v-pagination
+                    v-model="musicPage"
+                    :length="musicPageCount"
+                    :total-visible="musicPageVisible"
+                    @input="onMusicPageChange"
+                  />
+                </div>
+              </template>
+              <template #no-data>
+                <div>暂无数据~</div>
+              </template>
+            </v-data-table>
+            <v-data-table
+              v-else-if="activeTab === 1"
+              v-model:page="playListPage"
+              :items="playLists"
+              :headers="totalHeaders[activeTab]"
+            >
+              <template #headers="{ columns, isSorted, getSortIcon, toggleSort }">
+                <tr>
+                  <template v-for="column in columns" :key="column.key">
+                    <td>
+                      <span class="table-header" @click="() => toggleSort(column)">{{
+                        column.title }}</span>
+                      <template v-if="isSorted(column)">
+                        <v-icon :icon="getSortIcon(column)" />
+                      </template>
+                    </td>
+                  </template>
+                </tr>
+              </template>
+              <template #bottom>
+                <div class="text-center pt-2">
+                  <v-pagination
+                    v-model="playListPage"
+                    :length="playListPageCount"
+                    :total-visible="playListPageVisible"
+                    @input="onPlayListPageChange"
+                  />
+                </div>
+              </template>
+              <template #no-data>
+                <div>暂无数据~</div>
+              </template>
+            </v-data-table>
+            <v-data-table
+              v-else-if="activeTab === 2"
+              v-model:page="musicRoomPage"
+              :items="musicRooms"
+              :headers="totalHeaders[activeTab]"
+            >
+              <template #headers="{ columns, isSorted, getSortIcon, toggleSort }">
+                <tr>
+                  <template v-for="column in columns" :key="column.key">
+                    <td>
+                      <span class="table-header" @click="() => toggleSort(column)">{{
+                        column.title }}</span>
+                      <template v-if="isSorted(column)">
+                        <v-icon :icon="getSortIcon(column)" />
+                      </template>
+                    </td>
+                  </template>
+                </tr>
+              </template>
+              <template #bottom>
+                <div class="text-center pt-2">
+                  <v-pagination
+                    v-model="musicRoomPage"
+                    :length="musicRoomPageCount"
+                    :total-visible="musicRoomPageVisible"
+                    @input="onMusicRoomPageChange"
+                  />
+                </div>
+              </template>
+              <template #no-data>
+                <div>暂无数据~</div>
+              </template>
+            </v-data-table>
+            <v-data-table
+              v-else-if="activeTab === 3"
+              v-model:page="albumPage"
+              :items="albums"
+              :headers="totalHeaders[activeTab]"
+            >
+              <template #headers="{ columns, isSorted, getSortIcon, toggleSort }">
+                <tr>
+                  <template v-for="column in columns" :key="column.key">
+                    <td>
+                      <span class="table-header" @click="() => toggleSort(column)">{{
+                        column.title }}</span>
+                      <template v-if="isSorted(column)">
+                        <v-icon :icon="getSortIcon(column)" />
+                      </template>
+                    </td>
+                  </template>
+                </tr>
+              </template>
+              <template #bottom>
+                <div class="text-center pt-2">
+                  <v-pagination
+                    v-model="albumPage"
+                    :length="albumPageCount"
+                    :total-visible="albumPageVisible"
+                    @input="onAlbumPageChange"
+                  />
+                </div>
+              </template>
+              <template #no-data>
+                <div>暂无数据~</div>
+              </template>
+            </v-data-table>
+            <v-data-table
+              v-else-if="activeTab === 4"
+              v-model:page="userPage"
+              :items="users"
+              :headers="totalHeaders[activeTab]"
+            >
+              <template #headers="{ columns, isSorted, getSortIcon, toggleSort }">
+                <tr>
+                  <template v-for="column in columns" :key="column.key">
+                    <td>
+                      <span class="table-header" @click="() => toggleSort(column)">{{
+                        column.title }}</span>
+                      <template v-if="isSorted(column)">
+                        <v-icon :icon="getSortIcon(column)" />
+                      </template>
+                    </td>
+                  </template>
+                </tr>
+              </template>
+              <template #bottom>
+                <div class="text-center pt-2">
+                  <v-pagination
+                    v-model="userPage"
+                    :length="userPageCount"
+                    :total-visible="userPageVisible"
+                    @input="onUserPageChange"
+                  />
+                </div>
+              </template>
+              <template #no-data>
+                <div>暂无数据~</div>
+              </template>
+            </v-data-table>
+          </v-container>
+        </v-col>
+        <v-col cols="4" style="background-color: #D5F0EA;">
+          <v-card class="profile-card" :style="{ backgroundImage: 'url(' + profileImgSrc + ')' }">
+            <v-card-text>
+              <v-avatar size="100">
+                <img
+                  :src="avatarSrc"
+                  alt="avatar"
+                  style="cursor: pointer;"
+                  @click="$emit('BrowsingPersonalHomepage', userId)"
+                >
+              </v-avatar>
+              <div style="font-size: 20px;" class="mt-2">
+                {{ username }}
+              </div>
+              <div style="font-size: 12px;">
+                <v-icon color="red">
+                  mdi-heart
+                </v-icon>
+                IP属地: {{ ipLocation }}
+              </div>
+              <div style="font-size: larger;" class="mt-5">
+                <v-row>
+                  <v-col cols="4">
+                    <div>好友</div>
+                    <div>{{ friendNum }}</div>
+                  </v-col>
+                  <v-col cols="4">
+                    <div>心情值</div>
+                    <div>{{ emotionValue }}</div>
+                  </v-col>
+                  <v-col cols="4">
+                    <div>访客</div>
+                    <div>{{ visitorNum }}</div>
+                  </v-col>
+                </v-row>
+              </div>
+            </v-card-text>
+          </v-card>
+          <v-card class="mt-10" style="background-color: rgba(255, 255, 255, 0.5); padding: 5%;">
+            <v-row dense>
+              <v-col v-for="icon in profileIcons" cols="3" style="text-align: center;">
+                <div
+                  v-if="icon.value !== 'favor'"
+                  @click="$emit('detialPlayListEvent', icon.value)"
+                >
+                  <v-icon color="red" size="40" style="cursor: pointer;">
+                    {{ icon.icon }}
+                  </v-icon>
+                  <div style="cursor: pointer;">
+                    {{ icon.text }}
+                  </div>
+                </div>
+                <div v-else @click="favorDialog = true">
+                  <v-icon color="red" size="40" style="cursor: pointer;">
+                    {{ icon.icon }}
+                  </v-icon>
+                  <div style="cursor: pointer;">
+                    {{ icon.text }}
+                  </div>
+                </div>
+              </v-col>
             </v-row>
-        </v-container>
-        <v-dialog v-model="favorDialog" max-width="800">
-            <v-card>
-                <v-card-title>关心好友</v-card-title>
-                <v-card-text>
-                    <v-data-table :items="friends" :items-per-page="5" v-model:page="friendPage" class="elevation-1"
-                        :headers="friendHeaders">
-                        <template v-slot:headers="{ columns, isSorted, getSortIcon, toggleSort }">
-                            <tr>
-                                <template v-for="column in columns" :key="column.key">
-                                    <td>
-                                        <span class="table-header" @click="() => toggleSort(column)">{{
-                                    column.title }}</span>
-                                        <template v-if="isSorted(column)">
-                                            <v-icon :icon="getSortIcon(column)"></v-icon>
-                                        </template>
-                                    </td>
-                                </template>
-                            </tr>
-                        </template>
-                        <template v-slot:item.avatar="{ item }">
-                            <v-avatar size="32">
-                                <img :src="item.avatar" />
-                            </v-avatar>
-                        </template>
-                        <template v-slot:item.mood="{ item }">
-                            {{ item.mood }}
-                        </template>
-                        <template v-slot:bottom>
-                            <div class="text-center pt-2">
-                                <v-pagination v-model="friendPage" :length="friendPageCount"
-                                    :total-visible="friendPageVisible" @input="onFriendPageChange"></v-pagination>
-                            </div>
-                        </template>
-                        <template v-slot:no-data>
-                            <div>暂无数据~</div>
-                        </template>
-                    </v-data-table>
+          </v-card>
+          <div style="font-size: 20px;" class="mt-3">
+            我创建的歌单>
+          </div>
+          <v-row dense>
+            <v-col v-for="music in selfCreatedMusicList" cols="4">
+              <v-card
+                style="text-align: center;"
+                color="transparent"
+                hover
+                @click="$emit('detialPlayListEvent', 'created')"
+              >
+                <v-img :src="music.src" cover />
+                <v-card-text
+                  style="display: flex; justify-content: space-between; align-items: center;"
+                >
+                  <span style="font-size: larger;">{{ music.text }}</span>
+                  <v-icon color="white" size="30">
+                    mdi-play-circle
+                  </v-icon>
                 </v-card-text>
-            </v-card>
-        </v-dialog>
-    </v-app>
+              </v-card>
+            </v-col>
+          </v-row>
+          <div style="font-size: 20px;" class="mt-3">
+            我管理的歌单>
+          </div>
+          <v-row dense>
+            <v-col v-for="music in selfCreatedMusicList" cols="4">
+              <v-card
+                style="text-align: center;"
+                color="transparent"
+                hover
+                @click="$emit('detialPlayListEvent', 'admin')"
+              >
+                <v-img :src="music.src" cover />
+                <v-card-text
+                  style="display: flex; justify-content: space-between; align-items: center;"
+                >
+                  <span style="font-size: larger;">{{ music.text }}</span>
+                  <v-icon color="white" size="30">
+                    mdi-play-circle
+                  </v-icon>
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-dialog v-model="favorDialog" max-width="800">
+      <v-card>
+        <v-card-title>关心好友</v-card-title>
+        <v-card-text>
+          <v-data-table
+            v-model:page="friendPage"
+            :items="friends"
+            :items-per-page="5"
+            class="elevation-1"
+            :headers="friendHeaders"
+          >
+            <template #headers="{ columns, isSorted, getSortIcon, toggleSort }">
+              <tr>
+                <template v-for="column in columns" :key="column.key">
+                  <td>
+                    <span class="table-header" @click="() => toggleSort(column)">{{
+                      column.title }}</span>
+                    <template v-if="isSorted(column)">
+                      <v-icon :icon="getSortIcon(column)" />
+                    </template>
+                  </td>
+                </template>
+              </tr>
+            </template>
+            <template #item.avatar="{ item }">
+              <v-avatar size="32">
+                <img :src="item.avatar">
+              </v-avatar>
+            </template>
+            <template #item.mood="{ item }">
+              {{ item.mood }}
+            </template>
+            <template #bottom>
+              <div class="text-center pt-2">
+                <v-pagination
+                  v-model="friendPage"
+                  :length="friendPageCount"
+                  :total-visible="friendPageVisible"
+                  @input="onFriendPageChange"
+                />
+              </div>
+            </template>
+            <template #no-data>
+              <div>暂无数据~</div>
+            </template>
+          </v-data-table>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+  </v-app>
 </template>
 
 <script>
@@ -313,34 +403,26 @@ export default {
         musicPageCount: 3,
         musicPageVisible: 3,
 
-        playLists: [
-            { id: 1, name: "Relaxing Vibes", creator: "John Doe", tracks: 15 },
-            { id: 2, name: "Workout Hits", creator: "Jane Smith", tracks: 10 },
-        ],
+        playLists: [ { id: 1, name: "Relaxing Vibes", creator: "John Doe", tracks: 15 },
+            { id: 2, name: "Workout Hits", creator: "Jane Smith", tracks: 10 }, ],
         playListPage: 1,
         playListPageCount: 3,
         playListPageVisible: 3,
 
-        musicRooms: [
-            { id: 1, name: "Chill Zone", members: 20, },
-            { id: 2, name: "Jam Session", members: 15, },
-        ],
+        musicRooms: [ { id: 1, name: "Chill Zone", members: 20, },
+            { id: 2, name: "Jam Session", members: 15, }, ],
         musicRoomPage: 1,
         musicRoomPageCount: 3,
         musicRoomPageVisible: 3,
 
-        albums: [
-            { id: 1, title: "Golden Melodies", artist: "Alicia Keys", year: 2022 },
-            { id: 2, title: "Summer Breeze", artist: "Maroon 5", year: 2021 },
-        ],
+        albums: [ { id: 1, title: "Golden Melodies", artist: "Alicia Keys", year: 2022 },
+            { id: 2, title: "Summer Breeze", artist: "Maroon 5", year: 2021 }, ],
         albumPage: 1,
         albumPageCount: 3,
         albumPageVisible: 3,
 
-        users: [
-            { id: 1, username: "musiclover123", },
-            { id: 2, username: "rockstar22", },
-        ],
+        users: [ { id: 1, username: "musiclover123", },
+            { id: 2, username: "rockstar22", }, ],
         userPage: 1,
         userPageCount: 3,
         userPageVisible: 3,
@@ -353,41 +435,27 @@ export default {
                 { title: "时长", value: "duration", },
                 { title: "操作", value: "actions", },
             ],
-            [
-                { title: "歌单名称", value: "name", },
+            [ { title: "歌单名称", value: "name", },
                 { title: "创作者", value: "creator", },
-                { title: "歌曲数量", value: "tracks", },
-            ],
-            [
-                { title: '音乐室名称', value: 'name', },
-                { title: '成员数量', value: 'members', },
-            ],
-            [
-                { title: '专辑名称', value: 'title', },
+                { title: "歌曲数量", value: "tracks", }, ],
+            [ { title: '音乐室名称', value: 'name', },
+                { title: '成员数量', value: 'members', }, ],
+            [ { title: '专辑名称', value: 'title', },
                 { title: '作者', value: 'artist', },
-                { title: '创作时间', value: 'year', },
-            ],
-            [
-                { title: '用户名称', value: 'username', },
-            ],
+                { title: '创作时间', value: 'year', }, ],
+            [ { title: '用户名称', value: 'username', }, ],
         ],
 
-        profileIcons: [
-            { icon: 'mdi-download', text: '本地/下载', value: 'download' },
+        profileIcons: [ { icon: 'mdi-download', text: '本地/下载', value: 'download' },
             { icon: 'mdi-account', text: '关注', value: 'favor' },
             { icon: 'mdi-heart', text: '我喜欢', value: 'like' },
-            { icon: 'mdi-radio', text: '最近收听', value: 'recent' },
-        ],
-        selfCreatedMusicList: [
+            { icon: 'mdi-radio', text: '最近收听', value: 'recent' }, ],
+        selfCreatedMusicList: [ { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
             { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
+            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' }, ],
+        selfCollectedMusicList: [ { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
             { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
-        ],
-        selfCollectedMusicList: [
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' },
-        ],
+            { src: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', text: 'aaa' }, ],
         profileImgSrc: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg',
         avatarSrc: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg',
         username: 'deidei',
@@ -396,15 +464,15 @@ export default {
         emotionValue: 78,
         visitorNum: 234,
 
-        tabs: ['单曲', '歌单', '音乐室', '专辑', '用户'],
+        tabs: [
+ '单曲', '歌单', '音乐室', '专辑', '用户' 
+],
         activeTab: 0,
 
         favorDialog: false,
-        friendHeaders: [
-            { title: '头像', value: "avatar", },
+        friendHeaders: [ { title: '头像', value: "avatar", },
             { title: '用户名', value: "username", },
-            { title: '心情值', value: "emotionValue", },
-        ],
+            { title: '心情值', value: "emotionValue", }, ],
         friends: [
             { id: 1, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Alice', emotionValue: '😊' },
             { id: 2, avatar: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg', username: 'Bob', emotionValue: '😄' },
@@ -425,6 +493,8 @@ export default {
         friendPageCount: 3,
         friendPageVisible: 3,
     }),
+    mounted() {
+    },
     methods: {
         handleActiveTab(index) {
             this.activeTab = index;
@@ -453,8 +523,6 @@ export default {
             // wait for append data to the user list
             this.friendPage = page;
         },
-    },
-    mounted() {
     }
 }
 </script>

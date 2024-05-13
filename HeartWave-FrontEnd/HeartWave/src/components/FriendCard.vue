@@ -1,26 +1,31 @@
 <template>
-    <v-card class="custom-card friend-card">
-        <v-card-title>关心一下他们吧></v-card-title>
-        <v-card-text>
-        <v-row dense >
-          <v-col v-for="friend in friends" :key="friend.id">
-            <div class="friend-little-card">
-              <img :src="friend.avatar" class="avatar"/>
-              <div class="mood">❤️{{ friend.mood }}</div>
-              <div class="music">♫ {{ friend.music }}</div>
-              <button class="message-button">留言</button>
+  <v-card class="custom-card friend-card">
+    <v-card-title>关心一下他们吧></v-card-title>
+    <v-card-text>
+      <v-row dense>
+        <v-col v-for="friend in friends" :key="friend.id">
+          <div class="friend-little-card">
+            <img :src="friend.avatar" class="avatar">
+            <div class="mood">
+              ❤️{{ friend.mood }}
             </div>
-          </v-col>
-          <v-col>
-            <button class="more-button">更多</button>
-            <!-- <div style="margin-top: 20%; font-size: x-small;">查看更多好友近况</div> -->
-          </v-col>
-        </v-row>
-      </v-card-text>
-        
-        
-    </v-card>
-    
+            <div class="music">
+              ♫ {{ friend.music }}
+            </div>
+            <button class="message-button">
+              留言
+            </button>
+          </div>
+        </v-col>
+        <v-col>
+          <button class="more-button">
+            更多
+          </button>
+          <!-- <div style="margin-top: 20%; font-size: x-small;">查看更多好友近况</div> -->
+        </v-col>
+      </v-row>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>

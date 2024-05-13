@@ -1,21 +1,21 @@
 <template>
-    <v-card
-      class="mx-auto"
-      height="90%"
-      width="100%"
-      hover
-    >
-      <v-card-item>
-        <v-card-title>
-          推荐音乐室卡
-        </v-card-title>
-        <v-card-subtitle>
-          推荐音乐室卡
-        </v-card-subtitle>
-      </v-card-item>
+  <v-card
+    class="mx-auto"
+    height="90%"
+    width="100%"
+    hover
+  >
+    <v-card-item>
+      <v-card-title>
+        推荐音乐室卡
+      </v-card-title>
+      <v-card-subtitle>
+        推荐音乐室卡
+      </v-card-subtitle>
+    </v-card-item>
   
-      <v-card-text>
-        一些信息
-      </v-card-text>
-    </v-card>
-  </template>
+    <v-card-text>
+      一些信息
+    </v-card-text>
+  </v-card>
+</template>

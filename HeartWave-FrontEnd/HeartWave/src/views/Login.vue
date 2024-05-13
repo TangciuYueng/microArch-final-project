@@ -1,114 +1,122 @@
 <template>
-    <!-- <script src="./src/snow.js"></script> -->
-    <!-- 登陆界面 -->
-    <div class="login">
-        <div class="login-input">
-            <div class="title"> Welcome to HeartWave! </div>
-            <label class="sign-up-label"> Don't have an account? </label>
-            <a href="/register" class="sign-up-link"> Sign Up </a>
+  <!-- <script src="./src/snow.js"></script> -->
+  <!-- 登陆界面 -->
+  <div class="login">
+    <div class="login-input">
+      <div class="title">
+        Welcome to HeartWave!
+      </div>
+      <label class="sign-up-label"> Don't have an account? </label>
+      <a href="/register" class="sign-up-link"> Sign Up </a>
             
-            <!-- 使用了 @submit.prevent 监听表单的提交事件，并调用 onSubmit 方法进行处理。.prevent 修饰符阻止了表单的默认提交行为，从而可以使用自定义的提交方法进行处理。 -->
-            <v-form v-model="form" @submit.prevent="onSubmit" style="margin-left: 10%; margin-top: 40px;">
-                <v-text-field
-                    v-model="phone"
-                    style="max-width: 80%; height: 80px;"
-                    :readonly="loading"
-                    label="Phone"
-                    placeholder="Please enter your phone number"
-                    prepend-inner-icon="mdi-phone"
-                    variant="outlined"
-                    density="compact"
-                    color="#105645"
-                    :rules="[required]"
-                    clearable
-                    @input="checkLoginInput">
-                </v-text-field>
-                <v-text-field
-                    v-model="userAccount"
-                    :readonly="loading"
-                    style="max-width: 80%; height: 80px; margin-top: 10px;"
-                    label="Account"
-                    placeholder="Please enter your account"
-                    prepend-inner-icon="mdi-account"
-                    variant="outlined"
-                    density="compact"
-                    color="#105645"
-                    :rules="[required]"
-                    clearable
-                    @input="checkLoginInput">
-                </v-text-field>
-                <v-text-field
-                    v-model="password"
-                    :readonly="loading"
-                    style="max-width: 80%; height: 80px; margin-top: 10px;"
-                    label="Password"
-                    placeholder="Please enter your password"
-                    prepend-inner-icon="mdi-lock"
-                    type="password"
-                    variant="outlined"
-                    density="compact"
-                    color="#105645"
-                    :rules="[required]"
-                    clearable
-                    @input="checkLoginInput">
-                </v-text-field>
-                <v-text-field
-                    v-model="verifyCode"
-                    :readonly="loading"
-                    style="max-width: 80%; height: 80px; margin-top: 10px;"
-                    label="VerifyCode"
-                    placeholder="Please enter verify code"
-                    prepend-inner-icon="mdi-image-check"
-                    variant="outlined"
-                    density="compact"
-                    color="#105645"
-                    :rules="[required]"
-                    clearable
-                    @input="checkLoginInput">
-                </v-text-field>
+      <!-- 使用了 @submit.prevent 监听表单的提交事件，并调用 onSubmit 方法进行处理。.prevent 修饰符阻止了表单的默认提交行为，从而可以使用自定义的提交方法进行处理。 -->
+      <v-form v-model="form" style="margin-left: 10%; margin-top: 40px;" @submit.prevent="onSubmit">
+        <v-text-field
+          v-model="phone"
+          style="max-width: 80%; height: 80px;"
+          :readonly="loading"
+          label="Phone"
+          placeholder="Please enter your phone number"
+          prepend-inner-icon="mdi-phone"
+          variant="outlined"
+          density="compact"
+          color="#105645"
+          :rules="[required]"
+          clearable
+          @input="checkLoginInput"
+        />
+        <v-text-field
+          v-model="userAccount"
+          :readonly="loading"
+          style="max-width: 80%; height: 80px; margin-top: 10px;"
+          label="Account"
+          placeholder="Please enter your account"
+          prepend-inner-icon="mdi-account"
+          variant="outlined"
+          density="compact"
+          color="#105645"
+          :rules="[required]"
+          clearable
+          @input="checkLoginInput"
+        />
+        <v-text-field
+          v-model="password"
+          :readonly="loading"
+          style="max-width: 80%; height: 80px; margin-top: 10px;"
+          label="Password"
+          placeholder="Please enter your password"
+          prepend-inner-icon="mdi-lock"
+          type="password"
+          variant="outlined"
+          density="compact"
+          color="#105645"
+          :rules="[required]"
+          clearable
+          @input="checkLoginInput"
+        />
+        <v-text-field
+          v-model="verifyCode"
+          :readonly="loading"
+          style="max-width: 80%; height: 80px; margin-top: 10px;"
+          label="VerifyCode"
+          placeholder="Please enter verify code"
+          prepend-inner-icon="mdi-image-check"
+          variant="outlined"
+          density="compact"
+          color="#105645"
+          :rules="[required]"
+          clearable
+          @input="checkLoginInput"
+        />
 
-                <v-row style="margin-top: 10px;">
-                    <img :src="verifyInfo.img" alt="verify image missing" class="verify-image" @click="fetchVerifyInfo">
-                    <v-btn
-                        :loading="loading"
-                        class="login-button"
-                        :color="inputPass ? '#105645' : '#606060'"
-                        type="submit"
-                        variant="elevated"
-                        width="220"
-                        height="60"
-                        @click="loginHandler">
-                        Login
-                    </v-btn>
-                </v-row>
-                <v-row style="margin-top: 10px;">
-                    <label class="refetch-info-1"> Can't see clearly? </label>
-                    <label class="refetch-info-2"> Click the picture to refresh </label>
-                    <v-btn
-                        :loading="loading"
-                        class="forgot-password-button"
-                        color="gray"
-                        type="submit"
-                        variant="text"
-                        width="180"
-                        @click="forgotPasswordHandler">
-                        Forgot password?
-                    </v-btn>
-                </v-row>
-            </v-form>
+        <v-row style="margin-top: 10px;">
+          <img :src="verifyInfo.img" alt="verify image missing" class="verify-image" @click="fetchVerifyInfo">
+          <v-btn
+            :loading="loading"
+            class="login-button"
+            :color="inputPass ? '#105645' : '#606060'"
+            type="submit"
+            variant="elevated"
+            width="220"
+            height="60"
+            @click="loginHandler"
+          >
+            Login
+          </v-btn>
+        </v-row>
+        <v-row style="margin-top: 10px;">
+          <label class="refetch-info-1"> Can't see clearly? </label>
+          <label class="refetch-info-2"> Click the picture to refresh </label>
+          <v-btn
+            :loading="loading"
+            class="forgot-password-button"
+            color="gray"
+            type="submit"
+            variant="text"
+            width="180"
+            @click="forgotPasswordHandler"
+          >
+            Forgot password?
+          </v-btn>
+        </v-row>
+      </v-form>
             
-            <v-btn style="position: absolute; left: 0; top: 80%;" @click="this.$router.push('/main-view')"> 系统入口 </v-btn>
-            <div class="other-method-label"> Log in with other methods </div>
-            <hr>
-            <div class="other-method-icons">
-                <img src="../assets/login/chrome.svg">
-                <img src="../assets/login/weibo.svg">
-                <img src="../assets/login/QQ.svg">
-                <img src="../assets/login/wechat.svg">
-            </div>
-        </div>
-        <div class="login-image"></div>
+      <v-btn style="position: absolute; left: 0; top: 80%;" @click="$router.push('/main-view')">
+        系统入口
+      </v-btn>
+      <div class="other-method-label">
+        Log in with other methods
+      </div>
+      <hr>
+      <div class="other-method-icons">
+        <img src="../assets/login/chrome.svg">
+        <img src="../assets/login/weibo.svg">
+        <img src="../assets/login/QQ.svg">
+        <img src="../assets/login/wechat.svg">
+      </div>
     </div>
+    <div class="login-image" />
+  </div>
 </template>
   
 <script>
@@ -133,6 +141,10 @@ export default {
         loading: false,
         canFetchNewInfo: true,
     }),
+    mounted() {
+        this.fetchVerifyInfo();
+        localStorage.clear();
+    },
     methods: {
         fetchVerifyInfo: function() {
             if (!this.canFetchNewInfo)
@@ -245,10 +257,6 @@ export default {
             this.$router.push('/set-code')
 
         },
-    },
-    mounted() {
-        this.fetchVerifyInfo();
-        localStorage.clear();
     }
 }
 </script>

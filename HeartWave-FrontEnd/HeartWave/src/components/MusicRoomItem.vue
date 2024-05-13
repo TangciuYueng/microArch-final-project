@@ -1,13 +1,13 @@
 <template>
-    <span class="music-room-item">
-        <img :src="avatar" alt="image src invalid" class="item-avatar">
-        <label class="item-username" :title="username"> {{ username }} </label>
-        <label class="item-time"> {{ formatTime(time) }} </label>
-        <div class="item-div">
-            <img :src="getStatusImgSrc()" alt="image src invalid" class="item-status">
-            <label class="item-song" :title="song"> {{ formatStatus() }} </label>
-        </div>
-    </span>
+  <span class="music-room-item">
+    <img :src="avatar" alt="image src invalid" class="item-avatar">
+    <label class="item-username" :title="username"> {{ username }} </label>
+    <label class="item-time"> {{ formatTime(time) }} </label>
+    <div class="item-div">
+      <img :src="getStatusImgSrc()" alt="image src invalid" class="item-status">
+      <label class="item-song" :title="song"> {{ formatStatus() }} </label>
+    </div>
+  </span>
 </template>
 
 <script>

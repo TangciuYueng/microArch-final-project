@@ -1,93 +1,99 @@
 <template>
-    <!-- 重置密码界面 -->
-    <div class="set-code">
-        <div class="set-input">
-            <div class="title">找 回 密 码</div>
-            <div class="info"> 请输入您的用户名及对应的电话号码，并进行验证，以此让我们确定您的帐号 </div>
-            <!-- 使用了 @submit.prevent 监听表单的提交事件，并调用 onSubmit 方法进行处理。.prevent 修饰符阻止了表单的默认提交行为，从而可以使用自定义的提交方法进行处理。 -->
-            <v-form v-model="form" @submit.prevent="onSubmit">
-                <v-row style="margin-top: 30px;">
-                    <!-- 输入用户名 -->
-                    <v-text-field
-                        v-model="username"
-                        :readonly="loading"
-                        :rules="[required]"
-                        style="max-width: 45%; margin-left: 27.5%;"
-                        clearable
-                        label="用户名"
-                        prepend-inner-icon="mdi-account"
-                        variant="outlined"
-                        color="#105645"
-                        @input="checkSetpwdInput">
-                    </v-text-field>
-                </v-row>
-                <v-row style="margin-top: 40px;">
-                    <!-- 输入手机号 -->
-                    <v-text-field
-                        v-model="phone"
-                        :readonly="loading"
-                        :rules="[required]"
-                        style="max-width: 28%; margin-left: 27.5%;"
-                        label="手机号"
-                        placeholder="输入手机号"
-                        prepend-inner-icon="mdi-phone"
-                        variant="outlined"
-                        color="#105645"
-                        @input="checkSetpwdInput">
-                    </v-text-field>
-                    <!-- 获取验证码按钮 -->
-                    <v-btn
-                        outlined
-                        dark
-                        color="#105645"
-                        size="large"
-                        type="submit"
-                        width="130"
-                        height="62"
-                        style="margin-left: 4%;"
-                        @click="getSmsCode(); setTimeout(() => { checkSetpwdInput(); }, 2000);">
-                        获取验证码
-                    </v-btn>
-                </v-row>
-                <v-row style="margin-top: 40px;">
-                    <!-- 输入验证码 -->
-                    <v-text-field
-                        v-model="verifyCode"
-                        :readonly="loading"
-                        :rules="[required]"
-                        style="max-width: 45%; margin-left: 27.5%;"
-                        label="验证码"
-                        placeholder="输入验证码"
-                        prepend-inner-icon="mdi-numeric"
-                        variant="outlined"
-                        color="#105645"
-                        @input="checkSetpwdInput">
-                    </v-text-field>
-                </v-row>
+  <!-- 重置密码界面 -->
+  <div class="set-code">
+    <div class="set-input">
+      <div class="title">
+        找 回 密 码
+      </div>
+      <div class="info">
+        请输入您的用户名及对应的电话号码，并进行验证，以此让我们确定您的帐号
+      </div>
+      <!-- 使用了 @submit.prevent 监听表单的提交事件，并调用 onSubmit 方法进行处理。.prevent 修饰符阻止了表单的默认提交行为，从而可以使用自定义的提交方法进行处理。 -->
+      <v-form v-model="form" @submit.prevent="onSubmit">
+        <v-row style="margin-top: 30px;">
+          <!-- 输入用户名 -->
+          <v-text-field
+            v-model="username"
+            :readonly="loading"
+            :rules="[required]"
+            style="max-width: 45%; margin-left: 27.5%;"
+            clearable
+            label="用户名"
+            prepend-inner-icon="mdi-account"
+            variant="outlined"
+            color="#105645"
+            @input="checkSetpwdInput"
+          />
+        </v-row>
+        <v-row style="margin-top: 40px;">
+          <!-- 输入手机号 -->
+          <v-text-field
+            v-model="phone"
+            :readonly="loading"
+            :rules="[required]"
+            style="max-width: 28%; margin-left: 27.5%;"
+            label="手机号"
+            placeholder="输入手机号"
+            prepend-inner-icon="mdi-phone"
+            variant="outlined"
+            color="#105645"
+            @input="checkSetpwdInput"
+          />
+          <!-- 获取验证码按钮 -->
+          <v-btn
+            outlined
+            dark
+            color="#105645"
+            size="large"
+            type="submit"
+            width="130"
+            height="62"
+            style="margin-left: 4%;"
+            @click="getSmsCode(); setTimeout(() => { checkSetpwdInput(); }, 2000);"
+          >
+            获取验证码
+          </v-btn>
+        </v-row>
+        <v-row style="margin-top: 40px;">
+          <!-- 输入验证码 -->
+          <v-text-field
+            v-model="verifyCode"
+            :readonly="loading"
+            :rules="[required]"
+            style="max-width: 45%; margin-left: 27.5%;"
+            label="验证码"
+            placeholder="输入验证码"
+            prepend-inner-icon="mdi-numeric"
+            variant="outlined"
+            color="#105645"
+            @input="checkSetpwdInput"
+          />
+        </v-row>
                     
-                <!-- 其他表单项和按钮 -->
-                <br>
-                <v-container>
-                    <v-row justify="center">
-                        <v-btn
-                            :loading="loading"
-                            type="submit"
-                            variant="elevated"
-                            width="130"
-                            :class="'submit-button-' + (inputPass ? 'pass' : 'error')"
-                            height="55"
-                            @click="submitHandler">
-                            {{ inputPass ? '确 认' : inputErrorInfo }}
-                        </v-btn>
-                    </v-row>
-                    <v-row justify="center">
-                        <label v-if="showJumpInfo" class="jump-info"> 验证成功，正在跳转...... </label>
-                    </v-row>
-                </v-container>
-            </v-form>
-        </div>
-        <div class="set-image"></div>
+        <!-- 其他表单项和按钮 -->
+        <br>
+        <v-container>
+          <v-row justify="center">
+            <v-btn
+              :loading="loading"
+              type="submit"
+              variant="elevated"
+              width="130"
+              :class="'submit-button-' + (inputPass ? 'pass' : 'error')"
+              height="55"
+              @click="submitHandler"
+            >
+              {{ inputPass ? '确 认' : inputErrorInfo }}
+            </v-btn>
+          </v-row>
+          <v-row justify="center">
+            <label v-if="showJumpInfo" class="jump-info"> 验证成功，正在跳转...... </label>
+          </v-row>
+        </v-container>
+      </v-form>
     </div>
+    <div class="set-image" />
+  </div>
 </template>
   
 <script>

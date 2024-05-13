@@ -2,25 +2,25 @@
   <v-app>
     <v-main id="our_container">
       <!-- <v-container fluid> -->
-        <vue-particles
-            id="particles-js"
-            color="#663399"
-            :particleOpacity="0.7"
-            :particlesNumber="100"
-            shapeType="star"
-            :particleSize="6"
-            linesColor="#BA55D3"
-            :linesWidth="1"
-            :lineLinked="true"
-            :lineOpacity="0.4"
-            :linesDistance="100"
-            :moveSpeed="1"
-            :hoverEffect="true"
-            hoverMode="grab"
-            :clickEffect="true"
-            clickMode="repulse">
-        </vue-particles>
-        <router-view></router-view>
+      <vue-particles
+        id="particles-js"
+        color="#663399"
+        :particle-opacity="0.7"
+        :particles-number="100"
+        shape-type="star"
+        :particle-size="6"
+        lines-color="#BA55D3"
+        :lines-width="1"
+        :line-linked="true"
+        :line-opacity="0.4"
+        :lines-distance="100"
+        :move-speed="1"
+        :hover-effect="true"
+        hover-mode="grab"
+        :click-effect="true"
+        click-mode="repulse"
+      />
+      <router-view />
       <!-- </v-container> -->
     </v-main>
     <!-- <Footer></Footer> -->

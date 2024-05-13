@@ -2,12 +2,8 @@
   <v-card class="emotions-card" rounded hover>
     <!-- <v-card-title>一周心情表</v-card-title> -->
   
-    <div ref="chart" style="width: 100%; height: 100%;"></div>
-
-
+    <div ref="chart" style="width: 100%; height: 100%;" />
   </v-card>
-  
-    
 </template>
 
 <script>
@@ -20,13 +16,13 @@ export default {
   },
   data() {
     return {
-      selectItems: [
-        { value: "1 Week", label: "1 Week" },
+      selectItems: [ { value: "1 Week", label: "1 Week" },
         { value: "6 Months", label: "6 Months" },
-        { value: "待定", label: "待定" },
-      ],
+        { value: "待定", label: "待定" }, ],
       selectedValue: "6 Months",
-      moodData: [70, 80, 60, 90, 50, 75, 85] // 一周心情值数据
+      moodData: [
+ 70, 80, 60, 90, 50, 75, 85 
+] // 一周心情值数据
     };
   },
   mounted() {
@@ -56,7 +52,9 @@ export default {
         tooltip: {},
         xAxis: {
           type: 'category',
-          data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+          data: [
+ '周一', '周二', '周三', '周四', '周五', '周六', '周日' 
+]
         },
         yAxis: {
           type: 'value',
@@ -69,20 +67,20 @@ export default {
     y: 0,
     x2: 0,
     y2: 1,
-    colorStops: [{
+    colorStops: [ {
       offset: 0, color: '#B0E881' // 渐变起始颜色
     }, {
       offset: 0.49, color: '#B0E881' // 渐变中间颜色
     }, {
       offset: 1, color: '#72F7C5' // 渐变结束颜色
-    }],
+    } ],
     global: false // 缺省为 true
   },
-        series: [{
+        series: [ {
           name: '心情值',
           type: 'bar',
           data: this.moodData, // 心情值数据
-        }]
+        } ]
       };
 
       // 使用刚指定的配置项和数据显示图表

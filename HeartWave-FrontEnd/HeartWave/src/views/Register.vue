@@ -1,199 +1,207 @@
 <template>
-    <!-- 注册界面 -->
-    <div class="Screen">
-        <div class="Register">
-            <div class="title"> Register </div>
-            <!-- 显示机票背景图片 -->
-            <v-img
-                cover
-                :src="getImgSrc(registerSuccess ? '../assets/invitation-success.jpg' : '../assets/invitation.jpg')"
-                style="margin-top: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
-                <!-- 注册表单 -->
-                <v-form v-if="!registerSuccess" v-model="form" @submit.prevent="onSubmit">
-                    <!-- 左边那一块表单，包括校区，姓名，学号等 -->
-                    <v-container style="position:relative;left:200px;top:170px;margin-left: 48px;">
-                        <!-- 选择头像 -->
-                        <v-row justify="start">
-                            <input
-                                type="file"
-                                ref="fileInput"
-                                style="display: none;"
-                                @input="laybackCheck"
-                                @change="handleFileChange"
-                            >
-                            <v-btn
-                                v-if="avatar == ''"
-                                @click="openFilePicker();"
-                                class="avatar-button"
-                                height="160">
-                                选择头像
-                            </v-btn>
-                            <img
-                                v-else
-                                :src="'data:image/jpg;base64,' + avatar"
-                                style="width: 160px; height: 160px;"
-                                @click="avatar = ''"
-                                class="avatar-img"
-                            >
-                            <v-col>
-                                <!-- 设置用户名 -->
-                                <v-text-field
-                                    v-model="username"
-                                    style="margin-left: 20px; max-width: 30%; height: 85px;"
-                                    label="用户名"
-                                    placeholder="请输入用户名"
-                                    prepend-inner-icon="mdi-account"
-                                    variant="outlined"
-                                    density="compact"
-                                    color="#105645"
-                                    :rules="[required]"
-                                    @input="checkRegisterInput()">
-                                </v-text-field>
-                                <!-- 电话号码 -->
-                                <v-text-field
-                                    v-model="phone"
-                                    style="margin-left: 20px; max-width: 30%; height: 85px;"
-                                    label="电话号码"
-                                    placeholder="请输入电话号码"
-                                    prepend-inner-icon="mdi-phone"
-                                    variant="outlined"
-                                    density="compact"
-                                    color="#105645"
-                                    size="40"
-                                    :rules="[required]"
-                                    @input="checkRegisterInput()">
-                                </v-text-field>
-                            </v-col>
-                        </v-row>
-                        <!-- 输入验证码 -->
-                        <v-row justify="start">
-                            <v-text-field
-                                v-model="smsCode"
-                                style="max-width: 25.5%; height: 80px;"
-                                label="验证码"
-                                placeholder="请输入验证码"
-                                prepend-inner-icon="mdi-counter"
-                                variant="outlined"
-                                density="compact"
-                                color="#105645"
-                                :rules="[required]"
-                                @input="checkRegisterInput()">
-                            </v-text-field>
-                            <v-btn class="sms-button" width="150" height="49" @click="getSmsCode(phone)"> 获取验证码 </v-btn>
-                        </v-row>
-                        <!-- 输入密码 -->
-                        <v-row justify="start">
-                            <v-text-field
-                                v-model="password"
-                                style="max-width: 18%; height: 80px;"
-                                label="密码"
-                                placeholder="请设置密码"
-                                prepend-inner-icon="mdi-lock"
-                                variant="outlined"
-                                density="compact"
-                                color="#105645"
-                                :rules="[required]"
-                                type="password"
-                                clearable
-                                @input="checkRegisterInput()">
-                            </v-text-field>
-                            <v-text-field
-                                v-model="passwordCertain"
-                                style="max-width: 18%; height: 80px; margin-left: 5.5%;"
-                                label="确认密码"
-                                placeholder="请确认密码"
-                                prepend-inner-icon="mdi-lock"
-                                variant="outlined"
-                                density="compact"
-                                color="#105645"
-                                :rules="[required]"
-                                type="password"
-                                clearable
-                                @input="checkRegisterInput()">
-                            </v-text-field>
-                        </v-row>
-                        <v-row justify="start">
-                            <v-text-field
-                                v-model="email"
-                                style="max-width: 25.5%; height: 80px;"
-                                label="邮箱"
-                                placeholder="请输入邮箱"
-                                prepend-inner-icon="mdi-email"
-                                variant="outlined"
-                                density="compact"
-                                color="#105645"
-                                :rules="[required]"
-                                clearable
-                                @input="checkRegisterInput()">
-                            </v-text-field>
-                            <v-text-field
-                                v-model="age"
-                                style="max-width: 12%; height: 80px; margin-left: 4%;"
-                                label="年龄"
-                                placeholder="请输入年龄"
-                                prepend-inner-icon="mdi-counter"
-                                variant="outlined"
-                                density="compact"
-                                color="#105645"
-                                :rules="[required]"
-                                clearable
-                                @input="checkRegisterInput()">
-                            </v-text-field>
-                        </v-row>
-                        <v-row justify="start">
-                            <v-text-field
-                                v-model="region"
-                                style="max-width: 20%; height: 80px;"
-                                label="地区"
-                                placeholder="请输入地区"
-                                prepend-inner-icon="mdi-web"
-                                variant="outlined"
-                                density="compact"
-                                color="#105645"
-                                :rules="[required]"
-                                clearable
-                                @input="checkRegisterInput()">
-                            </v-text-field>
-                            <span style="color:rgb(115,115,115); position:relative; top: 10px; left: 6%;">性别：</span>
-                            <v-radio-group
-                                v-model="gender"
-                                inline
-                                density="compact"
-                                style="display: inline-block; position:relative; top: 8px; left: 5%;"
-                                @input="checkRegisterInput()">
-                                <v-radio label="男" value="MALE" color="#105645" style="margin-left: 2%;"></v-radio>
-                                <v-radio label="女" value="FEMALE" color="#105645" style="margin-left: 2%;"></v-radio>
-                            </v-radio-group>
-                            
-                        </v-row>
-                    </v-container>
+  <!-- 注册界面 -->
+  <div class="Screen">
+    <div class="Register">
+      <div class="title">
+        Register
+      </div>
+      <!-- 显示机票背景图片 -->
+      <v-img
+        cover
+        :src="getImgSrc(registerSuccess ? '../assets/invitation-success.jpg' : '../assets/invitation.jpg')"
+        style="margin-top: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);"
+      >
+        <!-- 注册表单 -->
+        <v-form v-if="!registerSuccess" v-model="form" @submit.prevent="onSubmit">
+          <!-- 左边那一块表单，包括校区，姓名，学号等 -->
+          <v-container style="position:relative;left:200px;top:170px;margin-left: 48px;">
+            <!-- 选择头像 -->
+            <v-row justify="start">
+              <input
+                ref="fileInput"
+                type="file"
+                style="display: none;"
+                @input="laybackCheck"
+                @change="handleFileChange"
+              >
+              <v-btn
+                v-if="avatar == ''"
+                class="avatar-button"
+                height="160"
+                @click="openFilePicker();"
+              >
+                选择头像
+              </v-btn>
+              <img
+                v-else
+                :src="'data:image/jpg;base64,' + avatar"
+                style="width: 160px; height: 160px;"
+                class="avatar-img"
+                @click="avatar = ''"
+              >
+              <v-col>
+                <!-- 设置用户名 -->
+                <v-text-field
+                  v-model="username"
+                  style="margin-left: 20px; max-width: 30%; height: 85px;"
+                  label="用户名"
+                  placeholder="请输入用户名"
+                  prepend-inner-icon="mdi-account"
+                  variant="outlined"
+                  density="compact"
+                  color="#105645"
+                  :rules="[required]"
+                  @input="checkRegisterInput()"
+                />
+                <!-- 电话号码 -->
+                <v-text-field
+                  v-model="phone"
+                  style="margin-left: 20px; max-width: 30%; height: 85px;"
+                  label="电话号码"
+                  placeholder="请输入电话号码"
+                  prepend-inner-icon="mdi-phone"
+                  variant="outlined"
+                  density="compact"
+                  color="#105645"
+                  size="40"
+                  :rules="[required]"
+                  @input="checkRegisterInput()"
+                />
+              </v-col>
+            </v-row>
+            <!-- 输入验证码 -->
+            <v-row justify="start">
+              <v-text-field
+                v-model="smsCode"
+                style="max-width: 25.5%; height: 80px;"
+                label="验证码"
+                placeholder="请输入验证码"
+                prepend-inner-icon="mdi-counter"
+                variant="outlined"
+                density="compact"
+                color="#105645"
+                :rules="[required]"
+                @input="checkRegisterInput()"
+              />
+              <v-btn class="sms-button" width="150" height="49" @click="getSmsCode(phone)">
+                获取验证码
+              </v-btn>
+            </v-row>
+            <!-- 输入密码 -->
+            <v-row justify="start">
+              <v-text-field
+                v-model="password"
+                style="max-width: 18%; height: 80px;"
+                label="密码"
+                placeholder="请设置密码"
+                prepend-inner-icon="mdi-lock"
+                variant="outlined"
+                density="compact"
+                color="#105645"
+                :rules="[required]"
+                type="password"
+                clearable
+                @input="checkRegisterInput()"
+              />
+              <v-text-field
+                v-model="passwordCertain"
+                style="max-width: 18%; height: 80px; margin-left: 5.5%;"
+                label="确认密码"
+                placeholder="请确认密码"
+                prepend-inner-icon="mdi-lock"
+                variant="outlined"
+                density="compact"
+                color="#105645"
+                :rules="[required]"
+                type="password"
+                clearable
+                @input="checkRegisterInput()"
+              />
+            </v-row>
+            <v-row justify="start">
+              <v-text-field
+                v-model="email"
+                style="max-width: 25.5%; height: 80px;"
+                label="邮箱"
+                placeholder="请输入邮箱"
+                prepend-inner-icon="mdi-email"
+                variant="outlined"
+                density="compact"
+                color="#105645"
+                :rules="[required]"
+                clearable
+                @input="checkRegisterInput()"
+              />
+              <v-text-field
+                v-model="age"
+                style="max-width: 12%; height: 80px; margin-left: 4%;"
+                label="年龄"
+                placeholder="请输入年龄"
+                prepend-inner-icon="mdi-counter"
+                variant="outlined"
+                density="compact"
+                color="#105645"
+                :rules="[required]"
+                clearable
+                @input="checkRegisterInput()"
+              />
+            </v-row>
+            <v-row justify="start">
+              <v-text-field
+                v-model="region"
+                style="max-width: 20%; height: 80px;"
+                label="地区"
+                placeholder="请输入地区"
+                prepend-inner-icon="mdi-web"
+                variant="outlined"
+                density="compact"
+                color="#105645"
+                :rules="[required]"
+                clearable
+                @input="checkRegisterInput()"
+              />
+              <span style="color:rgb(115,115,115); position:relative; top: 10px; left: 6%;">性别：</span>
+              <v-radio-group
+                v-model="gender"
+                inline
+                density="compact"
+                style="display: inline-block; position:relative; top: 8px; left: 5%;"
+                @input="checkRegisterInput()"
+              >
+                <v-radio label="男" value="MALE" color="#105645" style="margin-left: 2%;" />
+                <v-radio label="女" value="FEMALE" color="#105645" style="margin-left: 2%;" />
+              </v-radio-group>
+            </v-row>
+          </v-container>
 
-                    <!-- 确认按钮 -->
-                    <v-btn
-                        :loading="registerLoading"
-                        :class="'submit-button-' + (inputPass ? 'pass' : 'error')"
-                        type="submit"
-                        variant="elevated"
-                        width="160"
-                        height="60"
-                        @click="submitRegisterForm"
-                        :active="!inputPass">
-                        {{ inputPass ? "接 受" : inputErrorInfo }}
-                    </v-btn>
-                    <v-btn
-                        :loading="registerLoading"
-                        class="cancel-button"
-                        type="submit"
-                        variant="elevated"
-                        width="160"
-                        height="60"
-                        @click="$router.push('/')">
-                        拒 绝
-                    </v-btn>
-                </v-form>
-            </v-img>
-        </div>
+          <!-- 确认按钮 -->
+          <v-btn
+            :loading="registerLoading"
+            :class="'submit-button-' + (inputPass ? 'pass' : 'error')"
+            type="submit"
+            variant="elevated"
+            width="160"
+            height="60"
+            :active="!inputPass"
+            @click="submitRegisterForm"
+          >
+            {{ inputPass ? "接 受" : inputErrorInfo }}
+          </v-btn>
+          <v-btn
+            :loading="registerLoading"
+            class="cancel-button"
+            type="submit"
+            variant="elevated"
+            width="160"
+            height="60"
+            @click="$router.push('/')"
+          >
+            拒 绝
+          </v-btn>
+        </v-form>
+      </v-img>
     </div>
+  </div>
 </template>
   
 <script>
@@ -224,8 +232,12 @@ export default {
         Time: "",                  //当前时间
         date: "",                  //当前日期
         //学校所有的学院名称
-        instituteList:['机械与能源学院', '生命科学与技术学院', '铁道与城市轨道交通研究院', '物理科学与工程学院','建筑与城市规划学院','汽车学院','数学科学学院','土木工程学院','海洋与地球科学学院','设计创意学院','医学院','新生院','电子信息与工程学院','法学院','人文学院','外国语学院','环境科学与工程学院','体育教学部','艺术与传媒学院','经济与管理学院','马克思主义学院','政治与国际关系学院','中德工程学院','测绘与地理信息学院','航空航天与力学学院','软件学院','中德学院','材料科学与工程学院','化学科学与工程学院','交通运输工程学院','口腔医学院','上海国际知识产权学院','同济大学附属医院','校医院'],
-        gradeList:['大一','大二','大三','大四','大五','研一','研二','研三','博士生及以上']
+        instituteList:[
+ '机械与能源学院', '生命科学与技术学院', '铁道与城市轨道交通研究院', '物理科学与工程学院','建筑与城市规划学院','汽车学院','数学科学学院','土木工程学院','海洋与地球科学学院','设计创意学院','医学院','新生院','电子信息与工程学院','法学院','人文学院','外国语学院','环境科学与工程学院','体育教学部','艺术与传媒学院','经济与管理学院','马克思主义学院','政治与国际关系学院','中德工程学院','测绘与地理信息学院','航空航天与力学学院','软件学院','中德学院','材料科学与工程学院','化学科学与工程学院','交通运输工程学院','口腔医学院','上海国际知识产权学院','同济大学附属医院','校医院' 
+],
+        gradeList:[
+ '大一','大二','大三','大四','大五','研一','研二','研三','博士生及以上' 
+]
     }),
     methods: {
         getImgSrc: function(url) {
