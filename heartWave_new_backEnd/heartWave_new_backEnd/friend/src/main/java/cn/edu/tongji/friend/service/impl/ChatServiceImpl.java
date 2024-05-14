@@ -12,6 +12,8 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 public class ChatServiceImpl implements ChatService {
@@ -24,10 +26,12 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public void addChatRecord(AddChatRecordRequest addChatRecordRequest) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
         RedisChatRecord redisChatRecord = RedisChatRecord.builder()
                         .senderId(addChatRecordRequest.getSenderId())
                         .receiverId(addChatRecordRequest.getReceiverId())
-                        .sendTime(LocalDateTime.now())
+                        .sendTime(LocalDateTime.now().format(formatter))
                         .type(addChatRecordRequest.getType())
                         .content(addChatRecordRequest.getContent())
                         .build();
@@ -39,5 +43,10 @@ public class ChatServiceImpl implements ChatService {
     public void updateChatTime(UpdateChatTimeRequest updateChatTimeRequest) {
         FriendRelation friendRelation = friendRelationRepository.findFirstByUserIdAndFriendId(updateChatTimeRequest.getUserId1(), updateChatTimeRequest.getUserId2());
         friendRepository.updateTimeById(friendRelation.getFriend().getId(), LocalDateTime.now());
+    }
+
+    @Override
+    public List<RedisChatRecord> getChatRecord(long uid1, long uid2) {
+        return chatRecordRepository.get(uid1, uid2);
     }
 }

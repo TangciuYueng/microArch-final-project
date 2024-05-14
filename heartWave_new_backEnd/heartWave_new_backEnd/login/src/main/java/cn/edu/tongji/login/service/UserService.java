@@ -1,9 +1,6 @@
 package cn.edu.tongji.login.service;
 
-import cn.edu.tongji.login.dto.RegisterRequest;
-import cn.edu.tongji.login.dto.ResetPasswordRequest;
-import cn.edu.tongji.login.dto.SmsInfo;
-import cn.edu.tongji.login.dto.UserFriendInfo;
+import cn.edu.tongji.login.dto.*;
 import cn.edu.tongji.login.model.User;
 
 import java.io.IOException;
@@ -16,4 +13,5 @@ public interface UserService {
     SmsInfo sendSmsCode(String phone);
     void resetPassword(ResetPasswordRequest resetPasswordRequest);
     List<UserFriendInfo> getMultipleUsers(List<Long> ids);
+    void updateFriendCount(UpdateFriendCountRequest updateFriendCountRequest);
 }

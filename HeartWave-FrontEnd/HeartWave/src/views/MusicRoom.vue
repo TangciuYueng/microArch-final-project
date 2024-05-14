@@ -1,297 +1,305 @@
 <template>
-  <v-main class="full-height">
-    <!-- 顶部的导航栏 -->
-    <div class="music-room-top">
-      <button
-        :class="menu != 'users' ? 'music-room-menu' : 'music-room-menu-clicked'"
-        @click="clickBarItem('users')"
-      >
-        好友
-      </button>
-      <button
-        :class="menu != 'musicRooms' ? 'music-room-menu' : 'music-room-menu-clicked'"
-        @click="clickBarItem('musicRooms')"
-      >
-        我加入的音乐室
-      </button>
-      <button
-        :class="menu != 'square' ? 'music-room-menu' : 'music-room-menu-clicked'"
-        @click="clickBarItem('square')"
-      >
-        音乐室广场
-      </button>
-      <label v-if="menu != 'square' && isChatShow" class="music-room-title"> {{ getTitle() }} </label>
-      <img
-        v-if="isCreateMusicRoomShow"
-        :src="getImgSrc(backButtonImgSrc)"
-        class="back-button"
-        @click="isCreateMusicRoomShow = false"
-        @mouseover="backButtonImgSrc = '../assets/back-active.svg'"
-        @mouseout="backButtonImgSrc = '../assets/back.svg'"
-      >
-      <label v-if="isCreateMusicRoomShow" class="music-room-create-title"> 音乐室创建 </label>
-    </div>
+    <v-main class="full-height">
+        <v-snackbar
+            v-model="ifSnackBarShow"
+            timeout="3000"
+            color="#105645"
+            style="margin-bottom: 90vh; z-index: 9999;">
+            {{ snackBarMessage }}
+        </v-snackbar>
+
+        <!-- 顶部的导航栏 -->
+        <div class="music-room-top">
+            <button
+                :class="menu != 'users' ? 'music-room-menu' : 'music-room-menu-clicked'"
+                @click="clickBarItem('users')"
+            >
+                好友
+            </button>
+            <button
+                :class="menu != 'musicRooms' ? 'music-room-menu' : 'music-room-menu-clicked'"
+                @click="clickBarItem('musicRooms')"
+            >
+                我加入的音乐室
+            </button>
+            <button
+                :class="menu != 'square' ? 'music-room-menu' : 'music-room-menu-clicked'"
+                @click="clickBarItem('square')"
+            >
+                音乐室广场
+            </button>
+            <label v-if="menu != 'square' && isChatShow" class="music-room-title"> {{ getTitle() }} </label>
+            <img
+                v-if="isCreateMusicRoomShow"
+                :src="getImgSrc(backButtonImgSrc)"
+                class="back-button"
+                @click="isCreateMusicRoomShow = false"
+                @mouseover="backButtonImgSrc = '../assets/back-active.svg'"
+                @mouseout="backButtonImgSrc = '../assets/back.svg'"
+            >
+            <label v-if="isCreateMusicRoomShow" class="music-room-create-title"> 音乐室创建 </label>
+        </div>
         
-    <div class="flex-container">
-      <!-- 左部列表 -->
-      <div class="list-container" :style="{ backgroundColor: menu == 'square' ? '#F1F1F1' : '#6BC4AE4F' }">
-        <music-room-item
-          v-for="item in (menu == 'users' ? users : musicRooms)"
-          v-if="menu != 'square'"
-          :avatar="'data:image/jpg;base64,' + item.avatar"
-          :username="item.username"
-          :time="item.time"
-          :status="item.status"
-          :song="item.song"
-          @click="clickListItem(item); "
-        />
+        <div class="flex-container">
+            <!-- 左部列表 -->
+            <div class="list-container" :style="{ backgroundColor: menu == 'square' ? '#F1F1F1' : '#6BC4AE4F' }">
+                <music-room-item
+                v-for="item in (menu == 'users' ? users : musicRooms)"
+                v-if="menu != 'square'"
+                :avatar="'data:image/jpg;base64,' + item.avatar"
+                :username="item.username"
+                :time="item.time"
+                :status="item.status"
+                :song="item.song"
+                @click="clickListItem(item); "
+                />
 
-        <div v-else>
-          <input
-            v-model="keyword"
-            type="text"
-            placeholder="请输入心情/音乐室名称进行搜索"
-            class="search-input"
-          >
-          <img :src="getImgSrc('../assets/search.svg')" class="search-icon">
-                    
-          <!-- 模拟词云图 -->
-          <label class="keyword-1"> 甜蜜 </label>
-          <label class="keyword-2"> 平静 </label>
-          <label class="keyword-3"> 高考 </label>
-          <label class="keyword-4"> 愉快 </label>
-          <label class="keyword-5"> 考研 </label>
-          <label class="keyword-6"> 悲伤 </label>
-          <label class="keyword-7"> 亲情 </label>
-          <label class="keyword-8"> 失恋 </label>
+                <div v-else>
+                <input
+                    v-model="keyword"
+                    type="text"
+                    placeholder="请输入心情/音乐室名称进行搜索"
+                    class="search-input"
+                >
+                <img :src="getImgSrc('../assets/search.svg')" class="search-icon">
+                            
+                <!-- 模拟词云图 -->
+                <label class="keyword-1"> 甜蜜 </label>
+                <label class="keyword-2"> 平静 </label>
+                <label class="keyword-3"> 高考 </label>
+                <label class="keyword-4"> 愉快 </label>
+                <label class="keyword-5"> 考研 </label>
+                <label class="keyword-6"> 悲伤 </label>
+                <label class="keyword-7"> 亲情 </label>
+                <label class="keyword-8"> 失恋 </label>
+                </div>
+            </div>
+
+            <!-- 中间聊天区 -->
+            <div v-if="isChatShow" class="chat-container">
+                <div id="chat-record-area" class="chat-record-area">
+                <chat-record
+                    v-for="item in chatRecords"
+                    :avatar="getChatAvatar(item.ifSender)"
+                    :text="item.text"
+                    :if-sender="item.ifSender"
+                />
+                </div>
+                <div style="height: 0.25%; background-color: #0000003D;" />
+                <div class="chat-input-area">
+                <div class="tool-bar">
+                    <img src="../assets/chat-sing.svg">
+                    <img src="../assets/chat-emoji.svg">
+                    <img src="../assets/chat-music.svg">
+                    <img src="../assets/chat-picture.svg">
+                    <img src="../assets/chat-gift.svg">
+                    <v-btn class="send-button" @click="sendMessage">
+                    发送
+                    </v-btn>
+                </div>
+
+                <textarea v-model="editingMessage" class="chat-input" />
+                <v-btn @click="connectToRoom()">
+                    create
+                </v-btn>
+                <v-btn @click="defaultPorts()">
+                    default
+                </v-btn>
+                </div>
+            </div>
+
+            <!-- 右侧信息栏 -->
+            <div v-if="isChatShow" class="side-info-container">
+                <label class="side-info-button"> 音乐室成员 > </label>
+                <br>
+                <img v-for="url in musicRoomMembers" :src="getImgSrc(url)" class="side-info-member">
+                <br>
+                        
+                <label class="side-info-button"> 音乐室歌单 > </label>
+                <br>
+                <img v-for="url in albums" :src="getImgSrc(url)" class="side-info-album">
+                <img :src="getImgSrc('../assets/addAlbum.svg')" class="side-info-album" style="padding: 2%;">
+                <br>
+
+                <label class="side-info-button"> 当前{{ currentUser.status == 1 ? '播放' : '在唱' }} > </label>
+                <music-room-current
+                :cover="currentSong.cover"
+                :active="currentSong.name != ''"
+                :song="currentSong.name"
+                :artist="currentSong.artist"
+                :time="currentSong.time"
+                :total="currentSong.total"
+                :lyric="currentSong.lyric"
+                />
+            </div>
+
+            <!-- 音乐室推荐区 -->
+            <div v-if="menu =='square' && !isCreateMusicRoomShow" class="music-room-recommend-container">
+                <v-btn class="music-room-create-button" @click="isCreateMusicRoomShow = true">
+                一键创建我的音乐室
+                </v-btn>
+
+                <div class="emotion-recommend">
+                <label class="emotion-recommend-header"> 根据您最近的情绪我们给您推荐以下音乐室 > </label>
+                <music-room-rec
+                    :avatar-url="musicRoomRecs[0].avatarUrl"
+                    :priority="musicRoomRecs[0].priority"
+                    :room-name="musicRoomRecs[0].roomName"
+                    :leader-name="musicRoomRecs[0].leaderName"
+                />
+                <music-room-rec
+                    :avatar-url="musicRoomRecs[1].avatarUrl"
+                    :priority="musicRoomRecs[1].priority"
+                    :room-name="musicRoomRecs[1].roomName"
+                    :leader-name="musicRoomRecs[1].leaderName"
+                />
+                <hr style="margin-top: -30px;">
+                <music-room-rec
+                    :avatar-url="musicRoomRecs[2].avatarUrl"
+                    :priority="musicRoomRecs[2].priority"
+                    :room-name="musicRoomRecs[2].roomName"
+                    :leader-name="musicRoomRecs[2].leaderName"
+                />
+                <music-room-rec
+                    :avatar-url="musicRoomRecs[3].avatarUrl"
+                    :priority="musicRoomRecs[3].priority"
+                    :room-name="musicRoomRecs[3].roomName"
+                    :leader-name="musicRoomRecs[3].leaderName"
+                />
+                <hr style="margin-top: -30px;">
+                <music-room-rec
+                    :avatar-url="musicRoomRecs[4].avatarUrl"
+                    :priority="musicRoomRecs[4].priority"
+                    :room-name="musicRoomRecs[4].roomName"
+                    :leader-name="musicRoomRecs[4].leaderName"
+                />
+                <music-room-rec
+                    :avatar-url="musicRoomRecs[5].avatarUrl"
+                    :priority="musicRoomRecs[5].priority"
+                    :room-name="musicRoomRecs[5].roomName"
+                    :leader-name="musicRoomRecs[5].leaderName"
+                />
+                </div>
+
+                <div class="popular-recommend">
+                <label class="popular-recommend-header"> 热门音乐室 > </label>
+                <music-room-rec
+                    :avatar-url="musicRoomRecs[6].avatarUrl"
+                    :priority="musicRoomRecs[6].priority"
+                    :room-name="musicRoomRecs[6].roomName"
+                    :leader-name="musicRoomRecs[6].leaderName"
+                />
+                <music-room-rec
+                    :avatar-url="musicRoomRecs[7].avatarUrl"
+                    :priority="musicRoomRecs[7].priority"
+                    :room-name="musicRoomRecs[7].roomName"
+                    :leader-name="musicRoomRecs[7].leaderName"
+                />
+                <hr style="margin-top: -30px;">
+                <music-room-rec
+                    :avatar-url="musicRoomRecs[8].avatarUrl"
+                    :priority="musicRoomRecs[8].priority"
+                    :room-name="musicRoomRecs[8].roomName"
+                    :leader-name="musicRoomRecs[8].leaderName"
+                />
+                <music-room-rec
+                    :avatar-url="musicRoomRecs[9].avatarUrl"
+                    :priority="musicRoomRecs[9].priority"
+                    :room-name="musicRoomRecs[9].roomName"
+                    :leader-name="musicRoomRecs[9].leaderName"
+                />
+                <hr style="margin-top: -30px;">
+                <music-room-rec
+                    :avatar-url="musicRoomRecs[10].avatarUrl"
+                    :priority="musicRoomRecs[10].priority"
+                    :room-name="musicRoomRecs[10].roomName"
+                    :leader-name="musicRoomRecs[10].leaderName"
+                />
+                <music-room-rec
+                    :avatar-url="musicRoomRecs[11].avatarUrl"
+                    :priority="musicRoomRecs[11].priority"
+                    :room-name="musicRoomRecs[11].roomName"
+                    :leader-name="musicRoomRecs[11].leaderName"
+                />
+                </div>
+            </div>
+
+            <!-- 创建音乐室表单 -->
+            <div v-if="isCreateMusicRoomShow" class="music-room-create-container">
+                <v-form>
+                <label class="form-label"> 音乐室名称 </label>
+                <input
+                    v-model="newMusicRoom.name"
+                    type="text"
+                    placeholder="请输入音乐室的名字"
+                    class="form-input"
+                >
+
+                <label class="form-label"> 音乐室简介 </label>
+                <textarea
+                    v-model="newMusicRoom.intro"
+                    placeholder="请输入音乐室的简介"
+                    class="form-input"
+                    style="height: 80px;"
+                />
+                            
+                <label class="form-label"> 音乐室进入权限 </label>
+                <v-radio-group v-model="newMusicRoom.auth" class="form-radio">
+                    <v-radio label="公开可见" value="public" />
+                    <v-radio label="私有仅通过管理员邀请可进" value="private" />
+                </v-radio-group>
+
+                <label class="form-label"> 音乐室头像 </label>
+                <button
+                    v-if="newMusicRoom.avatar == ''"
+                    type="button"
+                    class="form-avatar"
+                    @click="openFilePicker()"
+                >
+                    选择文件
+                </button>
+                <img
+                    v-else
+                    :src="newMusicRoom.avatar"
+                    class="form-avatar-img"
+                    @click="newMusicRoom.avatar = ''"
+                >
+                <input ref="fileInput" type="file" style="display: none;" @change="handleImgSelected">
+
+                <label class="form-label"> 音乐室初始歌单 </label>
+                <v-btn class="form-button">
+                    从我的歌单中选择
+                </v-btn>
+
+                <label class="form-label"> 邀请好友 </label>
+                <v-btn class="form-button">
+                    点击选择好友
+                </v-btn>
+                            
+                <br>
+                <v-btn class="submit-button" @click="newMusicRoomDialog = true">
+                    提交审核
+                </v-btn>
+                </v-form>
+            </div>
+
+            <v-dialog v-model="newMusicRoomDialog" max-width="500px">
+                <v-card class="new-music-room-dialog" align="center">
+                <v-card-title class="dialog-title">
+                    提交成功！
+                </v-card-title>
+                <v-card-text class="dialog-content">
+                    审核结果将在一个工作日内通知！
+                </v-card-text>
+                <v-card-actions>
+                    <v-btn class="dialog-button" @click="newMusicRoomDialog = false">
+                    确定
+                    </v-btn>
+                </v-card-actions>
+                </v-card>
+            </v-dialog>
         </div>
-      </div>
-
-      <!-- 中间聊天区 -->
-      <div v-if="isChatShow" class="chat-container">
-        <div id="chat-record-area" class="chat-record-area">
-          <chat-record
-            v-for="item in chatRecords"
-            :avatar="getChatAvatar(item.ifSender)"
-            :text="item.text"
-            :if-sender="item.ifSender"
-          />
-        </div>
-        <div style="height: 0.25%; background-color: #0000003D;" />
-        <div class="chat-input-area">
-          <div class="tool-bar">
-            <img src="../assets/chat-sing.svg">
-            <img src="../assets/chat-emoji.svg">
-            <img src="../assets/chat-music.svg">
-            <img src="../assets/chat-picture.svg">
-            <img src="../assets/chat-gift.svg">
-            <v-btn class="send-button" @click="sendMessage">
-              发送
-            </v-btn>
-          </div>
-
-          <textarea v-model="editingMessage" class="chat-input" />
-          <v-btn @click="connectToRoom()">
-            create
-          </v-btn>
-          <v-btn @click="defaultPorts()">
-            default
-          </v-btn>
-        </div>
-      </div>
-
-      <!-- 右侧信息栏 -->
-      <div v-if="isChatShow" class="side-info-container">
-        <label class="side-info-button"> 音乐室成员 > </label>
-        <br>
-        <img v-for="url in musicRoomMembers" :src="getImgSrc(url)" class="side-info-member">
-        <br>
-                
-        <label class="side-info-button"> 音乐室歌单 > </label>
-        <br>
-        <img v-for="url in albums" :src="getImgSrc(url)" class="side-info-album">
-        <img :src="getImgSrc('../assets/addAlbum.svg')" class="side-info-album" style="padding: 2%;">
-        <br>
-
-        <label class="side-info-button"> 当前{{ currentUser.status == 1 ? '播放' : '在唱' }} > </label>
-        <music-room-current
-          :cover="currentSong.cover"
-          :active="currentSong.name != ''"
-          :song="currentSong.name"
-          :artist="currentSong.artist"
-          :time="currentSong.time"
-          :total="currentSong.total"
-          :lyric="currentSong.lyric"
-        />
-      </div>
-
-      <!-- 音乐室推荐区 -->
-      <div v-if="menu =='square' && !isCreateMusicRoomShow" class="music-room-recommend-container">
-        <v-btn class="music-room-create-button" @click="isCreateMusicRoomShow = true">
-          一键创建我的音乐室
-        </v-btn>
-
-        <div class="emotion-recommend">
-          <label class="emotion-recommend-header"> 根据您最近的情绪我们给您推荐以下音乐室 > </label>
-          <music-room-rec
-            :avatar-url="musicRoomRecs[0].avatarUrl"
-            :priority="musicRoomRecs[0].priority"
-            :room-name="musicRoomRecs[0].roomName"
-            :leader-name="musicRoomRecs[0].leaderName"
-          />
-          <music-room-rec
-            :avatar-url="musicRoomRecs[1].avatarUrl"
-            :priority="musicRoomRecs[1].priority"
-            :room-name="musicRoomRecs[1].roomName"
-            :leader-name="musicRoomRecs[1].leaderName"
-          />
-          <hr style="margin-top: -30px;">
-          <music-room-rec
-            :avatar-url="musicRoomRecs[2].avatarUrl"
-            :priority="musicRoomRecs[2].priority"
-            :room-name="musicRoomRecs[2].roomName"
-            :leader-name="musicRoomRecs[2].leaderName"
-          />
-          <music-room-rec
-            :avatar-url="musicRoomRecs[3].avatarUrl"
-            :priority="musicRoomRecs[3].priority"
-            :room-name="musicRoomRecs[3].roomName"
-            :leader-name="musicRoomRecs[3].leaderName"
-          />
-          <hr style="margin-top: -30px;">
-          <music-room-rec
-            :avatar-url="musicRoomRecs[4].avatarUrl"
-            :priority="musicRoomRecs[4].priority"
-            :room-name="musicRoomRecs[4].roomName"
-            :leader-name="musicRoomRecs[4].leaderName"
-          />
-          <music-room-rec
-            :avatar-url="musicRoomRecs[5].avatarUrl"
-            :priority="musicRoomRecs[5].priority"
-            :room-name="musicRoomRecs[5].roomName"
-            :leader-name="musicRoomRecs[5].leaderName"
-          />
-        </div>
-
-        <div class="popular-recommend">
-          <label class="popular-recommend-header"> 热门音乐室 > </label>
-          <music-room-rec
-            :avatar-url="musicRoomRecs[6].avatarUrl"
-            :priority="musicRoomRecs[6].priority"
-            :room-name="musicRoomRecs[6].roomName"
-            :leader-name="musicRoomRecs[6].leaderName"
-          />
-          <music-room-rec
-            :avatar-url="musicRoomRecs[7].avatarUrl"
-            :priority="musicRoomRecs[7].priority"
-            :room-name="musicRoomRecs[7].roomName"
-            :leader-name="musicRoomRecs[7].leaderName"
-          />
-          <hr style="margin-top: -30px;">
-          <music-room-rec
-            :avatar-url="musicRoomRecs[8].avatarUrl"
-            :priority="musicRoomRecs[8].priority"
-            :room-name="musicRoomRecs[8].roomName"
-            :leader-name="musicRoomRecs[8].leaderName"
-          />
-          <music-room-rec
-            :avatar-url="musicRoomRecs[9].avatarUrl"
-            :priority="musicRoomRecs[9].priority"
-            :room-name="musicRoomRecs[9].roomName"
-            :leader-name="musicRoomRecs[9].leaderName"
-          />
-          <hr style="margin-top: -30px;">
-          <music-room-rec
-            :avatar-url="musicRoomRecs[10].avatarUrl"
-            :priority="musicRoomRecs[10].priority"
-            :room-name="musicRoomRecs[10].roomName"
-            :leader-name="musicRoomRecs[10].leaderName"
-          />
-          <music-room-rec
-            :avatar-url="musicRoomRecs[11].avatarUrl"
-            :priority="musicRoomRecs[11].priority"
-            :room-name="musicRoomRecs[11].roomName"
-            :leader-name="musicRoomRecs[11].leaderName"
-          />
-        </div>
-      </div>
-
-      <!-- 创建音乐室表单 -->
-      <div v-if="isCreateMusicRoomShow" class="music-room-create-container">
-        <v-form>
-          <label class="form-label"> 音乐室名称 </label>
-          <input
-            v-model="newMusicRoom.name"
-            type="text"
-            placeholder="请输入音乐室的名字"
-            class="form-input"
-          >
-
-          <label class="form-label"> 音乐室简介 </label>
-          <textarea
-            v-model="newMusicRoom.intro"
-            placeholder="请输入音乐室的简介"
-            class="form-input"
-            style="height: 80px;"
-          />
-                    
-          <label class="form-label"> 音乐室进入权限 </label>
-          <v-radio-group v-model="newMusicRoom.auth" class="form-radio">
-            <v-radio label="公开可见" value="public" />
-            <v-radio label="私有仅通过管理员邀请可进" value="private" />
-          </v-radio-group>
-
-          <label class="form-label"> 音乐室头像 </label>
-          <button
-            v-if="newMusicRoom.avatar == ''"
-            type="button"
-            class="form-avatar"
-            @click="openFilePicker()"
-          >
-            选择文件
-          </button>
-          <img
-            v-else
-            :src="newMusicRoom.avatar"
-            class="form-avatar-img"
-            @click="newMusicRoom.avatar = ''"
-          >
-          <input ref="fileInput" type="file" style="display: none;" @change="handleImgSelected">
-
-          <label class="form-label"> 音乐室初始歌单 </label>
-          <v-btn class="form-button">
-            从我的歌单中选择
-          </v-btn>
-
-          <label class="form-label"> 邀请好友 </label>
-          <v-btn class="form-button">
-            点击选择好友
-          </v-btn>
-                    
-          <br>
-          <v-btn class="submit-button" @click="newMusicRoomDialog = true">
-            提交审核
-          </v-btn>
-        </v-form>
-      </div>
-
-      <v-dialog v-model="newMusicRoomDialog" max-width="500px">
-        <v-card class="new-music-room-dialog" align="center">
-          <v-card-title class="dialog-title">
-            提交成功！
-          </v-card-title>
-          <v-card-text class="dialog-content">
-            审核结果将在一个工作日内通知！
-          </v-card-text>
-          <v-card-actions>
-            <v-btn class="dialog-button" @click="newMusicRoomDialog = false">
-              确定
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </div>
-  </v-main>
+    </v-main>
 </template>
   
 <script>
@@ -299,7 +307,7 @@ import MusicRoomItem from '../components/MusicRoomItem.vue';
 import ChatRecord from '../components/ChatRecord.vue';
 import MusicRoomRec from '../components/MusicRoomRec.vue';
 import MusicRoomCurrent from '../components/MusicRoomCurrent.vue';
-import { updateChatTime, addFriend, addChatRecord, getFriends } from '../axios/friend.js';
+import { updateChatTime, addFriend, addChatRecord, getFriends, getChatRecord } from '../axios/friend.js';
 import { getNewChatRoom, defaultPort } from '../axios/chat.js';
 import { user, ws, setWs, closeWs } from '@/main';
 export default {
@@ -323,7 +331,10 @@ export default {
         keyword: "",
         newMusicRoomDialog: false,
         users: [],
-        musicRooms: [ {
+        ifSnackBarShow: false,
+        snackBarMessage: "",
+        musicRooms: [
+            {
                 avatarUrl: "../assets/room/ROOM1.png",
                 username: "考研闲聊音乐室",
                 time: "12:00",
@@ -354,45 +365,9 @@ export default {
                 status: 1,
                 song: "猫的舞步",
                 size: 156
-            } ],
-        chatRecords: [
-            {
-                text: "hello",
-                ifSender: true
-            },
-            {
-                text: "你好！",
-                ifSender: false
-            },
-            {
-                text: "晚上来不来",
-                ifSender: true
-            },
-            {
-                text: "爽唱！",
-                ifSender: false
-            },
-            {
-                text: "去哪里搞，几点",
-                ifSender: true
-            },
-            {
-                text: "6点吃完饭呗，我开房",
-                ifSender: false
-            },
-            {
-                text: "造！",
-                ifSender: true
-            },
-            {
-                text: "okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！okk！",
-                ifSender: false
-            },
-            {
-                text: "你干嘛！",
-                ifSender: true
-            },
+            }
         ],
+        chatRecords: [],
         musicRoomMembers: [
             "../assets/member/MEM1.png",
             "../assets/member/MEM2.png",
@@ -558,6 +533,7 @@ export default {
             this.currentUser.size = (this.menu == 'musicRooms') ? item.size : 0;
             this.currentUser.status = item.status;
             this.isChatShow = true;
+            this.connectToRoom();
         },
         getTitle: function() {
             if (this.menu == 'musicRooms')
@@ -577,6 +553,7 @@ export default {
                 console.log(res);
                 ws.send(that.editingMessage);
                 that.pushChatRecord(that.editingMessage, true);
+                that.editingMessage = "";
             }, err => {
                 console.log(err);
                 return;
@@ -659,8 +636,12 @@ export default {
                     console.log("disconnected");
                     console.log(event);
                 }
+
+                this.getChatRecords();
             }, err => {
                 console.log(err);
+                this.snackBarMessage = "连接失败";
+                this.ifSnackBarShow = true;
             });
         },
         defaultPorts() {
@@ -669,6 +650,32 @@ export default {
                         }, err => {
                             console.log(err);
                         });
+        },
+        getChatRecords() {
+            getChatRecord({
+                uid1: user.id,
+                uid2: this.currentUser.id
+            }).then(res => {
+                const length = this.chatRecords.length;
+
+                for (var i = 0; i < length; i++) {
+                    this.chatRecords.pop();
+                }
+
+                res.forEach(record => {
+                    this.chatRecords.push({
+                        text: record.content,
+                        ifSender: record.senderId == user.id
+                    });
+                });
+
+                this.snackBarMessage = "完成";
+                this.ifSnackBarShow = true;
+            }, err => {
+                console.log(err);
+                this.snackBarMessage = "聊天记录获取失败";
+                this.ifSnackBarShow = true;
+            });
         }
     }
 }

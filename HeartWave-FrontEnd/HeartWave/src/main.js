@@ -34,7 +34,12 @@ export var user = {
     id: 0,
     name: null,
     avatar: null,
-    email: null
+    email: null,
+    friendCount: -1,
+    diaryCount: -1,
+    moodValue: -1,
+    visitorCount: -1,
+    playlistCount: -1
 };
 
 export var resetUser = {

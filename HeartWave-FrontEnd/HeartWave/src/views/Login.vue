@@ -1,13 +1,19 @@
 <template>
-  <!-- <script src="./src/snow.js"></script> -->
-  <!-- 登陆界面 -->
-  <div class="login">
-    <div class="login-input">
-      <div class="title">
-        Welcome to HeartWave!
-      </div>
-      <label class="sign-up-label"> Don't have an account? </label>
-      <a href="/register" class="sign-up-link"> Sign Up </a>
+    <!-- <script src="./src/snow.js"></script> -->
+    <v-snackbar
+        v-model="ifSnackBarShow"
+        timeout="3000"
+        color="#105645"
+        style="margin-bottom: 90vh;">
+        {{ snackBarMessage }}
+    </v-snackbar>
+    
+    <!-- 登陆界面 -->
+    <div class="login">
+        <div class="login-input">
+            <div class="title"> Welcome to HeartWave! </div>
+            <label class="sign-up-label"> Don't have an account? </label>
+            <a href="/register" class="sign-up-link"> Sign Up </a>
             
       <!-- 使用了 @submit.prevent 监听表单的提交事件，并调用 onSubmit 方法进行处理。.prevent 修饰符阻止了表单的默认提交行为，从而可以使用自定义的提交方法进行处理。 -->
       <v-form v-model="form" style="margin-left: 10%; margin-top: 40px;" @submit.prevent="onSubmit">
@@ -140,6 +146,8 @@ export default {
         inputPass: false,
         loading: false,
         canFetchNewInfo: true,
+        ifSnackBarShow: false,
+        snackBarMessage: ""
     }),
     mounted() {
         this.fetchVerifyInfo();
@@ -206,17 +214,20 @@ export default {
         //处理登录逻辑
         loginHandler() {
             //检查表单是否有效，如果无效，则返回
-            if (!this.form) return;
+            if (!this.form)
+                return;
 
             //如果用户输入不通过也返回
-            if (!this.inputPass) return;
+            if (!this.inputPass)
+                return;
 
             //执行登录逻辑，成功后重定向到主页
             this.loading = true;
 
             //检查验证码是否正确
             if (this.verifyCode.toUpperCase() != this.verifyInfo.code.toUpperCase()) {
-                console.log("验证码不正确！")
+                this.snackBarMessage = "验证码不正确！";
+                this.ifSnackBarShow = true;
                 return;
             }
 
@@ -225,24 +236,26 @@ export default {
                 password: this.password,
                 phone: this.phone
             }).then((res) => {
-                console.log(res);
-                // localStorage.setItem("userId", res.id);
-                // localStorage.setItem("username", res.name);
-                // localStorage.setItem("userAvatar", res.avatar);
-                // localStorage.setItem("userEmail", res.email);
                 user.id = res.id;
                 user.name = res.name;
                 user.avatar = res.avatar;
                 user.email = res.email;
-
-                console.log(user);
+                user.friendCount = res.friendCount;
+                user.diaryCount = res.diaryCount;
+                user.moodValue = res.moodValue;
+                user.visitorCount = res.visitorCount;
+                user.playlistCount = res.playlistCount;
+                this.snackBarMessage = "登录成功，正在跳转...";
+                this.ifSnackBarShow = true;
                 
                 setTimeout(() => {
                     this.loading = false;
                     this.$router.push('/main-view');
-                }, 2000)
+                }, 1000);
             }, (err) => {
                 this.loading = false;
+                this.snackBarMessage = err.response.data;
+                this.ifSnackBarShow = true;
                 console.log(err);
             });
         },

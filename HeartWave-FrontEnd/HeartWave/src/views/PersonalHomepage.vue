@@ -11,8 +11,13 @@
         <v-col>
           <v-row>
             <v-col>
-              <v-avatar size="90">
-                <v-img alt="John" :src="avatarImg" />
+              <v-avatar size="100">
+                <img
+                  :src="avatarImg"
+                  alt="avatar"
+                  style="width: 100px; height: 100px; object-fit: cover; cursor: pointer;"
+                  
+                />
               </v-avatar>
             </v-col>
           </v-row>
@@ -180,7 +185,7 @@
 
 <script>
 import EmotionsCard from "@/components/EmotionsCard.vue";
-
+import { user } from "@/main";
 export default {
   components: {
     EmotionsCard,
@@ -193,15 +198,15 @@ export default {
   //导出组件
   data: () => ({
     backgroundImg: "https://cdn.vuetifyjs.com/images/cards/sunshine.jpg",
-    avatarImg: "https://cdn.vuetifyjs.com/images/john.jpg",
-    userName: "S+M",
+    avatarImg: 'data:image/jpg;base64,' + user.avatar,
+    userName: user.name,
     ipLocation: "上海",
     messageCount: 0,
-    friendCount: 0,
-    moodValue: 0,
-    visitorCount: 0,
-    diaryCount: 0,
-    playlistCount: 0,
+    friendCount: user.friendCount,
+    moodValue: user.moodValue,
+    visitorCount: user.visitorCount,
+    diaryCount: user.diaryCount,
+    playlistCount: user.playlistCount,
     leaveMessageDialog: false,
     playlists: [ {
         id: 1,

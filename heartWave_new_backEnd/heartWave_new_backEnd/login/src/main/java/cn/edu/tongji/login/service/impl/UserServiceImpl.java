@@ -116,4 +116,15 @@ public class UserServiceImpl implements UserService {
 
         return userFriendInfos;
     }
+
+    @Override
+    public void updateFriendCount(UpdateFriendCountRequest updateFriendCountRequest) {
+        int origin = userRepository.findFirstFriendCountById(updateFriendCountRequest.getUserId());
+        int newFriendCount = origin + updateFriendCountRequest.getVariation();
+
+        if (newFriendCount < 0)
+            return;
+
+        userRepository.updateFriendCountById(updateFriendCountRequest.getUserId(), newFriendCount);
+    }
 }

@@ -3,7 +3,6 @@ package cn.edu.tongji.friend.service.impl;
 import cn.edu.tongji.friend.dto.AddFriendRequest;
 import cn.edu.tongji.friend.dto.FriendInfo;
 import cn.edu.tongji.friend.dto.UserFriendInfo;
-import cn.edu.tongji.friend.interfaces.LoginServiceClient;
 import cn.edu.tongji.friend.model.Friend;
 import cn.edu.tongji.friend.model.FriendRelation;
 import cn.edu.tongji.friend.repository.FriendRelationRepository;
@@ -24,8 +23,6 @@ public class FriendServiceImpl implements FriendService {
     private FriendRepository friendRepository;
     @Resource
     private FriendRelationRepository friendRelationRepository;
-    @Resource
-    private LoginServiceClient loginServiceClient;
     @Resource
     private COSService cosService;
 
@@ -55,22 +52,33 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public List<FriendInfo> getFriends(Long userId) throws IOException {
+    public List<Long> getFriendIds(Long userId) {
         List<Long> friendIds = new ArrayList<>();  //好友id列表
+
+        //查单向关系表，得到所有单向关系
+        List<FriendRelation> relations = friendRelationRepository.findByUserId(userId);
+
+        //将各个好友id加入List
+        for (FriendRelation relation : relations) {
+            friendIds.add(relation.getFriendId());
+        }
+
+        return friendIds;
+    }
+
+    @Override
+    public List<FriendInfo> getFriends(Long userId, List<UserFriendInfo> userFriendInfos) throws IOException {
+        List<Long> friendIds = getFriendIds(userId);
         List<FriendInfo> ret = new ArrayList<>();  //返回值列表
         List<Double> intimacies = new ArrayList<>();  //亲密度列表
 
         //查单向关系表，得到所有单向关系
         List<FriendRelation> relations = friendRelationRepository.findByUserId(userId);
 
-        //将各个好友id加入List，同时把返回值列表每一个元素的intimacy属性记录
+        //把返回值列表每一个元素的intimacy属性记录
         for (FriendRelation relation : relations) {
-            friendIds.add(relation.getFriendId());
             intimacies.add(relation.getIntimacy());
         }
-
-        //跨服务调用login，得到user表中的好友信息
-        List<UserFriendInfo> userFriendInfos = loginServiceClient.getMultipleUsers(friendIds);
 
         for (int i = 0; i < friendIds.size(); i++) {
             //根据单向关系得到双向关系id，并得到双向关系

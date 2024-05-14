@@ -20,4 +20,10 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     @Modifying
     @Query("UPDATE User u SET u.password = :password WHERE u.id = :id")
     void updatePasswordById(@Param("id") Long id, @Param("password") String password);
+
+    Integer findFirstFriendCountById(Long id);
+
+    @Modifying
+    @Query("UPDATE User u SET u.friendCount = :friendCount WHERE u.id = :id")
+    void updateFriendCountById(@Param("id") Long id, @Param("friendCount") Integer friendCount);
 }

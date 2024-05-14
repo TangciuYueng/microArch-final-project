@@ -84,4 +84,15 @@ public class UserController {
             return new ResponseEntity<>("get multiple users failed", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PutMapping("/friend-count")
+    public ResponseEntity<?> updateFriendCount(@RequestBody UpdateFriendCountRequest updateFriendCountRequest) {
+        try {
+            userService.updateFriendCount(updateFriendCountRequest);
+            return new ResponseEntity<>("successfully update friend count", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("update friend count failed", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
