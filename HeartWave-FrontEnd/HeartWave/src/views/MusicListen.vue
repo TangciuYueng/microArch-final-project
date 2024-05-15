@@ -386,6 +386,7 @@
 </template>
 
 <script>
+import { user } from '../main.js';
 export default {
     //导出组件
     data: () => ({
@@ -422,13 +423,13 @@ export default {
             { src: 'https://picsum.photos/500/300?image=500', text: 'aaa' },
             { src: 'https://picsum.photos/500/300?image=600', text: 'aaa' }, ],
         profileImgSrc: 'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg',
-        avatarSrc: 'https://cdn.vuetifyjs.com/images/john.jpg',
-        username: 'deidei',
-        userId: 1,
+        avatarSrc: "data:image/jpg;base64," + user.avatar,
+        username: user.name,
+        userId: user.id,
         ipLocation: '上海',
-        friendNum: 24,
-        emotionValue: 78,
-        visitorNum: 234,
+        friendNum: user.friendCount,
+        emotionValue: user.moodValue,
+        visitorNum: user.visitorCount,
 
         favorDialog: false,
         friendHeaders: [ { title: '头像', value: "avatar", },

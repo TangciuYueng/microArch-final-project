@@ -1,19 +1,19 @@
 <template>
-    <!-- <script src="./src/snow.js"></script> -->
-    <v-snackbar
-        v-model="ifSnackBarShow"
-        timeout="3000"
-        color="#105645"
-        style="margin-bottom: 90vh;">
-        {{ snackBarMessage }}
-    </v-snackbar>
+  <!-- <script src="./src/snow.js"></script> -->
+  <v-snackbar
+    v-model="ifSnackBarShow"
+    timeout="3000"
+    color="#105645"
+    style="margin-bottom: 90vh;">
+    {{ snackBarMessage }}
+  </v-snackbar>
     
-    <!-- 登陆界面 -->
-    <div class="login">
-        <div class="login-input">
-            <div class="title"> Welcome to HeartWave! </div>
-            <label class="sign-up-label"> Don't have an account? </label>
-            <a href="/register" class="sign-up-link"> Sign Up </a>
+  <!-- 登陆界面 -->
+  <div class="login">
+    <div class="login-input">
+      <div class="title"> Welcome to HeartWave! </div>
+      <label class="sign-up-label"> Don't have an account? </label>
+      <a href="/register" class="sign-up-link"> Sign Up </a>
             
       <!-- 使用了 @submit.prevent 监听表单的提交事件，并调用 onSubmit 方法进行处理。.prevent 修饰符阻止了表单的默认提交行为，从而可以使用自定义的提交方法进行处理。 -->
       <v-form v-model="form" style="margin-left: 10%; margin-top: 40px;" @submit.prevent="onSubmit">
@@ -121,7 +121,8 @@
         <img src="../assets/login/wechat.svg">
       </div>
     </div>
-    <div class="login-image" />
+
+    <div class="login-image"></div>
   </div>
 </template>
   
@@ -131,269 +132,268 @@ import { user } from '../main.js';
 import { mdiAccount, } from '@mdi/js';
 import { login, getVerifyInfo } from '../axios/login.js';
 export default {
-    data: () => ({
-        mdiAccount,
+  data: () => ({
+    mdiAccount,
 
-        form: false,
-        phone: "",
-        userAccount: "",
-        password: "",
-        verifyCode: "",
-        verifyInfo: {
-            code: "",
-            img: ""
-        },
-        inputPass: false,
-        loading: false,
-        canFetchNewInfo: true,
-        ifSnackBarShow: false,
-        snackBarMessage: ""
+    form: false,
+    phone: "",
+    userAccount: "",
+    password: "",
+    verifyCode: "",
+    verifyInfo: {
+      code: "",
+      img: ""
+    },
+    inputPass: false,
+    loading: false,
+    canFetchNewInfo: true,
+    ifSnackBarShow: false,
+    snackBarMessage: ""
     }),
     mounted() {
-        this.fetchVerifyInfo();
-        localStorage.clear();
+      this.fetchVerifyInfo();
+      localStorage.clear();
     },
     methods: {
-        fetchVerifyInfo: function() {
-            if (!this.canFetchNewInfo)
-                return;
+      fetchVerifyInfo: function() {
+        if (!this.canFetchNewInfo)
+          return;
 
-            getVerifyInfo().then(res => {
-                console.log(res);
-                this.verifyInfo.code = res.token;
-                this.verifyInfo.img = "data:image/jpg;base64," + res.image;
-                this.canFetchNewInfo = false;
+        getVerifyInfo().then(res => {
+          console.log(res);
+          this.verifyInfo.code = res.token;
+          this.verifyInfo.img = "data:image/jpg;base64," + res.image;
+          this.canFetchNewInfo = false;
 
-                setTimeout(() => {
-                    this.canFetchNewInfo = true;
-                }, 5000);
-            }, err => {
-                console.log(err);
-            });
-        },
-        checkLoginInput: function() {
-            if (this.phone == "") {
-                this.inputPass = false;
-                return;
-            }
+          setTimeout(() => {
+            this.canFetchNewInfo = true;
+          }, 5000);
+        }, err => {
+          console.log(err);
+        });
+      },
+      checkLoginInput: function() {
+        if (this.phone == "") {
+          this.inputPass = false;
+          return;
+        }
             
-            if (this.userAccount == "") {
-                this.inputPass = false;
-                return;
-            }
+        if (this.userAccount == "") {
+          this.inputPass = false;
+          return;
+        }
 
-            if (this.password == "") {
-                this.inputPass = false;
-                return;
-            }
+        if (this.password == "") {
+          this.inputPass = false;
+          return;
+        }
 
-            if (this.verifyInfo.code == "") {
-                this.inputPass = false;
-                return;
-            }
+        if (this.verifyInfo.code == "") {
+          this.inputPass = false;
+          return;
+        }
 
-            if (this.verifyCode == "") {
-                this.inputPass = false;
-                return;
-            }
+        if (this.verifyCode == "") {
+          this.inputPass = false;
+          return;
+        }
 
-            this.inputPass = true;
-        },
-        onSubmit() {
-            //表单不合法，不提交
-            if (!this.form) return
+        this.inputPass = true;
+      },
+      onSubmit() {
+        //表单不合法，不提交
+        if (!this.form) return
 
-            //否则提交表单内容，与后端交互，判断是否能够登录
-            this.loading = true
+        //否则提交表单内容，与后端交互，判断是否能够登录
+        this.loading = true
 
-            setTimeout(() => (this.loading = false), 2000)
-        },
-        required(v) {
-            return !!v || 'Field is required'
-        },
-        //处理登录逻辑
-        loginHandler() {
-            //检查表单是否有效，如果无效，则返回
-            if (!this.form)
-                return;
+        setTimeout(() => (this.loading = false), 2000)
+      },
+      required(v) {
+        return !!v || 'Field is required'
+      },
+      //处理登录逻辑
+      loginHandler() {
+        //检查表单是否有效，如果无效，则返回
+        if (!this.form)
+          return;
 
-            //如果用户输入不通过也返回
-            if (!this.inputPass)
-                return;
+        //如果用户输入不通过也返回
+        if (!this.inputPass)
+          return;
 
-            //执行登录逻辑，成功后重定向到主页
-            this.loading = true;
+        //执行登录逻辑，成功后重定向到主页
+        this.loading = true;
 
-            //检查验证码是否正确
-            if (this.verifyCode.toUpperCase() != this.verifyInfo.code.toUpperCase()) {
-                this.snackBarMessage = "验证码不正确！";
-                this.ifSnackBarShow = true;
-                return;
-            }
+        //检查验证码是否正确
+        if (this.verifyCode.toUpperCase() != this.verifyInfo.code.toUpperCase()) {
+          this.snackBarMessage = "验证码不正确！";
+          this.ifSnackBarShow = true;
+          return;
+        }
 
-            login({
-                name: this.userAccount,
-                password: this.password,
-                phone: this.phone
-            }).then((res) => {
-                user.id = res.id;
-                user.name = res.name;
-                user.avatar = res.avatar;
-                user.email = res.email;
-                user.friendCount = res.friendCount;
-                user.diaryCount = res.diaryCount;
-                user.moodValue = res.moodValue;
-                user.visitorCount = res.visitorCount;
-                user.playlistCount = res.playlistCount;
-                this.snackBarMessage = "登录成功，正在跳转...";
-                this.ifSnackBarShow = true;
+        login({
+          name: this.userAccount,
+          password: this.password,
+          phone: this.phone
+        }).then((res) => {
+          user.id = res.id;
+          user.name = res.name;
+          user.avatar = res.avatar;
+          user.email = res.email;
+          user.friendCount = res.friendCount;
+          user.diaryCount = res.diaryCount;
+          user.moodValue = res.moodValue;
+          user.visitorCount = res.visitorCount;
+          user.playlistCount = res.playlistCount;
+          this.snackBarMessage = "登录成功，正在跳转...";
+          this.ifSnackBarShow = true;
                 
-                setTimeout(() => {
-                    this.loading = false;
-                    this.$router.push('/main-view');
-                }, 1000);
-            }, (err) => {
-                this.loading = false;
-                this.snackBarMessage = err.response.data;
-                this.ifSnackBarShow = true;
-                console.log(err);
-            });
-        },
-        //处理注册逻辑
-        registerHandler() {
-            //执行注册逻辑，将用户重定向到注册页面
-            this.$router.push('/register')
-        },
-        //处理忘记密码逻辑
-        forgotPasswordHandler() {
-            //将用户重定向到重新设置密码的界面
-            this.$router.push('/set-code')
-
-        },
+          setTimeout(() => {
+            this.loading = false;
+            this.$router.push('/main-view');
+          }, 1000);
+        }, (err) => {
+          this.loading = false;
+          this.snackBarMessage = err.response.data;
+          this.ifSnackBarShow = true;
+          console.log(err);
+        });
+      },
+      //处理注册逻辑
+      registerHandler() {
+        //执行注册逻辑，将用户重定向到注册页面
+        this.$router.push('/register')
+      },
+      //处理忘记密码逻辑
+      forgotPasswordHandler() {
+        //将用户重定向到重新设置密码的界面
+        this.$router.push('/set-code')
+      },
     }
 }
 </script>
 
 <style scoped>
 @font-face {
-    font-family: Poppins-Medium; /* 自定义字体名称 */
-    src: url('../assets/fonts/Poppins/Poppins-Medium.ttf') format('truetype'); /* 字体文件的路径 */
+  font-family: Poppins-Medium; /* 自定义字体名称 */
+  src: url('../assets/fonts/Poppins/Poppins-Medium.ttf') format('truetype'); /* 字体文件的路径 */
 }
 @font-face {
-    font-family: Poppins-Regular; /* 自定义字体名称 */
-    src: url('../assets/fonts/Poppins/Poppins-Regular.ttf') format('truetype'); /* 字体文件的路径 */
+  font-family: Poppins-Regular; /* 自定义字体名称 */
+  src: url('../assets/fonts/Poppins/Poppins-Regular.ttf') format('truetype'); /* 字体文件的路径 */
 }
 @font-face {
-    font-family: Poppins-Light; /* 自定义字体名称 */
-    src: url('../assets/fonts/Poppins/Poppins-Light.ttf') format('truetype'); /* 字体文件的路径 */
+  font-family: Poppins-Light; /* 自定义字体名称 */
+  src: url('../assets/fonts/Poppins/Poppins-Light.ttf') format('truetype'); /* 字体文件的路径 */
 }
 .login {
-    height: 100vh;
-    overflow: hidden;
+  height: 100vh;
+  overflow: hidden;
 }
 .login-input {
-    display: inline-block;
-    width: 60%;
-    height: 100vh;
-    overflow: hidden;
-    background-color: #10564510;
+  display: inline-block;
+  width: 60%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #10564510;
 }
 .login-image {
-    display: inline-block;
-    width: 40%;
-    height: 100vh;
-    overflow: hidden;
-    background-image: url("../assets/login/background.jpg");
+  display: inline-block;
+  width: 40%;
+  height: 100vh;
+  overflow: hidden;
+  background-image: url("../assets/login/background.jpg");
 }
 .title {
-    font-family: "Poppins-Medium";
-    margin-top: 80px;
-    margin-left: 10%;
-    font-size: 32px;
+  font-family: "Poppins-Medium";
+  margin-top: 80px;
+  margin-left: 10%;
+  font-size: 32px;
 }
 .sign-up-label {
-    font-family: "Poppins-Regular";
-    margin-top: 10px;
-    margin-left: 10%;
-    font-size: 16px;
+  font-family: "Poppins-Regular";
+  margin-top: 10px;
+  margin-left: 10%;
+  font-size: 16px;
 }
 .sign-up-link {
-    font-family: "Poppins-Regular";
-    margin-top: 20px;
-    font-size: 16px;
+  font-family: "Poppins-Regular";
+  margin-top: 20px;
+  font-size: 16px;
 }
 :deep(.v-field-label) {  /* 输入框标题 */
-    font-family: "Poppins-Regular";
+  font-family: "Poppins-Regular";
 }
 :deep(.v-field__input) {  /* 输入框输入内容 */
-    font-family: "Poppins-Light";
-    margin-top: 4px;
-    font-size: 20px;
-    color: #105645;
+  font-family: "Poppins-Light";
+  margin-top: 4px;
+  font-size: 20px;
+  color: #105645;
 }
 :deep(.v-messages__message) {  /* 输入框提示 */
-    font-family: "Poppins-Regular";
+  font-family: "Poppins-Regular";
 }
 .refetch-info-1 {
-    font-family: "Poppins-Regular";
+  font-family: "Poppins-Regular";
 }
 .refetch-info-2 {
-    font-family: "Poppins-Medium";
-    color: #105645;
+  font-family: "Poppins-Medium";
+  color: #105645;
 }
 .verify-image {
-    margin-left: 10%;
-    margin-bottom: 20px;
-    width: 200px;
-    height: 100px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: 0.3s;
+  margin-left: 10%;
+  margin-bottom: 20px;
+  width: 200px;
+  height: 100px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 .verify-image:hover {
-    opacity: 0.75;
+  opacity: 0.75;
 }
 .login-button {
-    text-transform: none;
-    font-family: "Poppins-Regular";
-    font-size: 20px;
-    margin-top: 20px;
-    margin-left: 15%;
-    border-radius: 30px;
+  text-transform: none;
+  font-family: "Poppins-Regular";
+  font-size: 20px;
+  margin-top: 20px;
+  margin-left: 15%;
+  border-radius: 30px;
 }
 .forgot-password-button {
-    text-transform: none;
-    font-family: "Poppins-Regular";
-    font-size: 16px;
-    margin-top: 20px;
-    position: relative;
-    left: 10.5%;
-    top: -27px;
+  text-transform: none;
+  font-family: "Poppins-Regular";
+  font-size: 16px;
+  margin-top: 20px;
+  position: relative;
+  left: 10.5%;
+  top: -27px;
 }
 .other-method-label {
-    margin-top: 60px;
-    width: 100%;
-    text-align: center;
-    font-family: "Poppins-Regular";
-    font-size: 16px;
-    color: #666A72;
+  margin-top: 60px;
+  width: 100%;
+  text-align: center;
+  font-family: "Poppins-Regular";
+  font-size: 16px;
+  color: #666A72;
 }
 .other-method-icons {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
 }
 .other-method-icons > img {
-    padding: 2%;
-    margin-left: 2%;
-    margin-right: 2%;
-    border-radius: 5px;
-    height: 80px;
-    width: 80px;
-    cursor: pointer;
-    transition: 0.3s;
+  padding: 2%;
+  margin-left: 2%;
+  margin-right: 2%;
+  border-radius: 5px;
+  height: 80px;
+  width: 80px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 .other-method-icons > img:hover {
-    background-color: #10564560;
+  background-color: #10564560;
 }
 </style>

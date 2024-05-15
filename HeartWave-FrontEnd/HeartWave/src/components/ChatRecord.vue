@@ -20,54 +20,54 @@
 
 <script>
 export default {
-    props: {
-        avatar: "",
-        text: "",
-        ifSender: true
-    },
-    methods: {
-        getTextStyle: function() {
-            return {
-                backgroundColor: this.ifSender ? "#45CE9A" : "#6BC4AE4F"
-            }
-        }
+  props: {
+    avatar: "",
+    text: "",
+    ifSender: true
+  },
+  methods: {
+    getTextStyle: function() {
+      return {
+        backgroundColor: this.ifSender ? "#45CE9A" : "#6BC4AE4F"
+      }
     }
+  }
 }
 </script>
 
 <style scoped>
 .container-left {
-    margin-top: 15px;
-    margin-left: 3%;
+  margin-top: 15px;
+  margin-left: 3%;
 }
 .container-right {
-    margin-top: 15px;
-    margin-right: -15%;
+  margin-top: 15px;
+  margin-right: -15%;
 }
 .avatar {
-    display: inline-block;
-    width: 42px;
-    height: 42px;
-    border-radius: 21px;
+  display: inline-block;
+  width: 42px;
+  height: 42px;
+  border-radius: 21px;
 }
 .text-container-left {
-    position: relative;
-    display: inline-block;
-    top: -16px;
-    left: 2%;
-    width: 80%;
+  position: relative;
+  display: inline-block;
+  top: -16px;
+  left: 2%;
+  width: 80%;
 }
 .text-container-right {
-    position: relative;
-    display: inline-block;
-    top: -16px;
-    right: 2%;
-    width: 80%;
-    text-align: right;  /* 组件右对齐 */
+  position: relative;
+  display: inline-block;
+  top: -16px;
+  right: 2%;
+  width: 80%;
+  text-align: right;  /* 组件右对齐 */
 }
 .text {
-    display: inline-block;
-    border-radius: 5px;
-    padding: 8px;
+  display: inline-block;
+  border-radius: 5px;
+  padding: 8px;
 }
 </style>

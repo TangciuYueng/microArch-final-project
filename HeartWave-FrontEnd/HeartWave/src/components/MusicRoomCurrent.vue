@@ -14,7 +14,7 @@
       <br>
             
       <div class="lyric-container" align="center">
-        <div style="height: 40px;" />
+        <div style="height: 40px;"></div>
         <div v-for="(item, index) in lyric">
           <label
             :class="getLyricStyle(index)"
@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <div v-else />
+    <div v-else></div>
   </div>
 </template>
 

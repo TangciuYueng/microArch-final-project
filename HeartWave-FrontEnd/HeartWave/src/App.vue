@@ -30,7 +30,7 @@
 <script setup>
 //
 </script>
-<style scoped>
+<style lang="scss">
 #particles-js {
   width: 100%;
   height: calc(100%);
@@ -38,5 +38,11 @@
 }
 #our_container{
   background: #E6E6FA
+}
+::-webkit-scrollbar {
+  width: 0 !important;
+}
+::-webkit-scrollbar {
+  width: 0 !important;height: 0;
 }
 </style>
