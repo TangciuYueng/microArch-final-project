@@ -204,10 +204,14 @@
             <v-card-text>
               <v-avatar
                 size="100"
-                style="cursor: pointer;"
-                @click="$emit('BrowsingPersonalHomepage', userId)"
-              >
-                <img :src="avatarSrc" alt="avatar">
+                @click="$emit('BrowsingPersonalHomepage', username)"
+                >
+                <img
+                  :src="avatarSrc"
+                  alt="avatar"
+                  style="width: 100px; height: 100px; object-fit: cover; cursor: pointer;"
+                  
+                />
               </v-avatar>
               <div style="font-size: 20px;" class="mt-2">
                 {{ username }}

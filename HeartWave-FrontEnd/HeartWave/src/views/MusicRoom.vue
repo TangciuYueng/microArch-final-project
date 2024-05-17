@@ -76,8 +76,9 @@
           <chat-record
             v-for="item in chatRecords"
             :avatar="getChatAvatar(item.ifSender)"
-            :text="item.text"
-            :if-sender="item.ifSender">
+            :content="item.content"
+            :if-sender="item.ifSender"
+            :type="item.type">
           </chat-record>
         </div>
 
@@ -87,9 +88,15 @@
             <img src="../assets/chat-sing.svg">
             <img src="../assets/chat-emoji.svg">
             <img src="../assets/chat-music.svg">
-            <img src="../assets/chat-picture.svg">
+            <input
+              ref="fileInput"
+              type="file"
+              style="display: none;"
+              @input="laybackCheck"
+              @change="handleChatImgSelected">
+            <img src="../assets/chat-picture.svg" @click="openFilePicker();">
             <img src="../assets/chat-gift.svg">
-            <v-btn class="send-button" @click="sendMessage"> 发送 </v-btn>
+            <v-btn class="send-button" @click="checkTextUrlSend(editingMessage)"> 发送 </v-btn>
           </div>
 
           <textarea v-model="editingMessage" class="chat-input"></textarea>
@@ -289,7 +296,7 @@ import MusicRoomItem from '../components/MusicRoomItem.vue';
 import ChatRecord from '../components/ChatRecord.vue';
 import MusicRoomRec from '../components/MusicRoomRec.vue';
 import MusicRoomCurrent from '../components/MusicRoomCurrent.vue';
-import { updateChatTime, addFriend, addChatRecord, getFriends, getChatRecord } from '../axios/friend.js';
+import { addFriend, addChatRecord, getFriends, getChatRecord } from '../axios/friend.js';
 import { getNewChatRoom, defaultPort } from '../axios/chat.js';
 import { user, ws, setWs, closeWs } from '@/main';
 export default {
@@ -315,6 +322,7 @@ export default {
     users: [],
     ifSnackBarShow: false,
     snackBarMessage: "",
+    urlRegex: /^(?:https?:\/\/)?(?:www\.)?[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+(?:\/\S*)?$/,
     musicRooms: [
       {
         avatarUrl: "../assets/room/ROOM1.png",
@@ -525,18 +533,33 @@ export default {
       else
         return this.currentUser.username;
     },
-    sendMessage: function() {
+    checkTextUrlSend: function(content) {
+      const result = content.match(this.urlRegex);
+
+      if (result != null)
+        this.sendMessage(result[0], 'URL');
+      else
+        this.sendMessage(content, 'TEXT');
+    },
+    sendMessage: function(content, type) {
+      if (!type in ['TEXT', 'PIC', 'URL'])
+        return;
+
       var that = this;
             
       addChatRecord({
         senderId: user.id,
         receiverId: this.currentUser.id,
-        type: "TEXT",
-        content: this.editingMessage
+        type: type,
+        content: content
       }).then(res => {
         console.log(res);
-        ws.send(that.editingMessage);
-        that.pushChatRecord(that.editingMessage, true);
+        ws.send(JSON.stringify({
+          content: content,
+          type: type
+        }));
+        that.pushChatRecord(content, true, type);
+        that.updateCurrentFriendTime();
         that.editingMessage = "";
       }, err => {
         console.log(err);
@@ -558,6 +581,25 @@ export default {
         alert('请选择图片文件');
       }
     },
+    handleChatImgSelected: function(event) {
+      const selectedFile = event.target.files[0];
+      const reader = new FileReader();
+
+      if (!selectedFile.type.startsWith('image/')) {
+        alert('请选择图片文件');
+      }
+
+      reader.onload = () => {
+        // 将文件转换为base64编码
+        const base64String = reader.result.split(",")[1];
+        this.sendMessage(base64String, 'PIC');
+      };
+
+      reader.readAsDataURL(selectedFile);
+    },
+    laybackCheck: function() {
+      setTimeout(this.checkRegisterInput, 100);
+    },
     getCurrentFriendAvatar: function() {
       var filteredUsers = this.users.filter(user => user.id == this.currentUser.id);
       return filteredUsers[0].avatar;
@@ -565,16 +607,21 @@ export default {
     getChatAvatar: function(ifSender) {
       return ifSender ? user.avatar : this.getCurrentFriendAvatar();
     },
-    pushChatRecord: function(text, ifSender) {
+    pushChatRecord: function(content, ifSender, type) {
       this.chatRecords.push({
-        text: text,
-        ifSender: ifSender
+        content: content,
+        ifSender: ifSender,
+        type: type
       });
 
       const area = document.getElementById("chat-record-area");
       this.$nextTick(() => {
         area.scrollTop = area.scrollHeight;
       });
+    },
+    updateCurrentFriendTime: function() {
+      var filteredUsers = this.users.filter(user => user.id == this.currentUser.id);
+      filteredUsers[0].time = new Date();
     },
     connectToRoom: function() {
       getNewChatRoom({
@@ -605,9 +652,11 @@ export default {
 
         ws.onmessage = function(event) {
           if (event.data instanceof Blob) {
-            event.data.text().then(function(text) {
-              console.log('Received message: ' + text);
-              that.pushChatRecord(text, false);
+            event.data.text().then(function(raw) {
+              console.log('Received message: ' + raw);
+              const record = JSON.parse(raw);
+              that.pushChatRecord(record.content, false, record.type);
+              that.updateCurrentFriendTime();
               // 在页面上显示消息内容，例如可以将text添加到聊天窗口中
             });
           } else {
@@ -648,9 +697,15 @@ export default {
 
         res.forEach(record => {
           this.chatRecords.push({
-            text: record.content,
-            ifSender: record.senderId == user.id
+            content: record.content,
+            ifSender: record.senderId == user.id,
+            type: record.type
           });
+        });
+
+        const area = document.getElementById("chat-record-area");
+        this.$nextTick(() => {
+          area.scrollTop = area.scrollHeight;
         });
 
         this.snackBarMessage = "完成";

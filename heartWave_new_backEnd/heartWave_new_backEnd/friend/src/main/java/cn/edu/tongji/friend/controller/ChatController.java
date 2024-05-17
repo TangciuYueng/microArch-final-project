@@ -1,7 +1,6 @@
 package cn.edu.tongji.friend.controller;
 
 import cn.edu.tongji.friend.dto.AddChatRecordRequest;
-import cn.edu.tongji.friend.dto.UpdateChatTimeRequest;
 import cn.edu.tongji.friend.model.RedisChatRecord;
 import cn.edu.tongji.friend.service.ChatService;
 import jakarta.annotation.Resource;
@@ -25,17 +24,6 @@ public class ChatController {
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("add chat record failed", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @PostMapping("/time")
-    public ResponseEntity<?> updateChatTime(@RequestBody UpdateChatTimeRequest updateChatTimeRequest) {
-        try {
-            chatService.updateChatTime(updateChatTimeRequest);
-            return new ResponseEntity<>("successfully added chat time", HttpStatus.CREATED);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>("add chat time failed", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

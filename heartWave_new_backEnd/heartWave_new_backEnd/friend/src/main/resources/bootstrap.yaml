@@ -16,3 +16,4 @@ spring:
           - data-id: shared-redis.yaml
           - data-id: shared-jpa.yaml
           - data-id: auth-cos.yaml
+          - data-id: shared-url.yaml

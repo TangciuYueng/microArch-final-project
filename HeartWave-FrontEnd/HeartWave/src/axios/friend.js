@@ -38,10 +38,6 @@ export function addChatRecord(data) {
   return friendInstance.post("/chat", data);
 }
 
-export function updateChatTime(data) {
-  return friendInstance.post("/chat/time", data);
-}
-
 export function getFriendCount(params) {
   return friendInstance.get("/friend/count", {
     params: params
