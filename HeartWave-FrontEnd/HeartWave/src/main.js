@@ -28,7 +28,7 @@ app.mount('#app')
 
 export const chatServer = "43.142.102.35";
 export const friendServer = "localhost";
-export const loginServer = "localhost";
+export const loginServer = "43.142.102.35";
 
 export var user = {
   id: 0,

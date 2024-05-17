@@ -12,7 +12,14 @@ wss.on('connection', function connection(ws, req) {
     console.log("New connection from: " + ip + ", Total client: " + clientCount);
 
     ws.on('message', function incoming(message) {
-        console.log("Received message from " + ip + ": " + message);
+	const type = JSON.parse(message).type;
+	
+	if (type == 'PIC') {
+	    console.log("Received image from " + ip);
+	}
+	else {
+	    console.log("Received message from " + ip + ": " + message);
+	}
 
         // 广播收到的消息给所有客户端
         wss.clients.forEach(function each(client) {

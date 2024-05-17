@@ -15,7 +15,7 @@ export default {
   props: {
     avatar: String,
     username: String,
-    time: String,
+    time: String | Date,
     status: Number,
     song: String
   },

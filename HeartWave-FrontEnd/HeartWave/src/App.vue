@@ -39,10 +39,4 @@
 #our_container{
   background: #E6E6FA
 }
-::-webkit-scrollbar {
-  width: 0 !important;
-}
-::-webkit-scrollbar {
-  width: 0 !important;height: 0;
-}
 </style>

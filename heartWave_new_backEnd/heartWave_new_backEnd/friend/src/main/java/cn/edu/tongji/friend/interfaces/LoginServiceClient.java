@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@FeignClient(name = "login-service", path = "/api/user")
+@FeignClient(name = "login-service", url = "http://${servers.ip.login}:${servers.port.login}/api/user")
 public interface LoginServiceClient {
     @GetMapping("/multi")
     List<UserFriendInfo> getMultipleUsers(@RequestParam("ids") List<Long> ids);
