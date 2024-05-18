@@ -27,6 +27,17 @@ public class UserController {
         }
     }
 
+    @PutMapping
+    public ResponseEntity<?> updateUserInfo(@RequestBody UpdateUserInfo updateUserInfo) {
+        try {
+            userService.updateUserInfo(updateUserInfo);
+            return new ResponseEntity<>(updateUserInfo, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("update user info failed", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/sms/register/{phone}")
     public ResponseEntity<?> sendSmsCodeRegister(@PathVariable("phone") String phone) {
         try {

@@ -103,20 +103,14 @@ export default {
     data: () => ({
         page: 1,
         lastPage: 1,
-        username: null,
-        userId: 1,
-        userAvatar: "",
-        userEmail: "",
+        username: user.name,
+        userId: user.id,
+        userAvatar: user.avatar,
+        userEmail: user.email,
         loading: false,
         playListType: null,
         playListId: 1,
     }),
-    mounted() {
-        this.userId = user.id;
-        this.username = user.name;
-        this.userAvatar = user.avatar;
-        this.userEmail = user.email;
-    },
     methods: {
         navigateTo(routeName) {
             // 根据传入的 routeName 使用编程式导航进行跳转

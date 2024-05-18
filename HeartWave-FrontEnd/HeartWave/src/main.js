@@ -32,9 +32,12 @@ export const loginServer = "43.142.102.35";
 
 export var user = {
   id: 0,
+  age: 0,
+  gender: null,
   name: null,
   avatar: null,
   email: null,
+  region: null,
   friendCount: -1,
   diaryCount: -1,
   moodValue: -1,

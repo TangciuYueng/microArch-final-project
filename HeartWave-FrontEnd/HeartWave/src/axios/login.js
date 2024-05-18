@@ -38,6 +38,10 @@ export function sendSmsRegister(phone) {
   return loginInstance.get("/user/sms/register/" + phone);
 }
 
+export function updateUserInfo(data) {
+  return loginInstance.put("/user", data);
+}
+
 export function register(data) {
   return loginInstance.post("/user", data);
 }

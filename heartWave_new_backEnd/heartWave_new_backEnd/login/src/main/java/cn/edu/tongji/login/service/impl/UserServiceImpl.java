@@ -14,8 +14,6 @@ import jakarta.annotation.Resource;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -65,6 +63,31 @@ public class UserServiceImpl implements UserService {
         userRepository.updateAvatarById(user.getId(), "userAvatar/" + user.getId() + ".jpg");
 
         return user;
+    }
+
+    @Override
+    public void updateUserInfo(UpdateUserInfo updateUserInfo) {
+        userRepository.updateInfoById(
+                updateUserInfo.getId(),
+                updateUserInfo.getAge(),
+                updateUserInfo.getGender(),
+                updateUserInfo.getName(),
+                updateUserInfo.getRegion(),
+                updateUserInfo.getEmail()
+        );
+
+        if (updateUserInfo.getAvatar() != null) {
+            final String fileName = updateUserInfo.getId() + ".jpg";  //文件名为用户id.jpg
+            byte[] compressedImage = ImageCompressor.compress(
+                    Base64.getDecoder().decode(updateUserInfo.getAvatar()),
+                    128,
+                    128,
+                    true
+            );
+
+            cosService.uploadFileBytes(compressedImage, "userAvatar/" + fileName);
+            updateUserInfo.setAvatar(Base64.getEncoder().encodeToString(compressedImage));
+        }
     }
 
     @Override

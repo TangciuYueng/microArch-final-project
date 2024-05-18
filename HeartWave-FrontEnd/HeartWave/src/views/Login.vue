@@ -237,10 +237,14 @@ export default {
           password: this.password,
           phone: this.phone
         }).then((res) => {
+          console.log(res);
           user.id = res.id;
+          user.age = res.age;
+          user.gender = res.gender;
           user.name = res.name;
           user.avatar = res.avatar;
           user.email = res.email;
+          user.region = res.region;
           user.friendCount = res.friendCount;
           user.diaryCount = res.diaryCount;
           user.moodValue = res.moodValue;

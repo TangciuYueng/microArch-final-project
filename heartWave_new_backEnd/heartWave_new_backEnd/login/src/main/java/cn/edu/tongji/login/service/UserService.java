@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface UserService {
     User register(RegisterRequest registerRequest) throws IOException;
+    void updateUserInfo(UpdateUserInfo updateUserInfo);
     boolean checkPhoneAvailable(String phone);
     long checkPhoneUsed(String phone, String username);
     SmsInfo sendSmsCode(String phone);
