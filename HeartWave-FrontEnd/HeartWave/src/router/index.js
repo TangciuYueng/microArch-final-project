@@ -8,8 +8,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 // Vue.use(Pinia)
 
 //定义路由规则
-const routes = [
-  {
+const routes = [ {
     path: '/',
     component: () => import('@/layouts/default/Default.vue'),
     children: [
@@ -74,11 +73,10 @@ const routes = [
       {
         path:'/main-view',
         name:'MainView',
-        component:()=> import('@/views/MainView.vue')
+        component:() => import('@/views/MainView.vue')
       }
     ],
-  },
-]
+  }, ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),

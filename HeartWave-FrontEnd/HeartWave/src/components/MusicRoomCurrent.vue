@@ -1,36 +1,37 @@
 <template>
-    <div class="container">
-        <div v-if="active">
-            <img :src="getImgSrc(cover)" class="background">
+  <div class="container">
+    <div v-if="active">
+      <img :src="getImgSrc(cover)" class="background">
 
-            <v-btn @click="lyricFlip()" style="position: fixed; margin-left: 10%;"> flip </v-btn>
-            <label class="song"> {{ song }} </label>
-            <br>
-            <label class="artist"> {{ artist }} </label>
-            <br>
-            <label class="time"> {{ time }} / {{ total }} </label>
-            <br>
+      <v-btn style="position: fixed; margin-left: 10%;" @click="lyricFlip()">
+        flip
+      </v-btn>
+      <label class="song"> {{ song }} </label>
+      <br>
+      <label class="artist"> {{ artist }} </label>
+      <br>
+      <label class="time"> {{ time }} / {{ total }} </label>
+      <br>
             
-            <div class="lyric-container" align="center">
-                <div style="height: 40px;"></div>
-                <div v-for="(item, index) in lyric">
-                    <label
-                        :class="getLyricStyle(index)"
-                        :style="{
-                            opacity: index >= currentLine - 3 && index <= currentLine + 1 ? '100%' : '0%',
-                            transform: 'translateY(' + lyricDist + 'px)'
-                        }">
-                        {{ item }}
-                    </label>
-                    <br>
-                </div>
-            </div>
+      <div class="lyric-container" align="center">
+        <div style="height: 40px;"></div>
+        <div v-for="(item, index) in lyric">
+          <label
+            :class="getLyricStyle(index)"
+            :style="{
+              opacity: index >= currentLine - 3 && index <= currentLine + 1 ? '100%' : '0%',
+              transform: 'translateY(' + lyricDist + 'px)'
+            }"
+          >
+            {{ item }}
+          </label>
+          <br>
         </div>
-
-        <div v-else>
-            
-        </div>
+      </div>
     </div>
+
+    <div v-else></div>
+  </div>
 </template>
 
 <script>

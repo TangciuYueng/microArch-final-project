@@ -1,35 +1,51 @@
 <template>
-    <v-card hover class="tips-card">
-        <v-card-title class="tips-title">天气心情小贴士</v-card-title>
-        <v-card-text>
-            <div class="tips-text">劳动节作为一个国际节日，中国人有着以劳动为光荣的优良品质。
-                而如果碰巧是在晴天，更能让人感受到一份轻快的气息。
-                因此，在这样的日子里，适合听一些快节奏或抒情的歌曲，以表达内心的感受。</div>
-        </v-card-text>
-        <v-card-subtitle style="">根据今天的天气或许您适合听以下歌曲></v-card-subtitle>
-        <v-container fluid>
-            <v-row dense>
-                <v-col v-for="song in music" :key="song.title">
-                    <v-card>
-                        <v-img :src="song.cover" class="align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                            height="141px" cover>
-                            <div class="d-flex">
-                                <v-card-title class="text-white max-text-length" v-text="song.title"
-                                    style="font-size: medium;"></v-card-title>
+  <v-card hover class="tips-card">
+    <v-card-title class="tips-title">
+      天气心情小贴士
+    </v-card-title>
+    <v-card-text>
+      <div class="tips-text">
+        劳动节作为一个国际节日，中国人有着以劳动为光荣的优良品质。
+        而如果碰巧是在晴天，更能让人感受到一份轻快的气息。
+        因此，在这样的日子里，适合听一些快节奏或抒情的歌曲，以表达内心的感受。
+      </div>
+    </v-card-text>
+    <v-card-subtitle style="">
+      根据今天的天气或许您适合听以下歌曲>
+    </v-card-subtitle>
+    <v-container fluid>
+      <v-row dense>
+        <v-col v-for="song in music" :key="song.title">
+          <v-card>
+            <v-img
+              :src="song.cover"
+              class="align-end"
+              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+              height="141px"
+              cover
+            >
+              <div class="d-flex">
+                <v-card-title
+                  class="text-white max-text-length"
+                  style="font-size: medium;"
+                  v-text="song.title"
+                />
 
-                                <v-spacer></v-spacer>
-                                <v-btn class="ms-2" icon="mdi-play-circle-outline" variant="text"
-                                    style="font-size: 20px;color: white;" @click="play(song.id)"></v-btn>
-                            </div>
-
-                        </v-img>
-
-
-                    </v-card>
-                </v-col>
-            </v-row>
-        </v-container>
-    </v-card>
+                <v-spacer />
+                <v-btn
+                  class="ms-2"
+                  icon="mdi-play-circle-outline"
+                  variant="text"
+                  style="font-size: 20px;color: white;"
+                  @click="play(song.id)"
+                />
+              </div>
+            </v-img>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-card>
 </template>
 
 <script>

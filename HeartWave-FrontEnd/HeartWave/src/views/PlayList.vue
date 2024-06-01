@@ -1,115 +1,191 @@
 <template>
-    <v-snackbar v-model="snackbar" color="blue-grey" rounded="pill" style="opacity: 70%;" :timeout="1500">
-        {{ snackbarText }}
-    </v-snackbar>
-    <v-app>
-        <v-container fluid>
-            <v-row style="padding-left: 16%; padding-right: 15%; background-color: #eefffb; min-width: 1600px;">
-                <v-col cols="1">
-                    <v-icon class="hover-enlarge" @click="this.$emit('lastPageEvent', lastPage)">mdi-arrow-left</v-icon>
-                </v-col>
-                <v-col cols="8" style="background-color: white; box-shadow: 5px 0 5px -5px rgba(0, 0, 0, 0.5),
-                -5px 0 5px -5px rgba(0, 0, 0, 0.5);">
-                    <v-row>
-                        <v-col cols="3">
-                            <v-img :src="cover" cover aspect-ratio="1/1" max-width="150" height="150"></v-img>
-                        </v-col>
-                        <v-col cols="9">
-                            <div>
-                                <v-card class="card-no-border">
-                                    <v-card-title class="playlist-info">
-                                        <div class="playlist-type">{{ playListType }}</div>
-                                        <div class="playlist-name">{{ playListName }}</div>
-                                    </v-card-title>
-
-                                    <div class="playlist-meta">
-                                        <div class="creator">{{ creator }}</div>
-                                        <div class="createTime">{{ formattedCreateTime + ' 创建' }}</div>
-                                    </div>
-                                    <div>
-                                        <div v-if="showLess" @click="toggleShowLess" class="description">{{
-        limitedDescription
-    }}</div>
-                                        <div v-else @click="toggleShowLess" class="description show-scroll">{{
-        description }}
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <a v-if="showLess" @click="toggleShowLess" class="open-close">展开</a>
-                                        <a v-else @click="toggleShowLess" class="open-close">收起</a>
-                                    </div>
-                                    <v-card-actions class="playlist-actions">
-                                        <v-btn color="primary"><v-icon left>mdi-play</v-icon> 播放</v-btn>
-                                        <v-btn color="red" @click="snackbar = true"><v-icon left>mdi-heart</v-icon>
-                                            收藏</v-btn>
-                                    </v-card-actions>
-                                </v-card>
-                            </div>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col cols="12">
-                            <v-data-table :items="playList" :search="search" height="500px">
-                                <template v-slot:top>
-                                    <v-toolbar flat color="white">
-                                        <v-toolbar-title>歌曲</v-toolbar-title>
-                                        <v-spacer></v-spacer>
-                                        <v-text-field v-model="search" label="搜索" single-line rounded
-                                            hide-details></v-text-field>
-                                        <v-icon class="ml-3" style="cursor: pointer;">mdi-magnify</v-icon>
-                                    </v-toolbar>
-                                </template>
-                                <template v-slot:[`item.cover`]="{ item }">
-                                    <v-img :src="item.cover" alt="Cover" aspect-ratio="1/1" max-width="80px"
-                                        height="80px"></v-img>
-                                </template>
-                            </v-data-table>
-                        </v-col>
-                    </v-row>
-                </v-col>
-                <v-col cols="3" style="background-color: white; box-shadow: 5px 0 5px -5px rgba(0, 0, 0, 0.5),
-                -5px 0 5px -5px rgba(0, 0, 0, 0.5);">
-                    <div style="font-size: large; font-weight: bold;">
-                        收藏这个歌单的人
+  <v-snackbar v-model="snackbar" color="blue-grey" rounded="pill" style="opacity: 70%;" :timeout="1500">
+    {{ snackbarText }}
+  </v-snackbar>
+  <v-app>
+    <v-container fluid>
+      <v-row style="padding-left: 16%; padding-right: 15%; background-color: #eefffb; min-width: 1600px;">
+        <v-col cols="1">
+          <v-icon class="hover-enlarge" @click="$emit('lastPageEvent', lastPage)">
+            mdi-arrow-left
+          </v-icon>
+        </v-col>
+        <v-col
+          cols="8"
+          style="background-color: white; box-shadow: 5px 0 5px -5px rgba(0, 0, 0, 0.5),
+                -5px 0 5px -5px rgba(0, 0, 0, 0.5);"
+        >
+          <v-row>
+            <v-col cols="3">
+              <v-img :src="cover" cover aspect-ratio="1/1" max-width="150" height="150" />
+            </v-col>
+            <v-col cols="9">
+              <div>
+                <v-card class="card-no-border">
+                  <v-card-title class="playlist-info">
+                    <div class="playlist-type">
+                      {{ playListType }}
                     </div>
-                    <hr>
-                    <v-row dense class="mt-3 mb-3">
-                        <v-col cols="3" v-for="user in userCollectedPlayList">
-                            <v-img cover aspect-ratio="1/1" max-width="50" height="50" :src="user.avatar"
-                                style="cursor: pointer;" @click="this.$emit('BrowsingPersonalHomepage', user.id)"></v-img>
-                        </v-col>
-
-                    </v-row>
-
-                    <div style="font-size: large; font-weight: bold;">
-                        相关推荐
+                    <div class="playlist-name">
+                      {{ playListName }}
                     </div>
-                    <hr>
-                    <div v-for="playList in playListsRecommended">
-                        <v-card style="text-align: center;" color="transparent" class="mt-3"
-                            @click="this.$emit('detialPlayListEvent', 'recommend', playList.id)" hover>
-                            <v-img :src="playList.cover" class="align-end"
-                                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="110px" cover>
-                                <!-- 名字和播放按钮 -->
-                                <div class="d-flex">
-                                    <v-card-title class="text-white max-text-length"
-                                        v-text="playList.name + ' by ' + playList.creator"
-                                        style="font-size: medium;"></v-card-title>
-                                    <v-spacer></v-spacer>
-                                    <v-btn icon="mdi-play-circle-outline" variant="text"
-                                        style="font-size: 20px; color: white;"></v-btn>
-                                </div>
-                            </v-img>
-                        </v-card>
+                  </v-card-title>
+
+                  <div class="playlist-meta">
+                    <div class="creator">
+                      {{ creator }}
                     </div>
-                </v-col>
-            </v-row>
-        </v-container>
-    </v-app>
+                    <div class="createTime">
+                      {{ formattedCreateTime + ' 创建' }}
+                    </div>
+                  </div>
+                  <div>
+                    <div v-if="showLess" class="description" @click="toggleShowLess">
+                      {{
+                        limitedDescription
+                      }}
+                    </div>
+                    <div v-else class="description show-scroll" @click="toggleShowLess">
+                      {{
+                        description }}
+                    </div>
+                  </div>
+                  <div>
+                    <a v-if="showLess" class="open-close" @click="toggleShowLess">展开</a>
+                    <a v-else class="open-close" @click="toggleShowLess">收起</a>
+                  </div>
+                  <v-card-actions class="playlist-actions">
+                    <v-btn color="primary">
+                      <v-icon left>
+                        mdi-play
+                      </v-icon> 播放
+                    </v-btn>
+                    <v-btn color="red" @click="snackbar = true">
+                      <v-icon left>
+                        mdi-heart
+                      </v-icon>
+                      收藏
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </div>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12">
+              <v-data-table :items="playList" :search="search" height="500px">
+                <template #top>
+                  <v-toolbar flat color="white">
+                    <v-toolbar-title>歌曲</v-toolbar-title>
+                    <v-spacer />
+                    <v-text-field
+                      v-model="search"
+                      label="搜索"
+                      single-line
+                      rounded
+                      hide-details
+                    />
+                    <v-icon class="ml-3" style="cursor: pointer;">
+                      mdi-magnify
+                    </v-icon>
+                  </v-toolbar>
+                </template>
+                <template #[`item.cover`]="{ item }">
+                  <v-img
+                    :src="item.cover"
+                    alt="Cover"
+                    aspect-ratio="1/1"
+                    max-width="80px"
+                    height="80px"
+                  />
+                </template>
+              </v-data-table>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col
+          cols="3"
+          style="background-color: white; box-shadow: 5px 0 5px -5px rgba(0, 0, 0, 0.5),
+                -5px 0 5px -5px rgba(0, 0, 0, 0.5);"
+        >
+          <div style="font-size: large; font-weight: bold;">
+            收藏这个歌单的人
+          </div>
+          <hr>
+          <v-row dense class="mt-3 mb-3">
+            <v-col v-for="user in userCollectedPlayList" cols="3">
+              <v-img
+                cover
+                aspect-ratio="1/1"
+                max-width="50"
+                height="50"
+                :src="user.avatar"
+                style="cursor: pointer;"
+                @click="$emit('BrowsingPersonalHomepage', user.id)"
+              />
+            </v-col>
+          </v-row>
+
+          <div style="font-size: large; font-weight: bold;">
+            相关推荐
+          </div>
+          <hr>
+          <div v-for="playList in playListsRecommended">
+            <v-card
+              style="text-align: center;"
+              color="transparent"
+              class="mt-3"
+              hover
+              @click="$emit('detialPlayListEvent', 'recommend', playList.id)"
+            >
+              <v-img
+                :src="playList.cover"
+                class="align-end"
+                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                height="110px"
+                cover
+              >
+                <!-- 名字和播放按钮 -->
+                <div class="d-flex">
+                  <v-card-title
+                    class="text-white max-text-length"
+                    style="font-size: medium;"
+                    v-text="playList.name + ' by ' + playList.creator"
+                  />
+                  <v-spacer />
+                  <v-btn
+                    icon="mdi-play-circle-outline"
+                    variant="text"
+                    style="font-size: 20px; color: white;"
+                  />
+                </div>
+              </v-img>
+            </v-card>
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-app>
 </template>
 
 <script>
 export default {
+    props: {
+        playListType: {
+            type: String,
+            default: '默认歌单',
+        },
+        cover: {
+            type: String,
+            default: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg',
+        },
+        playListId: {
+            default: 3,
+        },
+        lastPage: {
+            default: 1,
+        },
+    },
     data() {
         return {
             playList: [
@@ -213,15 +289,6 @@ export default {
             ],
         };
     },
-    methods: {
-        toggleShowLess() {
-            this.showLess = !this.showLess;
-            console.log('showLess', this.showLess)
-        },
-        openSnackbar() {
-            this.snackbar = true;
-        },
-    },
     computed: {
         formattedCreateTime() {
             const options = { year: "numeric", month: "2-digit", day: "2-digit" };
@@ -231,24 +298,17 @@ export default {
             return this.description.length > this.maxChars ? this.description.slice(0, this.maxChars) + "..." : this.description;
         }
     },
-    props: {
-        playListType: {
-            type: String,
-            default: '默认歌单',
-        },
-        cover: {
-            type: String,
-            default: 'https://cdn.vuetifyjs.com/images/parallax/material.jpg',
-        },
-        playListId: {
-            default: 3,
-        },
-        lastPage: {
-            default: 1,
-        },
-    },
     mounted() {
         console.log('id', this.playListId)
+    },
+    methods: {
+        toggleShowLess() {
+            this.showLess = !this.showLess;
+            console.log('showLess', this.showLess)
+        },
+        openSnackbar() {
+            this.snackbar = true;
+        },
     }
 };
 </script>

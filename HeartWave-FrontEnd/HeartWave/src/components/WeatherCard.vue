@@ -1,15 +1,19 @@
 <template>
-    <v-card class="weather-card custom-card" rounded hover>
+  <v-card class="weather-card custom-card" rounded hover>
     <!-- 左边部分 -->
     <v-card-text class="weather-info">
-        <div class="temperature">20°C</div> <!-- 气温信息 -->
-        <div class="location">上海</div> <!-- 地点信息 -->
+      <div class="temperature">
+        20°C
+      </div> <!-- 气温信息 -->
+      <div class="location">
+        上海
+      </div> <!-- 地点信息 -->
     </v-card-text>
 
     <!-- 右边部分 -->
-    <v-img class="weather-image" src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" cover></v-img> <!-- 天气图片 -->
-    </v-card>
-  </template>
+    <v-img class="weather-image" src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" cover /> <!-- 天气图片 -->
+  </v-card>
+</template>
   
 <script>
 

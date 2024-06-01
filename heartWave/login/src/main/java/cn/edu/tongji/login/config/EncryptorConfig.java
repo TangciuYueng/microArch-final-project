@@ -12,7 +12,6 @@ import org.springframework.context.annotation.PropertySource;
  */
 @Configuration
 @ConfigurationProperties(prefix = "encryptor", ignoreUnknownFields = false)
-@PropertySource("classpath:config/authentication.properties")
 @Setter
 public class EncryptorConfig {
     private String password;   //解密所需密码

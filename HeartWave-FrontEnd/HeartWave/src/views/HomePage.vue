@@ -7,15 +7,15 @@
         <v-col cols="8" class="white-background scrollable-column">
           <v-row style="min-height: 10%">
             <v-responsive max-width="350" max-height="50">
-              <v-spacer></v-spacer>
+              <v-spacer />
               <v-text-field
                 clearable
                 label="请输入搜索关键词"
                 prepend-icon="mdi-magnify"
-              ></v-text-field
-            ></v-responsive>
+              />
+            </v-responsive>
           </v-row>
-          <v-spacer></v-spacer>
+          <v-spacer />
           <!-- 第一行，显示今日天气、天气小贴士、以及需要关心的朋友 -->
           <v-row style="min-height: 40%">
             <v-col cols="4">
@@ -26,40 +26,41 @@
               </v-row>
               <v-row>
                 <v-col>
-                  <friend-card :friends="friends"></friend-card>
+                  <friend-card :friends="friends" />
                 </v-col>
               </v-row>
             </v-col>
             <v-col cols="8">
-              <tips-card :music="recommendMusic"></tips-card>
+              <tips-card :music="recommendMusic" />
             </v-col>
           </v-row>
 
           <!-- 第二行，推荐的歌单 -->
           <v-row style="min-height: 25%" class="">
-            <v-col cols="12"
-              ><recommend-playlists-card
+            <v-col cols="12">
+              <recommend-playlists-card
                 :playlists="recommendPlaylists"
-              ></recommend-playlists-card
-            ></v-col>
+              />
+            </v-col>
           </v-row>
 
           <!-- 第三行推荐的音乐室 -->
-          
         </v-col>
         <!-- 第二列，背景颜色为绿色 -->
         <v-col cols="4" class="green-background scrollable-column">
           <!-- 这里放置第二列的内容 -->
           <profile-card
-            :profileImgSrc="profileImgSrc"
-            :avatarSrc="'data:image/jpg;base64,' + avatarSrc"
+            :profile-img-src="profileImgSrc"
+            :avatar-src="'data:image/jpg;base64,' + avatarSrc"
             :username="username"
-            :ipLocation="ipLocation"
-            @BrowsingPersonalHomepage="preHandleBrowsingEvent"
-          ></profile-card>
-          <emotions-card class="mt-5"></emotions-card>
+            :ip-location="ipLocation"
+            @browsing-personal-homepage="preHandleBrowsingEvent"
+          />
+          <emotions-card class="mt-5" />
           <span class="text-title">您近一周的心情主基调为：</span>
-          <div class="text-mood">快乐</div>
+          <div class="text-mood">
+            快乐
+          </div>
         </v-col>
       </v-row>
     </v-container>
@@ -93,8 +94,7 @@ export default {
     password: null,
     loading: false,
     testWord: "test",
-    friends: [
-      {
+    friends: [ {
         id: 1,
         avatar: "https://cdn.vuetifyjs.com/images/john.png",
         mood: 84,
@@ -114,8 +114,7 @@ export default {
       },
       // Add more friends as needed
     ],
-    recommendMusic: [
-      {
+    recommendMusic: [ {
         id: 1,
         cover: "https://cdn.vuetifyjs.com/images/cards/docks.jpg",
         title: "向云端",
@@ -134,8 +133,7 @@ export default {
         id: 4,
         cover: "https://cdn.vuetifyjs.com/images/cards/halcyon.png",
         title: "love story",
-      },
-    ],
+      }, ],
     recommendPlaylists: [
       {
         id: 1,
@@ -170,6 +168,11 @@ export default {
     ipLocation: "New York",
     
   }),
+  mounted() {
+    this.avatarSrc = user.avatar;
+    this.userId = user.id;
+    this.username = user.name;
+  },
   methods: {
     preHandleBrowsingEvent(username){
             // console.log(this.userId);
@@ -178,11 +181,6 @@ export default {
             // 通过username找userId,待完成
             this.$emit('BrowsingPersonalHomepage', this.userId);
         },
-  },
-  mounted() {
-    this.avatarSrc = user.avatar;
-    this.userId = user.id;
-    this.username = user.name;
   }
 };
 </script>

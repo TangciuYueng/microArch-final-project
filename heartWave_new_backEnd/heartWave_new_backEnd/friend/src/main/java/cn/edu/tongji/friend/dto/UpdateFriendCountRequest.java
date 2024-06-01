@@ -5,9 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class UpdateChatTimeRequest {
-    private Long userId1;
-    private Long userId2;
+@NoArgsConstructor
+public class UpdateFriendCountRequest {
+    private Long userId;
+    private Integer variation;
 }

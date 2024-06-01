@@ -1,7 +1,7 @@
 <template>
-    <!-- 顶部的导航栏 -->
-    <!-- <DefaultBar /> -->
-    个人中心
+  <!-- 顶部的导航栏 -->
+  <!-- <DefaultBar /> -->
+  个人中心
 </template>
   
 <script>
