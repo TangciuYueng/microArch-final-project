@@ -1,12 +1,100 @@
 <template>
     <!-- 用于写主页面的内容 -->
     <v-main class="full-height">
-        
+        <v-sheet :elevation="5" class="justify-center align-center" border
+                    rounded>
+                    <div class="text-center">
+                        <h3>当你感到内心欢乐的时候</h3>
+                        <p>你偏好听哪种类型的歌曲？</p>
+                        <v-radio-group>
+                            <v-radio label="轻快的流行歌曲，进一步提振心情，享受快乐的氛围" value="happy"></v-radio>
+                            <v-radio label="抒情的慢歌，以体验情感的多样性" value="sad"></v-radio>
+                            <v-radio label="平静的轻音乐，享受一种内心的宁静和满足感" value="peace"></v-radio>
+                            <v-radio label="动感的摇滚乐或电子音乐，更加充满活力和激情" value="aggressive"></v-radio>
+                        </v-radio-group>
+                    </div>
+                </v-sheet>
+        <v-row no-gutters class="half-height">
+            <v-col cols="6" class="pa-0 d-flex justify-center align-center">
+                <v-sheet :elevation="5" class="sheet-size d-flex flex-column justify-center align-center" border
+                    rounded>
+                    <div class="text-center">
+                        <h3>当你感到内心欢乐的时候</h3>
+                        <p>你偏好听哪种类型的歌曲？</p>
+                        <v-radio-group>
+                            <v-radio label="轻快的流行歌曲，进一步提振心情，享受快乐的氛围" value="happy"></v-radio>
+                            <v-radio label="抒情的慢歌，以体验情感的多样性" value="sad"></v-radio>
+                            <v-radio label="平静的轻音乐，享受一种内心的宁静和满足感" value="peace"></v-radio>
+                            <v-radio label="动感的摇滚乐或电子音乐，更加充满活力和激情" value="aggressive"></v-radio>
+                        </v-radio-group>
+                    </div>
+                </v-sheet>
+            </v-col>
+            <v-col cols="6" class="pa-0 d-flex justify-center align-center">
+                <v-sheet :elevation="5" class="sheet-size d-flex flex-column justify-center align-center" border
+                    rounded>
+                    <div class="text-center">
+                        <h3>在经历失落的夜晚，你内心伤感</h3>
+                        <p>你偏好听哪种类型的歌曲？</p>
+                        <v-radio-group>
+                            <v-radio label="轻快的流行歌曲，从悲观的情绪中寻找希望和乐观" value="happy"></v-radio>
+                            <v-radio label="抒情的慢歌，让人在悲伤中感到被理解和安慰" value="sad"></v-radio>
+                            <v-radio label="平静的轻音乐，减少内心的不安和焦虑" value="peace"></v-radio>
+                            <v-radio label="动感的摇滚乐或电子音乐，释放内心的压抑和不满" value="aggressive"></v-radio>
+                        </v-radio-group>
+                    </div>
+                </v-sheet>
+            </v-col>
+        </v-row>
+        <v-row no-gutters class="half-height">
+            <v-col cols="6" class="pa-0 d-flex justify-center align-center">
+                <v-sheet :elevation="5" class="sheet-size d-flex flex-column justify-center align-center" border
+                    rounded>
+                    <div class="text-center">
+                        <h3>当一切顺遂内心平静时</h3>
+                        <p>你偏好听哪种类型的歌曲？</p>
+                        <v-radio-group>
+                            <v-radio label="轻快的流行歌曲，增添生活的愉悦感" value="happy"></v-radio>
+                            <v-radio label="抒情的慢歌，唤起深层次的情感体验" value="sad"></v-radio>
+                            <v-radio label="平静的轻音乐，维持或增强现有的宁静状态" value="peace"></v-radio>
+                            <v-radio label="动感的摇滚乐或电子音乐，激发热情和动力" value="aggressive"></v-radio>
+                        </v-radio-group>
+                    </div>
+                </v-sheet>
+            </v-col>
+            <v-col cols="6" class="pa-0 d-flex justify-center align-center">
+                <v-sheet :elevation="5" class="sheet-size d-flex flex-column justify-center align-center" border
+                    rounded>
+                    <div class="text-center">
+                        <h3>当内心情绪激烈、波澜起伏时</h3>
+                        <p>你偏好听哪种类型的歌曲？</p>
+                        <v-radio-group>
+                            <v-radio label="轻快的流行歌曲，以积极的节奏带动心情" value="happy"></v-radio>
+                            <v-radio label="抒情的慢歌，深入探索和表达情感" value="sad"></v-radio>
+                            <v-radio label="平静的轻音乐，帮助安抚情绪，寻找内心的宁静" value="peace"></v-radio>
+                            <v-radio label="动感的摇滚乐或电子音乐，释放紧张情绪，感受力量与活力" value="aggressive"></v-radio>
+                        </v-radio-group>
+                    </div>
+                </v-sheet>
+            </v-col>
+        </v-row>
     </v-main>
 </template>
 
 <script>
-
+export default {
+    name: 'MyComponent',
+    data() {
+        return {
+            selectedSongs: {
+                celebration: '',
+                sadNight: '',
+                meditation: '',
+                workout: ''
+            }
+        }
+    }
+}
 </script>
 
 <style scoped>
@@ -15,4 +103,15 @@
     /* 设置最小高度为视口高度的100% */
 }
 
+.half-height {
+    height: 50%;
+    /* 设置高度为父容器的一半 */
+}
+
+.sheet-size {
+    height: 85%;
+    width: 85%;
+    /* 设置宽高为父容器的85% */
+    background: linear-gradient(to bottom, rgba(232, 249, 245, 1), white);
+}
 </style>
