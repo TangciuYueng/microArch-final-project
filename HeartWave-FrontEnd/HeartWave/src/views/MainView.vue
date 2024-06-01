@@ -18,6 +18,7 @@
       <v-list-item prepend-icon="mdi-chat" title="音 乐 室" value="3" @click="navigateTo('音乐室')" />
       <v-list-item prepend-icon="mdi-pen" title="随 笔 中 心" value="4" @click="navigateTo('随笔中心')" />
       <v-list-item prepend-icon="mdi-cog" title="个 人 设 置" value="10" @click="navigateTo('设置')" />
+      <v-list-item prepend-icon="mdi-logout" title="退 出 登 录" value="11" @click="navigateTo('登录')" />
     </v-list>
   </v-navigation-drawer>
 
@@ -37,9 +38,8 @@
       <music-room v-if="page == 3" />
       <!-- 显示随笔中心 -->
       <diary v-if="page == 4" @add-diary-event="handleAddDiary" @browsing-personal-homepage="handleBrowsingEvent" />
-      <!-- 显示随笔中心 -->
+      <!-- 显示设置界面 -->
       <setting v-if="page == 10" @browsing-personal-homepage="handleBrowsingEvent" />
-
 
       <music-search
         v-if="page == 5"
@@ -56,6 +56,8 @@
         @click="page = lastPage;"
       >
       <music-playing-view v-if="page == 7" />
+
+
       <!-- 音乐播放器 -->
       <music-player @click="lastPage = (page == 7 ? lastPage : page); page = 7;" />
 
@@ -129,6 +131,10 @@ export default {
                     break;
                 case '设置':
                     this.page = 10;
+                    break;
+                case '登录':
+                    this.page = 11;
+                    this.$router.push('/');  // 使用 Vue Router 的 push 方法进行跳转
                     break;
                 // 添加其他路由的处理
             }
