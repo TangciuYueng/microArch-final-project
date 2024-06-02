@@ -38,6 +38,7 @@
                                         </div>
                                     </v-img>
                                 </v-card>
+                                <p style="background-color: transparent;">{{ song.mood }}</p>
                             </v-col>
                         </v-row>
 
@@ -57,8 +58,9 @@
                         <h3>在经历失落的夜晚，你内心伤感</h3>
                         <p>你偏好听哪种类型的歌曲？</p>
                         <v-row style="margin: 0% 2% 0% 2%;">
-                            <v-col v-for="song in Playlists" :key="song.title" cols="3">
+                            <v-col v-for="song in Playlists2" :key="song.title" cols="3">
                                 <v-card>
+
                                     <v-img :src="song.cover" class="align-end"
                                         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" width="100%" cover>
                                         <!-- 名字和播放按钮 -->
@@ -70,6 +72,7 @@
                                         </div>
                                     </v-img>
                                 </v-card>
+                                <p style="background-color: transparent;">{{ song.mood }}</p>
                             </v-col>
                         </v-row>
                         <v-radio-group>
@@ -90,7 +93,7 @@
                         <h3>当一切顺遂内心平静时</h3>
                         <p>你偏好听哪种类型的歌曲？</p>
                         <v-row style="margin: 0% 2% 0% 2%;">
-                            <v-col v-for="song in Playlists" :key="song.title" cols="3">
+                            <v-col v-for="song in Playlists3" :key="song.title" cols="3">
                                 <v-card>
                                     <v-img :src="song.cover" class="align-end"
                                         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" width="100%" cover>
@@ -103,7 +106,8 @@
                                         </div>
                                     </v-img>
                                 </v-card>
-                            </v-col>
+                                <p style="background-color: transparent;">{{ song.mood }}</p>
+                            </v-col>       
                         </v-row>
                         <v-radio-group>
                             <v-radio label="轻快的流行歌曲，增添生活的愉悦感，比如上述1号歌曲" value="happy"></v-radio>
@@ -121,7 +125,7 @@
                         <h3>当内心情绪激烈、波澜起伏时</h3>
                         <p>你偏好听哪种类型的歌曲？</p>
                         <v-row style="margin: 0% 2% 0% 2%;">
-                            <v-col v-for="song in Playlists" :key="song.title" cols="3">
+                            <v-col v-for="song in Playlists4" :key="song.title" cols="3">
                                 <v-card>
                                     <v-img :src="song.cover" class="align-end"
                                         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" width="100%" cover>
@@ -134,6 +138,7 @@
                                         </div>
                                     </v-img>
                                 </v-card>
+                                <p style="background-color: transparent;">{{ song.mood }}</p>
                             </v-col>
                         </v-row>
                         <v-radio-group>
@@ -169,25 +174,119 @@ export default {
                     id: 1,
                     cover: "src/assets/album/暖暖.jpg",
                     title: "暖暖",
-                    url:"src/components/HOPE-T,接个吻，开一枪 - 锦里.mp3"
+                    mood: "happy",
+                    url: "src/components/HOPE-T,接个吻，开一枪 - 锦里.mp3"
                 },
                 {
                     id: 2,
                     cover: "src/assets/album/damedane.jpg",
                     title: "damedane",
-                    url:"src/components/HOPE-T,接个吻，开一枪 - 锦里.mp3"
+                    mood: "sad",
+                    url: "src/components/HOPE-T,接个吻，开一枪 - 锦里.mp3"
                 },
                 {
                     id: 3,
                     cover: "src/assets/album/Reborn.jpg",
                     title: "Reborn",
-                    url:"src/components/HOPE-T,接个吻，开一枪 - 锦里.mp3"
+                    mood: "peace",
+                    url: "src/components/HOPE-T,接个吻，开一枪 - 锦里.mp3"
                 },
                 {
                     id: 4,
                     cover: "src/assets/album/多索雷斯假日.jpg",
                     title: "多索雷斯假日",
-                    url:"src/components/HOPE-T,接个吻，开一枪 - 锦里.mp3"
+                    mood: "aggressive",
+                    url: "src/components/HOPE-T,接个吻，开一枪 - 锦里.mp3"
+                },
+            ],
+            Playlists2: [
+                {
+                    id: 1,
+                    cover: "src/assets/album/Effervescence.jpg",
+                    title: "Effervescence",
+                    mood: "happy",
+                    url: "src/components/HOPE-T,接个吻，开一枪 - 锦里.mp3"
+                },
+                {
+                    id: 2,
+                    cover: "src/assets/album/喜帖街.jpg",
+                    title: "喜帖街",
+                    mood: "sad",
+                    url: "src/components/HOPE-T,接个吻，开一枪 - 锦里.mp3"
+                },
+                {
+                    id: 3,
+                    cover: "src/assets/album/江上清风游.jpg",
+                    title: "江上清风游",
+                    mood: "peace",
+                    url: "src/components/HOPE-T,接个吻，开一枪 - 锦里.mp3"
+                },
+                {
+                    id: 4,
+                    cover: "src/assets/album/idol.jpg",
+                    title: "アイドル",
+                    mood: "aggressive",
+                    url: "src/components/HOPE-T,接个吻，开一枪 - 锦里.mp3"
+                },
+            ],
+            Playlists3: [
+                {
+                    id: 1,
+                    cover: "src/assets/album/爱丫爱丫.jpg",
+                    title: "爱丫爱丫",
+                    mood: "happy",
+                    url: "src/components/HOPE-T,接个吻，开一枪 - 锦里.mp3"
+                },
+                {
+                    id: 2,
+                    cover: "src/assets/album/哪里都是你.jpg",
+                    title: "哪里都是你",
+                    mood: "sad",
+                    url: "src/components/HOPE-T,接个吻，开一枪 - 锦里.mp3"
+                },
+                {
+                    id: 3,
+                    cover: "src/assets/album/烟雨行舟.jpg",
+                    title: "烟雨行舟",
+                    mood: "peace",
+                    url: "src/components/HOPE-T,接个吻，开一枪 - 锦里.mp3"
+                },
+                {
+                    id: 4,
+                    cover: "src/assets/album/ハルジオン.jpg",
+                    title: "ハルジオン",
+                    mood: "aggressive",
+                    url: "src/components/HOPE-T,接个吻，开一枪 - 锦里.mp3"
+                },
+            ],
+            Playlists4: [
+                {
+                    id: 1,
+                    cover: "src/assets/album/宁夏.jpg",
+                    title: "宁夏",
+                    mood: "happy",
+                    url: "src/components/HOPE-T,接个吻，开一枪 - 锦里.mp3"
+                },
+                {
+                    id: 2,
+                    cover: "src/assets/album/最后一页.jpg",
+                    title: "最后一页",
+                    mood: "sad",
+                    url: "src/components/HOPE-T,接个吻，开一枪 - 锦里.mp3"
+                },
+                {
+                    id: 3,
+                    cover: "src/assets/album/すべての子どもが大人になれますように.jpg",
+                    title: "すべての子どもが大人になれますように",
+                    mood: "peace",
+                    url: "src/components/HOPE-T,接个吻，开一枪 - 锦里.mp3"
+                },
+                {
+                    id: 4,
+                    cover: "src/assets/album/大正浪漫.jpg",
+                    title: "大正浪漫",
+                    mood: "aggressive",
+                    url: "src/components/HOPE-T,接个吻，开一枪 - 锦里.mp3"
                 },
             ],
 
@@ -234,15 +333,15 @@ export default {
     border-radius: 8px;
     /* 设置封面图片为圆角 */
 }
-.max-text-length {
-  max-width: 90px;
-  /* 设置最大宽度，根据需要进行调整 */
-  white-space: nowrap;
-  /* 防止文本换行 */
-  overflow: hidden;
-  /* 隐藏超出最大宽度的文本 */
-  text-overflow: ellipsis;
-  /* 使用省略号表示被隐藏的文本 */
-}
 
+.max-text-length {
+    max-width: 90px;
+    /* 设置最大宽度，根据需要进行调整 */
+    white-space: nowrap;
+    /* 防止文本换行 */
+    overflow: hidden;
+    /* 隐藏超出最大宽度的文本 */
+    text-overflow: ellipsis;
+    /* 使用省略号表示被隐藏的文本 */
+}
 </style>
