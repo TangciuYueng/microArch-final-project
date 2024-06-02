@@ -1,19 +1,21 @@
 <template>
     <!-- 用于写主页面的内容 -->
-    <v-main class="full-height">
-        <v-sheet :elevation="5" class="justify-center align-center" border
-                    rounded>
-                    <div class="text-center">
-                        <h3>当你感到内心欢乐的时候</h3>
-                        <p>你偏好听哪种类型的歌曲？</p>
-                        <v-radio-group>
-                            <v-radio label="轻快的流行歌曲，进一步提振心情，享受快乐的氛围" value="happy"></v-radio>
-                            <v-radio label="抒情的慢歌，以体验情感的多样性" value="sad"></v-radio>
-                            <v-radio label="平静的轻音乐，享受一种内心的宁静和满足感" value="peace"></v-radio>
-                            <v-radio label="动感的摇滚乐或电子音乐，更加充满活力和激情" value="aggressive"></v-radio>
-                        </v-radio-group>
-                    </div>
-                </v-sheet>
+    <v-main class="full-height scrollable-container">
+        <!-- 提示用户填写偏好测试的作用以及重要性 -->
+        <v-row no-gutters class="d-flex justify-center">
+            <v-sheet :elevation="5" class="ma-3 pa-4 d-flex flex-column justify-center align-center tips" border rounded>
+                <div>
+                    <h2  class="text-center">音乐情绪偏好设置</h2>
+                    <p>通过填写这份问卷，您将帮助我们了解您在不同情绪下的音乐偏好。这样我们可以为您提供更加个性化的音乐推荐，让每一首歌都能贴合您的心情。</p>
+                    <p>请根据每个场景下的描述，选择您在该情境下更偏好听的音乐类型。这将有助于我们更好地满足您的音乐需求，提升您的聆听体验。</p>
+                    <p><strong>注意事项：</strong></p>
+                    <ul>
+                        <li>每个问题都没有对错之分，只需选择您最真实的喜好。</li>
+                        <li>请确保您在安静的环境中进行问卷填写，以便准确反映您的音乐偏好。</li>
+                    </ul>
+                </div>
+            </v-sheet>
+        </v-row>
         <v-row no-gutters class="half-height">
             <v-col cols="6" class="pa-0 d-flex justify-center align-center">
                 <v-sheet :elevation="5" class="sheet-size d-flex flex-column justify-center align-center" border
@@ -103,6 +105,11 @@ export default {
     /* 设置最小高度为视口高度的100% */
 }
 
+.scrollable-container {
+    overflow-y: auto;
+    /* 当内容溢出时，显示垂直滚动条 */
+}
+
 .half-height {
     height: 50%;
     /* 设置高度为父容器的一半 */
@@ -111,6 +118,13 @@ export default {
 .sheet-size {
     height: 85%;
     width: 85%;
+    /* 设置宽高为父容器的85% */
+    background: linear-gradient(to bottom, rgba(232, 249, 245, 1), white);
+    padding: 20px;
+}
+
+.tips {
+    width: 92.5%;
     /* 设置宽高为父容器的85% */
     background: linear-gradient(to bottom, rgba(232, 249, 245, 1), white);
 }
