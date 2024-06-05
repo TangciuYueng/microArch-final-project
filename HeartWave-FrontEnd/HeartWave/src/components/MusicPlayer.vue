@@ -49,9 +49,9 @@ export default {
     return {
       isPlaying: false,
       currentSong: {
-        title: '锦里',
-        artist: 'HOPE-T,接个吻，开一枪',
-        pic: 'src/assets/album/多索雷斯假日.jpg',
+        title: '盛夏的果實',
+        artist: 'Karen Mok',
+        pic: 'src/assets/album/盛夏的果实.jpg',
         url: 'src/components/HOPE-T,接个吻，开一枪 - 锦里.mp3', // 替换为你的音频文件路径
       },
       musicProgress: 0,

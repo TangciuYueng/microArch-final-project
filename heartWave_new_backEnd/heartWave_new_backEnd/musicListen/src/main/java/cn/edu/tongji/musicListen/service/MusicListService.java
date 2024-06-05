@@ -65,4 +65,8 @@ public interface MusicListService {
      * @return 用户拥有的 MusicList 数量
      */
     Integer getTypeMusicListCount(Integer userId, String type);
+
+    MusicList saveMusicList(MusicList musicList);
+
+    boolean deleteMusicList(Integer id);
 }

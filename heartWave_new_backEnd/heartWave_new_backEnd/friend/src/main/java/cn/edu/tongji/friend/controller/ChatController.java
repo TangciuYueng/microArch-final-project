@@ -39,4 +39,5 @@ public class ChatController {
             return new ResponseEntity<>("get chat record failed", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }

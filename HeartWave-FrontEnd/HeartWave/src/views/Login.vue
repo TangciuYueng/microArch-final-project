@@ -107,9 +107,9 @@
         </v-row>
       </v-form>
             
-      <v-btn style="position: absolute; left: 0; top: 80%;" @click="$router.push('/main-view')">
+      <!--<v-btn style="position: absolute; left: 0; top: 80%;" @click="$router.push('/main-view')">
         系统入口
-      </v-btn>
+      </v-btn>-->
       <div class="other-method-label">
         Log in with other methods
       </div>

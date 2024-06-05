@@ -218,4 +218,69 @@ public class MusicListController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Result<>(500, "Failed to retrieve music list count", null));
         }
     }
+
+    /**
+     * 更新现有音乐列表
+     *
+     * @param id        音乐列表ID
+     * @param musicList 包含更新信息的音乐列表对象
+     * @return 包含更新后音乐列表信息的响应实体
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<Result<MusicList>> updateMusicList(@PathVariable("id") Integer id, @RequestBody MusicList musicList) {
+        if (id == null || id <= 0) {
+            return ResponseEntity.badRequest().body(new Result<>(400, "Invalid music list ID", null));
+        }
+
+        if (musicList == null) {
+            return ResponseEntity.badRequest().body(new Result<>(400, "Music list object is required", null));
+        }
+
+        try {
+            Optional<MusicList> existingMusicList = musicListService.getMusicListById(id);
+
+            if (existingMusicList.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new Result<>(404, "Music list not found with ID: " + id, null));
+            }
+
+            musicList.setId(id); // Ensure the music list ID is set to the path variable ID
+            MusicList updatedMusicList = musicListService.saveMusicList(musicList);
+            return ResponseEntity.ok(new Result<>(200, "Success", updatedMusicList));
+        } catch (Exception e) {
+            logger.error("Failed to update music list, ID: " + id, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new Result<>(500, "Failed to update music list: " + e.getMessage(), null));
+        }
+    }
+
+    /**
+     * 删除现有音乐列表
+     *
+     * @param id 音乐列表ID
+     * @return 包含删除结果的响应实体
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Result<String>> deleteMusicList(@PathVariable("id") Integer id) {
+        if (id == null || id <= 0) {
+            return ResponseEntity.badRequest().body(new Result<>(400, "Invalid music list ID", null));
+        }
+
+        try {
+            boolean deleted = musicListService.deleteMusicList(id);
+            if (deleted) {
+                return ResponseEntity.ok(new Result<>(200, "Success", "Successfully deleted music list with ID: " + id));
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new Result<>(404, "Music list not found with ID: " + id, null));
+            }
+        } catch (Exception e) {
+            logger.error("Failed to delete music list, ID: " + id, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new Result<>(500, "Failed to delete music list: " + e.getMessage(), null));
+        }
+    }
+
+
+
 }

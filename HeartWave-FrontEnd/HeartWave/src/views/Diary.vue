@@ -125,8 +125,6 @@
       <v-card-title>心情随笔</v-card-title>
       <v-card-text>
         <p>今天的心情真好！😊</p>
-        <p>分享一下今天的快乐！🎉</p>
-        <p>希望明天也能继续保持好心情！🌈</p>
       </v-card-text>
       <v-card-actions>
         <v-btn color="red" text @click="dialog = false">
