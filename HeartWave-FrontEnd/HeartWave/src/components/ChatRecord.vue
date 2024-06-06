@@ -88,8 +88,8 @@ export default {
   text-align: right;  /* 组件右对齐 */
 }
 .text {
-  display: inline-block;
   border-radius: 5px;
+  display: inline-block;
   padding: 8px;
 }
 </style>

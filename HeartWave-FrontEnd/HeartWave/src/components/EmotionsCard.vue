@@ -1,28 +1,25 @@
 <template>
   <v-card class="emotions-card" rounded hover>
-    <!-- <v-card-title>一周心情表</v-card-title> -->
-  
-    <div ref="chart" style="width: 100%; height: 100%;" />
+    <!-- 一周心情表 -->
+
+    <div ref="chart" style="width: 100%; height: 100%" />
   </v-card>
 </template>
 
 <script>
-
-import * as echarts from 'echarts';
+import * as echarts from "echarts";
 
 export default {
-  props: {
-    
-  },
+  props: {},
   data() {
     return {
-      selectItems: [ { value: "1 Week", label: "1 Week" },
+      selectItems: [
+        { value: "1 Week", label: "1 Week" },
         { value: "6 Months", label: "6 Months" },
-        { value: "待定", label: "待定" }, ],
+        { value: "待定", label: "待定" },
+      ],
       selectedValue: "6 Months",
-      moodData: [
- 70, 80, 60, 90, 50, 75, 85 
-] // 一周心情值数据
+      moodData: [70, 80, 60, 90, 50, 75, 85], // 一周心情值数据
     };
   },
   mounted() {
@@ -42,45 +39,52 @@ export default {
       // 指定图表的配置项和数据
       const option = {
         grid: {
-    containLabel: true, // 设置为 true 可以使得图表布局在包含坐标轴标签时自动缩放
-    width: '85%', // 设置宽度
-    height: '70%' // 设置高度
-},
+          containLabel: true, // 设置为 true 可以使得图表布局在包含坐标轴标签时自动缩放
+          width: "85%", // 设置宽度
+          height: "70%", // 设置高度
+        },
         title: {
-          text: '一周心情值'
+          text: "一周心情值",
         },
         tooltip: {},
         xAxis: {
-          type: 'category',
-          data: [
- '周一', '周二', '周三', '周四', '周五', '周六', '周日' 
-]
+          type: "category",
+          data: [ "周一", "周二", "周三", "周四", "周五", "周六", "周日" ],
         },
         yAxis: {
-          type: 'value',
+          type: "value",
           min: 0,
-          max: 100
+          max: 100,
         },
         color: {
-    type: 'linear',
-    x: 0,
-    y: 0,
-    x2: 0,
-    y2: 1,
-    colorStops: [ {
-      offset: 0, color: '#B0E881' // 渐变起始颜色
-    }, {
-      offset: 0.49, color: '#B0E881' // 渐变中间颜色
-    }, {
-      offset: 1, color: '#72F7C5' // 渐变结束颜色
-    } ],
-    global: false // 缺省为 true
-  },
-        series: [ {
-          name: '心情值',
-          type: 'bar',
-          data: this.moodData, // 心情值数据
-        } ]
+          type: "linear",
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: 1,
+          colorStops: [
+            {
+              offset: 0,
+              color: "#B0E881", // 渐变起始颜色
+            },
+            {
+              offset: 0.49,
+              color: "#B0E881", // 渐变中间颜色
+            },
+            {
+              offset: 1,
+              color: "#72F7C5", // 渐变结束颜色
+            },
+          ],
+          global: false, // 缺省为 true
+        },
+        series: [
+          {
+            name: "心情值",
+            type: "bar",
+            data: this.moodData, // 心情值数据
+          },
+        ],
       };
 
       // 使用刚指定的配置项和数据显示图表
