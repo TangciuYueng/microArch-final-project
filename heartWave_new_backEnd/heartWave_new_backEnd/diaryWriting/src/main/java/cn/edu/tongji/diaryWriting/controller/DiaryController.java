@@ -132,4 +132,38 @@ public class DiaryController {
                     .body(new Result<>(500, "Failed to create diary: " + e.getMessage(), null));
         }
     }
+    /**
+     * 更新现有日记
+     *
+     * @param id    日记ID
+     * @param diary 包含更新信息的日记对象
+     * @return 包含更新后日记信息的 ResponseEntity
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<Result<Diary>> updateDiary(@PathVariable("id") Integer id, @RequestBody Diary diary) {
+        if (id == null || id <= 0) {
+            return ResponseEntity.badRequest().body(new Result<>(400, "Invalid diary ID", null));
+        }
+
+        if (diary == null) {
+            return ResponseEntity.badRequest().body(new Result<>(400, "Diary object is required", null));
+        }
+
+        try {
+            Optional<Diary> existingDiary = diaryService.getDiaryById(id);
+
+            if (existingDiary.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new Result<>(404, "Diary not found with ID: " + id, null));
+            }
+
+            diary.setId(id); // Ensure the diary ID is set to the path variable ID
+            Diary updatedDiary = diaryService.saveDiary(diary);
+            return ResponseEntity.ok(new Result<>(200, "Success", updatedDiary));
+        } catch (Exception e) {
+            logger.error("Failed to update diary, ID: " + id, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new Result<>(500, "Failed to update diary: " + e.getMessage(), null));
+        }
+    }
 }

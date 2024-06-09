@@ -144,4 +144,19 @@ public class MusicListServiceImpl implements MusicListService {
                 .build();
     }
 
+    @Override
+    public MusicList saveMusicList(MusicList musicList) {
+        // Save the music list to the repository and return the saved entity
+        return musicListRepository.save(musicList);
+    }
+    @Override
+    public boolean deleteMusicList(Integer id) {
+        // Check if the music list exists and delete it if it does
+        if (musicListRepository.existsById(id)) {
+            musicListRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

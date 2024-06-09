@@ -39,24 +39,26 @@ public class RedisConfig {
         return redisTemplate;
     }
 
-    @Bean
-    public JobDetail RedisToMysqlDetail() {
-        return JobBuilder
-                .newJob(RedisToMysqlJob.class)
-                .withIdentity(identity)
-                .storeDurably()
-                .build();
-    }
 
-    @Bean
-    public Trigger CallRedisToMysqlTrigger() {
-        return TriggerBuilder.newTrigger()
-                .forJob(RedisToMysqlDetail())
-                .withIdentity(identity)
-                //.withSchedule(CronScheduleBuilder.cronSchedule("0 0 0 * * ?"))
-                .withSchedule(CronScheduleBuilder.cronSchedule("*/10 * * * * ?"))
-                .build();
-    }
+//    @Bean
+//    public JobDetail RedisToMysqlDetail() {
+//        return JobBuilder
+//                .newJob(RedisToMysqlJob.class)
+//                .withIdentity(identity)
+//                .storeDurably()
+//                .build();
+//    }
+//
+//    @Bean
+//    public Trigger CallRedisToMysqlTrigger() {
+//        return TriggerBuilder.newTrigger()
+//                .forJob(RedisToMysqlDetail())
+//                .withIdentity(identity)
+//                //.withSchedule(CronScheduleBuilder.cronSchedule("0 0 0 * * ?"))
+//                .withSchedule(CronScheduleBuilder.cronSchedule("*/10 * * * * ?"))
+//                .build();
+//    }
+//
 
     @Bean
     public DateTimeFormatter TimeFormatter() {
