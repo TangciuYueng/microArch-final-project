@@ -93,7 +93,7 @@ export default {
       }
 
       // 校验音乐室简介
-      if (intro.length > 1000 || /[@$%]/.test(intro)) {
+      if (intro.length > 50 || /[@$%]/.test(intro)) {
         return false;
       }
 
@@ -103,28 +103,37 @@ export default {
       }
 
       // 校验邀请好友
-      if (friends.length > 200 || friends.includes('nonexistentFriend')) {
+      if (friends.length > 10 || friends.includes('nonexistentFriend')) {
         return false;
       }
 
       // 校验音乐室头像
-      if (avatar && (!/\.(jpg|png)$/.test(avatar) || this.isFileTooLarge(avatar))) {
+      if (avatar && (!this.validateAvatarFile(avatar))) {
+        return false;
+      }
+
+      return true;
+    },
+    
+    validateAvatarFile(file) {
+      const allowedExtensions = ['jpg', 'jpeg', 'png'];
+      const maxSizeInBytes = 2 * 1024 * 1024; // 2MB
+
+      const extension = file.name.split('.').pop().toLowerCase();
+      if (!allowedExtensions.includes(extension)) {
+        return false;
+      }
+
+      if (file.size > maxSizeInBytes) {
         return false;
       }
 
       return true;
     },
 
-    isFileTooLarge(file) {
-      // 这里应该包含你的文件大小校验逻辑，假设已经实现
-      // 例如：检查文件大小是否超过2MB
-      // return file.size > 2 * 1024 * 1024;
-      return false;
-    },
-
     handleImgSelected(event) {
       const file = event.target.files[0];
-      if (file && /\.(jpg|png)$/.test(file.name) && !this.isFileTooLarge(file)) {
+      if (file && /\.(jpg|png)$/.test(file.name) && (!this.validateAvatarFile(file.name))) {
         this.newMusicRoom.avatar = URL.createObjectURL(file);
       } else {
         alert('请选择有效的图片文件（jpg或png格式，大小不超过2MB）');
